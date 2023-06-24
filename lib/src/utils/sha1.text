@@ -1,0 +1,17 @@
+keytool -list -v -keystore "C:\Users\doanh\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+dart pub outdated
+dart pub upgrade
+
+
+Bình:
+SHA-1: 72:55:E6:96:46:0C:C6:66:3A:23:AB:40:E2:80:D1:58:AD:67:6F:3E
+SHA-256: A7:D0:F3:F8:C0:60:D7:A5:DB:DF:E2:B0:88:04:A8:DB:78:50:82:F3:3F:3A:8D:63:56:99:EA:6D:EA:2C:49:CC
+
+//thong bao
+ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Thành công!'),));
+Get.snackbar("Thành công", "Đã thêm đơn vị mới vào danh sách",colorText: Colors.green));
+
+//Chờ 1s để cập nhật dữ liệu trên db
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.of(context).pop();
+            });

@@ -1,0 +1,11 @@
+class ThemHangHoaController extends GetxController {
+
+TextEditingController _maCodeController = TextEditingController();
+  
+  TextEditingController get maCodeController => _maCodeController;
+
+  set maCodeController(TextEditingController value) {
+    _maCodeController = value;
+  }
+
+  }

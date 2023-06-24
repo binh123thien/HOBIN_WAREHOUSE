@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>546470862682-qg1aq01pojlcg2s9lfentke2e2pajcgp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.546470862682-qg1aq01pojlcg2s9lfentke2e2pajcgp</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCoC1aMJuB2nhqdlsRlsIHQUtH8c9ihG14</string>
+	<key>GCM_SENDER_ID</key>
+	<string>546470862682</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.hobinWarehouse</string>
+	<key>PROJECT_ID</key>
+	<string>hobinwarehouse</string>
+	<key>STORAGE_BUCKET</key>
+	<string>hobinwarehouse.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:546470862682:ios:b51446752d367b3960dd63</string>
+</dict>
+</plist>

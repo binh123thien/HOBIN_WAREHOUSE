@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../../../../constants/color.dart';
+import '../../../../controllers/statistics/khachhang_controller.dart';
+import 'card_chitietdoanhthu.dart';
+import 'doanhthutheongay/tabbar_doanhthutheongay.dart';
+
+class ChiTietDoanhThuScreen extends StatefulWidget {
+  final String ngay;
+  final num tongdoanhthu;
+  final int thanhcong;
+  final int dangcho;
+  final int huy;
+  const ChiTietDoanhThuScreen(
+      {super.key,
+      required this.ngay,
+      required this.tongdoanhthu,
+      required this.thanhcong,
+      required this.dangcho,
+      required this.huy});
+
+  @override
+  State<ChiTietDoanhThuScreen> createState() => _ChiTietDoanhThuScreenState();
+}
+
+class _ChiTietDoanhThuScreenState extends State<ChiTietDoanhThuScreen> {
+  final KhachHangController controller = Get.find();
+
+  List<dynamic> allDonHang = [];
+  List<dynamic> allDonHangTrongNgay = [];
+
+  @override
+  void initState() {
+    super.initState();
+    allDonHang = controller.allDonBanHangFirebase;
+    allDonHangTrongNgay =
+        allDonHang.where((doc) => doc["datetime"] == widget.ngay).toList();
+    allDonHangTrongNgay.sort((a, b) => b["soHD"].compareTo(a["soHD"]));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        title: const Text("Chi tiết Doanh Thu",
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
+        backgroundColor: whiteColor,
+        centerTitle: true,
+      ),
+      body: Container(
+        color: whiteColor,
+        height: size.height - kToolbarHeight,
+        child: Column(
+          children: [
+            CardChiTietDoanhThuWidget(
+              ngay: widget.ngay,
+              tongdoanhthu: widget.tongdoanhthu,
+              thanhcong: widget.thanhcong,
+              dangcho: widget.dangcho,
+              huy: widget.huy,
+            ),
+            TabbarChiTietDoanhThu(allDonHangTrongNgay: allDonHangTrongNgay)
+          ],
+        ),
+      ),
+    );
+  }
+}

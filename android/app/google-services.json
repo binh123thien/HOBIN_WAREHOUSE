@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "546470862682",
+    "project_id": "hobinwarehouse",
+    "storage_bucket": "hobinwarehouse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546470862682:android:2749a9088e515db460dd63",
+        "android_client_info": {
+          "package_name": "com.example.hobin_warehouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546470862682-t1ad47h6132c9ghqg3rmkndtuf2canci.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hobin_warehouse",
+            "certificate_hash": "d0cc9c88c7c114903bc9d5e6484a8785dd457ed1"
+          }
+        },
+        {
+          "client_id": "546470862682-ujp1g4hsr0msjva6ob3chst6054m9qo6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcuWQLxVwuIkWuDrjJatN3BKCaxJiR_e4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546470862682-alvfv1kgl8vvm6uq007b8fette2ugqma.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "546470862682-qg1aq01pojlcg2s9lfentke2e2pajcgp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hobinWarehouse"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
