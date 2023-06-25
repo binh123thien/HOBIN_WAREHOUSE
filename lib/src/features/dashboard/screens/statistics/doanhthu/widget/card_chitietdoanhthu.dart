@@ -50,7 +50,7 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
                     children: [
                       Image(image: AssetImage(soluongdonIcon), height: 15),
                       Text(
-                        " đơn thành công",
+                        " Đơn thành công",
                         style: TextStyle(fontSize: 15),
                       ),
                     ],
@@ -69,7 +69,7 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
                     children: [
                       Image(image: AssetImage(soluongdonIcon), height: 15),
                       Text(
-                        " đơn đang chờ",
+                        " Đơn đang chờ",
                         style: TextStyle(fontSize: 15),
                       ),
                     ],
@@ -88,7 +88,7 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
                     children: [
                       Image(image: AssetImage(soluongdonIcon), height: 15),
                       Text(
-                        " đơn hủy",
+                        " Đơn hủy",
                         style: TextStyle(fontSize: 15),
                       ),
                     ],
