@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/widget/cardphanphoihang_widget.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
@@ -24,7 +25,6 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final donvi = updatehanghoaSi['donvi'];
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -39,67 +39,35 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
         backgroundColor: backGroundColor,
         centerTitle: true,
       ),
+      backgroundColor: backGroundDefaultFigma,
       body: SingleChildScrollView(
         child: Container(
           width: size.width,
           child: Column(children: [
-            Row(children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 30, 20, 20),
-                child: Card(
-                  color: Colors.red,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
-                    child: Row(
-                      children: [
-                        Image(
-                          image: AssetImage(distributeGoodIcon),
-                          height: 35,
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                    '${donvi.substring(0, 2).toUpperCase()}${donvi.substring(1)} '),
-                                Text(updatehanghoaSi['tensanpham'])
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Tồn kho: ',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                Text(updatehanghoaSi['tonkho'].toString(),
-                                    style: TextStyle(fontSize: 15)),
-                                Text(' $donvi', style: TextStyle(fontSize: 15)),
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Icon(
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              CardPhanPhoiHang(
+                  imageProduct: distributeGoodIcon,
+                  donViProduct: updatehanghoaSi['donvi'],
+                  updatehanghoa: updatehanghoaSi),
+              const Icon(
                 Icons.east_outlined,
               ),
-              Container(
-                child: Row(
-                  children: [
-                    Image(
-                      image: AssetImage(distributeGoodIcon),
-                      height: 30,
-                    ),
-                    Text(updatehanghoaLe['donvi']),
-                    Text(updatehanghoaLe['tensanpham'])
-                  ],
-                ),
-              )
+              CardPhanPhoiHang(
+                  imageProduct: distributeGoodIcon,
+                  donViProduct: updatehanghoaLe['donvi'],
+                  updatehanghoa: updatehanghoaLe),
+              // Container(
+              //   child: Row(
+              //     children: [
+              //       Image(
+              //         image: AssetImage(distributeGoodIcon),
+              //         height: 30,
+              //       ),
+              //       Text(updatehanghoaLe['donvi']),
+              //       Text(updatehanghoaLe['tensanpham'])
+              //     ],
+              //   ),
+              // )
             ]),
           ]),
         ),
