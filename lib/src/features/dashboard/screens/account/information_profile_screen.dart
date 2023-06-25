@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
@@ -67,12 +68,13 @@ class _InformationProfileScreenState extends State<InformationProfileScreen> {
                 height: 120,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: Image(
-                    // image: NetworkImage(userData.photoURL),
-                    image: (userData.photoURL.isNotEmpty)
-                        ? NetworkImage(userData.photoURL)
-                        : const AssetImage(tDefaultAvatar)
-                            as ImageProvider<Object>,
+                  child: CachedNetworkImage(
+                    imageUrl: (userData.photoURL.isNotEmpty)
+                        ? userData.photoURL
+                        : tDefaultAvatar,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
               ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/widget/cardphanphoihang_widget.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
+import '../../../../../utils/validate/validate.dart';
 
 class ChonHangHoaLeScreen extends StatefulWidget {
   final dynamic hanghoaLe;
@@ -24,7 +26,6 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final donvi = updatehanghoaSi['donvi'];
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -38,69 +39,125 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
                 fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
         backgroundColor: backGroundColor,
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.done, size: 30, color: darkColor),
+            onPressed: () {},
+          )
+        ],
       ),
+      backgroundColor: backGroundDefaultFigma,
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: size.width,
           child: Column(children: [
-            Row(children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 30, 20, 20),
-                child: Card(
-                  color: Colors.red,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 20, 15, 20),
-                    child: Row(
-                      children: [
-                        Image(
-                          image: AssetImage(distributeGoodIcon),
-                          height: 35,
-                        ),
-                        SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                    '${donvi.substring(0, 2).toUpperCase()}${donvi.substring(1)} '),
-                                Text(updatehanghoaSi['tensanpham'])
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Tồn kho: ',
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                                Text(updatehanghoaSi['tonkho'].toString(),
-                                    style: TextStyle(fontSize: 15)),
-                                Text(' $donvi', style: TextStyle(fontSize: 15)),
-                              ],
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              Icon(
+            Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              CardPhanPhoiHang(
+                  imageProduct: updatehanghoaSi['photoGood'].isEmpty
+                      ? distributeGoodIcon
+                      : updatehanghoaSi['photoGood'],
+                  donViProduct: updatehanghoaSi['donvi'],
+                  updatehanghoa: updatehanghoaSi),
+              const Icon(
                 Icons.east_outlined,
               ),
-              Container(
-                child: Row(
+              CardPhanPhoiHang(
+                  imageProduct: updatehanghoaLe['photoGood'].isEmpty
+                      ? distributeGoodIcon
+                      : updatehanghoaLe['photoGood'],
+                  donViProduct: updatehanghoaLe['donvi'],
+                  updatehanghoa: updatehanghoaLe),
+            ]),
+            Container(
+              width: size.width,
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(children: [
+                      Image(
+                        image: AssetImage(warningIcon),
+                        height: 35,
+                      ),
+                      Padding(padding: EdgeInsets.only(right: 10)),
+                      Expanded(
+                        child: Text(
+                          'Nhập chính xác số lượng đơn vị bán lẻ trên 1 đơn vị kiện hàng bán sỉ',
+                          textAlign: TextAlign.justify,
+                        ),
+                      )
+                    ]),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                          '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}'),
+                      const Text(' = '),
+                      SizedBox(
+                        height: 30,
+                        width: 100,
+                        child: TextFormField(
+                          // controller: controller.email,
+                          decoration: const InputDecoration(
+                              errorStyle: TextStyle(fontSize: 15),
+                              border: OutlineInputBorder()),
+                          style: const TextStyle(color: Colors.black),
+                          validator: (value) {
+                            return nonZeroInput(value!);
+                          },
+                        ),
+                      ),
+                      Text(' ${updatehanghoaLe['donvi']}')
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: size.width,
+              height: 120,
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(
                   children: [
-                    Image(
-                      image: AssetImage(distributeGoodIcon),
+                    Row(children: [
+                      const Image(
+                        image: AssetImage(warningIcon),
+                        height: 35,
+                      ),
+                      const Padding(padding: EdgeInsets.only(right: 10)),
+                      Expanded(
+                        child: Text(
+                          'Nhập số lượng ${updatehanghoaSi['donvi']} cần chuyển đổi',
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ]),
+                    const SizedBox(height: 20),
+                    SizedBox(
                       height: 30,
-                    ),
-                    Text(updatehanghoaLe['donvi']),
-                    Text(updatehanghoaLe['tensanpham'])
+                      width: 350,
+                      child: TextFormField(
+                        // controller: controller.email,
+                        decoration: const InputDecoration(
+                            errorStyle: TextStyle(fontSize: 15),
+                            border: OutlineInputBorder()),
+                        style: const TextStyle(color: Colors.black),
+                        validator: (value) {
+                          return nonZeroInput(value!);
+                        },
+                      ),
+                    )
                   ],
                 ),
-              )
-            ]),
+              ),
+            )
           ]),
         ),
       ),
