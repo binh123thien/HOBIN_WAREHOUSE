@@ -41,7 +41,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.done, size: 30, color: darkColor),
+            icon: const Icon(Icons.done, size: 30, color: darkColor),
             onPressed: () {},
           )
         ],
@@ -53,14 +53,18 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
           child: Column(children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
               CardPhanPhoiHang(
-                  imageProduct: distributeGoodIcon,
+                  imageProduct: updatehanghoaSi['photoGood'].isEmpty
+                      ? distributeGoodIcon
+                      : updatehanghoaSi['photoGood'],
                   donViProduct: updatehanghoaSi['donvi'],
                   updatehanghoa: updatehanghoaSi),
               const Icon(
                 Icons.east_outlined,
               ),
               CardPhanPhoiHang(
-                  imageProduct: distributeGoodIcon,
+                  imageProduct: updatehanghoaLe['photoGood'].isEmpty
+                      ? distributeGoodIcon
+                      : updatehanghoaLe['photoGood'],
                   donViProduct: updatehanghoaLe['donvi'],
                   updatehanghoa: updatehanghoaLe),
             ]),
@@ -119,7 +123,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
               height: 120,
               decoration: const BoxDecoration(color: Colors.white),
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: [
                     Row(children: [
@@ -138,7 +142,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
                     const SizedBox(height: 20),
                     SizedBox(
                       height: 30,
-                      width: 300,
+                      width: 350,
                       child: TextFormField(
                         // controller: controller.email,
                         decoration: const InputDecoration(
