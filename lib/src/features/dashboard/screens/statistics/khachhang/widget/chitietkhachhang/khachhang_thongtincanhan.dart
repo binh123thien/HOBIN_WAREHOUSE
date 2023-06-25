@@ -15,25 +15,25 @@ class ThongTinCaNhan extends StatelessWidget {
     return Column(
       children: [
         Text(
-          khachhang["tenkhachhang"].toString().toUpperCase(),
+          khachhang["tenkhachhang"].toString(),
           style: const TextStyle(fontSize: 22),
         ),
         const SizedBox(height: 18),
         Card(
-          shadowColor: pink100Color,
           color: whiteColor,
-          elevation: 10,
+          elevation: 2,
           child: SizedBox(
             width: size.width - 30,
             height: 150,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Text(
                     "Thông tin cá nhân",
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 17),
                   ),
                   const Divider(),
                   Column(

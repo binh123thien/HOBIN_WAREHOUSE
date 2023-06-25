@@ -74,7 +74,7 @@ class _ThongTinKhachHangState extends State<ThongTinKhachHang> {
           children: [
             Padding(
               padding: EdgeInsets.all(15),
-              child: Text("Đơn bán hàng", style: TextStyle(fontSize: 18)),
+              child: Text("Đơn đã bán", style: TextStyle(fontSize: 17)),
             ),
           ],
         ),

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
-import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/khachhang/widget/chitietkhachhang/thongtin_khachhang.dart';
 
-import '../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../repository/statistics_repository/khachhang_repository.dart';
-import 'chitietkhachhang/chinhsua_thongtinkhachhang.dart';
 
 class KhachHangDetailScreen extends StatefulWidget {
   final dynamic khachhang;
@@ -29,62 +26,67 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
             onPressed: () {
               Navigator.pop(context);
             }),
-        title: Text(khachhangCurrent["loai"],
-            style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-        backgroundColor: backGroundColor,
+        backgroundColor: whiteColor,
         centerTitle: true,
         actions: [
-          PopupMenuButton(
-            icon: const Icon(Icons.more_vert, size: 30, color: darkColor),
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: 1,
-                child: Text(
-                  "Chỉnh sửa",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-              PopupMenuItem(
-                value: 2,
-                child: Text(
-                  "Xóa",
-                  style: TextStyle(fontSize: 16),
-                ),
-              )
-            ],
-            onSelected: ((value) {
-              if (value == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ChinhSuaThongTinKhachHangScreen(
-                          khachhang: khachhangCurrent)),
-                ).then((value) {
-                  setState(() {
-                    khachhangCurrent = value;
-                  });
-                });
-              }
-              if (value == 2) {
-                MyDialog.showAlertDialog(context, 'Xóa khách hàng!',
-                    'Bạn có chắc chắn muốn xóa khách hàng?', () {
-                  controller
-                      .deleteKhachHang(khachhangCurrent["maKH"])
-                      .then((value) {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  });
-                });
-              }
-            }),
-          )
+          IconButton(
+              onPressed: () {}, icon: const Icon(Icons.edit, color: darkColor)),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.delete, color: darkColor)),
+
+          // PopupMenuButton(
+          //   icon: const Icon(Icons.more_vert, size: 30, color: darkColor),
+          //   itemBuilder: (context) => const [
+          //     PopupMenuItem(
+          //       value: 1,
+          //       child: Text(
+          //         "Chỉnh sửa",
+          //         style: TextStyle(fontSize: 16),
+          //       ),
+          //     ),
+          //     PopupMenuItem(
+          //       value: 2,
+          //       child: Text(
+          //         "Xóa",
+          //         style: TextStyle(fontSize: 16),
+          //       ),
+          //     )
+          //   ],
+          //   onSelected: ((value) {
+          //     if (value == 1) {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => ChinhSuaThongTinKhachHangScreen(
+          //                 khachhang: khachhangCurrent)),
+          //       ).then((value) {
+          //         setState(() {
+          //           khachhangCurrent = value;
+          //         });
+          //       });
+          //     }
+          //     if (value == 2) {
+          //       MyDialog.showAlertDialog(context, 'Xóa khách hàng!',
+          //           'Bạn có chắc chắn muốn xóa khách hàng?', () {
+          //         controller
+          //             .deleteKhachHang(khachhangCurrent["maKH"])
+          //             .then((value) {
+          //           Navigator.pop(context);
+          //           Navigator.pop(context);
+          //         });
+          //       });
+          //     }
+          //   }),
+          // )
         ],
       ),
       body: SingleChildScrollView(
@@ -97,11 +99,15 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
                 height: 100,
                 child: Card(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  elevation: 1,
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: const Image(image: AssetImage(customerIcon))),
+                      borderRadius: BorderRadius.circular(50)),
+                  color: backGroundColor,
+                  child: Center(
+                      child: Text(
+                    widget.khachhang["tenkhachhang"]
+                        .substring(0, 1)
+                        .toUpperCase(),
+                    style: const TextStyle(fontSize: 50),
+                  )),
                 ),
               ),
             ),

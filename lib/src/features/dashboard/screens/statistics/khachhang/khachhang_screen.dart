@@ -149,7 +149,7 @@ class _KhachHangScreenState extends State<KhachHangScreen> {
                               khachhang["tenkhachhang"]
                                   .substring(0, 1)
                                   .toUpperCase(),
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ))),
                         const SizedBox(width: 15),
                         Column(
@@ -174,43 +174,6 @@ class _KhachHangScreenState extends State<KhachHangScreen> {
                     ),
                   ),
                 );
-                // return Card(
-                //   color: backGroundColor,
-                //   elevation: 0,
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(15.0),
-                //   ),
-                //   child: ListTile(
-                //     onTap: () {
-                //       Navigator.push(
-                //         context,
-                //         MaterialPageRoute(
-                //             builder: (context) =>
-                //                 KhachHangDetailScreen(khachhang: khachhang)),
-                //       ).then((value) {
-                //         setState(() {});
-                //       });
-                //     },
-                //     leading: const Image(
-                //       image: AssetImage(khachhangIcon),
-                //       height: 32,
-                //     ),
-                //     title: Text(
-                //       khachhang["tenkhachhang"],
-                //       style: const TextStyle(
-                //           fontSize: 17, fontWeight: FontWeight.w900),
-                //     ),
-                //     subtitle: Text(
-                //       khachhang["sdt"],
-                //       style: TextStyle(
-                //           fontSize: 15,
-                //           color: khachhang["loai"] == "Nhà cung cấp"
-                //               ? cancelColor
-                //               : darkColor),
-                //     ),
-                //     trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                //   ),
-                // );
               }),
             ),
           ),
