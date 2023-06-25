@@ -64,7 +64,7 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10),
                   child: Container(
                       width: size.width - 35,
-                      height: 95,
+                      height: 100,
                       decoration: BoxDecoration(
                         color: whiteColor,
                         borderRadius: BorderRadius.circular(10),
@@ -78,8 +78,8 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(ngay, style: const TextStyle(fontSize: 17)),
-                            const SizedBox(height: 5),
+                            Text(ngay, style: const TextStyle(fontSize: 15)),
+                            const SizedBox(height: 10),
                             Text(formatCurrency(tongdoanhthu),
                                 style: const TextStyle(fontSize: 19)),
                             const SizedBox(height: 10),

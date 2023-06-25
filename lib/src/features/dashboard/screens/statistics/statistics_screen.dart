@@ -4,7 +4,6 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/doanhthu/doanhthu_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/khachhang/khachhang_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/kho/kho_screen.dart';
-
 import '../../controllers/statistics/khachhang_controller.dart';
 import 'sono/sono_screen.dart';
 
@@ -31,10 +30,9 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        backgroundColor: backGroundColor,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: backGroundColor,
+          backgroundColor: mainColor.withOpacity(0.7),
           title: const TabBar(
             tabs: [
               Tab(
@@ -50,8 +48,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 text: "Sổ nợ",
               )
             ],
-            indicatorColor: mainColor,
-            labelColor: darkColor,
+            indicatorColor: whiteColor,
+            labelColor: whiteColor,
             indicatorSize: TabBarIndicatorSize.label,
             isScrollable: true,
             labelPadding: EdgeInsets.symmetric(horizontal: 15),
