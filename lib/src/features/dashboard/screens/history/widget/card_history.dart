@@ -67,100 +67,132 @@ class CardHistory extends StatelessWidget {
               );
             },
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: darkColor.withOpacity(0.3),
-                      width: 1.0,
-                    ),
-                  ),
-                ),
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // color: Colors.amber,
+                height: 75,
+                child: Column(
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: ImageIcon(
-                        AssetImage(phanbietIcon()),
-                        color: phanbietmau(),
-                        size: 32,
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            doc["khachhang"],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w600),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 37,
+                            decoration: BoxDecoration(
+                              color: phanbietmau().withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Transform.scale(
+                              scale: 0.5,
+                              child: ImageIcon(
+                                AssetImage(phanbietIcon()),
+                                color: phanbietmau(),
+                              ),
+                            ),
                           ),
-                          Text(
-                            doc["ngaytao"],
-                            style: const TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w100),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          flex: 5,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                doc["khachhang"],
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w700),
+                              ),
+                              Text(
+                                doc["ngaytao"],
+                                style: const TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w100),
+                              ),
+                              Text(
+                                "SL: ${doc["tongsl"]}",
+                                style: const TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w100),
+                              ),
+                            ],
                           ),
-                          Text(
-                            "SL: ${doc["tongsl"]}",
-                            style: const TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w100),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            doc["billType"] == "NhapHang" &&
-                                    doc["tongthanhtoan"] > 0
-                                ? "-${formatCurrency(doc["tongthanhtoan"])}"
-                                : "+${formatCurrency(doc["tongthanhtoan"])}",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                                color: doc["billType"] == "NhapHang" &&
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                doc["billType"] == "NhapHang" &&
                                         doc["tongthanhtoan"] > 0
-                                    ? cancel600Color
-                                    : darkColor),
+                                    ? "-${formatCurrency(doc["tongthanhtoan"])}"
+                                    : "+${formatCurrency(doc["tongthanhtoan"])}",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: doc["billType"] == "NhapHang" &&
+                                            doc["tongthanhtoan"] > 0
+                                        ? cancel600Color
+                                        : darkColor),
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  doc["giamgia"] != 0
+                                      ? const Padding(
+                                          padding: EdgeInsets.only(right: 3),
+                                          child: SizedBox(
+                                            child: ImageIcon(
+                                              AssetImage(disCountIcon),
+                                              size: 20,
+                                              color: cancel600Color,
+                                            ),
+                                          ),
+                                        )
+                                      : const SizedBox.shrink(),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: phanbietmau().withOpacity(0.05),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    width: 77,
+                                    height: 20,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          doc["trangthai"],
+                                          style: TextStyle(
+                                              fontSize: 11,
+                                              color: doc["trangthai"] ==
+                                                      "Thành công"
+                                                  ? success600Color
+                                                  : doc["trangthai"] ==
+                                                          "Đang chờ"
+                                                      ? processColor
+                                                      : cancel600Color),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 2),
-                          Text(
-                            doc["trangthai"],
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: doc["trangthai"] == "Thành công"
-                                    ? success600Color
-                                    : doc["trangthai"] == "Đang chờ"
-                                        ? processColor
-                                        : cancel600Color),
-                          ),
-                          const SizedBox(height: 2),
-                          SizedBox(
-                            child: doc["giamgia"] != 0
-                                ? const ImageIcon(
-                                    AssetImage(disCountIcon),
-                                    size: 20,
-                                    color: cancel600Color,
-                                  )
-                                : const SizedBox.shrink(),
-                          )
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
+                    const SizedBox(height: 6),
+                    const Divider()
                   ],
                 ),
               ),
