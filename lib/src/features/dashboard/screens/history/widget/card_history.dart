@@ -78,19 +78,10 @@ class CardHistory extends StatelessWidget {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Container(
-                            height: 37,
-                            decoration: BoxDecoration(
-                              color: phanbietmau().withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Transform.scale(
-                              scale: 0.5,
-                              child: ImageIcon(
-                                AssetImage(phanbietIcon()),
-                                color: phanbietmau(),
-                              ),
-                            ),
+                          child: ImageIcon(
+                            AssetImage(phanbietIcon()),
+                            color: phanbietmau(),
+                            size: 30,
                           ),
                         ),
                         const SizedBox(width: 8),
