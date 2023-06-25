@@ -49,8 +49,8 @@ class _ChiTietDoanhThuScreenState extends State<ChiTietDoanhThuScreen> {
             onPressed: () {
               Navigator.pop(context);
             }),
-        title: const Text("Chi tiết Doanh Thu",
-            style: TextStyle(
+        title: Text(widget.ngay,
+            style: const TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
         backgroundColor: whiteColor,
         centerTitle: true,
@@ -61,7 +61,6 @@ class _ChiTietDoanhThuScreenState extends State<ChiTietDoanhThuScreen> {
         child: Column(
           children: [
             CardChiTietDoanhThuWidget(
-              ngay: widget.ngay,
               tongdoanhthu: widget.tongdoanhthu,
               thanhcong: widget.thanhcong,
               dangcho: widget.dangcho,

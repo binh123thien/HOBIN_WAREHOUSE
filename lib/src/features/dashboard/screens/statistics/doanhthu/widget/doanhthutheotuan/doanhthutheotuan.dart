@@ -4,16 +4,16 @@ import 'package:get/get.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
-import '../chitiet_doanhthu_screen.dart';
 import '../doanhthu_tieude_widget.dart';
+import 'chitietdoanhthu_theotuan.dart';
 
-class DoanhThuTheoNgayWidget extends StatelessWidget {
-  const DoanhThuTheoNgayWidget({
+class DoanhThuTheoTuanWidget extends StatelessWidget {
+  const DoanhThuTheoTuanWidget({
     super.key,
-    required this.doanhthu,
+    required this.doanhthuTheoTuan,
   });
 
-  final RxList<Map<String, dynamic>> doanhthu;
+  final RxList<Map<String, dynamic>> doanhthuTheoTuan;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +21,12 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
     return Column(
       children: [
         DoanhThuTieuDe(
-          ngay: doanhthu[0].keys.first,
-          tongdoanhthu: doanhthu[0].values.first,
-          thanhcong: doanhthu[0]["thanhcong"],
-          title: 'Hôm nay',
-          dangcho: doanhthu[0]["dangcho"],
-          huy: doanhthu[0]["huy"],
+          ngay: doanhthuTheoTuan[0].keys.first,
+          tongdoanhthu: doanhthuTheoTuan[0].values.first,
+          thanhcong: doanhthuTheoTuan[0]["thanhcong"],
+          title: 'Tuần này (${doanhthuTheoTuan[0].keys.first})',
+          dangcho: doanhthuTheoTuan[0]["dangcho"],
+          huy: doanhthuTheoTuan[0]["huy"],
         ),
         const SizedBox(height: 5),
         const Divider(
@@ -39,19 +39,19 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
           // color: Colors.amber,
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: doanhthu.length - 5,
+            itemCount: doanhthuTheoTuan.length - 1,
             itemBuilder: (context, index) {
-              String ngay = doanhthu[index + 1].keys.first;
-              num tongdoanhthu = doanhthu[index + 1].values.first;
-              int thanhcong = doanhthu[index + 1]["thanhcong"];
-              int dangcho = doanhthu[index + 1]["dangcho"];
-              int huy = doanhthu[index + 1]["huy"];
+              String ngay = doanhthuTheoTuan[index + 1].keys.first;
+              num tongdoanhthu = doanhthuTheoTuan[index + 1].values.first;
+              int thanhcong = doanhthuTheoTuan[index + 1]["thanhcong"];
+              int dangcho = doanhthuTheoTuan[index + 1]["dangcho"];
+              int huy = doanhthuTheoTuan[index + 1]["huy"];
               return InkWell(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ChiTietDoanhThuScreen(
+                        builder: (context) => ChiTietDoanhThuTheoTuanScreen(
                               ngay: ngay,
                               tongdoanhthu: tongdoanhthu,
                               thanhcong: thanhcong,

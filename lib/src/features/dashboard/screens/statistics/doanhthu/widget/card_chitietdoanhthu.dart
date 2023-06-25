@@ -7,14 +7,12 @@ import '../../../../../../utils/utils.dart';
 class CardChiTietDoanhThuWidget extends StatelessWidget {
   const CardChiTietDoanhThuWidget({
     super.key,
-    required this.ngay,
     required this.tongdoanhthu,
     required this.thanhcong,
     required this.dangcho,
     required this.huy,
   });
 
-  final String ngay;
   final num tongdoanhthu;
   final int thanhcong;
   final int dangcho;
@@ -27,7 +25,7 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Container(
         width: size.width - 24,
-        height: 160,
+        height: 130,
         decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(10),
@@ -37,12 +35,10 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(6.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(ngay, style: const TextStyle(fontSize: 17)),
-              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

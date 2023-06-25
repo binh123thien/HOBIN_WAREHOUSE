@@ -69,23 +69,26 @@ class _TabbarChiTietDoanhThuState extends State<TabbarChiTietDoanhThu> {
                   child: widget.allDonHangTrongNgay.isNotEmpty
                       ? SizedBox(
                           height: size.height - kToolbarHeight - 270,
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: 1,
-                            itemBuilder: ((BuildContext context, int index) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                color: whiteColor,
-                                child: Column(
-                                  children: [
-                                    CardHistory(
-                                      docs: widget.allDonHangTrongNgay,
-                                    )
-                                  ],
-                                ),
-                              );
-                            }),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: 1,
+                              itemBuilder: ((BuildContext context, int index) {
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  color: whiteColor,
+                                  child: Column(
+                                    children: [
+                                      CardHistory(
+                                        docs: widget.allDonHangTrongNgay,
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }),
+                            ),
                           ),
                         )
                       : const Center(
