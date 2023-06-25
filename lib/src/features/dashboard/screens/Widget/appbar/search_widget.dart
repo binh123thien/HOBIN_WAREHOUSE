@@ -13,7 +13,7 @@ class SearchWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width,
-      height: 43,
+      height: 38,
       child: TextField(
         onChanged: onChanged,
         // focusNode: FocusNode(), // unnecessary
@@ -25,10 +25,10 @@ class SearchWidget extends StatelessWidget {
           prefixIconColor: darkColor,
           floatingLabelStyle: const TextStyle(color: darkColor),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(18.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+            borderRadius: BorderRadius.circular(18.0),
             borderSide: const BorderSide(width: 2, color: pink600Color),
           ),
           prefixIcon: const Icon(Icons.search),

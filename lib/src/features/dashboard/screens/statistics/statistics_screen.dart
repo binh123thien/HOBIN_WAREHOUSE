@@ -52,7 +52,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             labelColor: whiteColor,
             indicatorSize: TabBarIndicatorSize.label,
             isScrollable: true,
-            labelPadding: EdgeInsets.symmetric(horizontal: 15),
+            labelPadding: EdgeInsets.symmetric(horizontal: 20),
           ),
         ),
         body: const TabBarView(

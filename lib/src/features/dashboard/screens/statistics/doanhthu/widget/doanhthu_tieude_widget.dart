@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
-import 'doanhthutheotuan/chitietdoanhthu_theotuan.dart';
+import 'chitiet_doanhthu_screen.dart';
 
 class DoanhThuTieuDe extends StatelessWidget {
   const DoanhThuTieuDe({
@@ -59,7 +59,7 @@ class DoanhThuTieuDe extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChiTietDoanhThuTheoTuanScreen(
+                          builder: (context) => ChiTietDoanhThuScreen(
                                 ngay: ngay,
                                 tongdoanhthu: tongdoanhthu,
                                 thanhcong: thanhcong,

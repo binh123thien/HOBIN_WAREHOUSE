@@ -101,7 +101,7 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
                   elevation: 1,
                   child: IconButton(
                       onPressed: () {},
-                      icon: const Image(image: AssetImage(khachhangIcon))),
+                      icon: const Image(image: AssetImage(customerIcon))),
                 ),
               ),
             ),
