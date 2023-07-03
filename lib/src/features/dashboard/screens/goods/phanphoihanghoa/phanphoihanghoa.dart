@@ -88,7 +88,7 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
