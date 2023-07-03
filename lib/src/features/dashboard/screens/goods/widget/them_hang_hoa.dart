@@ -15,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../../repository/goods_repository/good_repository.dart';
 import '../../../../../utils/image_picker/image_picker.dart';
 import '../../../../../utils/utils.dart';
+import '../../../controllers/add/chonhanghoa_controller.dart';
 import '../../../controllers/goods/chondonvi_controller.dart';
 import '../../../../../common_widgets/bottom_sheet_options.dart';
 import '../../../controllers/image_controller.dart';
@@ -36,9 +37,13 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
   final myController = Get.put(ChonDonViController());
   final controllerDanhMuc = Get.put(ChonDanhMucController());
   final controllerImage = Get.put(ImageController());
-
+  final controllerAllHangHoa = Get.put(ChonHangHoaController());
+//tạo list hangHoa
+  late List<dynamic> allHangHoa = [];
   @override
   void initState() {
+    //gán giá trị hàng hóa trên firebase vào list tạm
+    allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
     controller.donviController = TextEditingController();
     controller.maCodeController = TextEditingController();
     controller.tenSanPhamController = TextEditingController();
@@ -292,7 +297,6 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                           Text("Phân loại", style: TextStyle(fontSize: 18)),
                           RadioButton(phanloaiFb: "bán lẻ"),
                         ]),
-
                     const SizedBox(height: 10),
                     const Text("Đơn vị", style: TextStyle(fontSize: 18)),
                     const DonVi(),
@@ -310,42 +314,56 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
         title1: 'Thêm hàng hóa',
         title2: 'Lưu & thoát',
         onPressed1: () {
+          print(controller.tenSanPhamController.text);
           if (_formKey.currentState!.validate()) {
-            createHangHoa();
-            controller.maCodeController.clear();
-            controller.tenSanPhamController.clear();
-            controller.gianhapController.clear();
-            controller.giabanController.clear();
-            controller.donviController.clear();
+            var duplicateProducts = allHangHoa.where((element) =>
+                element["tensanpham"].toString().toLowerCase().contains(
+                    controller.tenSanPhamController.text.trim().toLowerCase()));
+            if (duplicateProducts.isNotEmpty) {
+              Get.snackbar('Có lỗi xảy ra', 'Sản phẩm đã tồn tại');
+            } else {
+              createHangHoa();
+              controller.maCodeController.clear();
+              controller.tenSanPhamController.clear();
+              controller.gianhapController.clear();
+              controller.giabanController.clear();
+              controller.donviController.clear();
+              //================xóa hình ảnh=====================
+              controllerImage.deleteExceptLastImage('hanghoa');
+              setState(() {
+                controllerImage.ImagePickedURLController;
+              });
+              //===================end xóa hình ============
 
-            //================xóa hình ảnh=====================
-            controllerImage.deleteExceptLastImage('hanghoa');
-            setState(() {
-              controllerImage.ImagePickedURLController;
-            });
-            //===================end xóa hình ============
-
-            //clear List được lưu trữ trong controller
-            controllerDanhMuc.selectedDanhMuc.clear();
+              //clear List được lưu trữ trong controller
+              controllerDanhMuc.selectedDanhMuc.clear();
+            }
           }
         },
         onPressed2: () {
           if (_formKey.currentState!.validate()) {
-            createHangHoa();
+            var duplicateProducts = allHangHoa.where((element) =>
+                element["tensanpham"].toString().toLowerCase().contains(
+                    controller.tenSanPhamController.text.trim().toLowerCase()));
+            if (duplicateProducts.isNotEmpty) {
+              Get.snackbar('Có lỗi xảy ra', 'Sản phẩm đã tồn tại');
+            } else {
+              createHangHoa();
 
-            //================xóa hình ảnh=====================
-            controllerImage.deleteExceptLastImage('hanghoa');
-            setState(() {
-              controllerImage.ImagePickedURLController;
-            });
-            //===================end xóa hình ============
+              //================xóa hình ảnh=====================
+              controllerImage.deleteExceptLastImage('hanghoa');
+              setState(() {
+                controllerImage.ImagePickedURLController;
+              });
+              //===================end xóa hình ============
 
-            //clear List được lưu trữ trong controller
-            controllerDanhMuc.selectedDanhMuc.clear();
-            //Chờ 1s để cập nhật dữ liệu trên db
-            Future.delayed(const Duration(seconds: 1), () {
-              Navigator.of(context).pop();
-            });
+              //clear List được lưu trữ trong controller
+              controllerDanhMuc.selectedDanhMuc.clear();
+              //Chờ 1s để cập nhật dữ liệu trên db
+              Future.delayed(const Duration(seconds: 1), () {
+                Navigator.of(context).pop();
+              });
+            }
           }
         },
       ),
