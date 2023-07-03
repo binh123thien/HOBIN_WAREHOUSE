@@ -90,35 +90,41 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(10),
-                      child: Row(children: [
-                        Image(
-                          image: AssetImage(warningIcon),
-                          height: 35,
-                        ),
-                        Padding(padding: EdgeInsets.only(right: 10)),
-                        Expanded(
-                          child: Text(
-                            'Nhập chính xác số lượng đơn vị bán lẻ trên 1 đơn vị kiện hàng bán sỉ',
-                            textAlign: TextAlign.justify,
+                      child: Row(
+                        children: [
+                          Image(
+                            image: AssetImage(warningIcon),
+                            height: 35,
                           ),
-                        )
-                      ]),
+                          Padding(padding: EdgeInsets.only(right: 10)),
+                          Expanded(
+                            child: Text(
+                              'Nhập chính xác số lượng đơn vị bán lẻ trên 1 đơn vị kiện hàng bán sỉ',
+                              textAlign: TextAlign.justify,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}'),
+                          '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}',
+                        ),
                         const Text(' = '),
-                        SizedBox(
-                          height: 30,
-                          width: 120,
+                        Expanded(
                           child: TextFormField(
                             controller: controllerHangHoa.soLuongLe,
                             decoration: const InputDecoration(
-                                errorStyle: TextStyle(fontSize: 12),
-                                border: OutlineInputBorder()),
+                              errorStyle: TextStyle(fontSize: 12),
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      10), // Khoảng cách giữa viền và nội dung
+                            ),
                             style: const TextStyle(color: Colors.black),
                             validator: (value) {
                               return nonZeroInput(value!);
@@ -130,7 +136,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                             keyboardType: TextInputType.number,
                           ),
                         ),
-                        Text(' ${updatehanghoaLe['donvi']}')
+                        Text(' ${updatehanghoaLe['donvi']}'),
                       ],
                     ),
                     const SizedBox(height: 20),
@@ -140,7 +146,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
               const SizedBox(height: 10),
               Container(
                 width: double.infinity,
-                height: 150,
+                height: 170,
                 decoration: const BoxDecoration(color: Colors.white),
                 child: Padding(
                   padding: const EdgeInsets.all(10),
