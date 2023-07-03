@@ -32,6 +32,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
 
   @override
   Widget build(BuildContext context) {
+    print(updatehanghoaSi['tonkho']);
+    print(updatehanghoaSi['tonkho'].runtimeType);
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +52,11 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             icon: const Icon(Icons.done, size: 30, color: darkColor),
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                print('nhập đúng yêu cầu');
+                if (updatehanghoaSi['tonkho'] <
+                    int.tryParse(controllerHangHoa.soLuongSi.text)) {
+                  Get.snackbar('Có lỗi xảy ra',
+                      'Số lượng hàng cần chuyển đổi lớn hơn tồn kho');
+                }
               }
               print('doneeeeeeeeeeee');
               print(controllerHangHoa.soLuongLe.text);
@@ -106,38 +112,40 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}',
-                        ),
-                        const Text(' = '),
-                        Expanded(
-                          child: TextFormField(
-                            controller: controllerHangHoa.soLuongLe,
-                            decoration: const InputDecoration(
-                              errorStyle: TextStyle(fontSize: 12),
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      10), // Khoảng cách giữa viền và nội dung
-                            ),
-                            style: const TextStyle(color: Colors.black),
-                            validator: (value) {
-                              return nonZeroInput(value!);
-                            },
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d{0,6}')),
-                            ],
-                            keyboardType: TextInputType.number,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}',
                           ),
-                        ),
-                        Text(' ${updatehanghoaLe['donvi']}'),
-                      ],
+                          const Text(' = '),
+                          Expanded(
+                            child: TextFormField(
+                              controller: controllerHangHoa.soLuongLe,
+                              decoration: const InputDecoration(
+                                errorStyle: TextStyle(fontSize: 12),
+                                border: OutlineInputBorder(),
+                                contentPadding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        10), // Khoảng cách giữa viền và nội dung
+                              ),
+                              style: const TextStyle(color: Colors.black),
+                              validator: (value) {
+                                return nonZeroInput(value!);
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp(r'^\d{0,6}')),
+                              ],
+                              keyboardType: TextInputType.number,
+                            ),
+                          ),
+                          Text(' ${updatehanghoaLe['donvi']}'),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 20),
                   ],
