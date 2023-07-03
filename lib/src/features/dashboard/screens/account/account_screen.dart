@@ -79,14 +79,17 @@ class _AccountScreenState extends State<AccountScreen> {
               height: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: CachedNetworkImage(
-                  imageUrl: (userAccountUpdate.photoURL.isNotEmpty)
-                      ? userAccountUpdate.photoURL
-                      : tDefaultAvatar,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                ),
+                child: (userAccountUpdate.photoURL.isNotEmpty)
+                    ? CachedNetworkImage(
+                        imageUrl: userAccountUpdate.photoURL,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      )
+                    : Image.asset(
+                        tDefaultAvatar,
+                      ),
               ),
             ),
             const SizedBox(height: 10),

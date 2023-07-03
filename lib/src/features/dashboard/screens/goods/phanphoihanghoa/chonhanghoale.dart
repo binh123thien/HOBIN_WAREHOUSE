@@ -32,8 +32,6 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
 
   @override
   Widget build(BuildContext context) {
-    print(updatehanghoaSi['tonkho']);
-    print(updatehanghoaSi['tonkho'].runtimeType);
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
