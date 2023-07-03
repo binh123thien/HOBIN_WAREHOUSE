@@ -269,6 +269,7 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
                   List<dynamic> filteredList = controller.allHangHoaFireBase
                       .where((element) => element["soluong"] > 0)
                       .toList();
+
                   if (filteredList.isEmpty) {
                     MyDialog.showAlertDialogOneBtn(
                         context,
@@ -299,7 +300,14 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
                         tongthanhtoan: sumPrice - disCount - no,
                         billType: 'BanHang',
                       );
-                      controllerAddRepo.createDonBanHang(donbanhang);
+                      controllerAddRepo.createDonBanHang(
+                          donbanhang, filteredList);
+                      controllerAddRepo.createTongDoanhThuNgay(
+                          datetime, sumPrice - disCount - no, no);
+                      controllerAddRepo.createTongDoanhThuTuan(
+                          datetime, sumPrice - disCount - no, no);
+                      controllerAddRepo.createTongDoanhThuThang(
+                          datetime, sumPrice - disCount - no, no);
                       // Đóng dialog hiện tại (nếu có)
                       Navigator.of(context).pop();
                       Navigator.push(

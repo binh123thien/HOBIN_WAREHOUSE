@@ -44,6 +44,7 @@ class ChiTietHoaDonNew extends StatefulWidget {
 }
 
 class _ChiTietHoaDonNewState extends State<ChiTietHoaDonNew> {
+  final controller = Get.put(ChonHangHoaController());
   final ChonHangHoaController chonHangHoaController = Get.find();
   late List<dynamic> allHangHoa;
 
@@ -81,10 +82,12 @@ class _ChiTietHoaDonNewState extends State<ChiTietHoaDonNew> {
               color: whiteColor,
             ),
             onPressed: () {
-              allHangHoa.forEach((element) {
+              for (var element in allHangHoa) {
                 element["soluong"] = 0;
+              }
+              setState(() {
+                controller.loadAllHangHoa();
               });
-              setState(() {});
               Navigator.of(context).pop(allHangHoa);
             }),
         title: const Text(

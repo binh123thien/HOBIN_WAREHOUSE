@@ -82,7 +82,7 @@ String formatNgaytao() {
 
 String formatDatetime() {
   final DateTime now = DateTime.now();
-  final formatter = DateFormat('dd/MM/yyyy');
+  final formatter = DateFormat('dd-MM-yyyy');
 
   // Định dạng ngày hiện tại theo HH:mm-dd/MM/yyyy
   return formatter.format(now);
