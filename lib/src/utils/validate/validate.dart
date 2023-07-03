@@ -66,6 +66,7 @@ String formatNumber(String value) {
   return formatter.format(number);
 }
 
+//không cho nhập số 0 hoặc rỗng
 String? nonZeroInput(String? value) {
   if (value == null || value.isEmpty) {
     return 'Vui lòng nhập số khác 0';

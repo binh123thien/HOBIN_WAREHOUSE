@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/widget/cardphanphoihang_widget.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../../../utils/validate/validate.dart';
+import '../../../controllers/goods/chonhanghoale_controller.dart';
 
 class ChonHangHoaLeScreen extends StatefulWidget {
   final dynamic hanghoaLe;
@@ -15,8 +18,10 @@ class ChonHangHoaLeScreen extends StatefulWidget {
 }
 
 class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
+  final controllerHangHoa = Get.put(ChonHangHoaLeController());
   late dynamic updatehanghoaSi;
   late dynamic updatehanghoaLe;
+
   @override
   void initState() {
     updatehanghoaSi = widget.hanghoaSi;
@@ -26,6 +31,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +48,14 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.done, size: 30, color: darkColor),
-            onPressed: () {},
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                print('nhập đúng yêu cầu');
+              }
+              print('doneeeeeeeeeeee');
+              print(controllerHangHoa.soLuongLe.text);
+              print(controllerHangHoa.soLuongSi.text);
+            },
           )
         ],
       ),
@@ -100,14 +113,19 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
                         height: 30,
                         width: 100,
                         child: TextFormField(
-                          // controller: controller.email,
+                          controller: controllerHangHoa.soLuongLe,
                           decoration: const InputDecoration(
-                              errorStyle: TextStyle(fontSize: 15),
+                              errorStyle: TextStyle(fontSize: 12),
                               border: OutlineInputBorder()),
                           style: const TextStyle(color: Colors.black),
                           validator: (value) {
                             return nonZeroInput(value!);
                           },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d{0,6}')),
+                          ],
+                          keyboardType: TextInputType.number,
                         ),
                       ),
                       Text(' ${updatehanghoaLe['donvi']}')
@@ -143,15 +161,23 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen> {
                     SizedBox(
                       height: 30,
                       width: 350,
-                      child: TextFormField(
-                        // controller: controller.email,
-                        decoration: const InputDecoration(
-                            errorStyle: TextStyle(fontSize: 15),
-                            border: OutlineInputBorder()),
-                        style: const TextStyle(color: Colors.black),
-                        validator: (value) {
-                          return nonZeroInput(value!);
-                        },
+                      child: Form(
+                        key: _formKey,
+                        child: TextFormField(
+                          controller: controllerHangHoa.soLuongSi,
+                          decoration: const InputDecoration(
+                              errorStyle: TextStyle(fontSize: 12),
+                              border: OutlineInputBorder()),
+                          style: const TextStyle(color: Colors.black),
+                          validator: (value) {
+                            return nonZeroInput(value!);
+                          },
+                          // inputFormatters: [
+                          //   FilteringTextInputFormatter.allow(
+                          //       RegExp(r'^\d{0,6}')),
+                          // ],
+                          keyboardType: TextInputType.number,
+                        ),
                       ),
                     )
                   ],
