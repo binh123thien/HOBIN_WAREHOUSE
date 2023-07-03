@@ -5,6 +5,7 @@ import '../../../controllers/statistics/doanhthu_controller.dart';
 import '../../../controllers/statistics/khachhang_controller.dart';
 import 'widget/doanhthu_tieude_widget.dart';
 import 'widget/doanhthutheongay/doanhthutheongay_widget.dart';
+import 'widget/doanhthutheotuan/doanhthutheotuan.dart';
 
 class DoanhThuScreen extends StatefulWidget {
   const DoanhThuScreen({super.key});
@@ -33,6 +34,7 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
         );
       } else {
         final doanhthu = controllerDoanhThu.doanhThu;
+        final doanhthuTheoTuan = controllerDoanhThu.doanhThuTheoTuan;
         return Column(
           children: [
             const SizedBox(height: 10),
@@ -85,14 +87,8 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                         child: TabBarView(
                           children: [
                             DoanhThuTheoNgayWidget(doanhthu: doanhthu),
-                            DoanhThuTieuDe(
-                              tongdoanhthu: doanhthu[0].values.first,
-                              thanhcong: doanhthu[0]["thanhcong"],
-                              title: 'Hôm nay',
-                              dangcho: doanhthu[0]["dangcho"],
-                              huy: doanhthu[0]["huy"],
-                              ngay: '',
-                            ),
+                            DoanhThuTheoTuanWidget(
+                                doanhthuTheoTuan: doanhthuTheoTuan),
                             DoanhThuTieuDe(
                               tongdoanhthu: doanhthu[0].values.first,
                               thanhcong: doanhthu[0]["thanhcong"],

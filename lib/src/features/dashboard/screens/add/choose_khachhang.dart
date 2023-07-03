@@ -132,7 +132,7 @@ class _ChooseKhachHangScreenState extends State<ChooseKhachHangScreen> {
                                           .pop(khachHangSelectedNew);
                                     },
                                     leading: const Image(
-                                      image: AssetImage(khachhangIcon),
+                                      image: AssetImage(customerIcon),
                                       height: 32,
                                     ),
                                     title: Text(

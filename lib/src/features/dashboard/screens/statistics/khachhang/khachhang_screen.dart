@@ -58,7 +58,6 @@ class _KhachHangScreenState extends State<KhachHangScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     List<dynamic> newitem = controllerRepo.sortbyKhachHang(
         controllerKhachHang.allKhachHangFirebase,
         controllerKhachHang.sortbyKhachHangController.text);
@@ -74,96 +73,111 @@ class _KhachHangScreenState extends State<KhachHangScreen> {
                 .contains(searchKhachHang.toLowerCase()))
         .toList();
     return Scaffold(
-      backgroundColor: backGroundColor,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SearchWidget(
-                    onChanged: (value) {
-                      setState(() {
-                        searchKhachHang = value;
+      backgroundColor: whiteColor,
+      body: Column(
+        children: [
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                SearchWidget(
+                  onChanged: (value) {
+                    setState(() {
+                      searchKhachHang = value;
+                    });
+                  },
+                  width: 275,
+                ),
+                IconButton(
+                    onPressed: () {
+                      _showSortbyKhachHang();
+                    },
+                    icon: const Image(
+                      image: AssetImage(sortbyIcon),
+                      height: 28,
+                    )),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ThemKhachHangScreen()),
+                      ).then((value) {
+                        setState(() {});
                       });
                     },
-                    width: 270,
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        _showSortbyKhachHang();
-                      },
-                      icon: const Image(image: AssetImage(sortbyIcon))),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const ThemKhachHangScreen()),
-                        ).then((value) {
-                          setState(() {});
-                        });
-                      },
-                      icon: const Image(image: AssetImage(themkhachhangIcon))),
-                ],
-              ),
-              const SizedBox(height: 15),
-              SizedBox(
-                width: size.width,
-                height: size.height - 243,
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: filteredKhachHang.length,
-                  itemBuilder: ((context, index) {
-                    var khachhang = filteredKhachHang[index];
-                    return Card(
-                      color: whiteColor,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => KhachHangDetailScreen(
-                                    khachhang: khachhang)),
-                          ).then((value) {
-                            setState(() {});
-                          });
-                        },
-                        leading: const Image(
-                          image: AssetImage(khachhangIcon),
-                          height: 32,
-                        ),
-                        title: Text(
-                          khachhang["tenkhachhang"],
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w900),
-                        ),
-                        subtitle: Text(
-                          khachhang["sdt"],
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: khachhang["loai"] == "Nhà cung cấp"
-                                  ? cancelColor
-                                  : darkColor),
-                        ),
-                        trailing: const Icon(Icons.arrow_forward_ios, size: 15),
-                      ),
-                    );
-                  }),
-                ),
-              ),
-            ],
+                    icon: const Image(
+                      image: AssetImage(themkhachhangIcon),
+                      height: 28,
+                    )),
+              ],
+            ),
           ),
-        ),
+          const SizedBox(height: 5),
+          SingleChildScrollView(
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: filteredKhachHang.length,
+              itemBuilder: ((context, index) {
+                var khachhang = filteredKhachHang[index];
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              KhachHangDetailScreen(khachhang: khachhang)),
+                    ).then((value) {
+                      setState(() {});
+                    });
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
+                    child: Row(
+                      children: [
+                        Container(
+                            height: 45,
+                            width: 45,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                color: backGroundColor),
+                            child: Center(
+                                child: Text(
+                              khachhang["tenkhachhang"]
+                                  .substring(0, 1)
+                                  .toUpperCase(),
+                              style: const TextStyle(fontSize: 20),
+                            ))),
+                        const SizedBox(width: 15),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              khachhang["tenkhachhang"],
+                              style: const TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w900),
+                            ),
+                            Text(
+                              khachhang["sdt"],
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: khachhang["loai"] == "Nhà cung cấp"
+                                      ? cancelColor
+                                      : darkColor),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+        ],
       ),
     );
   }

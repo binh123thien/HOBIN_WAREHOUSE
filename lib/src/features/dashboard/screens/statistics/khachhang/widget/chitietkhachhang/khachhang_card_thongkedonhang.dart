@@ -20,15 +20,15 @@ class CardThongKeDonHang extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Card(
-      shadowColor: pink100Color,
       color: whiteColor,
-      elevation: 10,
+      elevation: 2,
       child: SizedBox(
         width: size.width - 30,
         height: 210,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(

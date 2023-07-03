@@ -71,7 +71,7 @@ const String cancelWalletcon = "assets/images/icon/add/cancelWallet.png";
 const String refundWalletIcon = "assets/images/icon/add/refundWallet.png";
 const String importIcon = "assets/images/icon/add/import.png";
 //Statistics khach hang
-const String khachhangIcon = "assets/images/icon/statistics/iconkhachhang.png";
+const String customerIcon = "assets/images/icon/statistics/customer.png";
 //Statistics kho
 const String soluongtonkhoIcon = "assets/images/icon/statistics/sltonkho.png";
 const String giatritonkhoIcon = "assets/images/icon/statistics/gttonkho.png";
