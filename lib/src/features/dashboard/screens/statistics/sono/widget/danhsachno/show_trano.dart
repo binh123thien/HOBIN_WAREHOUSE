@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/repository/history_repository/history_repository.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../repository/history_repository/lichsutrano_repository.dart';
+import '../../../../../../../repository/statistics_repository/no_repository.dart';
 import '../../../../../../../utils/utils.dart';
 import '../../../../../controllers/statistics/no_controlller.dart';
 import '../../../../../models/statistics/lichsutrano_model.dart';
@@ -28,6 +29,7 @@ class _ShowTraNoState extends State<ShowTraNo> {
   final controllerLSRepo = Get.put(LichSuTraNoRepository());
   final controllerNo = Get.put(NoController());
   final controllerHistory = Get.put(HistoryRepository());
+  final controllerNoRepo = Get.put(NoRepository());
   num trano = 0;
 
   Future<void> _onSaveButtonPressed() async {
@@ -57,6 +59,10 @@ class _ShowTraNoState extends State<ShowTraNo> {
             'tongthanhtoan': FieldValue.increment(no),
             'trangthai': 'Thành công'
           });
+          final ngay = doc["datetime"];
+          controllerNoRepo.updateTrangThaiNgaySauKhiTraNo(ngay);
+          controllerNoRepo.updateTrangThaiTuanSauKhiTraNo(ngay);
+          controllerNoRepo.updateTrangThaiThangSauKhiTraNo(ngay);
         } else {
           await docRef.update({
             'no': no - tranotam,
