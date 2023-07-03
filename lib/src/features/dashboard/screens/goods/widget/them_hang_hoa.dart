@@ -73,8 +73,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image:
-                  AssetImage(tBackGround1), // where is this variable defined?
+              image: AssetImage(tBackGround1),
               fit: BoxFit.cover,
             ),
           ),

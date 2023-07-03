@@ -10,6 +10,7 @@ import '../../../../../../repository/goods_repository/good_repository.dart';
 import '../../../../../../utils/image_picker/image_picker.dart';
 import '../../../../../../utils/utils.dart';
 import '../../../../../../utils/validate/validate.dart';
+import '../../../../controllers/add/chonhanghoa_controller.dart';
 import '../../../../controllers/goods/chondanhmuc_controller.dart';
 import '../../../../controllers/goods/chondonvi_controller.dart';
 import '../../../../controllers/goods/them_hanghoa_controller.dart';
@@ -34,13 +35,16 @@ class _ChinhSuaChiTietHangHoaScreenState
   final myController = Get.put(ChonDonViController());
   final controllerImage = Get.put(ImageController());
   final goodsRepo = Get.put(GoodRepository());
-
+  final controllerAllHangHoa = Get.put(ChonHangHoaController());
   late Map<String, dynamic> hangHoatam;
+  //tạo list hangHoa
+  late List<dynamic> allHangHoa = [];
   @override
   void initState() {
     //tạo map tạm để show hình ảnh chưa lưu
     hangHoatam = widget.updateChinhSuaHangHoa;
-
+//gán giá trị hàng hóa trên firebase vào list tạm
+    allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
     final formatGiaNhap =
         formatCurrencWithoutD(widget.updateChinhSuaHangHoa['gianhap']);
     final formatGiaBan =
@@ -162,7 +166,6 @@ class _ChinhSuaChiTietHangHoaScreenState
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 10),
                     //ten san pham
                     const Text("Tên sản phẩm:", style: TextStyle(fontSize: 18)),
@@ -273,31 +276,41 @@ class _ChinhSuaChiTietHangHoaScreenState
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-                width: 150,
-                height: 55,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: mainColor,
-                      side: const BorderSide(color: mainColor),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            20), // giá trị này xác định bán kính bo tròn
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        //giá trị được return từ updatehanghoa
-                        dynamic newvalue = await goodsRepo.updateGood(
-                            hangHoatam['macode'],
-                            widget.updateChinhSuaHangHoa['photoGood']);
-
-                        Navigator.of(context).pop(newvalue);
-                      }
-                    },
-                    child: const Text(
-                      'Lưu & thoát',
-                      style: TextStyle(fontSize: 16),
-                    )))
+              width: 150,
+              height: 55,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: mainColor,
+                  side: const BorderSide(color: mainColor),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        20), // giá trị này xác định bán kính bo tròn
+                  ),
+                ),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    var duplicateProducts = allHangHoa.where((element) =>
+                        element["tensanpham"].toString().toLowerCase().contains(
+                            controller.tenSanPhamController.text
+                                .trim()
+                                .toLowerCase()));
+                    if (duplicateProducts.isNotEmpty) {
+                      Get.snackbar('Có lỗi xảy ra', 'Sản phẩm đã tồn tại');
+                    } else {
+                      //giá trị được return từ updatehanghoa
+                      dynamic newvalue = await goodsRepo.updateGood(
+                          hangHoatam['macode'],
+                          widget.updateChinhSuaHangHoa['photoGood']);
+                      Navigator.of(context).pop(newvalue);
+                    }
+                  }
+                },
+                child: const Text(
+                  'Lưu & thoát',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
           ],
         ),
       ),
