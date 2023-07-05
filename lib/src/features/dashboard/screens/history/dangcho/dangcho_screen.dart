@@ -15,8 +15,8 @@ class _DangChoHistoryScreenState extends State<DangChoHistoryScreen> {
   final controller = Get.put(HistoryRepository());
   List<List<DocumentSnapshot>> docsByMonthly = [];
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _fetchData();
   }
 
@@ -25,9 +25,11 @@ class _DangChoHistoryScreenState extends State<DangChoHistoryScreen> {
     await controller
         .getDocsByMonthlyPhanLoai(firebaseUser!.uid, "Đang chờ")
         .then((value) {
-      setState(() {
-        docsByMonthly = value;
-      });
+      if (mounted) {
+        setState(() {
+          docsByMonthly = value;
+        });
+      }
     });
   }
 
