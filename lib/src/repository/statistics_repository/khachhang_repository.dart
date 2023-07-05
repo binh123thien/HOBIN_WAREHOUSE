@@ -55,6 +55,7 @@ class KhachHangRepository extends GetxController {
 
     if (snapshot.docs.isNotEmpty) {
       for (var doc in snapshot.docs) {
+        // doc.id != docID: nhập trùng tên thằng đã tồn tại (hiểu ngược là lụm TH ==)
         if (doc.id != docID &&
             doc["tenkhachhang"] == controllerForm.tenKhachHangController.text) {
           duplicateName = true;

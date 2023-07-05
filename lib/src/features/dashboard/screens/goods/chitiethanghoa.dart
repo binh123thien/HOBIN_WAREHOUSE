@@ -64,8 +64,8 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                 ),
               )
             ],
-            onSelected: ((value) {
-              if (value == 1) {
+            onSelected: ((valueMenu) {
+              if (valueMenu == 1) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -84,7 +84,7 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                   }
                 });
               }
-              if (value == 2) {
+              if (valueMenu == 2) {
                 MyDialog.showAlertDialog(
                     context, 'Xác nhận', 'Bạn muốn xóa hàng hóa này?', () {
                   controllerGoodRepo

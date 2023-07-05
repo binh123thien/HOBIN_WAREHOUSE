@@ -10,7 +10,6 @@ import '../../../../../../repository/goods_repository/good_repository.dart';
 import '../../../../../../utils/image_picker/image_picker.dart';
 import '../../../../../../utils/utils.dart';
 import '../../../../../../utils/validate/validate.dart';
-import '../../../../controllers/add/chonhanghoa_controller.dart';
 import '../../../../controllers/goods/chondanhmuc_controller.dart';
 import '../../../../controllers/goods/chondonvi_controller.dart';
 import '../../../../controllers/goods/them_hanghoa_controller.dart';
@@ -35,16 +34,12 @@ class _ChinhSuaChiTietHangHoaScreenState
   final myController = Get.put(ChonDonViController());
   final controllerImage = Get.put(ImageController());
   final goodsRepo = Get.put(GoodRepository());
-  final controllerAllHangHoa = Get.put(ChonHangHoaController());
+
   late Map<String, dynamic> hangHoatam;
-  //tạo list hangHoa
-  late List<dynamic> allHangHoa = [];
   @override
   void initState() {
     //tạo map tạm để show hình ảnh chưa lưu
     hangHoatam = widget.updateChinhSuaHangHoa;
-//gán giá trị hàng hóa trên firebase vào list tạm
-    allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
     final formatGiaNhap =
         formatCurrencWithoutD(widget.updateChinhSuaHangHoa['gianhap']);
     final formatGiaBan =
@@ -289,20 +284,15 @@ class _ChinhSuaChiTietHangHoaScreenState
                 ),
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    var duplicateProducts = allHangHoa.where((element) =>
-                        element["tensanpham"].toString().toLowerCase().contains(
-                            controller.tenSanPhamController.text
-                                .trim()
-                                .toLowerCase()));
-                    if (duplicateProducts.isNotEmpty) {
-                      Get.snackbar('Có lỗi xảy ra', 'Sản phẩm đã tồn tại');
-                    } else {
-                      //giá trị được return từ updatehanghoa
-                      dynamic newvalue = await goodsRepo.updateGood(
-                          hangHoatam['macode'],
-                          widget.updateChinhSuaHangHoa['photoGood']);
+                    //giá trị được return từ updatehanghoa
+                    await goodsRepo
+                        .updateGood(
+                            hangHoatam['macode'],
+                            widget.updateChinhSuaHangHoa['photoGood'],
+                            controller.tenSanPhamController.text)
+                        .then((newvalue) {
                       Navigator.of(context).pop(newvalue);
-                    }
+                    });
                   }
                 },
                 child: const Text(

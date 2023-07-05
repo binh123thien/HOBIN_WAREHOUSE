@@ -18,25 +18,45 @@ class GoodRepository extends GetxController {
 
 //=============================== Thêm hàng hóa mới =============================================
   // Lưu trữ good trên firestore
-  createCollectionFirestore(HangHoaModel hanghoa, String macode) async {
+  createCollectionFirestore(
+      HangHoaModel hanghoa, String macode, String tensanpham) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
-    await _db
+    //lấy giá trị trả về của hàm checkHangHoa
+    final snapshot = await checkHangHoa(tensanpham);
+    if (snapshot.docs.isNotEmpty) {
+      Get.snackbar("Thất bại", "Sản phẩm đã có", colorText: Colors.black);
+    } else {
+      await _db
+          .collection("Users")
+          .doc(firebaseUser!.uid)
+          .collection("Goods")
+          .doc(firebaseUser.uid)
+          .collection("HangHoa")
+          .doc(macode)
+          .set(hanghoa.toJson())
+          .whenComplete(() => Get.snackbar(
+              "Thành công", "Đã thêm hàng vào danh sách",
+              colorText: Colors.green));
+    }
+  }
+
+  checkHangHoa(String tensanpham) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    QuerySnapshot snapshot = await _db
         .collection("Users")
         .doc(firebaseUser!.uid)
         .collection("Goods")
         .doc(firebaseUser.uid)
         .collection("HangHoa")
-        .doc(macode)
-        .set(hanghoa.toJson())
-        .whenComplete(() => Get.snackbar(
-            "Thành công", "Đã thêm hàng vào danh sách",
-            colorText: Colors.green));
+        .where('tensanpham', isEqualTo: tensanpham)
+        .get();
+    return snapshot;
   }
 
 //=============================== End thêm hàng hóa mới =======================================
 //================================ update hang hoa ==================
-
-  Future<dynamic> updateGood(docGoodID, photoGoodUpdate) async {
+  Future<dynamic> updateGood(
+      String docGoodID, photoGoodUpdate, String tensanpham) async {
     final controllerThemHangHoa = Get.put(ThemHangHoaController());
     final controllerDanhMuc = Get.put(ChonDanhMucController());
     final controllerImage = Get.put(ImageController());
@@ -44,7 +64,7 @@ class GoodRepository extends GetxController {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     //================= xóa hình ảnh trước đó của user ===============
     if (photoGoodUpdate.isNotEmpty) {
-      print(controllerImage.ImagePickedURLController);
+      //kiểm tra tring list tạm
       if (controllerImage.ImagePickedURLController.isNotEmpty) {
         // lấy dữ liệu thông qua URL của hình ảnh
         final imageRef = FirebaseStorage.instance.refFromURL(photoGoodUpdate);
@@ -53,38 +73,55 @@ class GoodRepository extends GetxController {
       }
     }
 //================ end xóa hình ảnh trước đó của user =====================
-    //update URL trên FireStore
-    await _db
-        .collection("Users")
-        .doc(firebaseUser!.uid)
-        .collection("Goods")
-        .doc(firebaseUser.uid)
-        .collection("HangHoa")
-        .doc(docGoodID)
-        .update({
-      'tensanpham': controllerThemHangHoa.tenSanPhamController.text.trim(),
-      'gianhap': double.tryParse(controllerThemHangHoa.gianhapController.text
-              .replaceAll(",", "")) ??
-          0,
-      'giaban': double.tryParse(controllerThemHangHoa.giabanController.text
-              .replaceAll(",", "")) ??
-          0,
-      'phanloai': controllerThemHangHoa.phanloaiController.text,
-      'donvi': controllerThemHangHoa.donviController.text,
-      'danhmuc': controllerDanhMuc.selectedDanhMuc,
-      'photoGood': controllerImage.ImagePickedURLController.isNotEmpty
-          ? controllerImage.ImagePickedURLController.last
-          : photoGoodUpdate
-    }).whenComplete(() => Get.snackbar("Cập nhật hàng hóa thành công",
-            "Hàng hóa đã cập nhật theo yêu cầu của bạn",
-            colorText: Colors.green));
+    //lấy giá trị trả về của hàm checkHangHoa
+    final snapshot = await checkHangHoa(tensanpham);
+    bool duplicateName = false; // Biến flag để ktra hàng đã có hay chưa
+    if (snapshot.docs.isNotEmpty) {
+      for (var doc in snapshot.docs) {
+        // doc.id != docID: nhập trùng tên thằng đã tồn tại (hiểu ngược là lụm TH ==)
+        if (doc.id != docGoodID && doc["tensanpham"] == tensanpham) {
+          duplicateName = true;
+          break;
+        }
+      }
+    }
 
-    // xóa chừa hình cuối cùng
-    controllerImage.deleteExceptLastImage('hanghoa');
+    if (duplicateName) {
+      Get.snackbar("Thất bại", "Sản phẩm đã có", colorText: Colors.black);
+    } else {
+      //update URL và các trường khác trên FireStore
+      await _db
+          .collection("Users")
+          .doc(firebaseUser!.uid)
+          .collection("Goods")
+          .doc(firebaseUser.uid)
+          .collection("HangHoa")
+          .doc(docGoodID)
+          .update({
+        'tensanpham': controllerThemHangHoa.tenSanPhamController.text.trim(),
+        'gianhap': double.tryParse(controllerThemHangHoa.gianhapController.text
+                .replaceAll(",", "")) ??
+            0,
+        'giaban': double.tryParse(controllerThemHangHoa.giabanController.text
+                .replaceAll(",", "")) ??
+            0,
+        'phanloai': controllerThemHangHoa.phanloaiController.text,
+        'donvi': controllerThemHangHoa.donviController.text,
+        'danhmuc': controllerDanhMuc.selectedDanhMuc,
+        'photoGood': controllerImage.ImagePickedURLController.isNotEmpty
+            ? controllerImage.ImagePickedURLController.last
+            : photoGoodUpdate
+      }).whenComplete(() => Get.snackbar("Cập nhật hàng hóa thành công",
+              "Hàng hóa đã cập nhật theo yêu cầu của bạn",
+              colorText: Colors.green));
+
+      // xóa chừa hình cuối cùng
+      controllerImage.deleteExceptLastImage('hanghoa');
+    }
     //lấy doc mới cập nhật return về (get dữ liệu về trang trước)
     final updatedDoc = await _db
         .collection("Users")
-        .doc(firebaseUser.uid)
+        .doc(firebaseUser!.uid)
         .collection("Goods")
         .doc(firebaseUser.uid)
         .collection("HangHoa")
