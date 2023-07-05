@@ -28,7 +28,7 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
     final size = MediaQuery.of(context).size;
     final doanhthungay = controllerDoanhThu.docDoanhThuNgay;
     final doanhthutuan = controllerDoanhThu.docDoanhThuTuan;
-    print(doanhthutuan);
+    print(doanhthungay);
     return Column(
       children: [
         const SizedBox(height: 10),
