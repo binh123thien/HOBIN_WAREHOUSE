@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/doanhthu/widget/doanhthutheothang/doanhthutheothang_widget.dart';
 import '../../../../../constants/color.dart';
 import '../../../controllers/statistics/doanhthu_controller.dart';
-import 'widget/doanhthu_tieude_widget.dart';
 import 'widget/doanhthutheongay/doanhthutheongay_widget.dart';
 import 'widget/doanhthutheotuan/doanhthutheotuan.dart';
 
@@ -21,6 +21,7 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
     super.initState();
     controllerDoanhThu.loadDoanhThuNgay();
     controllerDoanhThu.loadDoanhThuTuan();
+    controllerDoanhThu.loadDoanhThuThang();
   }
 
   @override
@@ -28,7 +29,8 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
     final size = MediaQuery.of(context).size;
     final doanhthungay = controllerDoanhThu.docDoanhThuNgay;
     final doanhthutuan = controllerDoanhThu.docDoanhThuTuan;
-    print(doanhthungay);
+    final doanhthuthang = controllerDoanhThu.docDoanhThuThang;
+    print(doanhthuthang);
     return Column(
       children: [
         const SizedBox(height: 10),
@@ -81,15 +83,8 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                       children: [
                         DoanhThuTheoNgayWidget(doanhthu: doanhthungay),
                         DoanhThuTheoTuanWidget(doanhthuTheoTuan: doanhthutuan),
-                        DoanhThuTieuDe(
-                          phanloai: "thang",
-                          tongdoanhthu: 0,
-                          thanhcong: 0,
-                          title: 'Hôm nay',
-                          dangcho: 0,
-                          huy: 0,
-                          ngay: '',
-                          week: '',
+                        DoanhThuTheoThangWidget(
+                          doanhthutheothang: doanhthuthang,
                         ),
                       ],
                     ),

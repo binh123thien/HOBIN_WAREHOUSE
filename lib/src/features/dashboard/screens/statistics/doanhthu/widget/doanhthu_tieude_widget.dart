@@ -4,6 +4,7 @@ import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
 import 'chitiet_doanhthu_screen.dart';
+import 'doanhthutheothang/chitietdoanhthu_theothang.dart';
 import 'doanhthutheotuan/chitietdoanhthu_theotuan.dart';
 
 class DoanhThuTieuDe extends StatelessWidget {
@@ -72,14 +73,22 @@ class DoanhThuTieuDe extends StatelessWidget {
                                   dangcho: dangcho,
                                   huy: huy,
                                 )
-                              : ChiTietDoanhThuTheoTuanScreen(
-                                  week: week,
-                                  ngay: ngay,
-                                  tongdoanhthu: tongdoanhthu,
-                                  thanhcong: thanhcong,
-                                  dangcho: dangcho,
-                                  huy: huy,
-                                )),
+                              : phanloai == "tuan"
+                                  ? ChiTietDoanhThuTheoTuanScreen(
+                                      week: week,
+                                      ngay: ngay,
+                                      tongdoanhthu: tongdoanhthu,
+                                      thanhcong: thanhcong,
+                                      dangcho: dangcho,
+                                      huy: huy,
+                                    )
+                                  : ChiTietDoanhThuTheoThangScreen(
+                                      ngay: ngay,
+                                      tongdoanhthu: tongdoanhthu,
+                                      thanhcong: thanhcong,
+                                      dangcho: dangcho,
+                                      huy: huy,
+                                    )),
                     );
                   },
                   child: const Text(

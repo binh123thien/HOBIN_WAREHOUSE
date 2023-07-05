@@ -10,6 +10,7 @@ class DoanhThuController extends GetxController {
   static DoanhThuController get instance => Get.find();
   List<dynamic> docDoanhThuNgay = [].obs;
   List<dynamic> docDoanhThuTuan = [].obs;
+  List<dynamic> docDoanhThuThang = [].obs;
   final controllerRepo = Get.put(DoanhThuRepository());
   final controllerAdd = Get.put(AddRepository());
   loadDoanhThuNgay() async {
@@ -58,6 +59,26 @@ class DoanhThuController extends GetxController {
     });
   }
 
+  loadDoanhThuThang() async {
+    await controllerRepo.getTongDoanhThuThang().listen((snapshot) {
+      docDoanhThuThang = snapshot.docs.map((doc) => doc.data()).toList();
+      DateTime currentDate = DateTime.now();
+      String formattedMonth =
+          "${currentDate.month.toString().padLeft(2, '0')}-${currentDate.year}";
+      if (docDoanhThuThang.isEmpty ||
+          docDoanhThuThang[0]["datetime"] != formattedMonth) {
+        Map<String, dynamic> newDoc = {
+          "datetime": formattedMonth,
+          "dangcho": 0,
+          "thanhcong": 0,
+          "huy": 0,
+          "doanhthu": 0
+        };
+        docDoanhThuThang.insert(0, newDoc);
+      }
+    });
+  }
+
   Stream<List<DocumentSnapshot>> filterDocumentsByDate(String inputString) {
     final dates = getDatesFromString(inputString);
 
@@ -102,5 +123,29 @@ class DoanhThuController extends GetxController {
       consecutiveDates.add(formattedDate);
     }
     return consecutiveDates;
+  }
+
+  Stream<List<DocumentSnapshot>> queryDocsByMonth(String monthYear) {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collectionRef = FirebaseFirestore.instance
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("TongDoanhThu")
+        .doc(firebaseUser.uid)
+        .collection("HangNgay");
+
+    final documentsStream = collectionRef
+        .snapshots()
+        .map((querySnapshot) => querySnapshot.docs.where((doc) {
+              final docDateTime = DateFormat('dd-MM-yyyy')
+                  .parse(doc.get('datetime')); // Parse string to DateTime
+              final docMonthYear = DateFormat('MM-yyyy')
+                  .format(docDateTime); // Get MM-yyyy from DateTime
+              return docMonthYear ==
+                  monthYear; // Compare with the provided monthYear
+            }).toList());
+    return documentsStream;
   }
 }

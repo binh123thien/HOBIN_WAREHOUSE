@@ -37,4 +37,20 @@ class DoanhThuRepository extends GetxController {
         .snapshots();
     return getTongDoanhThuTuan;
   }
+
+  getTongDoanhThuThang() {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final getTongDoanhThuTuan = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("TongDoanhThu")
+        .doc(firebaseUser.uid)
+        .collection("HangThang")
+        .orderBy("datetime", descending: true)
+        .limit(30)
+        .snapshots();
+    return getTongDoanhThuTuan;
+  }
 }
