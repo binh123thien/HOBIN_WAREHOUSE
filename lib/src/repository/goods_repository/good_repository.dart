@@ -18,19 +18,40 @@ class GoodRepository extends GetxController {
 
 //=============================== Thêm hàng hóa mới =============================================
   // Lưu trữ good trên firestore
-  createCollectionFirestore(HangHoaModel hanghoa, String macode) async {
+  createCollectionFirestore(
+      HangHoaModel hanghoa, String macode, String tensanpham) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
-    await _db
+    //lấy giá trị trả về của hàm
+    final snapshot = await checkHangHoa(tensanpham);
+    if (snapshot.docs.isNotEmpty) {
+      Get.snackbar("Thất bại", "Sản phẩm đã có", colorText: Colors.black);
+    } else {
+      await _db
+          .collection("Users")
+          .doc(firebaseUser!.uid)
+          .collection("Goods")
+          .doc(firebaseUser.uid)
+          .collection("HangHoa")
+          .doc(macode)
+          .set(hanghoa.toJson())
+          .whenComplete(() => Get.snackbar(
+              "Thành công", "Đã thêm hàng vào danh sách",
+              colorText: Colors.green));
+    }
+  }
+
+  checkHangHoa(String tensanpham) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+    QuerySnapshot snapshot = await _db
         .collection("Users")
         .doc(firebaseUser!.uid)
         .collection("Goods")
         .doc(firebaseUser.uid)
         .collection("HangHoa")
-        .doc(macode)
-        .set(hanghoa.toJson())
-        .whenComplete(() => Get.snackbar(
-            "Thành công", "Đã thêm hàng vào danh sách",
-            colorText: Colors.green));
+        .where('tensanpham', isEqualTo: tensanpham)
+        .get();
+    return snapshot;
   }
 
 //=============================== End thêm hàng hóa mới =======================================

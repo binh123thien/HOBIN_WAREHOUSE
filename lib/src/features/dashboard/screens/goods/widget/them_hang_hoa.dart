@@ -349,7 +349,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
     );
   }
 
-//tạo hàng hóa
+//tạo hàng hóa theo ma code
   createHangHoa() {
     var hanghoa = HangHoaModel(
         daban: 0,
@@ -371,7 +371,9 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
             : "");
     final goodsRepo = Get.put(GoodRepository());
     goodsRepo.createCollectionFirestore(
-        hanghoa, controller.maCodeController.text.trim());
+        hanghoa,
+        controller.maCodeController.text.trim(),
+        controller.tenSanPhamController.text.trim());
   }
 
   //Show hình ảnh đã chọn
