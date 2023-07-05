@@ -108,16 +108,18 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       height: 120,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: CachedNetworkImage(
-                          imageUrl: (updateUserData.photoURL.isNotEmpty)
-                              ? updateUserData.photoURL
-                              : tDefaultAvatar,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
+                        child: (updateUserData.photoURL.isNotEmpty)
+                            ? CachedNetworkImage(
+                                imageUrl: updateUserData.photoURL,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              )
+                            : Image.asset(
+                                tDefaultAvatar,
+                              ),
                       ),
                     ),
                     Positioned(

@@ -12,6 +12,7 @@ class ChonHangHoaController extends GetxController {
     await controllerGoodRepo.getAllhanghoa().listen((snapshot) {
       allHangHoaFireBase = snapshot.docs.map((doc) => doc.data()).toList();
 
+      //tính tổng tồn kho trang thống kê
       Map<String, num> categoryCount = allHangHoaFireBase.fold({}, (acc, obj) {
         if (obj['danhmuc'].isEmpty) {
           acc.update("Chưa phân loại", (value) => value + obj['tonkho'],
