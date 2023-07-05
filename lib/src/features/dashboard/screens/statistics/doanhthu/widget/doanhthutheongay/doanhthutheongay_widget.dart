@@ -22,12 +22,14 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
     return Column(
       children: [
         DoanhThuTieuDe(
+          phanloai: "ngay",
           ngay: doanhthu[0]["datetime"],
           tongdoanhthu: doanhthu[0]["doanhthu"],
           thanhcong: doanhthu[0]["thanhcong"],
           title: 'Hôm nay',
           dangcho: doanhthu[0]["dangcho"],
           huy: doanhthu[0]["huy"],
+          week: '',
         ),
         const SizedBox(height: 5),
         const Divider(

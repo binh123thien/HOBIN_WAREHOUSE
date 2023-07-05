@@ -218,10 +218,12 @@ class AddRepository extends GetxController {
     final tuanNgay =
         'Tuần $weekNumber (${dateFormat.format(startOfWeek).replaceAll("-", "Th").substring(0, 6)} - ${dateFormat.format(endOfWeek).replaceAll("-", "Th").substring(0, 6)})';
     final formattedWeek = DateFormat("yyyy-$weekNumber").format(date);
+    final week =
+        "$formattedWeek (${dateFormat.format(startOfWeek)} ${dateFormat.format(endOfWeek)})";
     if (field == "datetime") {
       return tuanNgay;
     } else {
-      return formattedWeek;
+      return week;
     }
   }
 

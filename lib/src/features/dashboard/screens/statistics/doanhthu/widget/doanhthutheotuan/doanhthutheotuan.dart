@@ -22,12 +22,15 @@ class DoanhThuTheoTuanWidget extends StatelessWidget {
     return Column(
       children: [
         DoanhThuTieuDe(
+          phanloai: "tuan",
           ngay: doanhthuTheoTuan[0]["datetime"],
           tongdoanhthu: doanhthuTheoTuan[0]["doanhthu"],
           thanhcong: doanhthuTheoTuan[0]["thanhcong"],
-          title: 'Tuần này (${doanhthuTheoTuan[0]["datetime"]})',
+          title:
+              'Tuần này ${doanhthuTheoTuan[0]["datetime"].replaceAll(RegExp(r'Tuần \d+'), '')}',
           dangcho: doanhthuTheoTuan[0]["dangcho"],
           huy: doanhthuTheoTuan[0]["huy"],
+          week: doanhthuTheoTuan[0]["week"],
         ),
         const SizedBox(height: 5),
         const Divider(
@@ -44,6 +47,7 @@ class DoanhThuTheoTuanWidget extends StatelessWidget {
                   itemCount: doanhthuTheoTuan.length - 1,
                   itemBuilder: (context, index) {
                     String ngay = doanhthuTheoTuan[index + 1]["datetime"];
+                    String week = doanhthuTheoTuan[index + 1]["week"];
                     num tongdoanhthu = doanhthuTheoTuan[index + 1]["doanhthu"];
                     int thanhcong = doanhthuTheoTuan[index + 1]["thanhcong"];
                     int dangcho = doanhthuTheoTuan[index + 1]["dangcho"];
@@ -55,6 +59,7 @@ class DoanhThuTheoTuanWidget extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) =>
                                   ChiTietDoanhThuTheoTuanScreen(
+                                    week: week,
                                     ngay: ngay,
                                     tongdoanhthu: tongdoanhthu,
                                     thanhcong: thanhcong,

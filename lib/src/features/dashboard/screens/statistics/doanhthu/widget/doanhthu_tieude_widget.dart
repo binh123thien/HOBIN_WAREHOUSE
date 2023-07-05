@@ -4,6 +4,7 @@ import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
 import 'chitiet_doanhthu_screen.dart';
+import 'doanhthutheotuan/chitietdoanhthu_theotuan.dart';
 
 class DoanhThuTieuDe extends StatelessWidget {
   const DoanhThuTieuDe({
@@ -14,8 +15,12 @@ class DoanhThuTieuDe extends StatelessWidget {
     required this.dangcho,
     required this.huy,
     required this.ngay,
+    required this.phanloai,
+    required this.week,
   });
+  final String phanloai;
   final String ngay;
+  final String week;
   final String title;
   final num tongdoanhthu;
   final int thanhcong;
@@ -59,13 +64,22 @@ class DoanhThuTieuDe extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChiTietDoanhThuScreen(
-                                ngay: ngay,
-                                tongdoanhthu: tongdoanhthu,
-                                thanhcong: thanhcong,
-                                dangcho: dangcho,
-                                huy: huy,
-                              )),
+                          builder: (context) => phanloai == "ngay"
+                              ? ChiTietDoanhThuScreen(
+                                  ngay: ngay,
+                                  tongdoanhthu: tongdoanhthu,
+                                  thanhcong: thanhcong,
+                                  dangcho: dangcho,
+                                  huy: huy,
+                                )
+                              : ChiTietDoanhThuTheoTuanScreen(
+                                  week: week,
+                                  ngay: ngay,
+                                  tongdoanhthu: tongdoanhthu,
+                                  thanhcong: thanhcong,
+                                  dangcho: dangcho,
+                                  huy: huy,
+                                )),
                     );
                   },
                   child: const Text(
