@@ -150,6 +150,7 @@ class AddRepository extends GetxController {
     } else {
       // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
       await docRef.set({
+        'datetime': ngay,
         'doanhthu': doanhthu,
         'thanhcong': no == 0 ? 1 : 0,
         'dangcho': no > 0 ? 1 : 0,
@@ -169,7 +170,7 @@ class AddRepository extends GetxController {
         .doc(firebaseUser.uid)
         .collection("HangTuan");
 
-    final tuanNgay = getTuanFromDate(ngay);
+    final tuanNgay = getTuanFromDate(ngay, "datetime");
 
     final docSnapshot = await docRef.doc(tuanNgay).get();
 
@@ -190,6 +191,8 @@ class AddRepository extends GetxController {
     } else {
       // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
       await docRef.doc(tuanNgay).set({
+        'datetime': tuanNgay,
+        'week': getTuanFromDate(ngay, "week"),
         'doanhthu': doanhthu,
         'thanhcong': no == 0 ? 1 : 0,
         'dangcho': no > 0 ? 1 : 0,
@@ -198,7 +201,7 @@ class AddRepository extends GetxController {
     }
   }
 
-  String getTuanFromDate(String ngay) {
+  String getTuanFromDate(String ngay, String field) {
     final dateFormat = DateFormat("dd-MM-yyyy");
     final date = dateFormat.parse(ngay);
 
@@ -214,7 +217,12 @@ class AddRepository extends GetxController {
     final endOfWeek = startOfWeek.add(const Duration(days: 6));
     final tuanNgay =
         'Tuần $weekNumber (${dateFormat.format(startOfWeek).replaceAll("-", "Th").substring(0, 6)} - ${dateFormat.format(endOfWeek).replaceAll("-", "Th").substring(0, 6)})';
-    return tuanNgay;
+    final formattedWeek = DateFormat("yyyy-$weekNumber").format(date);
+    if (field == "datetime") {
+      return tuanNgay;
+    } else {
+      return formattedWeek;
+    }
   }
 
   Future<void> createTongDoanhThuThang(
@@ -224,7 +232,7 @@ class AddRepository extends GetxController {
     final date = dateFormat.parse(ngay);
 
     // Tạo ra định dạng chuỗi "Tháng MM-yyyy" từ ngày cho trước
-    final monthFormat = DateFormat("'Tháng' MM-yyyy");
+    final monthFormat = DateFormat("MM-yyyy");
     final monthString = monthFormat.format(date);
 
     final docRef = _db
@@ -254,6 +262,7 @@ class AddRepository extends GetxController {
     } else {
       // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
       await docRef.set({
+        'datetime': monthString,
         'doanhthu': doanhthu,
         'thanhcong': no == 0 ? 1 : 0,
         'dangcho': no > 0 ? 1 : 0,

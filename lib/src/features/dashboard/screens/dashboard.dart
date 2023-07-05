@@ -29,7 +29,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     controllerProfile.getUserData();
     controller.loadAllHangHoa();
-    controllerDoanhThu.loadDoanhThu();
+    controllerDoanhThu.loadDoanhThuNgay();
+    controllerDoanhThu.loadDoanhThuTuan();
   }
 
   int currentPage = 0;
