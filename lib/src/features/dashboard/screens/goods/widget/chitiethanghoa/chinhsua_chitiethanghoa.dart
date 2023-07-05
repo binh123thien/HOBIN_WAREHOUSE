@@ -285,10 +285,14 @@ class _ChinhSuaChiTietHangHoaScreenState
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     //giá trị được return từ updatehanghoa
-                    dynamic newvalue = await goodsRepo.updateGood(
-                        hangHoatam['macode'],
-                        widget.updateChinhSuaHangHoa['photoGood']);
-                    Navigator.of(context).pop(newvalue);
+                    await goodsRepo
+                        .updateGood(
+                            hangHoatam['macode'],
+                            widget.updateChinhSuaHangHoa['photoGood'],
+                            controller.tenSanPhamController.text)
+                        .then((newvalue) {
+                      Navigator.of(context).pop(newvalue);
+                    });
                   }
                 },
                 child: const Text(
