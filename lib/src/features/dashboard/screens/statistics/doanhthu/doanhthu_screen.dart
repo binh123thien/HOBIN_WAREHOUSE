@@ -30,7 +30,6 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
     final doanhthungay = controllerDoanhThu.docDoanhThuNgay;
     final doanhthutuan = controllerDoanhThu.docDoanhThuTuan;
     final doanhthuthang = controllerDoanhThu.docDoanhThuThang;
-    print(doanhthuthang);
     return Column(
       children: [
         const SizedBox(height: 10),
