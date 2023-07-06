@@ -7,6 +7,7 @@ import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../../../utils/validate/validate.dart';
 import '../../../controllers/goods/chonhanghoale_controller.dart';
+import 'donephanphoi.dart';
 
 class ChonHangHoaLeScreen extends StatefulWidget {
   final dynamic hanghoaLe;
@@ -54,6 +55,12 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                     int.tryParse(controllerHangHoa.soLuongSi.text)) {
                   Get.snackbar('Có lỗi xảy ra',
                       'Số lượng hàng cần chuyển đổi lớn hơn tồn kho');
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DonePhanPhoiScreen()),
+                  );
                 }
               }
               print('doneeeeeeeeeeee');
