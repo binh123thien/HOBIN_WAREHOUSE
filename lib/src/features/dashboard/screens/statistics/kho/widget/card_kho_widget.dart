@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/card_widget.dart';
-import 'package:hobin_warehouse/src/utils/utils.dart';
 
 import '../../../../controllers/add/chonhanghoa_controller.dart';
 
@@ -38,7 +37,7 @@ class _CardKhoWidgetState extends State<CardKhoWidget> {
       {
         "icon": const AssetImage(giatritonkhoIcon),
         "title": "Giá trị tồn kho",
-        "value": formatCurrency(giatritonkho),
+        "value": giatritonkho,
       },
     ];
     return CardWidget(arrayList: cardkho);

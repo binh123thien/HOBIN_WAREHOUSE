@@ -16,7 +16,7 @@ class DoanhThuRepository extends GetxController {
         .collection("TongDoanhThu")
         .doc(firebaseUser.uid)
         .collection("HangNgay")
-        .orderBy("datetime", descending: true)
+        .orderBy("day", descending: true)
         .limit(30)
         .snapshots();
     return getTongDoanhThuNgay;
@@ -48,7 +48,7 @@ class DoanhThuRepository extends GetxController {
         .collection("TongDoanhThu")
         .doc(firebaseUser.uid)
         .collection("HangThang")
-        .orderBy("datetime", descending: true)
+        .orderBy("month", descending: true)
         .limit(30)
         .snapshots();
     return getTongDoanhThuTuan;
