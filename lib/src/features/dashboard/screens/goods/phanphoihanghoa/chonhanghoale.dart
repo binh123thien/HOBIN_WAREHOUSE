@@ -33,6 +33,12 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
 
   @override
   Widget build(BuildContext context) {
+    // TextFeild Controller lấy dữ liệu từ TextForm
+    final textEditsoLuongLe = TextEditingController(
+        text: updatehanghoaSi['chuyendoi'] != 0
+            ? updatehanghoaSi['chuyendoi'].toString()
+            : '');
+    final textEditsoLuongSi = TextEditingController();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
@@ -52,15 +58,12 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 if (updatehanghoaSi['tonkho'] <
-                    int.tryParse(controllerHangHoa.soLuongSi.text)) {
+                    int.tryParse(textEditsoLuongSi.text)) {
                   Get.snackbar('Có lỗi xảy ra',
                       'Số lượng hàng cần chuyển đổi lớn hơn tồn kho');
                 } else {
-                  controllerHangHoa.calculate(
-                      controllerHangHoa.soLuongLe.text,
-                      controllerHangHoa.soLuongSi.text,
-                      updatehanghoaSi,
-                      updatehanghoaLe);
+                  controllerHangHoa.calculate(textEditsoLuongLe.text,
+                      textEditsoLuongSi.text, updatehanghoaSi, updatehanghoaLe);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -68,9 +71,6 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   );
                 }
               }
-              print('doneeeeeeeeeeee');
-              print(controllerHangHoa.soLuongLe.text);
-              print(controllerHangHoa.soLuongSi.text);
             },
           )
         ],
@@ -134,7 +134,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                           const Text(' = '),
                           Expanded(
                             child: TextFormField(
-                              controller: controllerHangHoa.soLuongLe,
+                              controller: textEditsoLuongLe,
                               decoration: const InputDecoration(
                                 errorStyle: TextStyle(fontSize: 12),
                                 border: OutlineInputBorder(),
@@ -185,7 +185,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                       ]),
                       const SizedBox(height: 20),
                       TextFormField(
-                        controller: controllerHangHoa.soLuongSi,
+                        controller: textEditsoLuongSi,
                         decoration: const InputDecoration(
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 5),

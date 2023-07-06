@@ -1,16 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChonHangHoaLeController extends GetxController {
   static ChonHangHoaLeController get instance => Get.find();
 
   final _db = FirebaseFirestore.instance;
-
-  // TextFeild Controller lấy dữ liệu từ TextForm
-  final soLuongLe = TextEditingController();
-  final soLuongSi = TextEditingController();
 
 //get sản phẩm cũ của hàng hóa đó
   getTonKho(String docMaCode) async {
