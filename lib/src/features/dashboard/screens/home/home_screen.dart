@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/account/account_screen.dart';
 
 import '../../../../constants/image_strings.dart';
+import '../../controllers/add/chonhanghoa_controller.dart';
+import '../../controllers/history/history_controller.dart';
 import 'widget/card_dashboard.dart';
 import 'widget/expense_graph.dart';
 
@@ -16,9 +19,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final controller = Get.put(ChonHangHoaController());
+  final controllerHistory = Get.put(HistoryController());
+
   @override
   void initState() {
     super.initState();
+    controller.loadAllHangHoa();
+    controllerHistory.loadPhiNhapHangTrongThang("NhapHang");
+    controllerHistory.loadPhiNhapHangTrongThang("BanHang");
   }
 
   @override

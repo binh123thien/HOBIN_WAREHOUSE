@@ -60,14 +60,24 @@ class _ShowTraNoState extends State<ShowTraNo> {
             'trangthai': 'Thành công'
           });
           final ngay = doc["datetime"];
-          controllerNoRepo.updateTrangThaiNgaySauKhiTraNo(ngay);
-          controllerNoRepo.updateTrangThaiTuanSauKhiTraNo(ngay);
-          controllerNoRepo.updateTrangThaiThangSauKhiTraNo(ngay);
+          controllerNoRepo.updateTrangThaiNgaySauKhiTraNo(
+              ngay, no, "traNoLonHonNo");
+          controllerNoRepo.updateTrangThaiTuanSauKhiTraNo(
+              ngay, no, "traNoLonHonNo");
+          controllerNoRepo.updateTrangThaiThangSauKhiTraNo(
+              ngay, no, "traNoLonHonNo");
         } else {
           await docRef.update({
             'no': no - tranotam,
             'tongthanhtoan': FieldValue.increment(tranotam),
           });
+          final ngay = doc["datetime"];
+          controllerNoRepo.updateTrangThaiNgaySauKhiTraNo(
+              ngay, tranotam, "traNoNhoHonNo");
+          controllerNoRepo.updateTrangThaiTuanSauKhiTraNo(
+              ngay, tranotam, "traNoNhoHonNo");
+          controllerNoRepo.updateTrangThaiThangSauKhiTraNo(
+              ngay, tranotam, "traNoNhoHonNo");
           break;
         }
       }
