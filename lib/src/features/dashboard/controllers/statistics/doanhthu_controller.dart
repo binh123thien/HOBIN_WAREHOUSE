@@ -64,7 +64,7 @@ class DoanhThuController extends GetxController {
       docDoanhThuThang = snapshot.docs.map((doc) => doc.data()).toList();
       DateTime currentDate = DateTime.now();
       String formattedMonth =
-          "${currentDate.month.toString().padLeft(2, '0')}-${currentDate.year}";
+          "Tháng ${currentDate.month.toString().padLeft(2, '0')}-${currentDate.year}";
       if (docDoanhThuThang.isEmpty ||
           docDoanhThuThang[0]["datetime"] != formattedMonth) {
         Map<String, dynamic> newDoc = {
@@ -141,7 +141,7 @@ class DoanhThuController extends GetxController {
         .map((querySnapshot) => querySnapshot.docs.where((doc) {
               final docDateTime = DateFormat('dd-MM-yyyy')
                   .parse(doc.get('datetime')); // Parse string to DateTime
-              final docMonthYear = DateFormat('MM-yyyy')
+              final docMonthYear = DateFormat("'Tháng' MM-yyyy")
                   .format(docDateTime); // Get MM-yyyy from DateTime
               return docMonthYear ==
                   monthYear; // Compare with the provided monthYear

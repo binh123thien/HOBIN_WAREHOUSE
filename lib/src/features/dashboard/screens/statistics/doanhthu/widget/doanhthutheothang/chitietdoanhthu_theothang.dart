@@ -34,7 +34,6 @@ class _ChiTietDoanhThuTheoThangScreenState
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    print(widget.ngay);
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -75,7 +74,6 @@ class _ChiTietDoanhThuTheoThangScreenState
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final documents = snapshot.data!;
-                    print(documents);
                     return SizedBox(
                       height: size.height - 335,
                       width: size.width - 30,
