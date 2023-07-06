@@ -75,3 +75,13 @@ String? nonZeroInput(String? value) {
   }
   return null;
 }
+
+//không cho nhập số 0 hoặc 1 hoặc rỗng
+String? nonZeroOrOneInput(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Vui lòng nhập số khác 0';
+  } else if (value.startsWith('0') || value == '1') {
+    return 'Không thể chỉ nhập giá trị 1 hoặc 0';
+  }
+  return null;
+}

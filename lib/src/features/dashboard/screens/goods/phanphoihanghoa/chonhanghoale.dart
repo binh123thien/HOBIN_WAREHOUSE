@@ -123,7 +123,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +144,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                               ),
                               style: const TextStyle(color: Colors.black),
                               validator: (value) {
-                                return nonZeroInput(value!);
+                                return nonZeroOrOneInput(value!);
                               },
                               inputFormatters: [
                                 FilteringTextInputFormatter.allow(
