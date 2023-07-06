@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
+import '../../../../utils/utils.dart';
+
 class CardWidget extends StatelessWidget {
   const CardWidget({
     super.key,
@@ -42,7 +44,9 @@ class CardWidget extends StatelessWidget {
                     ),
                   ]),
                   Text(
-                    arrayList[index]["value"],
+                    index == 0
+                        ? arrayList[index]["value"].toString()
+                        : formatCurrency(arrayList[index]["value"]),
                     style: const TextStyle(
                         fontSize: 17, fontWeight: FontWeight.w400),
                   ),

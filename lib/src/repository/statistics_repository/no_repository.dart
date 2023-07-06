@@ -24,7 +24,7 @@ class NoRepository extends GetxController {
     return foundDocs;
   }
 
-  updateTrangThaiNgaySauKhiTraNo(String ngay) async {
+  updateTrangThaiNgaySauKhiTraNo(String ngay, num no, String option) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final db = FirebaseFirestore.instance;
     final docRef = db
@@ -36,13 +36,20 @@ class NoRepository extends GetxController {
         .doc(firebaseUser.uid)
         .collection("HangNgay")
         .doc(ngay);
-    await docRef.update({
-      'dangcho': FieldValue.increment(-1),
-      'thanhcong': FieldValue.increment(1)
-    });
+    if (option == "traNoLonHonNo") {
+      await docRef.update({
+        'dangcho': FieldValue.increment(-1),
+        'thanhcong': FieldValue.increment(1),
+        'doanhthu': FieldValue.increment(no),
+      });
+    } else if (option == "traNoNhoHonNo") {
+      await docRef.update({
+        'doanhthu': FieldValue.increment(no),
+      });
+    }
   }
 
-  updateTrangThaiTuanSauKhiTraNo(String ngay) async {
+  updateTrangThaiTuanSauKhiTraNo(String ngay, num no, String option) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final db = FirebaseFirestore.instance;
     final docRef = db
@@ -54,11 +61,17 @@ class NoRepository extends GetxController {
         .doc(firebaseUser.uid)
         .collection("HangTuan")
         .doc(getTuanFromDate(ngay));
-
-    await docRef.update({
-      'dangcho': FieldValue.increment(-1),
-      'thanhcong': FieldValue.increment(1)
-    });
+    if (option == "traNoLonHonNo") {
+      await docRef.update({
+        'dangcho': FieldValue.increment(-1),
+        'thanhcong': FieldValue.increment(1),
+        'doanhthu': FieldValue.increment(no),
+      });
+    } else if (option == "traNoNhoHonNo") {
+      await docRef.update({
+        'doanhthu': FieldValue.increment(no),
+      });
+    }
   }
 
   String getTuanFromDate(String ngay) {
@@ -80,7 +93,7 @@ class NoRepository extends GetxController {
     return tuanNgay;
   }
 
-  updateTrangThaiThangSauKhiTraNo(String ngay) async {
+  updateTrangThaiThangSauKhiTraNo(String ngay, num no, String option) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final db = FirebaseFirestore.instance;
     final dateFormat = DateFormat("dd-MM-yyyy");
@@ -99,9 +112,16 @@ class NoRepository extends GetxController {
         .doc(firebaseUser.uid)
         .collection("HangThang")
         .doc(monthString);
-    await docRef.update({
-      'dangcho': FieldValue.increment(-1),
-      'thanhcong': FieldValue.increment(1)
-    });
+    if (option == "traNoLonHonNo") {
+      await docRef.update({
+        'dangcho': FieldValue.increment(-1),
+        'thanhcong': FieldValue.increment(1),
+        'doanhthu': FieldValue.increment(no),
+      });
+    } else if (option == "traNoNhoHonNo") {
+      await docRef.update({
+        'doanhthu': FieldValue.increment(no),
+      });
+    }
   }
 }
