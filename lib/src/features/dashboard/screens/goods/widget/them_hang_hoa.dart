@@ -352,6 +352,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
 //tạo hàng hóa theo ma code
   createHangHoa() {
     var hanghoa = HangHoaModel(
+        chuyendoi: 0,
         daban: 0,
         soluong: 0,
         tonkho: 0,

@@ -9,6 +9,7 @@ class HangHoaModel {
   int daban;
   int tonkho;
   int soluong;
+  int chuyendoi;
   String phanloai;
   String donvi;
   List danhmuc;
@@ -26,6 +27,7 @@ class HangHoaModel {
     required this.daban,
     required this.tonkho,
     required this.soluong,
+    required this.chuyendoi,
     required this.photoGood,
   });
 
@@ -41,6 +43,7 @@ class HangHoaModel {
       "daban": 0,
       "tonkho": 0,
       "soluong": 0,
+      'chuyendoi': 0,
       "photoGood": photoGood,
     };
   }
@@ -61,6 +64,7 @@ class HangHoaModel {
         daban: 0,
         tonkho: 0,
         soluong: 0,
+        chuyendoi: 0,
         photoGood: data['photoGood']);
   }
 }
