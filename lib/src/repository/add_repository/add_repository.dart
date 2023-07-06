@@ -12,8 +12,8 @@ class AddRepository extends GetxController {
   final _db = FirebaseFirestore.instance;
   final ChonHangHoaController chonHangHoaController = Get.find();
 
-  //get số lượng tồn kho cũ của hàng hóa đó
-  Future<int> getTonKho(String docMaCode) async {
+  //get sản phẩm cũ của hàng hóa đó
+  getTonKho(String docMaCode) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final snapshot = await _db
         .collection('Users')
@@ -23,7 +23,7 @@ class AddRepository extends GetxController {
         .collection('HangHoa')
         .doc(docMaCode)
         .get();
-    return snapshot.get('tonkho');
+    return snapshot;
   }
 
   //update số lượng tồn kho bên collection HangHoa
@@ -70,13 +70,17 @@ class AddRepository extends GetxController {
         "soluong": product["soluong"],
         "giaban": product["giaban"],
       });
-      // Lấy số lượng tồn kho hiện tại của mặt hàng.
-      int tonKhoHienTai = await getTonKho(product['macode']);
-      //update thêm số lượng hàng vào tồn kho của hàng hóa đó
+      // Lấy sản phẩm hiện tại của mặt hàng.
+      DocumentSnapshot productHienTai = await getTonKho(product['macode']);
+      //lấy tồn kho hiện tại của sản phẩm
+      int tonKhoHientai = await productHienTai['tonkho'];
+      // update thêm số lượng hàng vào tồn kho của hàng hóa đó
       int soluongTonKhoMoi =
-          tonKhoHienTai - int.parse(product['soluong'].toString());
-      updateTonKho(product['macode'], soluongTonKhoMoi,
-          int.parse(product['soluong'].toString()));
+          tonKhoHientai - int.parse(product['soluong'].toString());
+      //lấy đã bán hiện tại của sản phẩm
+      int daBanHientai = await productHienTai['daban'];
+      int daBanMoi = daBanHientai + int.parse(product['soluong'].toString());
+      updateTonKho(product['macode'], soluongTonKhoMoi, daBanMoi);
     }
   }
 //============================ end thêm đơn bán hàng ============================
@@ -112,12 +116,16 @@ class AddRepository extends GetxController {
         "soluong": product["soluong"],
         "gianhap": product["gianhap"],
       });
-      // Lấy số lượng tồn kho hiện tại của mặt hàng.
-      int tonKhoHienTai = await getTonKho(product['macode']);
-      //update thêm số lượng hàng vào tồn kho của hàng hóa đó
+      // Lấy sản phẩm hiện tại của mặt hàng.
+      DocumentSnapshot productHienTai = await getTonKho(product['macode']);
+      //lấy tồn kho hiện tại của sản phẩm
+      int tonKhoHientai = await productHienTai['tonkho'];
+      // update thêm số lượng hàng vào tồn kho của hàng hóa đó
       int soluongTonKhoMoi =
-          tonKhoHienTai + int.parse(product['soluong'].toString());
-      updateTonKho(product['macode'], soluongTonKhoMoi, 0);
+          tonKhoHientai + int.parse(product['soluong'].toString());
+      //lấy đã bán hiện tại của sản phẩm
+      int daBanHientai = await productHienTai['daban'];
+      updateTonKho(product['macode'], soluongTonKhoMoi, daBanHientai);
     }
   }
 
