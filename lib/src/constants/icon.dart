@@ -47,6 +47,7 @@ const String sortyWhiteIcon = "assets/images/icon/goods/sortby_white.png";
 const String sortyIcon = "assets/images/icon/goods/sortby.png";
 const String hanghoaIcon = "assets/images/icon/goods/goods.png";
 const String warningIcon = "assets/images/icon/goods/warning.png";
+const String successIcon = "assets/images/icon/goods/successful.png";
 //============= chưa xài nè
 const String distributeGoodIcon =
     "assets/images/icon/goods/distribute_good.png";
