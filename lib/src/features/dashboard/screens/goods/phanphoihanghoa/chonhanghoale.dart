@@ -56,6 +56,11 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   Get.snackbar('Có lỗi xảy ra',
                       'Số lượng hàng cần chuyển đổi lớn hơn tồn kho');
                 } else {
+                  controllerHangHoa.calculate(
+                      controllerHangHoa.soLuongLe.text,
+                      controllerHangHoa.soLuongSi.text,
+                      updatehanghoaSi,
+                      updatehanghoaLe);
                   Navigator.push(
                     context,
                     MaterialPageRoute(

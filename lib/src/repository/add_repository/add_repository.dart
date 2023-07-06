@@ -75,12 +75,11 @@ class AddRepository extends GetxController {
       //lấy tồn kho hiện tại của sản phẩm
       int tonKhoHientai = await productHienTai['tonkho'];
       // update thêm số lượng hàng vào tồn kho của hàng hóa đó
-      int soluongTonKhoMoi =
-          tonKhoHientai - int.parse(product['soluong'].toString());
+      int tonKhoMoi = tonKhoHientai - int.parse(product['soluong'].toString());
       //lấy đã bán hiện tại của sản phẩm
       int daBanHientai = await productHienTai['daban'];
       int daBanMoi = daBanHientai + int.parse(product['soluong'].toString());
-      updateTonKho(product['macode'], soluongTonKhoMoi, daBanMoi);
+      updateTonKho(product['macode'], tonKhoMoi, daBanMoi);
     }
   }
 //============================ end thêm đơn bán hàng ============================
@@ -121,11 +120,10 @@ class AddRepository extends GetxController {
       //lấy tồn kho hiện tại của sản phẩm
       int tonKhoHientai = await productHienTai['tonkho'];
       // update thêm số lượng hàng vào tồn kho của hàng hóa đó
-      int soluongTonKhoMoi =
-          tonKhoHientai + int.parse(product['soluong'].toString());
+      int tonKhoMoi = tonKhoHientai + int.parse(product['soluong'].toString());
       //lấy đã bán hiện tại của sản phẩm
       int daBanHientai = await productHienTai['daban'];
-      updateTonKho(product['macode'], soluongTonKhoMoi, daBanHientai);
+      updateTonKho(product['macode'], tonKhoMoi, daBanHientai);
     }
   }
 // ==============================Xu ly phan doanh thu ==================================//
