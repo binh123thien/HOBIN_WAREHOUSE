@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/card_widget.dart';
-
-import '../../../../../../utils/utils.dart';
 import '../../../../controllers/add/chonhanghoa_controller.dart';
 import '../../../../controllers/statistics/khachhang_controller.dart';
 
@@ -41,7 +39,7 @@ class _CardSoNoWidgetState extends State<CardSoNoWidget> {
       {
         "icon": const AssetImage(tongtiennoIcon),
         "title": tTongTienNo,
-        "value": formatCurrency(tongtienno),
+        "value": tongtienno,
       },
     ];
     return CardWidget(arrayList: cardsono);
