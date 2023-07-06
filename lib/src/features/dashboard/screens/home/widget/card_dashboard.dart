@@ -17,22 +17,22 @@ class CardDashboard extends StatelessWidget {
     return Obx(() {
       List<Map<String, dynamic>> expenses = [
         {
-          "icon": const AssetImage(slTonKho),
+          "icon": const AssetImage(soluongtonkhoIcon),
           "title": "SL tồn kho",
           "value": controllerHistoryRepo.soluongtonkho.value,
         },
         {
-          "icon": const AssetImage(gtriTonkho),
+          "icon": const AssetImage(giatritonkhoIcon),
           "title": "GT tồn kho",
           "value": controllerHistoryRepo.giatritonkho.value,
         },
         {
-          "icon": const AssetImage(phiNhapHang),
+          "icon": const AssetImage(chitieuthang),
           "title": "Nhập hàng",
           "value": controllerHistoryRepo.tongNhapHang.value,
         },
         {
-          "icon": const AssetImage(doanthu),
+          "icon": const AssetImage(doanhthuthang),
           "title": "Doanh thu",
           "value": controllerHistoryRepo.tongBanHang.value,
         },

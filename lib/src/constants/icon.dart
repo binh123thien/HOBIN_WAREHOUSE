@@ -15,10 +15,8 @@ const String accPinkIcon = "assets/images/icon/bottombar/acc_pink.png";
 const String accSquareIcon = "assets/images/icon/bottombar/acc_square.png";
 
 //dashboard
-const String slTonKho = "assets/images/icon/dashboard/sl_tonkho.png";
-const String doanthu = "assets/images/icon/dashboard/doanhthu.png";
-const String gtriTonkho = "assets/images/icon/dashboard/gtri_tonkho.png";
-const String phiNhapHang = "assets/images/icon/dashboard/phi_nhap_hang.png";
+const String doanhthuthang = "assets/images/icon/dashboard/doanhthuthang.png";
+const String chitieuthang = "assets/images/icon/dashboard/chitieuthang.png";
 
 //Appbar
 const String backIcon = "assets/images/icon/appbar/back.png";
