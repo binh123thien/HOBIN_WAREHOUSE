@@ -9,7 +9,7 @@ SHA-256: A7:D0:F3:F8:C0:60:D7:A5:DB:DF:E2:B0:88:04:A8:DB:78:50:82:F3:3F:3A:8D:63
 
 //thong bao
 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Thành công!'),));
-Get.snackbar("Thành công", "Đã thêm đơn vị mới vào danh sách",colorText: Colors.green));
+Get.snackbar("Thành công", "Đã thêm đơn vị mới vào danh sách",colorText: Colors.green);
 
 //Chờ 1s để cập nhật dữ liệu trên db
             Future.delayed(const Duration(seconds: 1), () {
