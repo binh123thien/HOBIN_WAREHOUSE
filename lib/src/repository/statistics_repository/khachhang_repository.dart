@@ -83,7 +83,7 @@ class KhachHangRepository extends GetxController {
       }).whenComplete(() => Get.snackbar(
               "Thành công", "Cập nhật khách hàng thành công",
               colorText: Colors.green));
-
+      //thay doi tên trong bill theo loại khách hàng
       QuerySnapshot querySnapshot = await _db
           .collection("Users")
           .doc(firebaseUser.uid)
@@ -99,7 +99,7 @@ class KhachHangRepository extends GetxController {
       }
     }
 
-    // Lấy doc mới cập nhật return về
+    // Lấy doc mới cập nhật return về trang detail khách hàng cập nhật ui
     final updatedDoc = await _db
         .collection("Users")
         .doc(firebaseUser!.uid)
