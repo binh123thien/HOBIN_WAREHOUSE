@@ -155,7 +155,7 @@ class _ChinhSuaThongTinKhachHangScreenState
                                 controllerChange.updateKhachHang(
                                     widget.khachhang["maKH"],
                                     widget.khachhang["tenkhachhang"],
-                                    dropdownvalue);
+                                    widget.khachhang["loai"]);
                             Navigator.of(context).pop(result);
                           }
                         },
