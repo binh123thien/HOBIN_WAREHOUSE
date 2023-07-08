@@ -10,6 +10,7 @@ import '../../Widget/appbar/search_widget.dart';
 import '../../Widget/card_phanphoihanghoa_widget.dart';
 import '../widget/sorbyhanghoa/danhsach_sortby.dart';
 import 'chonhanghoale.dart';
+import 'lichsuchuyendoi.dart';
 
 class PhanPhoiHangHoaScreen extends StatefulWidget {
   final dynamic hanghoaSi;
@@ -58,6 +59,23 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // bottom sheet lịch sử
+    Future<void> showLichSuChuyenDoi() async {
+      await showModalBottomSheet<String>(
+        context: context,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        builder: (BuildContext context) {
+          return const LichSuChuyenDoiScreen(); // Gọi Widget BottomSheetContent để hiển thị bottom sheet
+        },
+      );
+    }
+
     // Xác định hàng hóa bán sỉ
     List<dynamic> allHangHoaLe = allHangHoa
         .where((item) =>
@@ -86,6 +104,16 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                 fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
         backgroundColor: backGroundColor,
         centerTitle: true,
+        actions: [
+          IconButton(
+            color: Colors.black,
+            onPressed: () {
+              showLichSuChuyenDoi();
+            },
+            icon: const Icon(Icons.receipt_long_outlined,
+                size: 30, color: darkColor),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: SizedBox(

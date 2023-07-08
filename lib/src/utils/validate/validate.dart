@@ -76,6 +76,18 @@ String? nonZeroInput(String? value) {
   return null;
 }
 
+//không cho nhập quá số lượng chuyển đổi từ sỉ
+String? nonBeyondSi(String? value, int amountSi) {
+  if (value == null || value.isEmpty) {
+    return 'Vui lòng nhập số khác 0';
+  } else if (value.startsWith('0')) {
+    return 'Số đầu tiên không thể là 0';
+  } else if (int.tryParse(value)! > amountSi) {
+    return 'Số lượng hàng cần chuyển đổi lớn hơn tồn kho';
+  }
+  return null;
+}
+
 //không cho nhập số 0 hoặc 1 hoặc rỗng
 String? nonZeroOrOneInput(String? value) {
   if (value == null || value.isEmpty) {

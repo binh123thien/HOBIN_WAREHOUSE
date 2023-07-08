@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../constants/color.dart';
-
 class CardPhanPhoiHang extends StatelessWidget {
   const CardPhanPhoiHang({
     super.key,
@@ -17,11 +15,11 @@ class CardPhanPhoiHang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 30, 0, 20),
+      padding: const EdgeInsets.all(6),
       child: Card(
-        color: backGroundColor,
+        color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(5, 16, 5, 16),
+          padding: const EdgeInsets.all(16),
           child: Row(
             children: [
               updatehanghoa['photoGood'].isEmpty
