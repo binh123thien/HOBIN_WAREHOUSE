@@ -82,23 +82,21 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
           child: Form(
             key: formKey,
             child: Column(children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                CardPhanPhoiHang(
-                    imageProduct: updatehanghoaSi['photoGood'].isEmpty
-                        ? distributeGoodIcon
-                        : updatehanghoaSi['photoGood'],
-                    donViProduct: updatehanghoaSi['donvi'],
-                    updatehanghoa: updatehanghoaSi),
-                const Icon(
-                  Icons.east_outlined,
-                ),
-                CardPhanPhoiHang(
-                    imageProduct: updatehanghoaLe['photoGood'].isEmpty
-                        ? distributeGoodIcon
-                        : updatehanghoaLe['photoGood'],
-                    donViProduct: updatehanghoaLe['donvi'],
-                    updatehanghoa: updatehanghoaLe),
-              ]),
+              CardPhanPhoiHang(
+                  imageProduct: updatehanghoaSi['photoGood'].isEmpty
+                      ? distributeGoodIcon
+                      : updatehanghoaSi['photoGood'],
+                  donViProduct: updatehanghoaSi['donvi'],
+                  updatehanghoa: updatehanghoaSi),
+              const Icon(
+                Icons.arrow_downward_outlined,
+              ),
+              CardPhanPhoiHang(
+                  imageProduct: updatehanghoaLe['photoGood'].isEmpty
+                      ? distributeGoodIcon
+                      : updatehanghoaLe['photoGood'],
+                  donViProduct: updatehanghoaLe['donvi'],
+                  updatehanghoa: updatehanghoaLe),
               Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(color: Colors.white),
