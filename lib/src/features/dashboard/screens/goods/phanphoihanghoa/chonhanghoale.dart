@@ -57,19 +57,12 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             icon: const Icon(Icons.done, size: 30, color: darkColor),
             onPressed: () {
               if (formKey.currentState!.validate()) {
-                if (updatehanghoaSi['tonkho'] <
-                    int.tryParse(textEditsoLuongSi.text)) {
-                  Get.snackbar('Có lỗi xảy ra',
-                      'Số lượng hàng cần chuyển đổi lớn hơn tồn kho');
-                } else {
-                  controllerHangHoa.calculate(textEditsoLuongLe.text,
-                      textEditsoLuongSi.text, updatehanghoaSi, updatehanghoaLe);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DonePhanPhoiScreen()),
-                  );
-                }
+                controllerHangHoa.calculate(textEditsoLuongLe.text,
+                    textEditsoLuongSi.text, updatehanghoaSi, updatehanghoaLe);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DonePhanPhoiScreen()),
+                );
               }
             },
           )
@@ -191,7 +184,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                             border: OutlineInputBorder()),
                         style: const TextStyle(color: Colors.black),
                         validator: (value) {
-                          return nonZeroInput(value!);
+                          return nonBeyondSi(value!, updatehanghoaSi['tonkho']);
                         },
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
