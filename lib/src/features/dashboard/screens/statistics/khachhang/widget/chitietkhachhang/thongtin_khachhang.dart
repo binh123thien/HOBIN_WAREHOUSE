@@ -29,6 +29,7 @@ class _ThongTinKhachHangState extends State<ThongTinKhachHang> {
     allDonHangCurent = allDonHang
         .where((doc) => doc["khachhang"] == widget.khachhang["tenkhachhang"])
         .toList();
+    allDonHangCurent.sort((a, b) => b['soHD'].compareTo(a['soHD']));
   }
 
   @override

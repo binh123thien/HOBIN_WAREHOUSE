@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/khachhang/widget/chitietkhachhang/thongtin_khachhang.dart';
 
+import '../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../repository/statistics_repository/khachhang_repository.dart';
+import 'chitietkhachhang/chinhsua_thongtinkhachhang.dart';
 
 class KhachHangDetailScreen extends StatefulWidget {
   final dynamic khachhang;
@@ -24,8 +26,7 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
@@ -38,55 +39,33 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () {}, icon: const Icon(Icons.edit, color: darkColor)),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChinhSuaThongTinKhachHangScreen(
+                          khachhang: khachhangCurrent)),
+                ).then((value) {
+                  setState(() {
+                    khachhangCurrent = value;
+                  });
+                });
+              },
+              icon: const Icon(Icons.edit, color: darkColor)),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                MyDialog.showAlertDialog(context, 'Xóa khách hàng!',
+                    'Bạn có chắc chắn muốn xóa khách hàng?\n\nLưu ý: Khi xóa khách hàng tất cả dữ liệu của khách hàng sẽ mất.',
+                    () {
+                  controller
+                      .deleteKhachHang(khachhangCurrent["maKH"])
+                      .then((value) {
+                    Navigator.pop(context);
+                    Navigator.pop(context);
+                  });
+                });
+              },
               icon: const Icon(Icons.delete, color: darkColor)),
-
-          // PopupMenuButton(
-          //   icon: const Icon(Icons.more_vert, size: 30, color: darkColor),
-          //   itemBuilder: (context) => const [
-          //     PopupMenuItem(
-          //       value: 1,
-          //       child: Text(
-          //         "Chỉnh sửa",
-          //         style: TextStyle(fontSize: 16),
-          //       ),
-          //     ),
-          //     PopupMenuItem(
-          //       value: 2,
-          //       child: Text(
-          //         "Xóa",
-          //         style: TextStyle(fontSize: 16),
-          //       ),
-          //     )
-          //   ],
-          //   onSelected: ((value) {
-          //     if (value == 1) {
-          //       Navigator.push(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (context) => ChinhSuaThongTinKhachHangScreen(
-          //                 khachhang: khachhangCurrent)),
-          //       ).then((value) {
-          //         setState(() {
-          //           khachhangCurrent = value;
-          //         });
-          //       });
-          //     }
-          //     if (value == 2) {
-          //       MyDialog.showAlertDialog(context, 'Xóa khách hàng!',
-          //           'Bạn có chắc chắn muốn xóa khách hàng?', () {
-          //         controller
-          //             .deleteKhachHang(khachhangCurrent["maKH"])
-          //             .then((value) {
-          //           Navigator.pop(context);
-          //           Navigator.pop(context);
-          //         });
-          //       });
-          //     }
-          //   }),
-          // )
         ],
       ),
       body: SingleChildScrollView(
@@ -115,6 +94,6 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
           ],
         ),
       ),
-    ));
+    );
   }
 }

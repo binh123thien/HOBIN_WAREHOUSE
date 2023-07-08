@@ -153,7 +153,9 @@ class _ChinhSuaThongTinKhachHangScreenState
                           if (_formKey.currentState!.validate()) {
                             final dynamic result =
                                 controllerChange.updateKhachHang(
-                                    widget.khachhang["maKH"], dropdownvalue);
+                                    widget.khachhang["maKH"],
+                                    widget.khachhang["tenkhachhang"],
+                                    dropdownvalue);
                             Navigator.of(context).pop(result);
                           }
                         },

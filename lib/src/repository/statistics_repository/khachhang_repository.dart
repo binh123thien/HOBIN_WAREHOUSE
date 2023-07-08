@@ -45,7 +45,8 @@ class KhachHangRepository extends GetxController {
     return snapshot;
   }
 
-  Future<dynamic> updateKhachHang(String docID, String loai) async {
+  Future<dynamic> updateKhachHang(
+      String docID, String tenkhachhang, String loai) async {
     final controllerForm = Get.put(KhachHangController());
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final snapshot =
@@ -78,11 +79,26 @@ class KhachHangRepository extends GetxController {
         "tenkhachhang": controllerForm.tenKhachHangController.text,
         "sdt": controllerForm.sDTKhachHangController.text,
         "diachi": controllerForm.diaChiKhachHangController.text,
-        "loai": loai
+        "loai": loai,
       }).whenComplete(() => Get.snackbar(
               "Thành công", "Cập nhật khách hàng thành công",
               colorText: Colors.green));
+
+      QuerySnapshot querySnapshot = await _db
+          .collection("Users")
+          .doc(firebaseUser.uid)
+          .collection("History")
+          .doc(firebaseUser.uid)
+          .collection(loai == "Khách hàng" ? "BanHang" : "NhapHang")
+          .get();
+      for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+        if (doc.get('khachhang') == tenkhachhang) {
+          await doc.reference.update(
+              {'khachhang': controllerForm.tenKhachHangController.text});
+        }
+      }
     }
+
     // Lấy doc mới cập nhật return về
     final updatedDoc = await _db
         .collection("Users")
