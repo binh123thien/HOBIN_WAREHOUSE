@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../constants/color.dart';
-import '../../../../../../constants/icon.dart';
-import '../../../../../../utils/utils.dart';
-import 'chitiet_doanhthu_screen.dart';
-import 'doanhthutheothang/chitietdoanhthu_theothang.dart';
-import 'doanhthutheotuan/chitietdoanhthu_theotuan.dart';
+import '../../../../../../../constants/color.dart';
+import '../../../../../../../constants/icon.dart';
+import '../../../../../../../utils/utils.dart';
+import '../chitiet_doanhthu_screen.dart';
+import '../doanhthutheothang/chitietdoanhthu_theothang.dart';
+import '../doanhthutheotuan/chitietdoanhthu_theotuan.dart';
 
-class DoanhThuTieuDe extends StatelessWidget {
-  const DoanhThuTieuDe({
+class CardDoanThuHienTai extends StatelessWidget {
+  const CardDoanThuHienTai({
     super.key,
     required this.tongdoanhthu,
     required this.thanhcong,

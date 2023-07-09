@@ -3,7 +3,7 @@ import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
 import '../chitiet_doanhthu_screen.dart';
-import '../doanhthu_tieude_widget.dart';
+import '../card/card_doanhthuhientai.dart';
 
 class DoanhThuTheoNgayWidget extends StatelessWidget {
   const DoanhThuTheoNgayWidget({
@@ -21,7 +21,7 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
     }
     return Column(
       children: [
-        DoanhThuTieuDe(
+        CardDoanThuHienTai(
           phanloai: "ngay",
           ngay: doanhthu[0]["datetime"],
           tongdoanhthu: doanhthu[0]["doanhthu"],

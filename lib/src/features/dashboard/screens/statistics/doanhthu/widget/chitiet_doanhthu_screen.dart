@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../controllers/statistics/khachhang_controller.dart';
-import 'card_chitietdoanhthu.dart';
+import 'card/card_chitietdoanhthu.dart';
 import 'doanhthutheongay/tabbar_doanhthutheongay.dart';
 
 class ChiTietDoanhThuScreen extends StatefulWidget {

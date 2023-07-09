@@ -4,7 +4,7 @@ import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
 import '../../../../../controllers/statistics/doanhthu_controller.dart';
-import '../card_chitietdoanhthu.dart';
+import '../card/card_chitietdoanhthu.dart';
 import '../chitiet_doanhthu_screen.dart';
 
 class ChiTietDoanhThuTheoThangScreen extends StatefulWidget {

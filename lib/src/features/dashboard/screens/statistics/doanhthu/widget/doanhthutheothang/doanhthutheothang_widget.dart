@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
-import '../doanhthu_tieude_widget.dart';
+import '../card/card_doanhthuhientai.dart';
 import 'chitietdoanhthu_theothang.dart';
 
 class DoanhThuTheoThangWidget extends StatelessWidget {
@@ -21,7 +21,7 @@ class DoanhThuTheoThangWidget extends StatelessWidget {
     }
     return Column(
       children: [
-        DoanhThuTieuDe(
+        CardDoanThuHienTai(
           phanloai: "thang",
           ngay: doanhthutheothang[0]["datetime"],
           tongdoanhthu: doanhthutheothang[0]["doanhthu"],
