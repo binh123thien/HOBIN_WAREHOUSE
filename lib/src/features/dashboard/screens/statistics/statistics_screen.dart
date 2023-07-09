@@ -32,7 +32,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: mainColor.withOpacity(0.7),
+          backgroundColor: mainColor,
           title: const TabBar(
             tabs: [
               Tab(
