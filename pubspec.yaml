@@ -105,6 +105,7 @@ flutter:
     - assets/images/icon/add/
     - assets/images/icon/account/
     - assets/images/icon/statistics/
+    - assets/images/icon/statistics/doanhthu/
     - assets/images/icon/history/
     - assets/images/icon/appbar/
     - assets/images/icon/bottombar/

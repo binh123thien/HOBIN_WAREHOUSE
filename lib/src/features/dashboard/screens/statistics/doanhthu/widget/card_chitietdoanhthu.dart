@@ -21,11 +21,28 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    List<dynamic> chitietdonDoanhThu = [
+      {
+        "icon": doanhthuThanhCongIcon,
+        "title": "  Đơn thành công",
+        "value": thanhcong,
+      },
+      {
+        "icon": doanhthuDangChoIcon,
+        "title": "  Đơn đang chờ",
+        "value": dangcho,
+      },
+      {
+        "icon": doanhthuHuyIcon,
+        "title": "  Đơn hủy",
+        "value": huy,
+      }
+    ];
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Container(
         width: size.width - 24,
-        height: 130,
+        height: 195,
         decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(10),
@@ -35,75 +52,46 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    children: [
-                      Image(image: AssetImage(soluongdonIcon), height: 15),
-                      Text(
-                        " Đơn thành công",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    " $thanhcong",
-                    style: const TextStyle(fontSize: 15),
-                  ),
-                ],
+              const Text(
+                "Tổng doanh thu",
+                style: TextStyle(fontSize: 17),
               ),
               const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    children: [
-                      Image(image: AssetImage(soluongdonIcon), height: 15),
-                      Text(
-                        " Đơn đang chờ",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    " $dangcho",
-                    style: const TextStyle(fontSize: 15),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    children: [
-                      Image(image: AssetImage(soluongdonIcon), height: 15),
-                      Text(
-                        " Đơn hủy",
-                        style: TextStyle(fontSize: 15),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    " $huy",
-                    style: const TextStyle(fontSize: 15),
-                  ),
-                ],
-              ),
+              Text(formatCurrency(tongdoanhthu),
+                  style: const TextStyle(fontSize: 17)),
               const SizedBox(height: 5),
               const Divider(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Tổng doanh thu", style: TextStyle(fontSize: 17)),
-                  Text(formatCurrency(tongdoanhthu),
-                      style: const TextStyle(fontSize: 17)),
-                ],
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  final doc = chitietdonDoanhThu[index];
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Image(image: AssetImage(doc["icon"]), width: 19),
+                            Text(
+                              doc["title"],
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          doc["value"].toString(),
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               )
             ],
           ),

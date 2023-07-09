@@ -77,6 +77,10 @@ const String giatritonkhoIcon = "assets/images/icon/statistics/gttonkho.png";
 //Statistics so no
 const String refundIcon = "assets/images/icon/statistics/refund.png";
 //Statistics doanh thu
-const String soluongdonIcon = "assets/images/icon/statistics/soluongdon.png";
-const String loinhuanIcon = "assets/images/icon/statistics/loinhuan.png";
+
+const String doanhthuThanhCongIcon =
+    "assets/images/icon/statistics/doanhthu/thanhcong.png";
+const String doanhthuDangChoIcon =
+    "assets/images/icon/statistics/doanhthu/dangcho.png";
+const String doanhthuHuyIcon = "assets/images/icon/statistics/doanhthu/huy.png";
 const String nodataIcon = "assets/images/statistics/nodata.png";

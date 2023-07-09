@@ -42,7 +42,8 @@ class DoanhThuTieuDe extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Image(image: AssetImage(soluongdonIcon), height: 15),
+                const Image(
+                    image: AssetImage(doanhthuThanhCongIcon), height: 15),
                 Text(
                   " $thanhcong đơn thành công",
                   style: const TextStyle(fontSize: 15),
