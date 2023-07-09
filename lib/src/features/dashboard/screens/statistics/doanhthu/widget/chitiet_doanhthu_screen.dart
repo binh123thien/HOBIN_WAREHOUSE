@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/doanhthu/widget/stream_chitietdoanhthutuanthang.dart';
 import '../../../../../../constants/color.dart';
+import '../../../../controllers/statistics/doanhthu_controller.dart';
 import '../../../../controllers/statistics/khachhang_controller.dart';
 import 'card/card_chitietdoanhthu.dart';
 import 'doanhthutheongay/tabbar_doanhthutheongay.dart';
 
 class ChiTietDoanhThuScreen extends StatefulWidget {
   final String ngay;
+  final String week;
+  final String loai;
   final num tongdoanhthu;
   final int thanhcong;
   final int dangcho;
@@ -17,7 +21,9 @@ class ChiTietDoanhThuScreen extends StatefulWidget {
       required this.tongdoanhthu,
       required this.thanhcong,
       required this.dangcho,
-      required this.huy});
+      required this.huy,
+      required this.loai,
+      required this.week});
 
   @override
   State<ChiTietDoanhThuScreen> createState() => _ChiTietDoanhThuScreenState();
@@ -25,7 +31,7 @@ class ChiTietDoanhThuScreen extends StatefulWidget {
 
 class _ChiTietDoanhThuScreenState extends State<ChiTietDoanhThuScreen> {
   final KhachHangController controller = Get.find();
-
+  final controllerDoanhThu = DoanhThuController.instance;
   List<dynamic> allDonHang = [];
   List<dynamic> allDonHangTrongNgay = [];
 
@@ -71,8 +77,29 @@ class _ChiTietDoanhThuScreenState extends State<ChiTietDoanhThuScreen> {
                     dangcho: widget.dangcho,
                     huy: widget.huy,
                   ),
-                  TabbarChiTietDoanhThu(
-                      allDonHangTrongNgay: allDonHangTrongNgay)
+                  widget.loai == "Ngay"
+                      ? TabbarChiTietDoanhThu(
+                          allDonHangTrongNgay: allDonHangTrongNgay)
+                      : Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Row(
+                                children: [
+                                  Text("Chi tiết hàng ngày"),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            StreamChiTietDoanhThuTuanThang(
+                              controllerDoanhThu: controllerDoanhThu,
+                              widget: widget.loai == "Tuan"
+                                  ? widget.week
+                                  : widget.ngay,
+                              loai: widget.loai,
+                            )
+                          ],
+                        )
                 ],
               ),
             ],

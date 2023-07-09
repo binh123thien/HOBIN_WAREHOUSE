@@ -4,8 +4,6 @@ import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
 import '../chitiet_doanhthu_screen.dart';
-import '../doanhthutheothang/chitietdoanhthu_theothang.dart';
-import '../doanhthutheotuan/chitietdoanhthu_theotuan.dart';
 
 class CardDoanThuHienTai extends StatelessWidget {
   const CardDoanThuHienTai({
@@ -66,30 +64,19 @@ class CardDoanThuHienTai extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => phanloai == "ngay"
-                              ? ChiTietDoanhThuScreen(
-                                  ngay: ngay,
-                                  tongdoanhthu: tongdoanhthu,
-                                  thanhcong: thanhcong,
-                                  dangcho: dangcho,
-                                  huy: huy,
-                                )
-                              : phanloai == "tuan"
-                                  ? ChiTietDoanhThuTheoTuanScreen(
-                                      week: week,
-                                      ngay: ngay,
-                                      tongdoanhthu: tongdoanhthu,
-                                      thanhcong: thanhcong,
-                                      dangcho: dangcho,
-                                      huy: huy,
-                                    )
-                                  : ChiTietDoanhThuTheoThangScreen(
-                                      ngay: ngay,
-                                      tongdoanhthu: tongdoanhthu,
-                                      thanhcong: thanhcong,
-                                      dangcho: dangcho,
-                                      huy: huy,
-                                    )),
+                          builder: (context) => ChiTietDoanhThuScreen(
+                                ngay: ngay,
+                                tongdoanhthu: tongdoanhthu,
+                                thanhcong: thanhcong,
+                                dangcho: dangcho,
+                                huy: huy,
+                                loai: phanloai == "Ngay"
+                                    ? 'Ngay'
+                                    : phanloai == "Tuan"
+                                        ? "Tuan"
+                                        : "Thang",
+                                week: week,
+                              )),
                     );
                   },
                   child: const Text(

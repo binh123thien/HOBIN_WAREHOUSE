@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../../../constants/color.dart';
-import '../../../../../../../constants/icon.dart';
-import '../../../../../../../utils/utils.dart';
+import '../card/card_doanhthucacngaytruoc.dart';
 import '../chitiet_doanhthu_screen.dart';
 import '../card/card_doanhthuhientai.dart';
 
@@ -22,7 +21,7 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
     return Column(
       children: [
         CardDoanThuHienTai(
-          phanloai: "ngay",
+          phanloai: "Ngay",
           ngay: doanhthu[0]["datetime"],
           tongdoanhthu: doanhthu[0]["doanhthu"],
           thanhcong: doanhthu[0]["thanhcong"],
@@ -61,49 +60,15 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
                                     thanhcong: thanhcong,
                                     dangcho: dangcho,
                                     huy: huy,
+                                    loai: 'Ngay',
+                                    week: '',
                                   )),
                         );
                       },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Container(
-                            width: size.width - 35,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: backGround600Color.withOpacity(0.5),
-                                width: 1,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(ngay,
-                                      style: const TextStyle(fontSize: 15)),
-                                  const SizedBox(height: 10),
-                                  Text(formatCurrency(tongdoanhthu),
-                                      style: const TextStyle(fontSize: 19)),
-                                  const SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      const Image(
-                                          image:
-                                              AssetImage(doanhthuThanhCongIcon),
-                                          height: 15),
-                                      Text(
-                                        " $thanhcong đơn thành công",
-                                        style: const TextStyle(fontSize: 15),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            )),
-                      ),
+                      child: CardDoanhThuCacNgayTruoc(
+                          ngay: ngay,
+                          tongdoanhthu: tongdoanhthu,
+                          thanhcong: thanhcong),
                     );
                   },
                 )
