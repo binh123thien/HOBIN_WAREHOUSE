@@ -55,13 +55,22 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
         actions: [
           IconButton(
             icon: const Icon(Icons.done, size: 30, color: darkColor),
-            onPressed: () {
+            onPressed: () async {
               if (formKey.currentState!.validate()) {
-                controllerHangHoa.calculate(textEditsoLuongLe.text,
-                    textEditsoLuongSi.text, updatehanghoaSi, updatehanghoaLe);
+                int giaTriChuyenDoiLe = await controllerHangHoa.calculate(
+                    textEditsoLuongLe.text,
+                    textEditsoLuongSi.text,
+                    updatehanghoaSi,
+                    updatehanghoaLe);
+                print(' trả về giá trị: $giaTriChuyenDoiLe ');
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DonePhanPhoiScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => DonePhanPhoiScreen(
+                            updatehanghoaSi: updatehanghoaSi,
+                            updatehanghoaLe: updatehanghoaLe,
+                            chuyendoiLe: giaTriChuyenDoiLe,
+                          )),
                 );
               }
             },
@@ -76,6 +85,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             key: formKey,
             child: Column(children: [
               CardPhanPhoiHang(
+                  slchuyendoi: 0,
                   imageProduct: updatehanghoaSi['photoGood'].isEmpty
                       ? distributeGoodIcon
                       : updatehanghoaSi['photoGood'],
@@ -85,6 +95,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                 Icons.arrow_downward_outlined,
               ),
               CardPhanPhoiHang(
+                  slchuyendoi: 0,
                   imageProduct: updatehanghoaLe['photoGood'].isEmpty
                       ? distributeGoodIcon
                       : updatehanghoaLe['photoGood'],
