@@ -57,12 +57,13 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             icon: const Icon(Icons.done, size: 30, color: darkColor),
             onPressed: () async {
               if (formKey.currentState!.validate()) {
+                //nhận giá trị chuyendoiLe trả về
                 int giaTriChuyenDoiLe = await controllerHangHoa.calculate(
                     textEditsoLuongLe.text,
                     textEditsoLuongSi.text,
                     updatehanghoaSi,
                     updatehanghoaLe);
-                print(' trả về giá trị: $giaTriChuyenDoiLe ');
+                // ignore: use_build_context_synchronously
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -70,6 +71,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                             updatehanghoaSi: updatehanghoaSi,
                             updatehanghoaLe: updatehanghoaLe,
                             chuyendoiLe: giaTriChuyenDoiLe,
+                            chuyendoiSi:
+                                int.parse(textEditsoLuongSi.text.toString()),
                           )),
                 );
               }
@@ -85,6 +88,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             key: formKey,
             child: Column(children: [
               CardPhanPhoiHang(
+                  phanBietSiLe: true,
                   slchuyendoi: 0,
                   imageProduct: updatehanghoaSi['photoGood'].isEmpty
                       ? distributeGoodIcon
@@ -95,6 +99,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                 Icons.arrow_downward_outlined,
               ),
               CardPhanPhoiHang(
+                  phanBietSiLe: false,
                   slchuyendoi: 0,
                   imageProduct: updatehanghoaLe['photoGood'].isEmpty
                       ? distributeGoodIcon

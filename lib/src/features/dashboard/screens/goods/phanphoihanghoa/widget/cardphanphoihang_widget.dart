@@ -8,7 +8,10 @@ class CardPhanPhoiHang extends StatelessWidget {
     required this.imageProduct,
     required this.updatehanghoa,
     required this.slchuyendoi,
+    required this.phanBietSiLe,
   });
+  //set màu cho tăng giảm card trang done
+  final bool phanBietSiLe;
   final int slchuyendoi;
   final String imageProduct;
   final String donViProduct;
@@ -62,16 +65,28 @@ class CardPhanPhoiHang extends StatelessWidget {
                       (slchuyendoi != 0)
                           ? Row(
                               children: [
-                                const Icon(
-                                  Icons.arrow_upward_outlined,
-                                  color: Colors.green,
-                                  size: 14,
-                                ),
-                                Text(
-                                  '$slchuyendoi',
-                                  style: const TextStyle(
-                                      fontSize: 14, color: Colors.green),
-                                ),
+                                phanBietSiLe
+                                    ? const Icon(
+                                        Icons.south_outlined,
+                                        color: Colors.red,
+                                        size: 14,
+                                      )
+                                    : const Icon(
+                                        Icons.arrow_upward_outlined,
+                                        color: Colors.green,
+                                        size: 14,
+                                      ),
+                                phanBietSiLe
+                                    ? Text(
+                                        '$slchuyendoi',
+                                        style: const TextStyle(
+                                            fontSize: 14, color: Colors.red),
+                                      )
+                                    : Text(
+                                        '$slchuyendoi',
+                                        style: const TextStyle(
+                                            fontSize: 14, color: Colors.green),
+                                      ),
                               ],
                             )
                           : const Text('')

@@ -8,11 +8,13 @@ class DonePhanPhoiScreen extends StatefulWidget {
   final dynamic updatehanghoaSi;
   final dynamic updatehanghoaLe;
   final int chuyendoiLe;
+  final int chuyendoiSi;
   const DonePhanPhoiScreen(
       {super.key,
       this.updatehanghoaSi,
       this.updatehanghoaLe,
-      required this.chuyendoiLe});
+      required this.chuyendoiLe,
+      required this.chuyendoiSi});
 
   @override
   State<DonePhanPhoiScreen> createState() => _DonePhanPhoiScreenState();
@@ -22,18 +24,18 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
   late dynamic doneUpdatehanghoaSi;
   late dynamic doneUpdatehanghoaLe;
   late int chuyendoiLeTang;
+  late int chuyendoiSiGiam;
   @override
   void initState() {
     doneUpdatehanghoaSi = widget.updatehanghoaSi;
     doneUpdatehanghoaLe = widget.updatehanghoaLe;
     chuyendoiLeTang = widget.chuyendoiLe;
+    chuyendoiSiGiam = widget.chuyendoiSi;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('buildddđ done');
-    print(chuyendoiLeTang);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -75,7 +77,8 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
             Column(
               children: [
                 CardPhanPhoiHang(
-                    slchuyendoi: 0,
+                    phanBietSiLe: true,
+                    slchuyendoi: chuyendoiSiGiam,
                     imageProduct: doneUpdatehanghoaSi['photoGood'].isEmpty
                         ? distributeGoodIcon
                         : doneUpdatehanghoaSi['photoGood'],
@@ -85,6 +88,7 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
                   Icons.arrow_downward_outlined,
                 ),
                 CardPhanPhoiHang(
+                    phanBietSiLe: false,
                     slchuyendoi: chuyendoiLeTang,
                     imageProduct: doneUpdatehanghoaLe['photoGood'].isEmpty
                         ? distributeGoodIcon
