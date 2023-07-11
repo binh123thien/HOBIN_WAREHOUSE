@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
+import '../../../../utils/utils.dart';
+
 class ChonHangHoaLeController extends GetxController {
   static ChonHangHoaLeController get instance => Get.find();
 
@@ -22,7 +24,7 @@ class ChonHangHoaLeController extends GetxController {
   }
 
   //hàm update chuyendoi và tính toán
-  Future<int> calculate(String chuyendoiLe, String chuyendoiSi,
+  Future<int> calculate(int chuyendoiLe, int chuyendoiSi,
       Map<String, dynamic> goodSi, Map<String, dynamic> goodLe) async {
     print('vao calculate');
     //===================================== Sỉ ==============================================
@@ -31,11 +33,10 @@ class ChonHangHoaLeController extends GetxController {
     //lấy tồn kho Sỉ hiện tại
     int tonKhoHientaiSi = await productHienTaiSi['tonkho'];
     // update GIẢM tồn kho Sỉ
-    int tonKhoMoiSi = tonKhoHientaiSi - int.parse(chuyendoiSi.toString());
+    int tonKhoMoiSi = tonKhoHientaiSi - chuyendoiSi;
     //===================================== end Sỉ =========================
 //tính hàng được chuyển đổi
-    int chuyendoi =
-        int.parse(chuyendoiSi.toString()) * int.parse(chuyendoiLe.toString());
+    int chuyendoi = chuyendoiSi * chuyendoiLe;
     print(chuyendoi);
     //===================================== Lẻ =============================
     // Lấy sản phẩm Lẻ hiện tại
@@ -72,7 +73,50 @@ class ChonHangHoaLeController extends GetxController {
         .update({
       'tonkho': tonKhoMoiLe,
     });
+
+    String dateTao = formatNgaytao();
+    //tạo lịch sử chuyển đổi trên firebase
+    createLichSuCD(dateTao, goodSi['tensanpham'], goodLe['tensanpham'],
+        tonKhoMoiSi, tonKhoMoiLe, chuyendoiSi, chuyendoiLe);
     //trả về số lượng lẻ được tăng thêm
     return chuyendoi;
+  }
+
+  createLichSuCD(String datetime, String tenhangSi, String tenhangLe, int slSi,
+      int slLe, int chuyendoiSi, int chuyendoiLe) async {
+    print('vao ham tao lich su CD');
+    // print(datetime);
+    // print(tenhangSi);
+    // print(tenhangLe);
+    // print(slLe);
+    // print(slSi);
+    // print(chuyendoiLe);
+    // print(chuyendoiSi);
+    // final lichsuCDModel = LichSuCDModel(
+    //   ngaytao: datetime,
+    //   tenSanPhamSi: tenhangSi,
+    //   tenSanPhamLe: tenhangLe,
+    //   chuyendoiLe: chuyendoiLe,
+    //   chuyendoiSi: chuyendoiSi,
+    //   soluongLe: slLe,
+    //   soluongSi: slSi,
+    // );
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    await _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection('LichSuCD')
+        .doc(datetime)
+        .set({
+      'ngaytao': datetime,
+      'tenSanPhamSi': tenhangSi,
+      'tenSanPhamLe': tenhangLe,
+      'chuyendoiLe': chuyendoiLe,
+      'chuyendoiSi': chuyendoiSi,
+      'soluongLe': slLe,
+      'soluongSi': slSi,
+    }).whenComplete(() => null);
   }
 }

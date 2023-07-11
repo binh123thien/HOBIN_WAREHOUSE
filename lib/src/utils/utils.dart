@@ -74,9 +74,9 @@ String generateLSNCode() {
 
 String formatNgaytao() {
   final DateTime now = DateTime.now();
-  final formatter = DateFormat('HH:mm-dd/MM/yyyy');
+  final formatter = DateFormat('HH:mm-ddMMyyyy');
 
-  // Định dạng ngày hiện tại theo HH:mm-dd/MM/yyyy
+  // Định dạng ngày hiện tại theo HH:mm-ddMMyyyy
   return formatter.format(now);
 }
 

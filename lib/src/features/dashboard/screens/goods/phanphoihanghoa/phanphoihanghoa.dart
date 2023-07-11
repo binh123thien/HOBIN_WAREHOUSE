@@ -137,6 +137,7 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                           child: Text(
                             '   Việc phân phối hàng hóa giúp bạn chia sản phẩm sỉ ra thành sản phẩm lẻ. Điều này giúp bạn dễ dàng kiểm soát được lượng hàng bán lẻ.',
                             textAlign: TextAlign.justify,
+                            style: TextStyle(fontSize: 17),
                           ),
                         ),
                       ],

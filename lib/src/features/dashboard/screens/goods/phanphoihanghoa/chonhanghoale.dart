@@ -59,8 +59,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
               if (formKey.currentState!.validate()) {
                 //nhận giá trị chuyendoiLe trả về
                 int giaTriChuyenDoiLe = await controllerHangHoa.calculate(
-                    textEditsoLuongLe.text,
-                    textEditsoLuongSi.text,
+                    int.parse(textEditsoLuongLe.text),
+                    int.parse(textEditsoLuongSi.text),
                     updatehanghoaSi,
                     updatehanghoaLe);
                 // ignore: use_build_context_synchronously

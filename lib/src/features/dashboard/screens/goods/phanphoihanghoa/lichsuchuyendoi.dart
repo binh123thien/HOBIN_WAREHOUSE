@@ -62,12 +62,60 @@ class _LichSuChuyenDoiScreenState extends State<LichSuChuyenDoiScreen> {
                 Expanded(
                     flex: 1,
                     child: TextButton(
-                        child: const Text("Thêm",
+                        child: const Text("Tìm",
                             style: TextStyle(fontSize: 17, color: mainColor)),
                         onPressed: () async {}))
               ],
             ),
             const SizedBox(height: 10),
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: foundDonVi.length,
+            //     itemBuilder: (context, index) {
+            //       final donvi = foundDonVi[index];
+            //       return Dismissible(
+            //         key: Key(donvi),
+            //         // direction: DismissDirection.endToStart,
+            //         onDismissed: (direction) {
+            //           print('không cho auto xóa');
+            //         },
+            //         confirmDismiss: (direction) async {
+            //           MyDialog.showAlertDialog(
+            //               context, 'Xác nhận', "Bạn có muốn xóa ?", () {
+            //             chonDonViController.deleteDonviByTen(donvi);
+            //             Navigator.of(context).pop();
+            //             Navigator.of(context).pop();
+            //           });
+            //           return null;
+            //         },
+            //         background: Container(
+            //           color: Colors.red,
+            //           padding: const EdgeInsets.symmetric(horizontal: 20),
+            //           alignment: AlignmentDirectional.centerEnd,
+            //           child: const Icon(Icons.delete, color: Colors.white),
+            //         ),
+            //         child: SizedBox(
+            //           width: size.width,
+            //           height: 50,
+            //           child: Card(
+            //             child: GestureDetector(
+            //               onTap: () {
+            //                 // Xử lý khi người dùng nhấn vào
+            //                 Navigator.of(context).pop(donvi);
+            //               },
+            //               child: Center(
+            //                 child: Text(
+            //                   donvi,
+            //                   style: const TextStyle(fontSize: 18),
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // )
           ],
         ),
       ),
