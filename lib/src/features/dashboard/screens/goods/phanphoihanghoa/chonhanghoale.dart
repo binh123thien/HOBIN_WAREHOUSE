@@ -5,6 +5,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihan
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
+import '../../../../../utils/utils.dart';
 import '../../../../../utils/validate/validate.dart';
 import '../../../controllers/goods/chonhanghoale_controller.dart';
 import 'donephanphoi.dart';
@@ -57,8 +58,10 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             icon: const Icon(Icons.done, size: 30, color: darkColor),
             onPressed: () async {
               if (formKey.currentState!.validate()) {
+                String dateTao = formatNgaytao();
                 //nhận giá trị chuyendoiLe trả về
                 int giaTriChuyenDoiLe = await controllerHangHoa.calculate(
+                    dateTao,
                     int.parse(textEditsoLuongLe.text),
                     int.parse(textEditsoLuongSi.text),
                     updatehanghoaSi,
@@ -68,6 +71,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   context,
                   MaterialPageRoute(
                       builder: (context) => DonePhanPhoiScreen(
+                            dateTao: dateTao,
                             updatehanghoaSi: updatehanghoaSi,
                             updatehanghoaLe: updatehanghoaLe,
                             chuyendoiLe: giaTriChuyenDoiLe,
@@ -88,6 +92,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             key: formKey,
             child: Column(children: [
               CardPhanPhoiHang(
+                  soluong: RxInt(0),
                   phanBietSiLe: true,
                   slchuyendoi: 0,
                   imageProduct: updatehanghoaSi['photoGood'].isEmpty
@@ -99,6 +104,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                 Icons.arrow_downward_outlined,
               ),
               CardPhanPhoiHang(
+                  soluong: RxInt(0),
                   phanBietSiLe: false,
                   slchuyendoi: 0,
                   imageProduct: updatehanghoaLe['photoGood'].isEmpty

@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
+import '../../../controllers/goods/chonhanghoale_controller.dart';
 import 'widget/cardphanphoihang_widget.dart';
 
 class DonePhanPhoiScreen extends StatefulWidget {
@@ -9,22 +12,29 @@ class DonePhanPhoiScreen extends StatefulWidget {
   final dynamic updatehanghoaLe;
   final int chuyendoiLe;
   final int chuyendoiSi;
+  final String dateTao;
   const DonePhanPhoiScreen(
       {super.key,
       this.updatehanghoaSi,
       this.updatehanghoaLe,
       required this.chuyendoiLe,
-      required this.chuyendoiSi});
+      required this.chuyendoiSi,
+      required this.dateTao});
 
   @override
   State<DonePhanPhoiScreen> createState() => _DonePhanPhoiScreenState();
 }
 
 class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
+  final controller = Get.put(ChonHangHoaLeController());
+
   late dynamic doneUpdatehanghoaSi;
   late dynamic doneUpdatehanghoaLe;
   late int chuyendoiLeTang;
   late int chuyendoiSiGiam;
+  late RxInt soluongLe = 0.obs;
+  late RxInt soluongSi = 0.obs;
+
   @override
   void initState() {
     doneUpdatehanghoaSi = widget.updatehanghoaSi;
@@ -36,6 +46,15 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //get LichSu vừa tạo
+    controller.getLichSuCD(widget.dateTao).then((querySnapshot) {
+      List<DocumentSnapshot> documents = querySnapshot.docs;
+      for (DocumentSnapshot document in documents) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        soluongSi.value = data['soluongSi'];
+        soluongLe.value = data['soluongLe'];
+      }
+    });
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -77,6 +96,7 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
             Column(
               children: [
                 CardPhanPhoiHang(
+                    soluong: soluongSi,
                     phanBietSiLe: true,
                     slchuyendoi: chuyendoiSiGiam,
                     imageProduct: doneUpdatehanghoaSi['photoGood'].isEmpty
@@ -88,6 +108,7 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
                   Icons.arrow_downward_outlined,
                 ),
                 CardPhanPhoiHang(
+                    soluong: soluongLe,
                     phanBietSiLe: false,
                     slchuyendoi: chuyendoiLeTang,
                     imageProduct: doneUpdatehanghoaLe['photoGood'].isEmpty

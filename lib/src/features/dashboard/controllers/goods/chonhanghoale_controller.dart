@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
-import '../../../../utils/utils.dart';
-
 class ChonHangHoaLeController extends GetxController {
   static ChonHangHoaLeController get instance => Get.find();
 
@@ -24,7 +22,7 @@ class ChonHangHoaLeController extends GetxController {
   }
 
   //hàm update chuyendoi và tính toán
-  Future<int> calculate(int chuyendoiLe, int chuyendoiSi,
+  Future<int> calculate(String dateTao, int chuyendoiLe, int chuyendoiSi,
       Map<String, dynamic> goodSi, Map<String, dynamic> goodLe) async {
     print('vao calculate');
     //===================================== Sỉ ==============================================
@@ -74,7 +72,6 @@ class ChonHangHoaLeController extends GetxController {
       'tonkho': tonKhoMoiLe,
     });
 
-    String dateTao = formatNgaytao();
     //tạo lịch sử chuyển đổi trên firebase
     createLichSuCD(dateTao, goodSi['tensanpham'], goodLe['tensanpham'],
         tonKhoMoiSi, tonKhoMoiLe, chuyendoiSi, chuyendoiLe);
@@ -118,5 +115,19 @@ class ChonHangHoaLeController extends GetxController {
       'soluongLe': slLe,
       'soluongSi': slSi,
     }).whenComplete(() => null);
+  }
+
+  getLichSuCD(String dateTao) {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final gethanghoa = FirebaseFirestore.instance
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("LichSuCD")
+        .where("ngaytao", isEqualTo: dateTao)
+        .get();
+    print(gethanghoa);
+    return gethanghoa;
   }
 }
