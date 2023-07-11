@@ -20,17 +20,18 @@ final List sortbyList = [
   "Tất cả",
   "Khách hàng",
   "Nhà cung cấp",
+  "Tên khách từ A=>Z",
+  "Tên khách từ Z=>A"
 ];
 String selectedSortType = "Tất cả";
 
 class _DanhSachSortByKhachHangState extends State<DanhSachSortByKhachHang> {
   @override
   Widget build(BuildContext context) {
-    String selectedSortType = widget.sortbykhachhangController.text;
     final controllerSortby = Get.put(KhachHangController());
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height * 0.3,
+      height: size.height * 0.38,
       child: Column(children: [
         Padding(
           padding: const EdgeInsets.all(15.0),

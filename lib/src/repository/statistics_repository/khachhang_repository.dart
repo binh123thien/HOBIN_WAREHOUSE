@@ -162,6 +162,16 @@ class KhachHangRepository extends GetxController {
       allItems.sort((b, a) =>
           a["khachhang"].toLowerCase().compareTo(b["khachhang"].toLowerCase()));
       return allItems;
+    } else if (controller == "Tên khách từ A=>Z") {
+      allItems.sort((a, b) => a["tenkhachhang"]
+          .toLowerCase()
+          .compareTo(b["tenkhachhang"].toLowerCase()));
+      return allItems;
+    } else if (controller == "Tên khách từ Z=>A") {
+      allItems.sort((b, a) => a["tenkhachhang"]
+          .toLowerCase()
+          .compareTo(b["tenkhachhang"].toLowerCase()));
+      return allItems;
     } else {
       return allItems;
     }
