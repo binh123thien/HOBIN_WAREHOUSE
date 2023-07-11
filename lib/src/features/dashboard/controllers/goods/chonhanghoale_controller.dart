@@ -22,8 +22,8 @@ class ChonHangHoaLeController extends GetxController {
   }
 
   //hàm update chuyendoi và tính toán
-  calculate(String chuyendoiLe, String chuyendoiSi, Map<String, dynamic> goodSi,
-      Map<String, dynamic> goodLe) async {
+  Future<int> calculate(String chuyendoiLe, String chuyendoiSi,
+      Map<String, dynamic> goodSi, Map<String, dynamic> goodLe) async {
     print('vao calculate');
     //===================================== Sỉ ==============================================
     // Lấy sản phẩm Sỉ hiện tại
@@ -72,5 +72,7 @@ class ChonHangHoaLeController extends GetxController {
         .update({
       'tonkho': tonKhoMoiLe,
     });
+    //trả về số lượng lẻ được tăng thêm
+    return chuyendoi;
   }
 }

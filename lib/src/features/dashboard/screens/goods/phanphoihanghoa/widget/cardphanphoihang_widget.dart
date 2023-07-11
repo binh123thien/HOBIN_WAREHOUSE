@@ -7,8 +7,12 @@ class CardPhanPhoiHang extends StatelessWidget {
     required this.donViProduct,
     required this.imageProduct,
     required this.updatehanghoa,
+    required this.slchuyendoi,
+    required this.phanBietSiLe,
   });
-
+  //set màu cho tăng giảm card trang done
+  final bool phanBietSiLe;
+  final int slchuyendoi;
   final String imageProduct;
   final String donViProduct;
   final dynamic updatehanghoa;
@@ -55,8 +59,37 @@ class CardPhanPhoiHang extends StatelessWidget {
                       ),
                       Text(updatehanghoa['tonkho'].toString(),
                           style: const TextStyle(fontSize: 15)),
-                      Text(' $donViProduct',
+                      Text(' $donViProduct  ',
                           style: const TextStyle(fontSize: 15)),
+                      //nếu slchuyendoi có giá trị thì hiển thị UI
+                      (slchuyendoi != 0)
+                          ? Row(
+                              children: [
+                                phanBietSiLe
+                                    ? const Icon(
+                                        Icons.south_outlined,
+                                        color: Colors.red,
+                                        size: 14,
+                                      )
+                                    : const Icon(
+                                        Icons.arrow_upward_outlined,
+                                        color: Colors.green,
+                                        size: 14,
+                                      ),
+                                phanBietSiLe
+                                    ? Text(
+                                        '$slchuyendoi',
+                                        style: const TextStyle(
+                                            fontSize: 14, color: Colors.red),
+                                      )
+                                    : Text(
+                                        '$slchuyendoi',
+                                        style: const TextStyle(
+                                            fontSize: 14, color: Colors.green),
+                                      ),
+                              ],
+                            )
+                          : const Text('')
                     ],
                   )
                 ],

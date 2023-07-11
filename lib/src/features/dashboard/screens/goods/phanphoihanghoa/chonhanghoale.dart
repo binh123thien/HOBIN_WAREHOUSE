@@ -55,13 +55,25 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
         actions: [
           IconButton(
             icon: const Icon(Icons.done, size: 30, color: darkColor),
-            onPressed: () {
+            onPressed: () async {
               if (formKey.currentState!.validate()) {
-                controllerHangHoa.calculate(textEditsoLuongLe.text,
-                    textEditsoLuongSi.text, updatehanghoaSi, updatehanghoaLe);
+                //nhận giá trị chuyendoiLe trả về
+                int giaTriChuyenDoiLe = await controllerHangHoa.calculate(
+                    textEditsoLuongLe.text,
+                    textEditsoLuongSi.text,
+                    updatehanghoaSi,
+                    updatehanghoaLe);
+                // ignore: use_build_context_synchronously
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => DonePhanPhoiScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => DonePhanPhoiScreen(
+                            updatehanghoaSi: updatehanghoaSi,
+                            updatehanghoaLe: updatehanghoaLe,
+                            chuyendoiLe: giaTriChuyenDoiLe,
+                            chuyendoiSi:
+                                int.parse(textEditsoLuongSi.text.toString()),
+                          )),
                 );
               }
             },
@@ -76,6 +88,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
             key: formKey,
             child: Column(children: [
               CardPhanPhoiHang(
+                  phanBietSiLe: true,
+                  slchuyendoi: 0,
                   imageProduct: updatehanghoaSi['photoGood'].isEmpty
                       ? distributeGoodIcon
                       : updatehanghoaSi['photoGood'],
@@ -85,6 +99,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                 Icons.arrow_downward_outlined,
               ),
               CardPhanPhoiHang(
+                  phanBietSiLe: false,
+                  slchuyendoi: 0,
                   imageProduct: updatehanghoaLe['photoGood'].isEmpty
                       ? distributeGoodIcon
                       : updatehanghoaLe['photoGood'],
