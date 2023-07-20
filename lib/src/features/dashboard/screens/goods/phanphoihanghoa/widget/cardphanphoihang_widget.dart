@@ -21,8 +21,6 @@ class CardPhanPhoiHang extends StatelessWidget {
   final dynamic updatehanghoa;
   @override
   Widget build(BuildContext context) {
-    print('cardddddd');
-    print(soluong);
     return Padding(
       padding: const EdgeInsets.all(6),
       child: Obx(

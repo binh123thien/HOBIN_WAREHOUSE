@@ -31,3 +31,6 @@ const String tBackGround3 = "assets/images/background/background3.png";
 const String addPartnerImage = "assets/images/statistics/addpartner.png";
 const String updateKhachHangImage =
     "assets/images/statistics/updatekhachhang.png";
+
+//Goods
+const String chuyendoiImage = "assets/images/icon/goods/chuyendoi.png";
