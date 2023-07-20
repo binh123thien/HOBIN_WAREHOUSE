@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../constants/color.dart';
+import '../../../controllers/goods/chonhanghoale_controller.dart';
+import 'widget/cardlichsuchuyendoi.dart';
 
 class LichSuChuyenDoiScreen extends StatefulWidget {
   const LichSuChuyenDoiScreen({super.key});
@@ -10,6 +13,16 @@ class LichSuChuyenDoiScreen extends StatefulWidget {
 }
 
 class _LichSuChuyenDoiScreenState extends State<LichSuChuyenDoiScreen> {
+  final chonHangHoaLeController = Get.put(ChonHangHoaLeController());
+  //để lắng nghe dữ liệu thay đổi
+  late List<dynamic> foundLichSu;
+  @override
+  void initState() {
+    chonHangHoaLeController.loadAllLichSu();
+    foundLichSu = chonHangHoaLeController.allLichSuCDFirebase;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,7 +66,7 @@ class _LichSuChuyenDoiScreenState extends State<LichSuChuyenDoiScreen> {
             const SizedBox(height: 10),
             Row(
               children: [
-                Expanded(
+                const Expanded(
                   flex: 4,
                   child: SizedBox(
                     height: 40,
@@ -68,54 +81,17 @@ class _LichSuChuyenDoiScreenState extends State<LichSuChuyenDoiScreen> {
               ],
             ),
             const SizedBox(height: 10),
-            // Expanded(
-            //   child: ListView.builder(
-            //     itemCount: foundDonVi.length,
-            //     itemBuilder: (context, index) {
-            //       final donvi = foundDonVi[index];
-            //       return Dismissible(
-            //         key: Key(donvi),
-            //         // direction: DismissDirection.endToStart,
-            //         onDismissed: (direction) {
-            //           print('không cho auto xóa');
-            //         },
-            //         confirmDismiss: (direction) async {
-            //           MyDialog.showAlertDialog(
-            //               context, 'Xác nhận', "Bạn có muốn xóa ?", () {
-            //             chonDonViController.deleteDonviByTen(donvi);
-            //             Navigator.of(context).pop();
-            //             Navigator.of(context).pop();
-            //           });
-            //           return null;
-            //         },
-            //         background: Container(
-            //           color: Colors.red,
-            //           padding: const EdgeInsets.symmetric(horizontal: 20),
-            //           alignment: AlignmentDirectional.centerEnd,
-            //           child: const Icon(Icons.delete, color: Colors.white),
-            //         ),
-            //         child: SizedBox(
-            //           width: size.width,
-            //           height: 50,
-            //           child: Card(
-            //             child: GestureDetector(
-            //               onTap: () {
-            //                 // Xử lý khi người dùng nhấn vào
-            //                 Navigator.of(context).pop(donvi);
-            //               },
-            //               child: Center(
-            //                 child: Text(
-            //                   donvi,
-            //                   style: const TextStyle(fontSize: 18),
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // )
+            Expanded(
+              child: ListView.builder(
+                itemCount: foundLichSu.length,
+                itemBuilder: (context, index) {
+                  var lichsu = foundLichSu[index];
+                  return Cardlichsuchuyendoi(
+                    lichsu: lichsu,
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
