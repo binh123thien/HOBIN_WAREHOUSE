@@ -34,6 +34,7 @@ class _TabbarSoNoWidgetState extends State<TabbarSoNoWidget>
         children: [
           AppBar(
             elevation: 0,
+            automaticallyImplyLeading: false,
             backgroundColor: backGroundColor,
             title: const TabBar(
               tabs: [
@@ -49,9 +50,8 @@ class _TabbarSoNoWidgetState extends State<TabbarSoNoWidget>
               ],
               indicatorColor: mainColor,
               labelColor: darkColor,
-              indicatorSize: TabBarIndicatorSize.label,
-              isScrollable: true,
-              labelPadding: EdgeInsets.symmetric(horizontal: 15),
+              indicatorSize: TabBarIndicatorSize.tab,
+              isScrollable: false,
             ),
           ),
           SizedBox(

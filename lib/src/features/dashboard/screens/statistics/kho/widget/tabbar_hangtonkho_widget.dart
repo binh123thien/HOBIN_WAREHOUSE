@@ -70,6 +70,7 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
         children: [
           AppBar(
             elevation: 0,
+            automaticallyImplyLeading: false,
             backgroundColor: backGroundColor,
             title: const TabBar(
               tabs: [
@@ -82,9 +83,8 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
               ],
               indicatorColor: mainColor,
               labelColor: darkColor,
-              indicatorSize: TabBarIndicatorSize.label,
-              isScrollable: true,
-              labelPadding: EdgeInsets.symmetric(horizontal: 15),
+              indicatorSize: TabBarIndicatorSize.tab,
+              isScrollable: false,
             ),
           ),
           SizedBox(

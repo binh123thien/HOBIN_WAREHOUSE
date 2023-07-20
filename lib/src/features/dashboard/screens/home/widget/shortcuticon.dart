@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuts/khachhang.dart';
-
+import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuts/kho.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuts/sono.dart';
 import '../../../../../constants/icon.dart';
-import '../../statistics/khachhang/khachhang_screen.dart';
-import '../../statistics/kho/kho_screen.dart';
-import '../../statistics/sono/sono_screen.dart';
 
 class ShortCutIcon extends StatelessWidget {
   const ShortCutIcon({super.key});
@@ -16,20 +14,20 @@ class ShortCutIcon extends StatelessWidget {
       {
         "icon": khachhangIcon,
         "title": "Khách hàng",
-        "link": const KhachHangScreen(),
+        "link": const KhachHangShortCutScreen(),
       },
       {
         "icon": khoIcon,
         "title": "Kho",
-        "link": const KhoScreen(),
+        "link": const KhoShortCutScreen(),
       },
       {
         "icon": sonoIcon,
         "title": "Sổ nợ",
-        "link": const SoNoScreen(),
+        "link": const SoNoShortCutScreen(),
       }
     ];
-    return Container(
+    return SizedBox(
       width: size.width,
       height: 60,
       child: Wrap(
@@ -43,8 +41,7 @@ class ShortCutIcon extends StatelessWidget {
               InkWell(
                 onTap: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => KhachHangShortCutScreen()),
+                  MaterialPageRoute(builder: (context) => doc["link"]),
                 ),
                 child: SizedBox(
                   width: 80,
@@ -53,8 +50,8 @@ class ShortCutIcon extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image(image: AssetImage(doc["icon"]!), height: 30),
-                      SizedBox(height: 5),
-                      Text(doc["title"]!, style: TextStyle(fontSize: 14)),
+                      const SizedBox(height: 5),
+                      Text(doc["title"]!, style: const TextStyle(fontSize: 14)),
                     ],
                   ),
                 ),
