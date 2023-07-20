@@ -2,12 +2,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
+import '../../../../utils/utils.dart';
+
 class ChonHangHoaLeController extends GetxController {
   static ChonHangHoaLeController get instance => Get.find();
 
   final _db = FirebaseFirestore.instance;
+  List<dynamic> allLichSuCDFirebase = [].obs;
 
-//get sản phẩm cũ của hàng hóa đó
+  //load all lịch sử
+  loadAllLichSu() {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("LichSuCD")
+        .snapshots()
+        .listen((snapshot) {
+      allLichSuCDFirebase = snapshot.docs.map((doc) => doc.data()).toList();
+    });
+  }
+
+  //get sản phẩm cũ của hàng hóa đó
   getTonKho(String docMaCode) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final snapshot = await _db
@@ -107,7 +125,7 @@ class ChonHangHoaLeController extends GetxController {
         .collection('LichSuCD')
         .doc(datetime)
         .set({
-      'ngaytao': datetime,
+      'ngaytao': datetime = formatNgayTao(),
       'tenSanPhamSi': tenhangSi,
       'tenSanPhamLe': tenhangLe,
       'chuyendoiLe': chuyendoiLe,
@@ -127,7 +145,6 @@ class ChonHangHoaLeController extends GetxController {
         .collection("LichSuCD")
         .where("ngaytao", isEqualTo: dateTao)
         .get();
-    print(gethanghoa);
     return gethanghoa;
   }
 }
