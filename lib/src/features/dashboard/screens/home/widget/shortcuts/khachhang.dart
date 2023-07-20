@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
-import 'package:hobin_warehouse/src/constants/icon.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/khachhang/widget/chitiet_khachhang.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/khachhang/widget/sortby_khachhang.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/khachhang/widget/them_khachhang.dart';
+import '../../../../../../constants/icon.dart';
+import '../../../../../../repository/statistics_repository/khachhang_repository.dart';
+import '../../../../controllers/statistics/khachhang_controller.dart';
+import '../../../Widget/appbar/search_widget.dart';
+import '../../../statistics/khachhang/widget/chitiet_khachhang.dart';
+import '../../../statistics/khachhang/widget/sortby_khachhang.dart';
+import '../../../statistics/khachhang/widget/them_khachhang.dart';
 
-import '../../../../../repository/statistics_repository/khachhang_repository.dart';
-import '../../../controllers/statistics/khachhang_controller.dart';
-import '../../Widget/appbar/search_widget.dart';
-
-class KhachHangScreen extends StatefulWidget {
-  const KhachHangScreen({super.key});
+class KhachHangShortCutScreen extends StatefulWidget {
+  const KhachHangShortCutScreen({super.key});
 
   @override
-  State<KhachHangScreen> createState() => _KhachHangScreenState();
+  State<KhachHangShortCutScreen> createState() =>
+      _KhachHangShortCutScreenState();
 }
 
-class _KhachHangScreenState extends State<KhachHangScreen> {
+class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
   String searchKhachHang = "";
   final controller = Get.put(KhachHangController());
   final controllerRepo = Get.put(KhachHangRepository());
@@ -73,7 +73,12 @@ class _KhachHangScreenState extends State<KhachHangScreen> {
                 .contains(searchKhachHang.toLowerCase()))
         .toList();
     return Scaffold(
-      backgroundColor: whiteColor,
+      appBar: AppBar(
+        title: const Text("Khách Hàng",
+            style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700)),
+        backgroundColor: mainColor,
+        centerTitle: true,
+      ),
       body: Column(
         children: [
           const SizedBox(height: 5),

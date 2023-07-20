@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/appbar_dashboard.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuticon.dart';
 import '../../../authentication/models/user_models.dart';
 import '../../controllers/account/profile_controller.dart';
 import '../../controllers/add/chonhanghoa_controller.dart';
@@ -53,6 +54,7 @@ class _HomePageState extends State<HomePage> {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             CardDashboard(),
             Divider(),
+            ShortCutIcon(),
             SizedBox(height: 10),
             ExpenseTrack(),
             SizedBox(height: 10),

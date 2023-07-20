@@ -17,6 +17,9 @@ const String accSquareIcon = "assets/images/icon/bottombar/acc_square.png";
 //dashboard
 const String doanhthuthang = "assets/images/icon/dashboard/doanhthuthang.png";
 const String chitieuthang = "assets/images/icon/dashboard/chitieuthang.png";
+const String khachhangIcon = "assets/images/icon/dashboard/khachhang.png";
+const String khoIcon = "assets/images/icon/dashboard/kho.png";
+const String sonoIcon = "assets/images/icon/dashboard/sono.png";
 
 //Appbar
 const String backIcon = "assets/images/icon/appbar/back.png";
