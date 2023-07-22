@@ -24,7 +24,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
   final controllersortby = Get.put(ThemHangHoaController());
 
   Future<void> _showSortbyHangHoa() async {
-    final selectedValue = await showModalBottomSheet<String>(
+    await showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -33,12 +33,11 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
           sortbyhanghoaController: controllersortby.sortbyhanghoaController,
         ); // Gọi Widget BottomSheetContent để hiển thị bottom sheet
       },
-    );
-    if (selectedValue != null) {
+    ).then((value) {
       setState(() {
-        controllersortby.sortbyhanghoaController.text = selectedValue;
+        controllersortby.sortbyhanghoaController.text = value!;
       });
-    }
+    });
   }
 
   final controllerRepo = Get.put(GoodRepository());
@@ -69,7 +68,6 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
     // Sắp xếp danh sách theo thứ tự tăng dần của "tonkho"
     controllerRepo.sortby(
         allHangHoa, controllersortby.sortbyhanghoaController.text);
-
     // Xác định tất cả các mục chứa từ khóa tìm kiếm trong lẻ
     List<dynamic> filteredItemsLe = allHangHoaLe
         .where((item) => item["tensanpham"]
