@@ -20,16 +20,17 @@ class SearchWidget extends StatelessWidget {
         autofocus: false,
         decoration: InputDecoration(
           filled: true,
-          fillColor: whiteColor, // where is this color defined?
+          fillColor: backGroundSearch, // where is this color defined?
           contentPadding: EdgeInsets.zero,
-          prefixIconColor: darkColor,
-          floatingLabelStyle: const TextStyle(color: darkColor),
+          prefixIconColor: darkLiteColor,
+          floatingLabelStyle: const TextStyle(color: Colors.grey),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18.0),
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18.0),
-            borderSide: const BorderSide(width: 2, color: pink600Color),
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide.none,
           ),
           prefixIcon: const Icon(Icons.search),
           hintText: "Tìm Kiếm",

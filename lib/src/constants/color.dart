@@ -5,9 +5,10 @@ const mainColor = Color(0xFFd82d8b);
 const backGroundColor = Color(0xFFF1F1F1);
 const backGround600Color = Color(0xFF818181);
 const backGroundDefaultFigma = Color(0xFFDDDDDD);
+const backGroundSearch = Color(0xFFf0f0f0);
 
 const darkColor = Color(0xFF272727);
-const darkLiteColor = Color(0xFFe3e3e3);
+const darkLiteColor = Color(0xFFb9b9b9);
 const whiteColor = Color(0xFFFFFFFF);
 
 const successColor = Color(0xFF22C55E);

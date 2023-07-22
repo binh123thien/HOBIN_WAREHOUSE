@@ -15,19 +15,19 @@ class _BanHangScreenState extends State<BanHangScreen> {
   final controller = Get.put(HistoryRepository());
   List<List<DocumentSnapshot>> docsByMonthly = [];
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _fetchData();
   }
 
   Future<void> _fetchData() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
-
     await controller
         .getDocsByMonthly('BanHang', firebaseUser!.uid)
         .then((value) {
       setState(() {
         docsByMonthly = value;
+        print(value);
       });
     });
   }
