@@ -11,7 +11,7 @@ class ChonHangHoaLeController extends GetxController {
   List<dynamic> allLichSuCDFirebase = [].obs;
 
   //load all lịch sử
-  loadAllLichSu() {
+  loadAllLichSu(String nameSi) {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection("Users")
@@ -19,6 +19,7 @@ class ChonHangHoaLeController extends GetxController {
         .collection("Goods")
         .doc(firebaseUser.uid)
         .collection("LichSuCD")
+        .where("tenSanPhamSi", isEqualTo: nameSi)
         .snapshots()
         .listen((snapshot) {
       allLichSuCDFirebase = snapshot.docs.map((doc) => doc.data()).toList();

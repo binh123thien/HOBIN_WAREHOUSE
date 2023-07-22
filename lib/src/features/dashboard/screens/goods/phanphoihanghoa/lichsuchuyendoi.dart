@@ -6,7 +6,8 @@ import '../../../controllers/goods/chonhanghoale_controller.dart';
 import 'widget/cardlichsuchuyendoi.dart';
 
 class LichSuChuyenDoiScreen extends StatefulWidget {
-  const LichSuChuyenDoiScreen({super.key});
+  final String nameProductSi;
+  const LichSuChuyenDoiScreen({super.key, required this.nameProductSi});
 
   @override
   State<LichSuChuyenDoiScreen> createState() => _LichSuChuyenDoiScreenState();
@@ -18,7 +19,7 @@ class _LichSuChuyenDoiScreenState extends State<LichSuChuyenDoiScreen> {
   late List<dynamic> foundLichSu;
   @override
   void initState() {
-    chonHangHoaLeController.loadAllLichSu();
+    chonHangHoaLeController.loadAllLichSu(widget.nameProductSi);
     foundLichSu = chonHangHoaLeController.allLichSuCDFirebase;
     super.initState();
   }

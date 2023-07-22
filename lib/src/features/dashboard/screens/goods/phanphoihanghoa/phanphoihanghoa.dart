@@ -59,6 +59,8 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // show UI
+    final tenSPSi = updatehanghoaSi['tensanpham'].toUpperCase();
     // bottom sheet lịch sử
     Future<void> showLichSuChuyenDoi() async {
       await showModalBottomSheet<String>(
@@ -71,7 +73,9 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
           ),
         ),
         builder: (BuildContext context) {
-          return const LichSuChuyenDoiScreen(); // Gọi Widget BottomSheetContent để hiển thị bottom sheet
+          return LichSuChuyenDoiScreen(
+            nameProductSi: updatehanghoaSi['tensanpham'],
+          ); // Gọi Widget BottomSheetContent để hiển thị bottom sheet
         },
       );
     }
@@ -137,7 +141,7 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                           child: Text(
                             '   Việc phân phối hàng hóa giúp bạn chia sản phẩm sỉ ra thành sản phẩm lẻ. Điều này giúp bạn dễ dàng kiểm soát được lượng hàng bán lẻ.',
                             textAlign: TextAlign.justify,
-                            style: TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: 16),
                           ),
                         ),
                       ],
@@ -171,11 +175,14 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                       icon: const Image(image: AssetImage(sortbyIcon))),
                 ],
               ),
+              Text('MẶT HÀNG SỈ: $tenSPSi',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(
                 width: size.width,
                 height: size.height - 230,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                   child: ListView.builder(
                     itemCount: filteredItemsSi.length,
                     itemBuilder: (context, index) {
