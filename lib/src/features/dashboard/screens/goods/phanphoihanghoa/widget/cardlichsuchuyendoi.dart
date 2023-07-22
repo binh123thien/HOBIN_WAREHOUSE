@@ -10,6 +10,7 @@ class Cardlichsuchuyendoi extends StatelessWidget {
   final dynamic lichsu;
   @override
   Widget build(BuildContext context) {
+    int tongchuyendoi = lichsu['chuyendoiLe'] * lichsu['chuyendoiSi'];
     return Padding(
       padding: const EdgeInsets.all(2),
       child: Column(
@@ -37,7 +38,7 @@ class Cardlichsuchuyendoi extends StatelessWidget {
                   ),
                   Text(
                     lichsu['chuyendoiSi'].toString(),
-                    style: TextStyle(color: Colors.red, fontSize: 16),
+                    style: const TextStyle(color: Colors.red, fontSize: 16),
                   ),
                 ],
               )
@@ -53,10 +54,10 @@ class Cardlichsuchuyendoi extends StatelessWidget {
                     chuyendoiImage,
                     width: 20,
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   Text(
                     lichsu['tenSanPhamLe'],
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),
@@ -64,7 +65,7 @@ class Cardlichsuchuyendoi extends StatelessWidget {
                 children: [
                   Text(
                     lichsu['soluongLe'].toString(),
-                    style: TextStyle(fontSize: 16),
+                    style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(width: 5),
                   const Icon(
@@ -73,8 +74,8 @@ class Cardlichsuchuyendoi extends StatelessWidget {
                     size: 14,
                   ),
                   Text(
-                    lichsu['chuyendoiLe'].toString(),
-                    style: TextStyle(color: Colors.green, fontSize: 16),
+                    tongchuyendoi.toString(),
+                    style: const TextStyle(color: Colors.green, fontSize: 16),
                   ),
                 ],
               )
