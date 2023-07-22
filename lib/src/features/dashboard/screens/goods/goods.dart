@@ -137,6 +137,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                         text: "Sỉ",
                       ),
                     ],
+                    labelStyle: TextStyle(fontSize: 16),
                     indicatorColor: Colors.pink,
                     labelColor: darkColor,
                     isScrollable: false,
@@ -148,74 +149,80 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
         ),
         body: TabBarView(
           children: [
-            ListView(
-              shrinkWrap: true,
-              children: [
-                SizedBox(
-                  width: size.width,
-                  height: size.height - 230,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: ListView.builder(
-                      itemCount: filteredItemsLe.length,
-                      itemBuilder: (context, index) {
-                        var hanghoa = filteredItemsLe[index];
-                        return CardHangHoa(
-                          hanghoa: hanghoa,
-                          onTapChiTietHangHoa: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ChiTietHangHoaScreen(hanghoa: hanghoa)),
-                            ).then((_) {
-                              setState(() {
-                                allHangHoa =
-                                    controllerAllHangHoa.allHangHoaFireBase;
-                              });
-                            });
-                          },
-                        );
-                      },
-                    ),
+            filteredItemsLe.isEmpty
+                ? const Center(child: Text("Chưa có hàng hóa lẻ"))
+                : ListView(
+                    shrinkWrap: true,
+                    children: [
+                      SizedBox(
+                        width: size.width,
+                        height: size.height - 230,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: ListView.builder(
+                            itemCount: filteredItemsLe.length,
+                            itemBuilder: (context, index) {
+                              var hanghoa = filteredItemsLe[index];
+                              return CardHangHoa(
+                                hanghoa: hanghoa,
+                                onTapChiTietHangHoa: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChiTietHangHoaScreen(
+                                                hanghoa: hanghoa)),
+                                  ).then((_) {
+                                    setState(() {
+                                      allHangHoa = controllerAllHangHoa
+                                          .allHangHoaFireBase;
+                                    });
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            ListView(
-              shrinkWrap: true,
-              children: [
-                SizedBox(
-                  width: size.width,
-                  height: size.height - 230,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: ListView.builder(
-                      itemCount: filteredItemsSi.length,
-                      itemBuilder: (context, index) {
-                        var hanghoa = filteredItemsSi[index];
-                        return CardHangHoa(
-                          hanghoa: hanghoa,
-                          onTapChiTietHangHoa: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ChiTietHangHoaScreen(hanghoa: hanghoa)),
-                            ).then((_) {
-                              setState(() {
-                                allHangHoa =
-                                    controllerAllHangHoa.allHangHoaFireBase;
-                              });
-                            });
-                          },
-                        );
-                      },
-                    ),
+            filteredItemsSi.isEmpty
+                ? const Center(child: Text("Chưa có hàng hóa sỉ"))
+                : ListView(
+                    shrinkWrap: true,
+                    children: [
+                      SizedBox(
+                        width: size.width,
+                        height: size.height - 230,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: ListView.builder(
+                            itemCount: filteredItemsSi.length,
+                            itemBuilder: (context, index) {
+                              var hanghoa = filteredItemsSi[index];
+                              return CardHangHoa(
+                                hanghoa: hanghoa,
+                                onTapChiTietHangHoa: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ChiTietHangHoaScreen(
+                                                hanghoa: hanghoa)),
+                                  ).then((_) {
+                                    setState(() {
+                                      allHangHoa = controllerAllHangHoa
+                                          .allHangHoaFireBase;
+                                    });
+                                  });
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(

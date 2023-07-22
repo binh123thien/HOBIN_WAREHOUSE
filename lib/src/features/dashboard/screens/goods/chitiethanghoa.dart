@@ -2,14 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/phanphoihanghoa.dart';
-
+import 'package:hobin_warehouse/src/features/dashboard/screens/goods/widget/chitiethanghoa/chinhsua_chitiethanghoa.dart';
+import '../../../../common_widgets/dialog/dialog.dart';
 import '../../../../constants/color.dart';
 import '../../../../repository/goods_repository/good_repository.dart';
+import '../add/widget/card_add_widget.dart';
 import 'widget/chitiethanghoa/card_chitiethanghoa.dart';
-import 'widget/chitiethanghoa/chinhsua_chitiethanghoa.dart';
 import 'widget/chitiethanghoa/thongke_hanghoa.dart';
 
 class ChiTietHangHoaScreen extends StatefulWidget {
@@ -22,96 +22,81 @@ class ChiTietHangHoaScreen extends StatefulWidget {
 
 class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
   final controllerGoodRepo = Get.put(GoodRepository());
-  //truyền list tạm updatehanghoa qua trang chỉnh sửa,
-  //cũng là biến show giá trị của trang này là để nhận giá trị sau khi được update
-  late dynamic updatehanghoa;
+  late dynamic hanghoanew;
   @override
   void initState() {
-    updatehanghoa = widget.hanghoa;
     super.initState();
+    hanghoanew = widget.hanghoa;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        title: const Text("Chi tiết hàng hóa",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-        backgroundColor: backGroundColor,
-        centerTitle: true,
-        actions: [
-          updatehanghoa["phanloai"] == "bán sỉ"
-              ? IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PhanPhoiHangHoaScreen(
-                                hanghoaSi: updatehanghoa,
-                              )),
-                    );
-                  },
-                  icon: const Icon(
-                    Icons.share_outlined,
-                    color: Colors.black,
-                  ),
-                )
-              : const SizedBox(),
-          PopupMenuButton(
-            icon: const Icon(Icons.more_vert, size: 30, color: darkColor),
-            itemBuilder: (context) => const [
-              PopupMenuItem(
-                value: 1,
-                child: Text(
-                  "Chỉnh sửa",
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-              PopupMenuItem(
-                value: 2,
-                child: Text(
-                  "Xóa",
-                  style: TextStyle(fontSize: 16),
-                ),
-              )
-            ],
-            onSelected: ((valueMenu) {
-              if (valueMenu == 1) {
+  Future<void> _showOption() async {
+    await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      builder: (BuildContext context) {
+        final size = MediaQuery.of(context).size;
+        return SizedBox(
+          height: hanghoanew["phanloai"] == "bán lẻ"
+              ? size.height * 0.23
+              : size.height * 0.3,
+          child: Column(children: [
+            const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text("Tùy chọn"),
+            ),
+            hanghoanew["phanloai"] == "bán sỉ"
+                ? CardAdd(
+                    icon: shareIcon,
+                    title: "Phân phối",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PhanPhoiHangHoaScreen(
+                                hanghoaSi: widget.hanghoa)),
+                      ).then((_) {
+                        Navigator.pop(context); // Tắt showModalBottomSheet
+                      });
+                    },
+                  )
+                : const SizedBox(),
+            CardAdd(
+              icon: editIcon,
+              title: "Chỉnh sửa",
+              onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ChinhSuaChiTietHangHoaScreen(
-                          updateChinhSuaHangHoa: updatehanghoa)),
-                ).then((newvalue) {
-                  //'value' là giá trị được return từ trang Chỉnh sửa
-                  if (newvalue == true) {
+                          updateChinhSuaHangHoa: hanghoanew)),
+                ).then((value) {
+                  if (value == true) {
                     setState(() {
-                      updatehanghoa = updatehanghoa;
+                      hanghoanew = hanghoanew;
                     });
                   } else {
                     setState(() {
-                      updatehanghoa = newvalue;
+                      hanghoanew = value;
                     });
                   }
                 });
-              }
-              if (valueMenu == 2) {
+              },
+            ),
+            CardAdd(
+              icon: deleteIcon,
+              title: "Xóa",
+              onTap: () {
                 MyDialog.showAlertDialog(
                     context, 'Xác nhận', 'Bạn muốn xóa hàng hóa này?', () {
                   controllerGoodRepo
-                      .deleteHangHoaByTen(updatehanghoa["tensanpham"]);
+                      .deleteHangHoaByTen(hanghoanew["tensanpham"]);
 
                   //xóa hình ảnh của hàng hóa đó
-                  if (updatehanghoa['photoGood'] != '') {
+                  if (hanghoanew['photoGood'] != '') {
                     final imageRef = FirebaseStorage.instance
-                        .refFromURL(updatehanghoa['photoGood']);
+                        .refFromURL(hanghoanew['photoGood']);
                     //xóa hình ảnh qua path imageRef
                     FirebaseStorage.instance
                         .ref()
@@ -124,15 +109,45 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                   //Chờ 1s để cập nhật dữ liệu trên db, sau đó pop trang chi tiết hàng hóa
                   Future.delayed(const Duration(seconds: 1), () {
                     Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   });
                 });
-              }
-            }),
-          )
-        ],
-      ),
+              },
+            )
+          ]),
+        ); // Gọi Widget BottomSheetContent để hiển thị bottom sheet
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+          leading: IconButton(
+              icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          title: const Text("Chi tiết hàng hóa",
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
+          backgroundColor: backGroundColor,
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                _showOption();
+              },
+              icon: const Image(
+                image: AssetImage(moreAppbarIcon),
+                width: 25,
+              ),
+            )
+          ]),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -148,34 +163,37 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                     elevation: 1,
                     child: IconButton(
                       onPressed: () {},
-                      icon: updatehanghoa["photoGood"] == ''
-                          ? Image.asset(cameraIcon)
-                          : CachedNetworkImage(
-                              imageUrl: updatehanghoa["photoGood"].toString(),
-                              width: 300,
-                              height: 300,
-                              fit: BoxFit.fill,
-                            ),
+                      icon: (hanghoanew is Map &&
+                              hanghoanew.containsKey("photoGood"))
+                          ? (hanghoanew["photoGood"].length == 0
+                              ? Image.asset(cameraIcon)
+                              : CachedNetworkImage(
+                                  imageUrl: hanghoanew["photoGood"].toString(),
+                                  width: 300,
+                                  height: 300,
+                                  fit: BoxFit.fill,
+                                ))
+                          : Container(), // Handle the case if the condition isn't met
                     ),
                   ),
                 ),
               ),
               Text(
-                updatehanghoa["tensanpham"],
+                hanghoanew["tensanpham"],
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               ChiTietHangHoa(
-                macode: updatehanghoa["macode"],
-                gianhap: updatehanghoa["gianhap"],
-                giaban: updatehanghoa["giaban"],
-                phanloai: updatehanghoa["phanloai"],
-                donvi: updatehanghoa["donvi"],
-                danhmuc: updatehanghoa["danhmuc"],
+                macode: hanghoanew["macode"],
+                gianhap: hanghoanew["gianhap"],
+                giaban: hanghoanew["giaban"],
+                phanloai: hanghoanew["phanloai"],
+                donvi: hanghoanew["donvi"],
+                danhmuc: hanghoanew["danhmuc"],
               ),
               ThongKeHangHoa(
-                tonkho: updatehanghoa["tonkho"],
-                daban: updatehanghoa["daban"],
-                donvi: updatehanghoa["donvi"],
+                tonkho: hanghoanew["tonkho"],
+                daban: hanghoanew["daban"],
+                donvi: hanghoanew["donvi"],
               )
             ],
           ),
