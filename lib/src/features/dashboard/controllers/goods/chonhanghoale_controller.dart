@@ -143,7 +143,7 @@ class ChonHangHoaLeController extends GetxController {
         .collection("Goods")
         .doc(firebaseUser.uid)
         .collection("LichSuCD")
-        .where("ngaytao", isEqualTo: dateTao)
+        .where("ngaytao", isEqualTo: dateTao = formatNgayTao())
         .get();
     return gethanghoa;
   }
