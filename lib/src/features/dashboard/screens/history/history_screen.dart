@@ -38,7 +38,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 color: whiteColor,
                 child: Column(
                   children: [
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -58,7 +58,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             )),
                       ],
                     ),
-                    TabBar(
+                    const TabBar(
                       tabs: [
                         Tab(
                           text: "Bán Hàng",
