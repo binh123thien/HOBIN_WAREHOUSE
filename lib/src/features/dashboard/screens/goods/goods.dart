@@ -24,7 +24,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
   final controllersortby = Get.put(ThemHangHoaController());
 
   Future<void> _showSortbyHangHoa() async {
-    await showModalBottomSheet<String>(
+    final selectedValue = await showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -33,11 +33,12 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
           sortbyhanghoaController: controllersortby.sortbyhanghoaController,
         ); // Gọi Widget BottomSheetContent để hiển thị bottom sheet
       },
-    ).then((value) {
+    );
+    if (selectedValue != null) {
       setState(() {
-        controllersortby.sortbyhanghoaController.text = value!;
+        controllersortby.sortbyhanghoaController.text = selectedValue;
       });
-    });
+    }
   }
 
   final controllerRepo = Get.put(GoodRepository());
@@ -67,7 +68,9 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
 
     // Sắp xếp danh sách theo thứ tự tăng dần của "tonkho"
     controllerRepo.sortby(
-        allHangHoa, controllersortby.sortbyhanghoaController.text);
+        allHangHoaLe, controllersortby.sortbyhanghoaController.text);
+    controllerRepo.sortby(
+        allHangHoaSi, controllersortby.sortbyhanghoaController.text);
     // Xác định tất cả các mục chứa từ khóa tìm kiếm trong lẻ
     List<dynamic> filteredItemsLe = allHangHoaLe
         .where((item) => item["tensanpham"]
@@ -158,14 +161,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                       itemBuilder: (context, index) {
                         var hanghoa = filteredItemsLe[index];
                         return CardHangHoa(
-                          hangHoaChoosed: hanghoa,
-                          phanBietSiLe: false,
-                          hinhanh: hanghoa['photoGood'],
-                          donvi: hanghoa["donvi"],
-                          tensanpham: hanghoa["tensanpham"].toString(),
-                          tonkho: hanghoa["tonkho"].toString(),
-                          giaban: hanghoa["giaban"],
-                          daban: hanghoa["daban"].toString(),
+                          hanghoa: hanghoa,
                           onTapChiTietHangHoa: () {
                             Navigator.push(
                               context,
@@ -199,14 +195,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                       itemBuilder: (context, index) {
                         var hanghoa = filteredItemsSi[index];
                         return CardHangHoa(
-                          hangHoaChoosed: hanghoa,
-                          phanBietSiLe: true,
-                          hinhanh: hanghoa['photoGood'],
-                          donvi: hanghoa["donvi"],
-                          tensanpham: hanghoa["tensanpham"],
-                          tonkho: hanghoa["tonkho"].toString(),
-                          giaban: hanghoa["giaban"],
-                          daban: hanghoa["daban"].toString(),
+                          hanghoa: hanghoa,
                           onTapChiTietHangHoa: () {
                             Navigator.push(
                               context,

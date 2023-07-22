@@ -212,25 +212,30 @@ class GoodRepository extends GetxController {
 //============================== end 2 hàm GetAll theo field ========================
   sortby(List<dynamic> allItems, String controller) {
     if (controller == "Giá tăng dần") {
-      return allItems.sort((a, b) => a["giaban"].compareTo(b["giaban"]));
+      allItems.sort((a, b) => a["giaban"].compareTo(b["giaban"]));
+      return allItems;
     } else if (controller == "Giá giảm dần") {
-      return allItems.sort((b, a) => a["giaban"].compareTo(b["giaban"]));
+      allItems.sort((b, a) => a["giaban"].compareTo(b["giaban"]));
+      print(allItems);
+      return allItems;
     } else if (controller == "Tồn kho tăng dần") {
-      return allItems.sort((a, b) => a["tonkho"].compareTo(b["tonkho"]));
+      allItems.sort((a, b) => a["tonkho"].compareTo(b["tonkho"]));
+      return allItems;
     } else if (controller == "Tồn kho giảm dần") {
-      return allItems.sort((b, a) => a["tonkho"].compareTo(b["tonkho"]));
+      allItems.sort((b, a) => a["tonkho"].compareTo(b["tonkho"]));
+      return allItems;
     } else if (controller == "Đã bán tăng dần") {
-      return allItems.sort((a, b) => a["daban"].compareTo(b["daban"]));
+      allItems.sort((a, b) => a["daban"].compareTo(b["daban"]));
+      return allItems;
     } else if (controller == "Đã bán giảm dần") {
-      return allItems.sort((b, a) => a["daban"].compareTo(b["daban"]));
+      allItems.sort((b, a) => a["daban"].compareTo(b["daban"]));
+      return allItems;
     } else if (controller == "A => Z") {
-      return allItems
-          .sort((a, b) => a["tensanpham"].compareTo(b["tensanpham"]));
+      allItems.sort((a, b) => a["tensanpham"].compareTo(b["tensanpham"]));
+      return allItems;
     } else if (controller == "Z => A") {
-      return allItems
-          .sort((b, a) => a["tensanpham"].compareTo(b["tensanpham"]));
-    } else {
-      return null;
+      allItems.sort((b, a) => a["tensanpham"].compareTo(b["tensanpham"]));
+      return allItems;
     }
   }
 

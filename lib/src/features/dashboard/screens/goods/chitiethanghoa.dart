@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/phanphoihanghoa.dart';
 
 import '../../../../constants/color.dart';
 import '../../../../repository/goods_repository/good_repository.dart';
@@ -46,6 +47,23 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
         backgroundColor: backGroundColor,
         centerTitle: true,
         actions: [
+          updatehanghoa["phanloai"] == "bán sỉ"
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PhanPhoiHangHoaScreen(
+                                hanghoaSi: updatehanghoa,
+                              )),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.share_outlined,
+                    color: Colors.black,
+                  ),
+                )
+              : const SizedBox(),
           PopupMenuButton(
             icon: const Icon(Icons.more_vert, size: 30, color: darkColor),
             itemBuilder: (context) => const [
@@ -94,7 +112,6 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                   if (updatehanghoa['photoGood'] != '') {
                     final imageRef = FirebaseStorage.instance
                         .refFromURL(updatehanghoa['photoGood']);
-                    print(imageRef);
                     //xóa hình ảnh qua path imageRef
                     FirebaseStorage.instance
                         .ref()
