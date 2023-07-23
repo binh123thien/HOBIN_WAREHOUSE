@@ -271,7 +271,7 @@ class _ChinhSuaChiTietHangHoaScreenState
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              width: 150,
+              width: MediaQuery.of(context).size.width - 30,
               height: 55,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -279,7 +279,7 @@ class _ChinhSuaChiTietHangHoaScreenState
                   side: const BorderSide(color: mainColor),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
-                        20), // giá trị này xác định bán kính bo tròn
+                        10), // giá trị này xác định bán kính bo tròn
                   ),
                 ),
                 onPressed: () async {

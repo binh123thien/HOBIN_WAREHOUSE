@@ -54,6 +54,7 @@ const String moreAppbarIcon = "assets/images/icon/goods/more.png";
 const String editIcon = "assets/images/icon/goods/edit.png";
 const String deleteIcon = "assets/images/icon/goods/delete.png";
 const String shareIcon = "assets/images/icon/goods/share.png";
+const String historyShareGoodIcon = "assets/images/icon/goods/history.png";
 //============= chưa xài nè
 const String distributeGoodIcon =
     "assets/images/icon/goods/distribute_good.png";

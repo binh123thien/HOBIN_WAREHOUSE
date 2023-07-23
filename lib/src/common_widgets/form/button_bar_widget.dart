@@ -22,7 +22,7 @@ class Button2nutBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           SizedBox(
-            width: 150,
+            width: 170,
             height: 55,
             child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
@@ -30,7 +30,7 @@ class Button2nutBar extends StatelessWidget {
                   foregroundColor: mainColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
-                        20), // giá trị này xác định bán kính bo tròn
+                        10), // giá trị này xác định bán kính bo tròn
                   ),
                 ),
                 onPressed: onPressed1,
@@ -39,7 +39,7 @@ class Button2nutBar extends StatelessWidget {
                         fontSize: 16, fontWeight: FontWeight.w600))),
           ),
           SizedBox(
-              width: 150,
+              width: 170,
               height: 55,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -47,7 +47,7 @@ class Button2nutBar extends StatelessWidget {
                     side: const BorderSide(color: mainColor),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          20), // giá trị này xác định bán kính bo tròn
+                          10), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
                   onPressed: onPressed2,

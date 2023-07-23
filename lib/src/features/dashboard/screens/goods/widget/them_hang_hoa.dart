@@ -5,13 +5,11 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/form/button_bar_widget.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
-import 'package:hobin_warehouse/src/constants/image_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/chondanhmuc_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/models/themhanghoa_model.dart';
 import 'package:hobin_warehouse/src/utils/validate/validate.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../../../repository/goods_repository/good_repository.dart';
 import '../../../../../utils/image_picker/image_picker.dart';
 import '../../../../../utils/utils.dart';
@@ -64,15 +62,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(tBackGround1),
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
+        backgroundColor: mainColor,
         leading: IconButton(
             icon: const Image(
               image: AssetImage(backIcon),

@@ -49,12 +49,10 @@ class CardPhanPhoiHang extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                              '${donViProduct.substring(0, 1).toUpperCase()}${donViProduct.substring(1)} '),
-                          Text(updatehanghoa['tensanpham'])
-                        ],
+                      Text(
+                        updatehanghoa['tensanpham'],
+                        style: const TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w700),
                       ),
                       Row(
                         children: [

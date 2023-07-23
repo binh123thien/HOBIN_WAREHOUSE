@@ -63,10 +63,15 @@ class MyDialog {
             fontWeight: FontWeight.w800,
           ),
         ),
-        content: Text(
-          textContent,
-          style: const TextStyle(fontSize: 18),
+        content: Container(
+          width: MediaQuery.of(context).size.width * 0.9, // set custom width
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text(
+            textContent,
+            style: const TextStyle(fontSize: 18),
+          ),
         ),
+        contentPadding: EdgeInsets.zero, // remove default content padding
         actions: [
           TextButton(
             onPressed: () {

@@ -96,7 +96,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   phanBietSiLe: true,
                   slchuyendoi: 0,
                   imageProduct: updatehanghoaSi['photoGood'].isEmpty
-                      ? distributeGoodIcon
+                      ? hanghoaIcon
                       : updatehanghoaSi['photoGood'],
                   donViProduct: updatehanghoaSi['donvi'],
                   updatehanghoa: updatehanghoaSi),
@@ -108,7 +108,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   phanBietSiLe: false,
                   slchuyendoi: 0,
                   imageProduct: updatehanghoaLe['photoGood'].isEmpty
-                      ? distributeGoodIcon
+                      ? hanghoaIcon
                       : updatehanghoaLe['photoGood'],
                   donViProduct: updatehanghoaLe['donvi'],
                   updatehanghoa: updatehanghoaLe),
@@ -123,39 +123,57 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                         children: [
                           Image(
                             image: AssetImage(warningIcon),
-                            height: 35,
+                            height: 30,
                           ),
                           Padding(padding: EdgeInsets.only(right: 10)),
                           Expanded(
                             child: Text(
                               'Nhập chính xác số lượng đơn vị bán lẻ trên 1 đơn vị kiện hàng bán sỉ',
-                              textAlign: TextAlign.justify,
+                              style: TextStyle(fontSize: 16),
                             ),
                           )
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
                             '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}',
+                            style: const TextStyle(fontSize: 16),
                           ),
-                          const Text(' = '),
-                          Expanded(
+                          const Text(
+                            ' = ',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(
+                            width: 135,
+                            height: 35,
                             child: TextFormField(
+                              autofocus: false,
                               controller: textEditsoLuongLe,
-                              decoration: const InputDecoration(
-                                errorStyle: TextStyle(fontSize: 12),
-                                border: OutlineInputBorder(),
-                                contentPadding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        10), // Khoảng cách giữa viền và nội dung
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor:
+                                    backGroundSearch, // where is this color defined?
+                                contentPadding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                prefixIconColor: darkLiteColor,
+                                floatingLabelStyle:
+                                    const TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide.none,
+                                ),
+                                hintText: "Nhập số lượng",
                               ),
-                              style: const TextStyle(color: Colors.black),
                               validator: (value) {
                                 return nonZeroOrOneInput(value!);
                               },
@@ -166,7 +184,10 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                               keyboardType: TextInputType.number,
                             ),
                           ),
-                          Text(' ${updatehanghoaLe['donvi']}'),
+                          Text(
+                            ' ${updatehanghoaLe['donvi']}',
+                            style: const TextStyle(fontSize: 16),
+                          ),
                         ],
                       ),
                     ),
@@ -177,7 +198,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
               const SizedBox(height: 10),
               Container(
                 width: double.infinity,
-                height: 170,
+                height: 120,
                 decoration: const BoxDecoration(color: Colors.white),
                 child: Padding(
                   padding: const EdgeInsets.all(10),
@@ -186,34 +207,53 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                       Row(children: [
                         const Image(
                           image: AssetImage(warningIcon),
-                          height: 35,
+                          height: 30,
                         ),
                         const Padding(padding: EdgeInsets.only(right: 10)),
                         Expanded(
                           child: Text(
                             'Nhập số lượng ${updatehanghoaSi['donvi']} cần chuyển đổi',
-                            textAlign: TextAlign.justify,
+                            style: const TextStyle(fontSize: 16),
                           ),
                         ),
                       ]),
                       const SizedBox(height: 20),
-                      TextFormField(
-                        controller: textEditsoLuongSi,
-                        decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 5),
-                            errorStyle: TextStyle(fontSize: 12),
-                            border: OutlineInputBorder()),
-                        style: const TextStyle(color: Colors.black),
-                        validator: (value) {
-                          return nonBeyondSi(value!, updatehanghoaSi['tonkho']);
-                        },
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(
-                              RegExp(r'^\d{0,6}')),
-                        ],
-                        keyboardType: TextInputType.number,
-                      )
+                      SizedBox(
+                        width: 900,
+                        height: 35,
+                        child: TextFormField(
+                          autofocus: false,
+                          controller: textEditsoLuongSi,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor:
+                                backGroundSearch, // where is this color defined?
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 10),
+                            prefixIconColor: darkLiteColor,
+                            floatingLabelStyle:
+                                const TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
+                            ),
+                            hintText: "Nhập số lượng",
+                          ),
+                          validator: (value) {
+                            return nonBeyondSi(
+                                value!, updatehanghoaSi['tonkho']);
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^\d{0,6}')),
+                          ],
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
                     ],
                   ),
                 ),
