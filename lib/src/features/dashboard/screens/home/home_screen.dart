@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/appbar_dashboard.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuticon.dart';
-import '../../../authentication/models/user_models.dart';
 import '../../controllers/account/profile_controller.dart';
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../../controllers/history/history_controller.dart';
@@ -30,13 +29,10 @@ class _HomePageState extends State<HomePage> {
     controller.loadAllHangHoa();
     controllerHistory.loadPhiNhapHangTrongThang("NhapHang");
     controllerHistory.loadPhiNhapHangTrongThang("BanHang");
-    userAccountUpdate = controllerProfile.userDataFrebase;
   }
 
-  late UserModel userAccountUpdate;
   @override
   Widget build(BuildContext context) {
-    print(userAccountUpdate.email);
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -44,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           statusBarIconBrightness: Brightness.dark,
         ),
         backgroundColor: mainColor,
-        title: AppBarDashBoard(userAccountUpdate: userAccountUpdate),
+        title: const AppBarDashBoard(),
       ),
       backgroundColor: whiteColor,
       body: const SingleChildScrollView(

@@ -26,15 +26,13 @@ class ProfileController extends GetxController {
       UserModel(email: '', password: '', name: '', phone: '', photoURL: '');
 
   //Step 3 - Nhận User Email và đẩy sang UserRepository với user đã tìm thấy
-  getUserData() async {
+  getUserData() {
     //lấy địa chỉ email ng dùng đăng nhập
     final email = _authRepo.firebaseUser.value?.email;
     if (email != null) {
       final snapshot =
-          await _db.collection("Users").where("Email", isEqualTo: email).get();
-      final userData =
-          snapshot.docs.map((e) => UserModel.fromSnapshot(e)).first;
-      userDataFrebase = userData;
+          _db.collection("Users").where("Email", isEqualTo: email).snapshots();
+      return snapshot;
     } else {
       Get.snackbar("Lỗi", "Đăng nhập để tiếp tục");
     }
