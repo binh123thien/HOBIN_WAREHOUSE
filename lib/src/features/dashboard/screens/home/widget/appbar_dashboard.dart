@@ -18,27 +18,28 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
   final controllerProfile = Get.put(ProfileController());
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const AccountScreen(),
-          ),
-        );
-      },
-      child: StreamBuilder<QuerySnapshot>(
-        stream: controllerProfile.getUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text("Không có dữ liệu"));
-          } else {
-            // Hiển thị thông tin người dùng
-            var userAccountUpdate = snapshot.data!.docs[0].data();
-            print(userAccountUpdate);
-            return Padding(
+    return StreamBuilder<QuerySnapshot>(
+      stream: controllerProfile.getUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.data!.docs.isEmpty) {
+          return const Center(child: Text("Có lỗi xảy ra"));
+        } else {
+          // Hiển thị thông tin người dùng
+          var userAccount = snapshot.data!.docs[0].data() as Map;
+          print(userAccount); // dạng Map
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AccountScreen(userAccountUpdate: userAccount),
+                ),
+              );
+            },
+            child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: Row(
                 children: [
@@ -47,10 +48,9 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                     height: 45,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
-                      child: (userAccountUpdate is Map &&
-                              userAccountUpdate['PhotoURL'].isNotEmpty)
+                      child: (userAccount['PhotoURL'].isNotEmpty)
                           ? CachedNetworkImage(
-                              imageUrl: userAccountUpdate['PhotoURL'],
+                              imageUrl: userAccount['PhotoURL'],
                               fit: BoxFit.cover,
                               placeholder: (context, url) =>
                                   const CircularProgressIndicator(),
@@ -69,23 +69,19 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hi, ${userAccountUpdate is Map ? userAccountUpdate["Name"] ?? '' : ''}!",
+                        "Hi, ${userAccount["Name"]}!",
                         style: const TextStyle(fontSize: 13),
                       ),
-                      Text(
-                          userAccountUpdate is Map
-                              ? userAccountUpdate['Email'] ??
-                                  userAccountUpdate['Email']
-                              : '',
+                      Text(userAccount['Email'],
                           style: const TextStyle(fontSize: 15)),
                     ],
                   )
                 ],
               ),
-            );
-          }
-        },
-      ),
+            ),
+          );
+        }
+      },
     );
   }
 }

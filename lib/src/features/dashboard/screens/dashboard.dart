@@ -9,8 +9,6 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/goods/goods.dart'
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/history_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/home_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/statistics_screen.dart';
-
-import '../controllers/account/profile_controller.dart';
 import '../controllers/statistics/doanhthu_controller.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -22,12 +20,10 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final controller = Get.put(ChonHangHoaController());
-  final controllerProfile = Get.put(ProfileController());
   final controllerDoanhThu = Get.put(DoanhThuController());
   @override
   void initState() {
     super.initState();
-    controllerProfile.getUserData();
     controller.loadAllHangHoa();
     controllerDoanhThu.loadDoanhThuNgay();
     controllerDoanhThu.loadDoanhThuTuan();

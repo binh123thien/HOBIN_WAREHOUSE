@@ -16,20 +16,16 @@ import '../../../../common_widgets/dialog/dialog.dart';
 import 'information_profile_screen.dart';
 
 class AccountScreen extends StatefulWidget {
-  const AccountScreen({super.key});
+  AccountScreen({super.key, required this.userAccountUpdate});
+  Map userAccountUpdate;
 
   @override
   State<AccountScreen> createState() => _AccountScreenState();
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  final ProfileController controllerProfile = Get.find();
-  late UserModel userAccountUpdate =
-      UserModel(email: '', password: '', name: '', phone: '', photoURL: '');
-
   @override
   void initState() {
-    userAccountUpdate = controllerProfile.userDataFrebase;
     super.initState();
   }
 
@@ -79,13 +75,14 @@ class _AccountScreenState extends State<AccountScreen> {
               height: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: (userAccountUpdate.photoURL.isNotEmpty)
+                child: (widget.userAccountUpdate['PhotoURL'].isNotEmpty)
                     ? CachedNetworkImage(
-                        imageUrl: userAccountUpdate.photoURL,
+                        imageUrl: widget.userAccountUpdate['PhotoURL'],
                         fit: BoxFit.cover,
                         placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                            const CircularProgressIndicator(),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       )
                     : Image.asset(
                         tDefaultAvatar,
@@ -94,11 +91,11 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             const SizedBox(height: 10),
             Text(
-              userAccountUpdate.name,
+              widget.userAccountUpdate['Name'],
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             Text(
-              userAccountUpdate.email,
+              widget.userAccountUpdate['Email'],
               style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: 20),
@@ -107,24 +104,28 @@ class _AccountScreenState extends State<AccountScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UpdateProfileScreen(
-                                  userData: userAccountUpdate,
-                                  photoFb: userAccountUpdate.photoURL)))
-                      .then((newvalue) {
-                    print(newvalue);
-                    if (newvalue == true) {
-                      print('nhay vao true');
-                    } else if (newvalue is UserModel) {
-                      print('vao setState');
-                      setState(() {
-                        userAccountUpdate = newvalue;
-                      });
-                    } else {
-                      print('nhay vao false');
-                    }
-                  });
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UpdateProfileScreen(
+                          userData: widget.userAccountUpdate,
+                          photoFb: widget.userAccountUpdate['PhotoURL']),
+                    ),
+                    // )
+                    // .then(
+                    //   (newvalue) {
+                    //     print(newvalue);
+                    //     if (newvalue == true) {
+                    //       print('nhay vao true');
+                    //     } else if (newvalue is UserModel) {
+                    //       print('vao setState');
+                    //       setState(() {
+                    //         widget.userAccountUpdate = newvalue;
+                    //       });
+                    //     } else {
+                    //       print('nhay vao false');
+                    //     }
+                    //   },
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: pink500Color,
@@ -146,8 +147,8 @@ class _AccountScreenState extends State<AccountScreen> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          InformationProfileScreen(user: userAccountUpdate),
+                      builder: (context) => InformationProfileScreen(
+                          user: widget.userAccountUpdate),
                     ));
               },
             ),

@@ -21,10 +21,6 @@ class ProfileController extends GetxController {
   final _authRepo = Get.put(AuthenticationRepository());
   final _userRepo = Get.put(UserRepository());
 
-  //tạo model tạm
-  UserModel userDataFrebase =
-      UserModel(email: '', password: '', name: '', phone: '', photoURL: '');
-
   //Step 3 - Nhận User Email và đẩy sang UserRepository với user đã tìm thấy
   getUserData() {
     //lấy địa chỉ email ng dùng đăng nhập

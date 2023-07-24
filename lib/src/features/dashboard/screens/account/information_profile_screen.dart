@@ -9,7 +9,7 @@ import '../../../../constants/image_strings.dart';
 import '../../../authentication/models/user_models.dart';
 
 class InformationProfileScreen extends StatefulWidget {
-  final UserModel user;
+  final Map user;
   const InformationProfileScreen({super.key, required this.user});
 
   @override
@@ -18,12 +18,10 @@ class InformationProfileScreen extends StatefulWidget {
 }
 
 class _InformationProfileScreenState extends State<InformationProfileScreen> {
-  late UserModel userData;
   @override
   void initState() {
     // Gán giá trị của widget.user vào state để sử dụng: cập nhập thuộc tính
     super.initState();
-    userData = widget.user;
   }
 
   @override
@@ -68,9 +66,9 @@ class _InformationProfileScreenState extends State<InformationProfileScreen> {
                 height: 120,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
-                  child: (userData.photoURL.isNotEmpty)
+                  child: (widget.user['PhotoURL'].isNotEmpty)
                       ? CachedNetworkImage(
-                          imageUrl: userData.photoURL,
+                          imageUrl: widget.user['PhotoURL'],
                           fit: BoxFit.cover,
                           placeholder: (context, url) =>
                               CircularProgressIndicator(),
@@ -85,31 +83,32 @@ class _InformationProfileScreenState extends State<InformationProfileScreen> {
               //======================= end avatar ===========================================
               const SizedBox(height: 10),
               Text(
-                userData.name,
+                widget.user['Name'],
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               Text(
-                userData.email,
+                widget.user['Email'],
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: 20),
               const Divider(),
               InformationUserWidget(
                 textColor: Colors.black,
-                title: userData.email,
+                title: widget.user['Email'],
                 imageicon: Icons.mail_outline,
               ),
               InformationUserWidget(
                 textColor: Colors.black,
-                title:
-                    userData.name != '' ? userData.name : "Chưa có họ và tên",
+                title: widget.user['Name'] != ''
+                    ? widget.user['Name']
+                    : "Chưa có họ và tên",
                 imageicon: Icons.badge_outlined,
               ),
               InformationUserWidget(
                 textColor: Colors.black,
-                title: userData.phone == ''
+                title: widget.user['Phone'] == ''
                     ? "Chưa có số điện thoại"
-                    : userData.phone,
+                    : widget.user['Phone'],
                 imageicon: Icons.phone_iphone_outlined,
               ),
             ],

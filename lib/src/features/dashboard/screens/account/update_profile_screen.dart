@@ -21,7 +21,7 @@ import '../../controllers/image_controller.dart';
 import 'widget/form_profile_menu_widget.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
-  final UserModel userData;
+  final Map userData;
   final String photoFb;
   const UpdateProfileScreen(
       {super.key, required this.userData, required this.photoFb});
@@ -34,7 +34,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final controller = Get.put(ProfileController());
   final controllerImage = Get.put(ImageController());
 
-  late UserModel updateUserData;
+  late Map updateUserData;
   final firebaseUser = FirebaseAuth.instance.currentUser;
   @override
   void initState() {
@@ -42,9 +42,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     super.initState();
     updateUserData = widget.userData;
     // Gán giá trị sau khi userData đã được khởi tạo
-    controller.nameController.text = widget.userData.name;
-    controller.emailController.text = widget.userData.email;
-    controller.phoneController.text = widget.userData.phone;
+    controller.nameController.text = widget.userData['Name'];
+    controller.emailController.text = widget.userData['Email'];
+    controller.phoneController.text = widget.userData['Phone'];
   }
 
   @override
@@ -108,9 +108,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       height: 120,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
-                        child: (updateUserData.photoURL.isNotEmpty)
+                        child: (updateUserData['PhotoURL'].isNotEmpty)
                             ? CachedNetworkImage(
-                                imageUrl: updateUserData.photoURL,
+                                imageUrl: updateUserData['PhotoURL'],
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) =>
                                     CircularProgressIndicator(),
@@ -170,11 +170,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 //======================= end avatar ===========================================
                 const SizedBox(height: 10),
                 Text(
-                  updateUserData.name,
+                  updateUserData['Name'],
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Text(
-                  updateUserData.email,
+                  updateUserData['Email'],
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: 20),
@@ -254,7 +254,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       'Phone': controller.phoneController.text.trim(),
       'PhotoURL': controllerImage.ImagePickedURLController.isNotEmpty
           ? controllerImage.ImagePickedURLController.last
-          : updateUserData.photoURL,
+          : updateUserData['PhotoURL'],
     }).whenComplete(() {
       Get.snackbar("Thành công", "Cập nhập thông tin hoàn tất!",
           colorText: Colors.green);
@@ -273,15 +273,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   showHinhAnh() {
     setState(() {
-      updateUserData = UserModel(
-          id: firebaseUser!.uid,
-          name: controller.nameController.text.trim(),
-          email: controller.emailController.text.trim(),
-          phone: controller.phoneController.text.trim(),
-          password: updateUserData.password,
-          photoURL: controllerImage.ImagePickedURLController.isEmpty
-              ? updateUserData.photoURL
-              : controllerImage.ImagePickedURLController.last);
+      // updateUserData = Map(
+      //     'id': firebaseUser!.uid,
+      //     'Name': controller.nameController.text.trim(),
+      //     'email': controller.emailController.text.trim(),
+      //     'phone': controller.phoneController.text.trim(),
+      //     'password': updateUserData['Password'],
+      //     'photoURL': controllerImage.ImagePickedURLController.isEmpty
+      //         ? updateUserData['PhotoURL']
+      //         : controllerImage.ImagePickedURLController.last);
     });
     Navigator.of(context).pop();
   }
