@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/firebase_options.dart';
-import 'package:hobin_warehouse/src/features/authentication/screens/welcome/welcome_screen.dart';
+import 'package:hobin_warehouse/splash_screen.dart';
 import 'package:hobin_warehouse/src/repository/authentication_repository/authentication_repository.dart';
 import 'package:hobin_warehouse/src/utils/theme/theme.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       darkTheme: TAppTheme.darkTheme,
       themeMode: ThemeMode.light,
       debugShowCheckedModeBanner: false,
-      home: const WelcomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }

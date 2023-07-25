@@ -1,3 +1,6 @@
+//Splash screen
+const String splashcreenicon = "assets/logo/logo_background.png";
+
 // Welcome Screen Image
 const String tWelcomeScreenImage =
     "assets/images/welcome_images/welcome_screen_image.png";

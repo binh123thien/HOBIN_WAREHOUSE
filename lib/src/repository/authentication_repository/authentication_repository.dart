@@ -30,8 +30,12 @@ class AuthenticationRepository extends GetxController {
 // lắng nghe dữ liệu user đăng nhập dòng 19
   _setInitialScreen(User? user) {
     user == null
-        ? Get.offAll(() => const WelcomeScreen())
-        : Get.offAll(() => const EmailVerifyScreen());
+        ? Future.delayed(const Duration(seconds: 2)).then((value) {
+            Get.offAll(() => const WelcomeScreen());
+          })
+        : Future.delayed(const Duration(seconds: 2)).then((value) {
+            Get.offAll(() => const EmailVerifyScreen());
+          });
   }
 
   Future<void> createUserWithEmailAndPassword(
