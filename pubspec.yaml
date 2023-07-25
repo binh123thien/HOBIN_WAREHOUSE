@@ -73,6 +73,13 @@ dependencies:
   #---------shared_preferences
   shared_preferences: ^2.1.1
   printing: ^5.11.0
+  flutter_launcher_icons: ^0.13.1
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo/icon_launcher.png"
+  adaptive_icon_foreground: "assets/logo/icon_launcher_adaptive_for.png"
+  adaptive_icon_background: "assets/logo/icon_launcher_adaptive_back.png"
 dev_dependencies:
   flutter_test:
     sdk: flutter
