@@ -6,8 +6,6 @@ import 'package:hobin_warehouse/src/constants/sizes.dart';
 
 import '../../../../constants/image_strings.dart';
 
-import '../../../authentication/models/user_models.dart';
-
 class InformationProfileScreen extends StatefulWidget {
   final Map user;
   const InformationProfileScreen({super.key, required this.user});

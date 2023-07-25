@@ -2,8 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../../constants/color.dart';
 import '../../../controllers/account/profile_controller.dart';
 import '../../account/account_screen.dart';
 
@@ -59,7 +57,7 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                             )
                           : const Icon(
                               Icons.account_circle,
-                              color: mainColor,
+                              color: Colors.white,
                               size: 45,
                             ),
                     ),
