@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../controllers/goods/chonhanghoale_controller.dart';
+import '../../Widget/appbar/search_widget.dart';
 import 'widget/cardlichsuchuyendoi.dart';
 
 class LichSuChuyenDoiScreen extends StatefulWidget {
@@ -26,13 +27,51 @@ class _LichSuChuyenDoiScreenState extends State<LichSuChuyenDoiScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //hàm tìm kiếm lịch sử
+    void search(String keyword) {
+      setState(() {
+        foundLichSu = chonHangHoaLeController.allLichSuCDFirebase
+            .where((lichsu) =>
+                lichsu['ngaytao']
+                    .toString()
+                    .toLowerCase()
+                    .contains(keyword.toLowerCase()) ||
+                lichsu['tenSanPhamLe']
+                    .toString()
+                    .toLowerCase()
+                    .contains(keyword.toLowerCase()))
+            //     ||
+            // lichsu['soluongSi']
+            //     .toString()
+            //     .toLowerCase()
+            //     .contains(keyword.toLowerCase()) ||
+            // lichsu['soluongLe']
+            //     .toString()
+            //     .toLowerCase()
+            //     .contains(keyword.toLowerCase()) ||
+            // lichsu['chuyendoiLe']
+            //     .toString()
+            //     .toLowerCase()
+            //     .contains(keyword.toLowerCase()) ||
+            // lichsu['chuyendoiSi']
+            //     .toString()
+            //     .toLowerCase()
+            //     .contains(keyword.toLowerCase()) ||
+            // lichsu['tenSanPhamSi']
+            //     .toString()
+            //     .toLowerCase()
+            //     .contains(keyword.toLowerCase())
+            .toList();
+      });
+    }
+
     final size = MediaQuery.of(context).size;
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Container(
         height: size.height * 0.6,
-        padding: const EdgeInsets.fromLTRB(30, 15, 30, 20),
+        padding: const EdgeInsets.fromLTRB(25, 15, 25, 20),
         child: Column(
           children: [
             const Divider(
@@ -67,31 +106,27 @@ class _LichSuChuyenDoiScreenState extends State<LichSuChuyenDoiScreen> {
             const SizedBox(height: 10),
             Row(
               children: [
-                const Expanded(
-                  flex: 4,
-                  child: SizedBox(
-                    height: 40,
-                  ),
+                SearchWidget(
+                  onChanged: (value) {
+                    search(value);
+                  },
+                  width: 320,
                 ),
-                Expanded(
-                    flex: 1,
-                    child: TextButton(
-                        child: const Text("Tìm",
-                            style: TextStyle(fontSize: 17, color: mainColor)),
-                        onPressed: () async {}))
               ],
             ),
             const SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                itemCount: foundLichSu.length,
-                itemBuilder: (context, index) {
-                  var lichsu = foundLichSu[index];
-                  return Cardlichsuchuyendoi(
-                    lichsu: lichsu,
-                  );
-                },
-              ),
+              child: foundLichSu.isEmpty
+                  ? const Center(child: Text("Chưa có lịch sử chuyển đổi"))
+                  : ListView.builder(
+                      itemCount: foundLichSu.length,
+                      itemBuilder: (context, index) {
+                        var lichsu = foundLichSu[index];
+                        return Cardlichsuchuyendoi(
+                          lichsu: lichsu,
+                        );
+                      },
+                    ),
             )
           ],
         ),

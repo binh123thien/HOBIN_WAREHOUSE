@@ -48,7 +48,6 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
       });
     }
   }
-
   //===================== end sort by ==========================================================
 
   @override
@@ -84,16 +83,17 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
         .where((item) =>
             item["phanloai"].toString().toLowerCase().contains('bán lẻ'))
         .toList();
+    // Sắp xếp danh sách theo thứ tự tăng dần của "tonkho"
+    controllerRepo.sortby(
+        allHangHoaLe, controllersortby.sortbyhanghoaController.text);
     // Xác định tất cả các mục chứa từ khóa tìm kiếm trong sỉ
-    List<dynamic> filteredItemsSi = allHangHoaLe
+    List<dynamic> filteredItemsLe = allHangHoaLe
         .where((item) => item["tensanpham"]
             .toString()
             .toLowerCase()
             .contains(searchHangHoa.toLowerCase()))
         .toList();
-    // Sắp xếp danh sách theo thứ tự tăng dần của "tonkho"
-    controllerRepo.sortby(
-        allHangHoa, controllersortby.sortbyhanghoaController.text);
+
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -175,9 +175,9 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: ListView.builder(
-                      itemCount: filteredItemsSi.length,
+                      itemCount: filteredItemsLe.length,
                       itemBuilder: (context, index) {
-                        var hanghoa = filteredItemsSi[index];
+                        var hanghoa = filteredItemsLe[index];
                         return CardHangHoa(
                           hanghoa: hanghoa,
                           onTapChiTietHangHoa: () {
