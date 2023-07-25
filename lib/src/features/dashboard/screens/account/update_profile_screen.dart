@@ -16,7 +16,6 @@ import '../../../../common_widgets/dialog/dialog.dart';
 import '../../../../common_widgets/willpopscope.dart';
 import '../../../../constants/image_strings.dart';
 import '../../../../utils/image_picker/image_picker.dart';
-import '../../../authentication/models/user_models.dart';
 import '../../controllers/image_controller.dart';
 import 'widget/form_profile_menu_widget.dart';
 
@@ -39,12 +38,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   void initState() {
     // Gán giá trị của widget.user vào state để sử dụng: cập nhập thuộc tính
-    super.initState();
-    updateUserData = widget.userData;
+
+    // Tạo bản sao của đối tượng userData
+    updateUserData = Map.from(widget.userData);
     // Gán giá trị sau khi userData đã được khởi tạo
     controller.nameController.text = widget.userData['Name'];
     controller.emailController.text = widget.userData['Email'];
     controller.phoneController.text = widget.userData['Phone'];
+    super.initState();
   }
 
   @override
@@ -234,6 +235,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future _updateUserData() async {
+    print('vao ham update');
 //================= xóa hình ảnh trước đó của user ===============
     if (widget.photoFb.isNotEmpty) {
       if (controllerImage.ImagePickedURLController.isNotEmpty) {
@@ -261,27 +263,24 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     });
     controllerImage.deleteExceptLastImage('profile');
     //lấy doc mới cập nhật return về (get dữ liệu về trang trước)
+    print('update x, xóa hình xong');
     final updatedDoc = await FirebaseFirestore.instance
         .collection("Users")
         .doc(firebaseUser!.uid)
         .get();
-    //chuyển về dạng model
-    final user = UserModel.fromSnapshot(updatedDoc);
-    print(user.toJson());
+    // //chuyển về dạng model
+    // final user = UserModel.fromSnapshot(updatedDoc);
+    //chuyển về dạng Map
+    final user = updatedDoc.data();
     return user;
   }
 
   showHinhAnh() {
     setState(() {
-      // updateUserData = Map(
-      //     'id': firebaseUser!.uid,
-      //     'Name': controller.nameController.text.trim(),
-      //     'email': controller.emailController.text.trim(),
-      //     'phone': controller.phoneController.text.trim(),
-      //     'password': updateUserData['Password'],
-      //     'photoURL': controllerImage.ImagePickedURLController.isEmpty
-      //         ? updateUserData['PhotoURL']
-      //         : controllerImage.ImagePickedURLController.last);
+      updateUserData['PhotoURL'] =
+          controllerImage.ImagePickedURLController.isEmpty
+              ? updateUserData['PhotoURL']
+              : controllerImage.ImagePickedURLController.last;
     });
     Navigator.of(context).pop();
   }

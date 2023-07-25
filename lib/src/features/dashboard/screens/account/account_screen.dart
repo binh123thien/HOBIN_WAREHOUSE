@@ -1,13 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/constants/image_strings.dart';
 import 'package:hobin_warehouse/src/constants/sizes.dart';
 import 'package:hobin_warehouse/src/constants/text_strings.dart';
-import 'package:hobin_warehouse/src/features/dashboard/controllers/account/profile_controller.dart';
-import 'package:hobin_warehouse/src/features/authentication/models/user_models.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/account/update_profile_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/account/widget/profile_menu_widget.dart';
 import 'package:hobin_warehouse/src/repository/authentication_repository/authentication_repository.dart';
@@ -15,6 +12,7 @@ import 'package:hobin_warehouse/src/repository/authentication_repository/authent
 import '../../../../common_widgets/dialog/dialog.dart';
 import 'information_profile_screen.dart';
 
+// ignore: must_be_immutable
 class AccountScreen extends StatefulWidget {
   AccountScreen({super.key, required this.userAccountUpdate});
   Map userAccountUpdate;
@@ -110,21 +108,21 @@ class _AccountScreenState extends State<AccountScreen> {
                           userData: widget.userAccountUpdate,
                           photoFb: widget.userAccountUpdate['PhotoURL']),
                     ),
-                    // )
-                    // .then(
-                    //   (newvalue) {
-                    //     print(newvalue);
-                    //     if (newvalue == true) {
-                    //       print('nhay vao true');
-                    //     } else if (newvalue is UserModel) {
-                    //       print('vao setState');
-                    //       setState(() {
-                    //         widget.userAccountUpdate = newvalue;
-                    //       });
-                    //     } else {
-                    //       print('nhay vao false');
-                    //     }
-                    //   },
+                  ).then(
+                    (newvalue) {
+                      print('vao then');
+                      print(newvalue);
+                      if (newvalue == true) {
+                        print('nhay vao true');
+                      } else if (newvalue is Map) {
+                        print('vao setState');
+                        setState(() {
+                          widget.userAccountUpdate = newvalue;
+                        });
+                      } else {
+                        print('nhay vao false');
+                      }
+                    },
                   );
                 },
                 style: ElevatedButton.styleFrom(
