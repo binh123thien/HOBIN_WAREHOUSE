@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
@@ -40,17 +41,28 @@ class CardItemBanHang extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const Expanded(
-                            flex: 1,
+                          Expanded(
+                            // flex: 2,
                             child: Padding(
-                              padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+                              padding:
+                                  const EdgeInsets.fromLTRB(10, 15, 10, 15),
                               child: SizedBox(
                                 height: 30,
-                                width: 30,
-                                child: Icon(
-                                  Icons.inventory_2,
-                                  size: 30,
-                                ),
+                                child: hanghoa["photoGood"].isEmpty
+                                    ? const Icon(
+                                        Icons.inventory_2,
+                                        size: 30,
+                                      )
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: CachedNetworkImage(
+                                          height: 50,
+                                          width: 50,
+                                          imageUrl:
+                                              hanghoa["photoGood"].toString(),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
                               ),
                             ),
                           ),

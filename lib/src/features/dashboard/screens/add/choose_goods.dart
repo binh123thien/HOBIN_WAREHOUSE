@@ -9,6 +9,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/sea
 import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 
 import '../../controllers/add/chonhanghoa_controller.dart';
+import '../goods/widget/them_hang_hoa.dart';
 import 'widget/themdonhang/danhsachsortby_hanghoa_taodon.dart';
 
 // ignore: must_be_immutable
@@ -23,6 +24,7 @@ class ChooseGoodsScreen extends StatefulWidget {
 }
 
 class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
+  final controllerAllHangHoa = Get.put(ChonHangHoaController());
   final ChonHangHoaController chonHangHoaController = Get.find();
   final controllersortby = Get.put(ThemHangHoaController());
   final controllerGoodRepo = Get.put(GoodRepository());
@@ -88,60 +90,76 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
     }
 
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(100),
-          child: AppBar(
-            leading: IconButton(
-                icon: const Image(
-                  image: AssetImage(backIcon),
-                  height: 20,
-                  color: whiteColor,
-                ),
-                onPressed: () {
-                  Navigator.pop(context, widget.controllers);
-                }),
-            title: const Text("Hàng Hóa",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(20),
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: SearchWidget(
-                  onChanged: (value) {
-                    onSearchTextChanged(value);
-                  },
-                  width: 330,
-                ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(100),
+        child: AppBar(
+          leading: IconButton(
+              icon: const Image(
+                image: AssetImage(backIcon),
+                height: 20,
+                color: whiteColor,
+              ),
+              onPressed: () {
+                Navigator.pop(context, widget.controllers);
+              }),
+          title: const Text("Hàng Hóa",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(20),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: SearchWidget(
+                onChanged: (value) {
+                  onSearchTextChanged(value);
+                },
+                width: 330,
               ),
             ),
-            backgroundColor: Colors.transparent,
-            flexibleSpace: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                      tBackGround1), // where is this variable defined?
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    _showSortbyHangHoaTaoDon();
-                  },
-                  icon: const Image(
-                    image: AssetImage(sortyWhiteIcon),
-                    height: 25,
-                  ))
-            ],
           ),
+          backgroundColor: Colors.transparent,
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image:
+                    AssetImage(tBackGround1), // where is this variable defined?
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  _showSortbyHangHoaTaoDon();
+                },
+                icon: const Image(
+                  image: AssetImage(sortyWhiteIcon),
+                  height: 25,
+                ))
+          ],
         ),
-        body: CardItemBanHang(
-          phanbietNhapXuat: widget.phanbietNhapXuat,
-          allHangHoa: filteredItems,
-          controllerSoluong: widget.controllers,
-        ));
+      ),
+      body: CardItemBanHang(
+        phanbietNhapXuat: widget.phanbietNhapXuat,
+        allHangHoa: filteredItems,
+        controllerSoluong: widget.controllers,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ThemGoodsScreen()),
+          ).then((_) {
+            setState(() {
+              allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
+            });
+          });
+        },
+        backgroundColor: mainColor,
+        icon: const Icon(Icons.add),
+        label: const Text("Thêm"),
+      ),
+    );
   }
 
   void locdulieu() {
