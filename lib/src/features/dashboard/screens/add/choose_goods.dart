@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
-import 'package:hobin_warehouse/src/constants/image_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/search_widget.dart';
@@ -10,6 +9,7 @@ import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.
 
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../goods/widget/them_hang_hoa.dart';
+import 'them_donhang.dart';
 import 'widget/themdonhang/danhsachsortby_hanghoa_taodon.dart';
 
 // ignore: must_be_immutable
@@ -90,74 +90,109 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
     }
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100),
-        child: AppBar(
-          leading: IconButton(
-              icon: const Image(
-                image: AssetImage(backIcon),
-                height: 20,
-                color: whiteColor,
+      appBar: AppBar(
+        title: const Text("Thêm đơn hàng",
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w700, color: whiteColor)),
+        backgroundColor: mainColor,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: IconButton(
+              icon: const Icon(
+                Icons.add_circle_outline_outlined,
+                size: 30,
               ),
-              onPressed: () {
-                Navigator.pop(context, widget.controllers);
-              }),
-          title: const Text("Hàng Hóa",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900)),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(20),
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: SearchWidget(
-                onChanged: (value) {
-                  onSearchTextChanged(value);
-                },
-                width: 330,
-              ),
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThemGoodsScreen()),
+                ).then((_) {
+                  setState(() {
+                    allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
+                  });
+                });
+              },
             ),
           ),
-          backgroundColor: Colors.transparent,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image:
-                    AssetImage(tBackGround1), // where is this variable defined?
-                fit: BoxFit.cover,
-              ),
+        ],
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: Container(
+            color: whiteColor,
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SearchWidget(
+                      onChanged: (value) {
+                        setState(() {
+                          searchHangHoa = value;
+                        });
+                      },
+                      width: 320,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        _showSortbyHangHoaTaoDon();
+                      },
+                      icon: const Image(
+                        image: AssetImage(sortbyIcon),
+                        height: 28,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
           ),
-          centerTitle: true,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  _showSortbyHangHoaTaoDon();
-                },
-                icon: const Image(
-                  image: AssetImage(sortyWhiteIcon),
-                  height: 25,
-                ))
-          ],
         ),
       ),
-      body: CardItemBanHang(
-        phanbietNhapXuat: widget.phanbietNhapXuat,
-        allHangHoa: filteredItems,
-        controllerSoluong: widget.controllers,
+      body: SingleChildScrollView(
+        child: CardItemBanHang(
+          phanbietNhapXuat: widget.phanbietNhapXuat,
+          allHangHoa: filteredItems,
+          controllerSoluong: widget.controllers,
+        ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ThemGoodsScreen()),
-          ).then((_) {
-            setState(() {
-              allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
-            });
-          });
-        },
-        backgroundColor: mainColor,
-        icon: const Icon(Icons.add),
-        label: const Text("Thêm"),
+      bottomNavigationBar: BottomAppBar(
+        height: 80,
+        color: whiteColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width - 30,
+              height: 55,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: mainColor,
+                  side: const BorderSide(color: mainColor),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        10), // giá trị này xác định bán kính bo tròn
+                  ),
+                ),
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThemDonHangScreen()),
+                  );
+                },
+                child: const Text(
+                  'Xác nhận',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
