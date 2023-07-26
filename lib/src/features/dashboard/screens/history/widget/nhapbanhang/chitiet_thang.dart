@@ -19,47 +19,42 @@ class ChitietThang extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
-      child: Column(
-        children: [
-          Row(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                phanbietNhapHangBanHang == "BanHang"
-                    ? "Tổng thu: ${formatCurrency(doanhThuMonthlyTotal)}"
-                    : "Tổng chi: ${formatCurrency(doanhThuMonthlyTotal)}",
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
+              Chip(
+                label: Text(
+                  phanbietNhapHangBanHang == "BanHang"
+                      ? "Tổng thu: ${formatCurrency(doanhThuMonthlyTotal)}"
+                      : "Tổng chi: ${formatCurrency(doanhThuMonthlyTotal)}",
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w100),
+                ),
               ),
-              const Text(
-                " | ",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
+              const SizedBox(width: 5),
+              Chip(
+                label: Text(
+                  phanbietNhapHangBanHang == "BanHang"
+                      ? "Đã bán: $soluongMonthlyTotal"
+                      : "Đã nhập: $soluongMonthlyTotal",
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w100),
+                ),
               ),
-              Text(
-                phanbietNhapHangBanHang == "BanHang"
-                    ? "Đã bán: $soluongMonthlyTotal"
-                    : "Đã nhập: $soluongMonthlyTotal",
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
-              ),
-              const Text(
-                " | ",
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
-              ),
+              const SizedBox(width: 5),
+              Chip(
+                label: Text(
+                  "Đơn hàng: $soLuongDonHangMonthlyTotal",
+                  style: const TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w100),
+                ),
+              )
             ],
           ),
-          Row(
-            children: [
-              Text(
-                "Đơn hàng: $soLuongDonHangMonthlyTotal",
-                style:
-                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
+        ));
   }
 }

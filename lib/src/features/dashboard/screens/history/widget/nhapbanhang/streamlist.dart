@@ -51,24 +51,36 @@ class StreamList extends StatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 15, 8, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Tháng $month" "/" "$year",
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w700),
-                              ),
-                            ],
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Container(
+                            color: backGroundSearch,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Tháng $month" "/" "$year",
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                ChitietThang(
+                                  doanhThuMonthlyTotal: doanhThuMonthlyTotal,
+                                  soluongMonthlyTotal: soluongMonthlyTotal,
+                                  soLuongDonHangMonthlyTotal:
+                                      soLuongDonHangMonthlyTotal,
+                                  phanbietNhapHangBanHang: snapshotCollection,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        ChitietThang(
-                          doanhThuMonthlyTotal: doanhThuMonthlyTotal,
-                          soluongMonthlyTotal: soluongMonthlyTotal,
-                          soLuongDonHangMonthlyTotal:
-                              soLuongDonHangMonthlyTotal,
-                          phanbietNhapHangBanHang: snapshotCollection,
                         ),
                         CardHistory(
                           docs: docs,

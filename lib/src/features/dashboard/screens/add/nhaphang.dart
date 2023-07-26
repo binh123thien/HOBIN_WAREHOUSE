@@ -275,7 +275,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                     MyDialog.showAlertDialog(context, 'Xác nhận thanh toán',
                         'Vui lòng kiểm tra đơn hàng trước khi thanh toán', () {
                       final nHcode = generateNHCode();
-                      final ngaytao = formatNgaytao();
+                      final ngaytao = formatNgayTao();
                       final datetime = formatDatetime();
 
                       final donnhaphang = ThemDonHangModel(

@@ -16,22 +16,29 @@ class ChitietThangPhanLoai extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            "Tổng thu: ${formatCurrency(tongBanHangMonthly)}",
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
-          ),
-          const Text(
-            " | ",
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
-          ),
-          Text(
-            "Tổng chi: ${formatCurrency(tongNhapHangMonthly)}",
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
-          ),
-        ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Chip(
+              label: Text(
+                "Tổng thu: ${formatCurrency(tongBanHangMonthly)}",
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
+              ),
+            ),
+            const SizedBox(width: 5),
+            Chip(
+              label: Text(
+                "Tổng chi: ${formatCurrency(tongNhapHangMonthly)}",
+                style:
+                    const TextStyle(fontSize: 15, fontWeight: FontWeight.w100),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

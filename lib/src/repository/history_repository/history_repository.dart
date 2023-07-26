@@ -48,7 +48,7 @@ class HistoryRepository extends GetxController {
           .collection(collectionName)
           .orderBy('soHD', descending: true) // add this line to sort by 'soHD'
           .get();
-
+      print(snapshot);
       // Group documents by month
       final Map<String, List<DocumentSnapshot>> docsByMonth = {};
       for (final doc in snapshot.docs) {
