@@ -69,6 +69,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
     if (controller.allHangHoaFireBase.isEmpty) {
       return const Scaffold(
         appBar: AppBarBGBack(
+          phanBietNhatXuat: 1,
           title: 'Nhập hàng',
         ),
         body: Center(child: Text("Chưa có hàng hóa!\nBạn cần thêm hàng hóa")),
@@ -198,6 +199,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
           },
           dialogChild: Scaffold(
               appBar: const AppBarBGBack(
+                phanBietNhatXuat: 1,
                 title: 'Nhập hàng',
               ),
               body: SingleChildScrollView(

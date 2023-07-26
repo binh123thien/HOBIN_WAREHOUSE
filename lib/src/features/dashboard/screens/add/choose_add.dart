@@ -3,8 +3,7 @@ import 'package:hobin_warehouse/src/constants/icon.dart';
 
 import '../goods/widget/them_hang_hoa.dart';
 import '../statistics/khachhang/widget/them_khachhang.dart';
-import 'nhaphang.dart';
-import 'them_donhang.dart';
+import 'choose_goods.dart';
 import 'widget/card_add_widget.dart';
 
 class ChooseAddScreen {
@@ -17,7 +16,7 @@ class ChooseAddScreen {
           topRight: Radius.circular(20),
         ),
       ),
-      builder: (context) => Container(
+      builder: (context) => SizedBox(
         height: MediaQuery.of(context).size.height * 0.42,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
@@ -43,7 +42,10 @@ class ChooseAddScreen {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const ThemDonHangScreen()),
+                    builder: (context) => ChooseGoodsScreen(
+                          phanbietNhapXuat: 0,
+                          controllers: [],
+                        )),
               ).then((_) {
                 Navigator.pop(context); // Tắt showModalBottomSheet
               });
@@ -55,7 +57,11 @@ class ChooseAddScreen {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const NhapHangScreen()),
+                MaterialPageRoute(
+                    builder: (context) => ChooseGoodsScreen(
+                          phanbietNhapXuat: 1,
+                          controllers: [],
+                        )),
               ).then((_) {
                 Navigator.pop(context); // Tắt showModalBottomSheet
               });
