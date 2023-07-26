@@ -11,6 +11,7 @@ import '../../../controllers/goods/them_hanghoa_controller.dart';
 import '../../Widget/appbar/search_widget.dart';
 import '../../Widget/card_hanghoa_widget.dart';
 import '../widget/sorbyhanghoa/danhsach_sortby.dart';
+import '../widget/them_hang_hoa.dart';
 import 'chonhanghoale.dart';
 import 'lichsuchuyendoi.dart';
 
@@ -202,6 +203,21 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ThemGoodsScreen()),
+          ).then((_) {
+            setState(() {
+              allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
+            });
+          });
+        },
+        backgroundColor: mainColor,
+        icon: const Icon(Icons.add),
+        label: const Text("Thêm"),
       ),
     );
   }

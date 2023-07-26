@@ -62,6 +62,10 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
             icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
             onPressed: () {
               Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pop(context);
+              //trả về trang goods Sỉ
             }),
         title: const Text("Phân phối hàng hóa",
             style: TextStyle(
