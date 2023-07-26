@@ -9,6 +9,7 @@ import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.
 
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../goods/widget/them_hang_hoa.dart';
+import 'nhaphang.dart';
 import 'them_donhang.dart';
 import 'widget/themdonhang/danhsachsortby_hanghoa_taodon.dart';
 
@@ -91,10 +92,22 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Thêm đơn hàng",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w700, color: whiteColor)),
-        backgroundColor: mainColor,
+        title: widget.phanbietNhapXuat == 0
+            ? const Text(
+                "Thêm đơn hàng",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: whiteColor),
+              )
+            : const Text(
+                "Nhập hàng",
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: whiteColor),
+              ),
+        backgroundColor: widget.phanbietNhapXuat == 0 ? mainColor : blueColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 10),
@@ -171,23 +184,34 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
               height: 55,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: mainColor,
-                  side: const BorderSide(color: mainColor),
+                  backgroundColor:
+                      widget.phanbietNhapXuat == 0 ? mainColor : blueColor,
+                  side: BorderSide(
+                      color:
+                          widget.phanbietNhapXuat == 0 ? mainColor : blueColor),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                         10), // giá trị này xác định bán kính bo tròn
                   ),
                 ),
-                onPressed: () async {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ThemDonHangScreen()),
-                  );
-                },
+                onPressed: widget.phanbietNhapXuat == 0
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ThemDonHangScreen()),
+                        );
+                      }
+                    : () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const NhapHangScreen()),
+                        );
+                      },
                 child: const Text(
                   'Xác nhận',
-                  style: TextStyle(fontSize: 16),
+                  style: TextStyle(fontSize: 22),
                 ),
               ),
             ),
