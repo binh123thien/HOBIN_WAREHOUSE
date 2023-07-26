@@ -6,6 +6,7 @@ import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../../../repository/goods_repository/good_repository.dart';
 import '../../../controllers/add/chonhanghoa_controller.dart';
+import '../../../controllers/goods/chonhanghoale_controller.dart';
 import '../../../controllers/goods/them_hanghoa_controller.dart';
 import '../../Widget/appbar/search_widget.dart';
 import '../../Widget/card_hanghoa_widget.dart';
@@ -30,7 +31,7 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
   final controllersortby = Get.put(ThemHangHoaController());
   final controllerAllHangHoa = Get.put(ChonHangHoaController());
   final controllerRepo = Get.put(GoodRepository());
-
+  final chonHangHoaLeController = Get.put(ChonHangHoaLeController());
   Future<void> _showSortbyHangHoa() async {
     final selectedValue = await showModalBottomSheet<String>(
       context: context,
@@ -52,6 +53,8 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
 
   @override
   void initState() {
+    //load trước dữ liệu của list lịch sử
+    chonHangHoaLeController.loadAllLichSu(widget.hanghoaSi['tensanpham']);
     updatehanghoaSi = widget.hanghoaSi;
     allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
     super.initState();
