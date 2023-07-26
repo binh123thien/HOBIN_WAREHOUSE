@@ -53,30 +53,39 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     color: whiteColor,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(8, 15, 8, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                    child: Column(children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Container(
+                          color: backGroundSearch,
+                          child: Column(
                             children: [
-                              Text(
-                                "Tháng $month" "/" "$year",
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w700),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Tháng $month" "/" "$year",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              ChitietThangPhanLoai(
+                                tongBanHangMonthly: tongBanHangMonthly,
+                                tongNhapHangMonthly: tongNhapHangMonthly,
                               ),
                             ],
                           ),
                         ),
-                        ChitietThangPhanLoai(
-                          tongBanHangMonthly: tongBanHangMonthly,
-                          tongNhapHangMonthly: tongNhapHangMonthly,
-                        ),
-                        CardHistory(
-                          docs: docs,
-                        )
-                      ],
-                    ),
+                      ),
+                      CardHistory(
+                        docs: docs,
+                      )
+                    ]),
                   );
                 }),
               );
