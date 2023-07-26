@@ -70,8 +70,8 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                         "Hi, ${userAccount["Name"]}!",
                         style: const TextStyle(fontSize: 13),
                       ),
-                      Text(userAccount['Email'],
-                          style: const TextStyle(fontSize: 15)),
+                      const Text("Welcome to Hoin",
+                          style: TextStyle(fontSize: 15)),
                     ],
                   )
                 ],

@@ -202,8 +202,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        await _updateUserData()
-                            .then((value) => Navigator.of(context).pop(value));
+                        dynamic newvalue = await _updateUserData();
+                        Navigator.of(context).pop(newvalue);
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(250, 0),
@@ -226,6 +226,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future _updateUserData() async {
+    print("newvalue");
 //================= xóa hình ảnh trước đó của user ===============
     if (widget.photoFb.isNotEmpty) {
       if (controllerImage.ImagePickedURLController.isNotEmpty) {
@@ -247,6 +248,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       'PhotoURL': controllerImage.ImagePickedURLController.isNotEmpty
           ? controllerImage.ImagePickedURLController.last
           : updateUserData['PhotoURL'],
+    }).whenComplete(() {
+      Get.snackbar("Thành công", "Cập nhập thông tin hoàn tất!",
+          colorText: Colors.green);
     });
     controllerImage.deleteExceptLastImage('profile');
     //lấy doc mới cập nhật return về (get dữ liệu về trang trước)
