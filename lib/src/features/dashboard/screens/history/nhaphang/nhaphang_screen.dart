@@ -14,10 +14,19 @@ class NhapHangHistoryScreen extends StatefulWidget {
 class _NhapHangHistoryScreenState extends State<NhapHangHistoryScreen> {
   final controller = Get.put(HistoryRepository());
   List<List<DocumentSnapshot>> docsByMonthly = [];
+  bool _isMounted = false;
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    _isMounted = true;
     _fetchData();
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
   }
 
   Future<void> _fetchData() async {
@@ -25,9 +34,11 @@ class _NhapHangHistoryScreenState extends State<NhapHangHistoryScreen> {
     await controller
         .getDocsByMonthly('NhapHang', firebaseUser!.uid)
         .then((value) {
-      setState(() {
-        docsByMonthly = value;
-      });
+      if (_isMounted) {
+        setState(() {
+          docsByMonthly = value;
+        });
+      }
     });
   }
 

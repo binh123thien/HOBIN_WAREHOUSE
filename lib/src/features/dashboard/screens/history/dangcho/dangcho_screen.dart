@@ -14,10 +14,19 @@ class DangChoHistoryScreen extends StatefulWidget {
 class _DangChoHistoryScreenState extends State<DangChoHistoryScreen> {
   final controller = Get.put(HistoryRepository());
   List<List<DocumentSnapshot>> docsByMonthly = [];
+  bool _isMounted = false;
+
   @override
   void initState() {
     super.initState();
+    _isMounted = true;
     _fetchData();
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
   }
 
   Future<void> _fetchData() async {
@@ -25,7 +34,7 @@ class _DangChoHistoryScreenState extends State<DangChoHistoryScreen> {
     await controller
         .getDocsByMonthlyPhanLoai(firebaseUser!.uid, "Đang chờ")
         .then((value) {
-      if (mounted) {
+      if (_isMounted) {
         setState(() {
           docsByMonthly = value;
         });

@@ -14,10 +14,19 @@ class HuyHistoryScreen extends StatefulWidget {
 class _HuyHistoryScreenState extends State<HuyHistoryScreen> {
   final controller = Get.put(HistoryRepository());
   List<List<DocumentSnapshot>> docsByMonthly = [];
+  bool _isMounted = false;
+
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
+    _isMounted = true;
     _fetchData();
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
   }
 
   Future<void> _fetchData() async {
@@ -25,15 +34,16 @@ class _HuyHistoryScreenState extends State<HuyHistoryScreen> {
     await controller
         .getDocsByMonthlyPhanLoai(firebaseUser!.uid, "Hủy")
         .then((value) {
-      setState(() {
-        docsByMonthly = value;
-      });
+      if (_isMounted) {
+        setState(() {
+          docsByMonthly = value;
+        });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print(docsByMonthly);
     return StreamListHistoryPhanLoai(
         controller: controller, docsByMonth: docsByMonthly);
   }
