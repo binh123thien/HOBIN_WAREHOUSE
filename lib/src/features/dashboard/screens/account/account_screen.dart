@@ -2,15 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
-import 'package:hobin_warehouse/src/constants/image_strings.dart';
-import 'package:hobin_warehouse/src/constants/sizes.dart';
-import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/account/update_profile_screen.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/account/widget/profile_menu_widget.dart';
 import 'package:hobin_warehouse/src/repository/authentication_repository/authentication_repository.dart';
-
 import '../../../../common_widgets/dialog/dialog.dart';
-import 'information_profile_screen.dart';
 
 // ignore: must_be_immutable
 class AccountScreen extends StatefulWidget {
@@ -23,11 +17,6 @@ class AccountScreen extends StatefulWidget {
 
 class _AccountScreenState extends State<AccountScreen> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     void logout(BuildContext context) {
       AuthenticationRepository.instance.logout();
@@ -35,149 +24,128 @@ class _AccountScreenState extends State<AccountScreen> {
     }
 
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
+        elevation: 0,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Image.asset(
-            backIcon,
-            height: 20,
-            color: whiteColor,
-          ),
+          icon: const Icon(Icons.close),
+          color: Colors.black,
         ),
-        backgroundColor: backGroundColor,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image:
-                  AssetImage(tBackGround1), // where is this variable defined?
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
-        title: const Text(
-          tAppBarAccount,
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.w900, fontSize: 21),
-        ),
-        centerTitle: true,
+        backgroundColor: whiteColor,
       ),
       body: SingleChildScrollView(
-          child: Container(
-        padding: const EdgeInsets.all(tDefaultSize),
-        child: Column(
-          children: [
-            SizedBox(
-              width: 120,
-              height: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: (widget.userAccountUpdate['PhotoURL'].isNotEmpty)
-                    ? CachedNetworkImage(
-                        imageUrl: widget.userAccountUpdate['PhotoURL'],
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      )
-                    : Image.asset(
-                        tDefaultAvatar,
-                      ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              widget.userAccountUpdate['Name'],
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            Text(
-              widget.userAccountUpdate['Email'],
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 230,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UpdateProfileScreen(
-                          userData: widget.userAccountUpdate,
-                          photoFb: widget.userAccountUpdate['PhotoURL']),
+          child: Column(
+        children: [
+          ListTile(
+            leading: widget.userAccountUpdate['PhotoURL'].isEmpty
+                ? const Icon(
+                    Icons.account_circle,
+                    size: 45,
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: CachedNetworkImage(
+                      height: 40,
+                      width: 40,
+                      imageUrl: widget.userAccountUpdate['PhotoURL'],
+                      fit: BoxFit.fill,
                     ),
-                  ).then(
-                    (newvalue) {
-                      print('vao then');
-                      print(newvalue);
-                      if (newvalue == true) {
-                        print('nhay vao true');
-                      } else if (newvalue is Map) {
-                        print('vao setState');
-                        setState(() {
-                          widget.userAccountUpdate = newvalue;
-                        });
-                      } else {
-                        print('nhay vao false');
-                      }
-                    },
-                  );
+                  ),
+            title: Text(
+              widget.userAccountUpdate['Name'],
+              style: const TextStyle(fontSize: 16),
+              textAlign: TextAlign.start,
+            ),
+            subtitle: Text(
+              widget.userAccountUpdate['Email'],
+              style: const TextStyle(fontSize: 16),
+              textAlign: TextAlign.start,
+            ),
+          ),
+          const Divider(),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UpdateProfileScreen(
+                      userData: widget.userAccountUpdate,
+                      photoFb: widget.userAccountUpdate['PhotoURL']),
+                ),
+              ).then(
+                (newvalue) {
+                  print('vao then');
+                  print(newvalue);
+                  if (newvalue == true) {
+                    print('nhay vao true');
+                  } else if (newvalue is Map) {
+                    print('vao setState');
+                    setState(() {
+                      widget.userAccountUpdate = newvalue;
+                    });
+                  } else {
+                    print('nhay vao false');
+                  }
                 },
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: pink500Color,
-                    side: BorderSide.none,
-                    shape: const StadiumBorder()),
-                child: const Text(
-                  'Sửa thông tin',
-                  style: TextStyle(fontSize: 20),
+              );
+            },
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  children: [
+                    Image(
+                      image: AssetImage(managerIcon),
+                      width: 25,
+                    ),
+                    SizedBox(width: 12),
+                    Text(
+                      "Quản lý tài khoản",
+                      style: TextStyle(fontSize: 17),
+                    )
+                  ],
                 ),
               ),
             ),
-            const SizedBox(height: 30),
-            const Divider(), // căn giữa theo co
-            //Menu
-            ProfileMenuWidget(
-              title: 'Thông tin tài khoản',
-              imageicon: inforUserIcon,
-              onPress: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => InformationProfileScreen(
-                          user: widget.userAccountUpdate),
-                    ));
-              },
-            ),
+          ),
 
-            ProfileMenuWidget(
-              title: 'Thẻ tín dụng',
-              imageicon: creditcardIcon,
-              onPress: () {},
+          // ==================Logout=======================//
+          InkWell(
+            onTap: () {
+              MyDialog.showAlertDialog(
+                context,
+                "Đăng xuất",
+                "Bạn muốn đăng xuất tài khoản?",
+                () => logout(context),
+              );
+            },
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 50,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  children: [
+                    Image(
+                      image: AssetImage(logoutIcon),
+                      width: 25,
+                    ),
+                    SizedBox(width: 12),
+                    Text(
+                      "Đăng xuất",
+                      style: TextStyle(fontSize: 17),
+                    )
+                  ],
+                ),
+              ),
             ),
-
-            ProfileMenuWidget(
-              title: 'Cài đặt',
-              imageicon: settingIcon,
-              onPress: () {},
-            ),
-
-            ProfileMenuWidget(
-              title: 'Đăng xuất',
-              imageicon: signoutIcon,
-              onPress: () {
-                MyDialog.showAlertDialog(
-                  context,
-                  "Đăng xuất",
-                  "Bạn muốn đăng xuất tài khoản?",
-                  () => logout(context),
-                );
-                // AuthenticationRepository.instance.logout();
-              },
-            ),
-          ],
-        ),
+          ),
+        ],
       )),
     );
   }

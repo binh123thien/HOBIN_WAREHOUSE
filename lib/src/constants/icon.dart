@@ -30,10 +30,8 @@ const String addhanghoaIcon = "assets/images/icon/appbar/addhanghoa.png";
 const String addkhachhangIcon = "assets/images/icon/appbar/addkhachhang.png";
 
 //Account
-const String settingIcon = "assets/images/icon/account/setting.png";
-const String creditcardIcon = "assets/images/icon/account/credit-card.png";
-const String inforUserIcon = "assets/images/icon/account/information-user.png";
-const String signoutIcon = "assets/images/icon/account/sign-out.png";
+const String managerIcon = "assets/images/icon/account/manager.png";
+const String logoutIcon = "assets/images/icon/account/logout.png";
 
 //Statistics khach hang detail don hang
 const String sortbyIcon = "assets/images/icon/statistics/sortby.png";

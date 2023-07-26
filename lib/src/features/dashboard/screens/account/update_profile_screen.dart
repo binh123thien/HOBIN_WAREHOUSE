@@ -79,20 +79,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               color: whiteColor,
             ),
           ),
-          backgroundColor: backGroundColor,
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image:
-                    AssetImage(tBackGround1), // where is this variable defined?
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
+          backgroundColor: mainColor,
           title: const Text(
-            "Thay đổi thông tin",
+            "Quản lý tài khoản",
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w900, fontSize: 21),
+                color: Colors.white, fontWeight: FontWeight.w900, fontSize: 18),
           ),
           centerTitle: true,
         ),
@@ -105,8 +96,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 Stack(
                   children: [
                     SizedBox(
-                      width: 120,
-                      height: 120,
+                      width: 90,
+                      height: 90,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100),
                         child: (updateUserData['PhotoURL'].isNotEmpty)
@@ -114,9 +105,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 imageUrl: updateUserData['PhotoURL'],
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
+                                    const CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                    const Icon(Icons.error),
                               )
                             : Image.asset(
                                 tDefaultAvatar,
@@ -155,11 +146,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             );
                           },
                           child: Container(
-                            width: 35,
-                            height: 35,
+                            width: 30,
+                            height: 30,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                color: pink400Color),
+                                color: backGroundSearch),
                             child: const Icon(
                               LineAwesomeIcons.camera,
                               color: Colors.black,
@@ -211,8 +202,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        dynamic newvalue = await _updateUserData();
-                        Navigator.of(context).pop(newvalue);
+                        await _updateUserData()
+                            .then((value) => Navigator.of(context).pop(value));
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(250, 0),
@@ -235,7 +226,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future _updateUserData() async {
-    print('vao ham update');
 //================= xóa hình ảnh trước đó của user ===============
     if (widget.photoFb.isNotEmpty) {
       if (controllerImage.ImagePickedURLController.isNotEmpty) {
@@ -257,9 +247,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       'PhotoURL': controllerImage.ImagePickedURLController.isNotEmpty
           ? controllerImage.ImagePickedURLController.last
           : updateUserData['PhotoURL'],
-    }).whenComplete(() {
-      Get.snackbar("Thành công", "Cập nhập thông tin hoàn tất!",
-          colorText: Colors.green);
     });
     controllerImage.deleteExceptLastImage('profile');
     //lấy doc mới cập nhật return về (get dữ liệu về trang trước)
