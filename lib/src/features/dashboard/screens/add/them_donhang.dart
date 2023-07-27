@@ -215,7 +215,6 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
                       CardItemBanHangDaChon(
                         phanbietNhapXuat: phanbietNhapXuat,
                         allHangHoa: controller.allHangHoaFireBase,
-                        controllerSoluong: widget.slpick,
                         sumItem: sumItem,
                         // onUpdateSumItem: updateSumItem,
                       ),

@@ -6,14 +6,12 @@ class CardItemBanHangDaChon extends StatelessWidget {
   const CardItemBanHangDaChon({
     super.key,
     required this.allHangHoa,
-    required this.controllerSoluong,
     required this.sumItem,
     // required this.onUpdateSumItem,
     required this.phanbietNhapXuat,
   });
 
   final List<dynamic> allHangHoa;
-  final List<TextEditingController> controllerSoluong;
   final int sumItem;
   // final void Function(int newSumItem) onUpdateSumItem;
   @override
@@ -29,6 +27,8 @@ class CardItemBanHangDaChon extends StatelessWidget {
             itemBuilder: (context, index) {
               var hanghoa = allHangHoa[index];
               if (hanghoa["soluong"] > 0) {
+                TextEditingController controllerSL =
+                    TextEditingController(text: hanghoa['soluong'].toString());
                 return Card(
                   elevation: 1,
                   shape: RoundedRectangleBorder(
@@ -107,8 +107,7 @@ class CardItemBanHangDaChon extends StatelessWidget {
                                               child: TextFormField(
                                                 enabled: false,
                                                 textAlign: TextAlign.center,
-                                                controller:
-                                                    controllerSoluong[index],
+                                                controller: controllerSL,
                                                 decoration:
                                                     const InputDecoration(
                                                   contentPadding:

@@ -209,7 +209,6 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       CardItemBanHangDaChon(
                         phanbietNhapXuat: phanbietNhapXuat,
                         allHangHoa: controller.allHangHoaFireBase,
-                        controllerSoluong: widget.slpick,
                         sumItem: sumItem,
                       ),
                       TotalPriceWidget(
