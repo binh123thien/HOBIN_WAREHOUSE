@@ -17,14 +17,6 @@ class AppBarBGBack extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: phanBietNhatXuat == 0 ? mainColor : blueColor,
-      // flexibleSpace: Container(
-      //   decoration: const BoxDecoration(
-      //     image: DecorationImage(
-      //       image: AssetImage(tBackGround1), // where is this variable defined?
-      //       fit: BoxFit.cover,
-      //     ),
-      //   ),
-      // ),
       leading: IconButton(
           icon: const Image(
             image: AssetImage(backIcon),

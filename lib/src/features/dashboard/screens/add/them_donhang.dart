@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/common_widgets/willpopscope.dart';
@@ -10,7 +9,6 @@ import 'package:hobin_warehouse/src/repository/add_repository/add_repository.dar
 import 'package:hobin_warehouse/src/utils/utils.dart';
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../../models/themdonhang_model.dart';
-import 'choose_goods.dart';
 import 'chitietdonhang.dart';
 import 'choose_khachhang.dart';
 import 'widget/payment_radio.dart';
@@ -18,12 +16,12 @@ import 'widget/show_discount.dart';
 import 'widget/show_no_widget.dart';
 import 'widget/themdonhang/bottombar_thanhtoan.dart';
 import 'widget/themdonhang/no_widget.dart';
-import 'widget/themdonhang/themsanpham_widget.dart';
 import 'widget/themdonhang/thongtin_khachhang.dart';
 import 'widget/themdonhang/total_price_widget.dart';
 
 class ThemDonHangScreen extends StatefulWidget {
-  const ThemDonHangScreen({super.key});
+  final List<TextEditingController> slpick;
+  const ThemDonHangScreen({super.key, required this.slpick});
 
   @override
   State<ThemDonHangScreen> createState() => _ThemDonHangScreenState();
@@ -33,7 +31,6 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
   final controller = Get.put(ChonHangHoaController());
   final controllerTaoDonHang = Get.put(TaoDonHangController());
   final controllerAddRepo = Get.put(AddRepository());
-  List<TextEditingController> _controllers = [];
   num disCount = 0;
   int paymentSelected = 0;
   String khachHangSelected = "Khách hàng";
@@ -41,8 +38,6 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
   void initState() {
     super.initState();
     controller.loadAllHangHoa();
-    _controllers = List.generate(
-        controller.allHangHoaFireBase.length, (_) => TextEditingController());
   }
 
   void updateDiscount(num newDiscount) {
@@ -87,16 +82,16 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
       num sumPrice = 0;
       //tinh tong gia tien khi chon
       for (int i = 0; i < controller.allHangHoaFireBase.length; i++) {
-        _controllers[i].text =
+        widget.slpick[i].text =
             controller.allHangHoaFireBase[i]["soluong"].toString();
-        sumPrice = int.parse(_controllers[i].text) *
+        sumPrice = int.parse(widget.slpick[i].text) *
                 controller.allHangHoaFireBase[i]["giaban"] +
             sumPrice;
       }
       //tinh tong item
       int sumItem = 0;
-      for (var i = 0; i < _controllers.length; i++) {
-        sumItem += int.parse(_controllers[i].text);
+      for (var i = 0; i < widget.slpick.length; i++) {
+        sumItem += int.parse(widget.slpick[i].text);
       }
       void updateSumItem(int newSumItem) {
         setState(() {
@@ -216,37 +211,13 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
                         khachHangSelected: khachHangSelected,
                         onDeleteKhachhang: deleteKhachHang,
                       ),
-                      ThemSanPhamWidget(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChooseGoodsScreen(
-                                  controllers: _controllers,
-                                  phanbietNhapXuat: phanbietNhapXuat),
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
-                        },
-                        onPressedScan: () async {
-                          await FlutterBarcodeScanner.scanBarcode(
-                            "#ff6666", // Màu hiển thị của app
-                            "Hủy bỏ", // Chữ hiển thị cho nút hủy bỏ
-                            true, // Cho phép Async? (có hay không)
-                            ScanMode.BARCODE, // Hình thức quét
-                          );
-                          if (!mounted) return;
-                        },
-                        phanbietNhapXuat: phanbietNhapXuat,
-                      ),
                       const SizedBox(height: 8),
                       CardItemBanHangDaChon(
                         phanbietNhapXuat: phanbietNhapXuat,
                         allHangHoa: controller.allHangHoaFireBase,
-                        controllerSoluong: _controllers,
+                        controllerSoluong: widget.slpick,
                         sumItem: sumItem,
-                        onUpdateSumItem: updateSumItem,
+                        // onUpdateSumItem: updateSumItem,
                       ),
                       TotalPriceWidget(
                         phanbietNhapXuat: phanbietNhapXuat,

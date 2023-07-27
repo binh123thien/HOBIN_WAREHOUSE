@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hobin_warehouse/src/constants/color.dart';
-import '../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../utils/utils.dart';
 
 class CardItemBanHangDaChon extends StatelessWidget {
@@ -10,14 +8,14 @@ class CardItemBanHangDaChon extends StatelessWidget {
     required this.allHangHoa,
     required this.controllerSoluong,
     required this.sumItem,
-    required this.onUpdateSumItem,
+    // required this.onUpdateSumItem,
     required this.phanbietNhapXuat,
   });
 
   final List<dynamic> allHangHoa;
   final List<TextEditingController> controllerSoluong;
   final int sumItem;
-  final void Function(int newSumItem) onUpdateSumItem;
+  // final void Function(int newSumItem) onUpdateSumItem;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -103,57 +101,11 @@ class CardItemBanHangDaChon extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.end,
                                           children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                color: backGroundColor,
-                                              ),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  if (hanghoa['soluong'] - 1 ==
-                                                      0) {
-                                                    MyDialog.showAlertDialog(
-                                                        context,
-                                                        "Xác nhận",
-                                                        'Bạn muốn xóa hàng hóa này khỏi danh sách',
-                                                        () {
-                                                      hanghoa["soluong"]--;
-                                                      controllerSoluong[index]
-                                                              .text =
-                                                          hanghoa["soluong"]
-                                                              .toString();
-                                                      int newSumItem =
-                                                          sumItem - 1;
-                                                      onUpdateSumItem(
-                                                          newSumItem);
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    });
-                                                  } else {
-                                                    if (hanghoa["soluong"] >
-                                                        0) {
-                                                      setState(() {
-                                                        hanghoa["soluong"]--;
-                                                        controllerSoluong[index]
-                                                                .text =
-                                                            hanghoa["soluong"]
-                                                                .toString();
-                                                        int newSumItem =
-                                                            sumItem - 1;
-                                                        onUpdateSumItem(
-                                                            newSumItem);
-                                                      });
-                                                    }
-                                                  }
-                                                },
-                                                child: const Icon(Icons.remove),
-                                              ),
-                                            ),
                                             SizedBox(
                                               width: 35,
                                               height: 25,
                                               child: TextFormField(
+                                                enabled: false,
                                                 textAlign: TextAlign.center,
                                                 controller:
                                                     controllerSoluong[index],
@@ -165,66 +117,6 @@ class CardItemBanHangDaChon extends StatelessWidget {
                                                   border: InputBorder.none,
                                                 ),
                                                 scrollPadding: EdgeInsets.zero,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                onFieldSubmitted: (value) {
-                                                  int? soluong =
-                                                      int.tryParse(value);
-                                                  if (soluong != null) {
-                                                    setState(() {
-                                                      if (phanbietNhapXuat ==
-                                                          0) {
-                                                        hanghoa["soluong"] =
-                                                            soluong.clamp(
-                                                                0,
-                                                                hanghoa[
-                                                                    "tonkho"]);
-                                                      } else if (phanbietNhapXuat ==
-                                                          1) {
-                                                        hanghoa["soluong"] =
-                                                            soluong;
-                                                      }
-                                                      controllerSoluong[index]
-                                                              .text =
-                                                          hanghoa["soluong"]
-                                                              .toString();
-                                                      int newSumItem =
-                                                          sumItem + soluong;
-                                                      onUpdateSumItem(
-                                                          newSumItem);
-                                                    });
-                                                  }
-                                                },
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  color: backGroundColor),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    //truong hop ban hang
-                                                    if (phanbietNhapXuat == 0 &&
-                                                        hanghoa["soluong"] <
-                                                            hanghoa["tonkho"]) {
-                                                      hanghoa["soluong"]++;
-                                                      //truong hop nhap hang, khong gioi han so luong
-                                                    } else if (phanbietNhapXuat !=
-                                                        0) {
-                                                      hanghoa["soluong"]++;
-                                                    }
-                                                    controllerSoluong[index]
-                                                            .text =
-                                                        hanghoa["soluong"]
-                                                            .toString();
-                                                    int newSumItem =
-                                                        sumItem + 1;
-                                                    onUpdateSumItem(newSumItem);
-                                                  });
-                                                },
-                                                child: const Icon(Icons.add),
                                               ),
                                             ),
                                           ],

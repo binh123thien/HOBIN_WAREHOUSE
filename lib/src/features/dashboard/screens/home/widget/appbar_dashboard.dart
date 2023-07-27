@@ -26,7 +26,7 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
         } else {
           // Hiển thị thông tin người dùng
           var userAccount = snapshot.data!.docs[0].data() as Map;
-          print(userAccount); // dạng Map
+          // print(userAccount); // dạng Map
           return GestureDetector(
             onTap: () {
               Navigator.push(

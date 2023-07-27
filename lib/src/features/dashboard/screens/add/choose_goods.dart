@@ -16,9 +16,7 @@ import 'widget/themdonhang/danhsachsortby_hanghoa_taodon.dart';
 // ignore: must_be_immutable
 class ChooseGoodsScreen extends StatefulWidget {
   final int phanbietNhapXuat;
-  List<TextEditingController> controllers;
-  ChooseGoodsScreen(
-      {super.key, required this.controllers, required this.phanbietNhapXuat});
+  const ChooseGoodsScreen({super.key, required this.phanbietNhapXuat});
 
   @override
   State<ChooseGoodsScreen> createState() => _ChooseGoodsScreenState();
@@ -26,19 +24,19 @@ class ChooseGoodsScreen extends StatefulWidget {
 
 class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   final controllerAllHangHoa = Get.put(ChonHangHoaController());
-  final ChonHangHoaController chonHangHoaController = Get.find();
   final controllersortby = Get.put(ThemHangHoaController());
   final controllerGoodRepo = Get.put(GoodRepository());
+  List<TextEditingController> controllersl = [];
 
   String searchHangHoa = "";
-  late List<dynamic> allHangHoa;
+  List<dynamic> allHangHoa = [];
   List<dynamic> filteredItems = [];
   Map<dynamic, TextEditingController> controllerMap = {};
   @override
   void initState() {
-    super.initState();
-    allHangHoa = chonHangHoaController.allHangHoaFireBase;
+    allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
     filteredItems = allHangHoa;
+    super.initState();
   }
 
   Future<void> _showSortbyHangHoaTaoDon() async {
@@ -81,10 +79,10 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                 .toLowerCase()
                 .contains(searchHangHoa))
             .toList();
-        widget.controllers =
+        controllersl =
             List.generate(filteredItems.length, (_) => TextEditingController());
         for (int i = 0; i < filteredItems.length; i++) {
-          widget.controllers[i].text = filteredItems[i]["soluong"].toString();
+          controllersl[i].text = filteredItems[i]["soluong"].toString();
         }
       });
       locdulieu();
@@ -170,7 +168,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
         child: CardItemBanHang(
           phanbietNhapXuat: widget.phanbietNhapXuat,
           allHangHoa: filteredItems,
-          controllerSoluong: widget.controllers,
+          controllerSoluong: controllersl,
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -199,14 +197,18 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const ThemDonHangScreen()),
+                              builder: (context) => ThemDonHangScreen(
+                                    slpick: controllersl,
+                                  )),
                         );
                       }
                     : () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const NhapHangScreen()),
+                              builder: (context) => NhapHangScreen(
+                                    slpick: controllersl,
+                                  )),
                         );
                       },
                 child: const Text(
@@ -227,21 +229,21 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
           .where((item) => item["tensanpham"]
               .toString()
               .toLowerCase()
-              .contains(searchHangHoa))
+              .contains(searchHangHoa.toLowerCase()))
           .toList();
       controllerGoodRepo.sortby(
           filteredItems, controllersortby.sortbyhanghoaTaoDonController.text);
-      widget.controllers =
+      controllersl =
           List.generate(filteredItems.length, (_) => TextEditingController());
       for (int i = 0; i < filteredItems.length; i++) {
         var itemId = filteredItems[i]["tensanpham"];
         if (controllerMap.containsKey(itemId)) {
-          widget.controllers[i] = controllerMap[itemId]!;
+          controllersl[i] = controllerMap[itemId]!;
         } else {
           controllerMap[itemId] = TextEditingController();
-          widget.controllers[i] = controllerMap[itemId]!;
+          controllersl[i] = controllerMap[itemId]!;
         }
-        widget.controllers[i].text = filteredItems[i]["soluong"].toString();
+        controllersl[i].text = filteredItems[i]["soluong"].toString();
       }
     });
   }

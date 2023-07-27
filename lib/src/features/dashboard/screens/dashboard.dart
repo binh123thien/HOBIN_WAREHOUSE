@@ -34,7 +34,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final screen = const [
     HomePage(),
     StatisticsScreen(),
-    ThemDonHangScreen(), // (set TH currentpage =2), bấm vào Thêm không hiện trang này đâu
+    ThemDonHangScreen(
+        slpick: []), // (set TH currentpage =2), bấm vào Thêm không hiện trang này đâu
     HistoryScreen(),
     Goods(),
   ];

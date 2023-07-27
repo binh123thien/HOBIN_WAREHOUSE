@@ -42,9 +42,8 @@ class ChooseAddScreen {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChooseGoodsScreen(
+                    builder: (context) => const ChooseGoodsScreen(
                           phanbietNhapXuat: 0,
-                          controllers: [],
                         )),
               ).then((_) {
                 Navigator.pop(context); // Tắt showModalBottomSheet
@@ -58,9 +57,8 @@ class ChooseAddScreen {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => ChooseGoodsScreen(
+                    builder: (context) => const ChooseGoodsScreen(
                           phanbietNhapXuat: 1,
-                          controllers: [],
                         )),
               ).then((_) {
                 Navigator.pop(context); // Tắt showModalBottomSheet

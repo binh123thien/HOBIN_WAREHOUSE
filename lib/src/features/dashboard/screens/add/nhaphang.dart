@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/common_widgets/willpopscope.dart';
@@ -12,7 +11,6 @@ import 'package:hobin_warehouse/src/utils/utils.dart';
 
 import '../../../../repository/add_repository/add_repository.dart';
 import '../../models/themdonhang_model.dart';
-import 'choose_goods.dart';
 import 'chitietdonhang.dart';
 import 'choose_khachhang.dart';
 import 'widget/payment_radio.dart';
@@ -20,11 +18,11 @@ import 'widget/show_discount.dart';
 import 'widget/show_no_widget.dart';
 import 'widget/themdonhang/bottombar_thanhtoan.dart';
 import 'widget/themdonhang/no_widget.dart';
-import 'widget/themdonhang/themsanpham_widget.dart';
 import 'widget/themdonhang/total_price_widget.dart';
 
 class NhapHangScreen extends StatefulWidget {
-  const NhapHangScreen({super.key});
+  final List<TextEditingController> slpick;
+  const NhapHangScreen({super.key, required this.slpick});
 
   @override
   State<NhapHangScreen> createState() => _NhapHangScreenState();
@@ -34,7 +32,6 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
   final controller = Get.put(ChonHangHoaController());
   final controllerNhapHang = Get.put(NhapHangController());
   final controllerAddRepo = Get.put(AddRepository());
-  List<TextEditingController> _controllers = [];
   num disCount = 0;
   int paymentSelected = 0;
   String khachHangSelected = "Nhà cung cấp";
@@ -42,8 +39,6 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
   void initState() {
     super.initState();
     controller.loadAllHangHoa();
-    _controllers = List.generate(
-        controller.allHangHoaFireBase.length, (_) => TextEditingController());
   }
 
   void updateDiscount(num newDiscount) {
@@ -66,6 +61,8 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('buid nhap hàng');
+    print(controller.allHangHoaFireBase);
     if (controller.allHangHoaFireBase.isEmpty) {
       return const Scaffold(
         appBar: AppBarBGBack(
@@ -75,27 +72,23 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
         body: Center(child: Text("Chưa có hàng hóa!\nBạn cần thêm hàng hóa")),
       );
     } else {
+      //nhập hàng
       int phanbietNhapXuat = 1;
 
       num no = num.tryParse(controllerNhapHang.noNhapHangController.text) ?? 0;
       num sumPrice = 0;
       //tinh tong gia tien khi chon
       for (int i = 0; i < controller.allHangHoaFireBase.length; i++) {
-        _controllers[i].text =
-            controller.allHangHoaFireBase[i]["soluong"].toString();
-        sumPrice = int.parse(_controllers[i].text) *
+        //tính tiền
+        sumPrice = int.parse(widget.slpick[i].text) *
                 controller.allHangHoaFireBase[i]["gianhap"] +
             sumPrice;
       }
+
       //tinh tong item
       int sumItem = 0;
-      for (var i = 0; i < _controllers.length; i++) {
-        sumItem += int.parse(_controllers[i].text);
-      }
-      void updateSumItem(int newSumItem) {
-        setState(() {
-          sumItem = newSumItem;
-        });
+      for (var i = 0; i < widget.slpick.length; i++) {
+        sumItem += int.parse(widget.slpick[i].text);
       }
 
       void deleteKhachHang(String newKhachHangSelected) {
@@ -193,7 +186,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
       return ExitConfirmationDialog(
           message: "Bạn muốn thoát trang nhập hàng?",
           onConfirmed: () {
-            Navigator.of(context).pop(); // Đóng dialog và trả về giá trị false
+            Navigator.of(context).pop(); // Đóng dialog và trả về giá trị
             //Đóng bottomsheet
             Navigator.of(context).pop();
           },
@@ -212,37 +205,12 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                         khachHangSelected: khachHangSelected,
                         onDeleteKhachhang: deleteKhachHang,
                       ),
-                      ThemSanPhamWidget(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ChooseGoodsScreen(
-                                  controllers: _controllers,
-                                  phanbietNhapXuat: phanbietNhapXuat),
-                            ),
-                          ).then((value) {
-                            setState(() {});
-                          });
-                        },
-                        onPressedScan: () async {
-                          await FlutterBarcodeScanner.scanBarcode(
-                            "#ff6666", // Màu hiển thị của app
-                            "Hủy bỏ", // Chữ hiển thị cho nút hủy bỏ
-                            true, // Cho phép Async? (có hay không)
-                            ScanMode.BARCODE, // Hình thức quét
-                          );
-                          if (!mounted) return;
-                        },
-                        phanbietNhapXuat: phanbietNhapXuat,
-                      ),
                       const SizedBox(height: 8),
                       CardItemBanHangDaChon(
                         phanbietNhapXuat: phanbietNhapXuat,
                         allHangHoa: controller.allHangHoaFireBase,
-                        controllerSoluong: _controllers,
+                        controllerSoluong: widget.slpick,
                         sumItem: sumItem,
-                        onUpdateSumItem: updateSumItem,
                       ),
                       TotalPriceWidget(
                         phanbietNhapXuat: phanbietNhapXuat,
