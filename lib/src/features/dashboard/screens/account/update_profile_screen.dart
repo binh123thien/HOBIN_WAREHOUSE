@@ -202,8 +202,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        dynamic newvalue = await _updateUserData();
-                        Navigator.of(context).pop(newvalue);
+                        await _updateUserData()
+                            .then((value) => Navigator.of(context).pop(value));
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(250, 0),
