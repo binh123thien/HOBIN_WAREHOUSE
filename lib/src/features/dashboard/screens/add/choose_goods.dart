@@ -197,18 +197,21 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ThemDonHangScreen(
-                                    slpick: controllersl,
-                                  )),
+                            builder: (context) => ThemDonHangScreen(
+                              slpick: controllersl,
+                            ),
+                          ),
                         );
                       }
                     : () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NhapHangScreen(
-                                    slpick: controllersl,
-                                  )),
+                            builder: (context) => NhapHangScreen(
+                              dulieuPicked: filteredItems,
+                              slpick: controllersl,
+                            ),
+                          ),
                         );
                       },
                 child: const Text(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/common_widgets/willpopscope.dart';
-import 'package:hobin_warehouse/src/features/dashboard/controllers/add/chonhanghoa_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/nhaphang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_dachon_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/appbar_backgroud_and_back.widget.dart';
@@ -20,26 +19,22 @@ import 'widget/themdonhang/bottombar_thanhtoan.dart';
 import 'widget/themdonhang/no_widget.dart';
 import 'widget/themdonhang/total_price_widget.dart';
 
+// ignore: must_be_immutable
 class NhapHangScreen extends StatefulWidget {
+  List<dynamic> dulieuPicked;
   final List<TextEditingController> slpick;
-  const NhapHangScreen({super.key, required this.slpick});
+  NhapHangScreen({super.key, required this.slpick, required this.dulieuPicked});
 
   @override
   State<NhapHangScreen> createState() => _NhapHangScreenState();
 }
 
 class _NhapHangScreenState extends State<NhapHangScreen> {
-  final controller = Get.put(ChonHangHoaController());
   final controllerNhapHang = Get.put(NhapHangController());
   final controllerAddRepo = Get.put(AddRepository());
   num disCount = 0;
   int paymentSelected = 0;
   String khachHangSelected = "Nhà cung cấp";
-  @override
-  void initState() {
-    super.initState();
-    controller.loadAllHangHoa();
-  }
 
   void updateDiscount(num newDiscount) {
     setState(() {
@@ -61,9 +56,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('buid nhap hàng');
-    print(controller.allHangHoaFireBase);
-    if (controller.allHangHoaFireBase.isEmpty) {
+    if (widget.dulieuPicked.isEmpty) {
       return const Scaffold(
         appBar: AppBarBGBack(
           phanBietNhatXuat: 1,
@@ -78,10 +71,10 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
       num no = num.tryParse(controllerNhapHang.noNhapHangController.text) ?? 0;
       num sumPrice = 0;
       //tinh tong gia tien khi chon
-      for (int i = 0; i < controller.allHangHoaFireBase.length; i++) {
+      for (int i = 0; i < widget.dulieuPicked.length; i++) {
         //tính tiền
         sumPrice = int.parse(widget.slpick[i].text) *
-                controller.allHangHoaFireBase[i]["gianhap"] +
+                widget.dulieuPicked[i]["gianhap"] +
             sumPrice;
       }
 
@@ -208,7 +201,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       const SizedBox(height: 8),
                       CardItemBanHangDaChon(
                         phanbietNhapXuat: phanbietNhapXuat,
-                        allHangHoa: controller.allHangHoaFireBase,
+                        allHangHoa: widget.dulieuPicked,
                         sumItem: sumItem,
                       ),
                       TotalPriceWidget(
@@ -232,7 +225,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                 no: no,
                 paymentSelected: paymentSelected,
                 onPressedThanhToan: () {
-                  List<dynamic> filteredList = controller.allHangHoaFireBase
+                  List<dynamic> filteredList = widget.dulieuPicked
                       .where((element) => element["soluong"] > 0)
                       .toList();
                   if (filteredList.isEmpty) {
@@ -288,7 +281,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       ).then((value) {
                         setState(() {
                           paymentSelected = 0;
-                          controller.allHangHoaFireBase = value;
+                          widget.dulieuPicked = value;
                           controllerNhapHang.giamgiaNhapHangController.clear();
                           controllerNhapHang.noNhapHangController.clear();
                           disCount = 0;
