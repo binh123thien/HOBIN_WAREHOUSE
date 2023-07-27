@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
-import 'package:hobin_warehouse/src/common_widgets/willpopscope.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/nhaphang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_dachon_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/appbar_backgroud_and_back.widget.dart';
@@ -176,122 +175,108 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
         }
       }
 
-      return ExitConfirmationDialog(
-          message: "Bạn muốn thoát trang nhập hàng?",
-          onConfirmed: () {
-            Navigator.of(context).pop(); // Đóng dialog và trả về giá trị
-            //Đóng bottomsheet
-            Navigator.of(context).pop();
-          },
-          dialogChild: Scaffold(
-              appBar: const AppBarBGBack(
-                phanBietNhatXuat: 1,
-                title: 'Nhập hàng',
-              ),
-              body: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ThongTinKhachHang(
-                        showKhachHang: _showKhachHang,
-                        phanbietNhapXuat: phanbietNhapXuat,
-                        khachHangSelected: khachHangSelected,
-                        onDeleteKhachhang: deleteKhachHang,
-                      ),
-                      const SizedBox(height: 8),
-                      CardItemBanHangDaChon(
-                        phanbietNhapXuat: phanbietNhapXuat,
-                        allHangHoa: widget.dulieuPicked,
-                        sumItem: sumItem,
-                      ),
-                      TotalPriceWidget(
-                        phanbietNhapXuat: phanbietNhapXuat,
-                        sumItem: sumItem,
-                        disCount: disCount,
-                        sumPrice: sumPrice,
-                        showDiscount: _showDiscount,
-                      ),
-                      NoWidget(
-                        phanbietNhapXuat: phanbietNhapXuat,
-                        no: no,
-                        onTapShowNo: _showNo,
-                      ),
-                    ]),
-              ),
-              bottomNavigationBar: BottomBarThanhToan(
+      return Scaffold(
+          appBar: const AppBarBGBack(
+            phanBietNhatXuat: 1,
+            title: 'Nhập hàng',
+          ),
+          body: SingleChildScrollView(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              ThongTinKhachHang(
+                showKhachHang: _showKhachHang,
                 phanbietNhapXuat: phanbietNhapXuat,
-                sumPrice: sumPrice,
+                khachHangSelected: khachHangSelected,
+                onDeleteKhachhang: deleteKhachHang,
+              ),
+              const SizedBox(height: 8),
+              CardItemBanHangDaChon(
+                phanbietNhapXuat: phanbietNhapXuat,
+                allHangHoa: widget.dulieuPicked,
+                sumItem: sumItem,
+              ),
+              TotalPriceWidget(
+                phanbietNhapXuat: phanbietNhapXuat,
+                sumItem: sumItem,
                 disCount: disCount,
+                sumPrice: sumPrice,
+                showDiscount: _showDiscount,
+              ),
+              NoWidget(
+                phanbietNhapXuat: phanbietNhapXuat,
                 no: no,
-                paymentSelected: paymentSelected,
-                onPressedThanhToan: () {
-                  List<dynamic> filteredList = widget.dulieuPicked
-                      .where((element) => element["soluong"] > 0)
-                      .toList();
-                  if (filteredList.isEmpty) {
-                    MyDialog.showAlertDialogOneBtn(
-                        context,
-                        'Giỏ hàng đang trống',
-                        'Vui lòng kiểm tra lại đơn hàng');
-                  } else {
-                    MyDialog.showAlertDialog(context, 'Xác nhận thanh toán',
-                        'Vui lòng kiểm tra đơn hàng trước khi thanh toán', () {
-                      final nHcode = generateNHCode();
-                      final ngaytao = formatNgayTao();
-                      final datetime = formatDatetime();
+                onTapShowNo: _showNo,
+              ),
+            ]),
+          ),
+          bottomNavigationBar: BottomBarThanhToan(
+            phanbietNhapXuat: phanbietNhapXuat,
+            sumPrice: sumPrice,
+            disCount: disCount,
+            no: no,
+            paymentSelected: paymentSelected,
+            onPressedThanhToan: () {
+              List<dynamic> filteredList = widget.dulieuPicked
+                  .where((element) => element["soluong"] > 0)
+                  .toList();
+              if (filteredList.isEmpty) {
+                MyDialog.showAlertDialogOneBtn(context, 'Giỏ hàng đang trống',
+                    'Vui lòng kiểm tra lại đơn hàng');
+              } else {
+                MyDialog.showAlertDialog(
+                  context,
+                  'Xác nhận thanh toán',
+                  'Vui lòng kiểm tra đơn hàng trước khi thanh toán',
+                  () {
+                    final nHcode = generateNHCode();
+                    final ngaytao = formatNgayTao();
+                    final datetime = formatDatetime();
 
-                      final donnhaphang = ThemDonHangModel(
-                        soHD: nHcode,
-                        ngaytao: ngaytao,
-                        khachhang: khachHangSelected,
-                        payment: paymentSelected == 0
-                            ? "Tiền mặt"
-                            : paymentSelected == 1
-                                ? "Chuyển khoản"
-                                : "Ví điện tử",
-                        tongsl: sumItem,
-                        tongtien: sumPrice,
-                        giamgia: disCount,
-                        no: no,
-                        trangthai: no == 0 ? "Thành công" : "Đang chờ",
-                        tongthanhtoan: sumPrice - disCount - no,
-                        billType: 'NhapHang',
-                        datetime: datetime,
-                      );
-                      controllerAddRepo.createDonNhapHang(donnhaphang);
-                      // Đóng dialog hiện tại (nếu có)
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChiTietHoaDonNew(
-                            model: donnhaphang.toJson(),
-                            phanbietNhapXuat: phanbietNhapXuat,
-                            maHD: nHcode,
-                            date: ngaytao,
-                            sumPrice: sumPrice,
-                            disCount: disCount,
-                            sumItem: sumItem,
-                            no: no,
-                            paymentSelected: paymentSelected,
-                            khachhang: khachHangSelected,
-                            billType: 'NhapHang',
-                          ),
+                    final donnhaphang = ThemDonHangModel(
+                      soHD: nHcode,
+                      ngaytao: ngaytao,
+                      khachhang: khachHangSelected,
+                      payment: paymentSelected == 0
+                          ? "Tiền mặt"
+                          : paymentSelected == 1
+                              ? "Chuyển khoản"
+                              : "Ví điện tử",
+                      tongsl: sumItem,
+                      tongtien: sumPrice,
+                      giamgia: disCount,
+                      no: no,
+                      trangthai: no == 0 ? "Thành công" : "Đang chờ",
+                      tongthanhtoan: sumPrice - disCount - no,
+                      billType: 'NhapHang',
+                      datetime: datetime,
+                    );
+                    controllerAddRepo.createDonNhapHang(donnhaphang);
+                    // Đóng dialog hiện tại (nếu có)
+                    Navigator.of(context).pop();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChiTietHoaDonNew(
+                          model: donnhaphang.toJson(),
+                          phanbietNhapXuat: phanbietNhapXuat,
+                          maHD: nHcode,
+                          date: ngaytao,
+                          sumPrice: sumPrice,
+                          disCount: disCount,
+                          sumItem: sumItem,
+                          no: no,
+                          paymentSelected: paymentSelected,
+                          khachhang: khachHangSelected,
+                          billType: 'NhapHang',
                         ),
-                      ).then((value) {
-                        setState(() {
-                          paymentSelected = 0;
-                          widget.dulieuPicked = value;
-                          controllerNhapHang.giamgiaNhapHangController.clear();
-                          controllerNhapHang.noNhapHangController.clear();
-                          disCount = 0;
-                        });
-                      });
-                    });
-                  }
-                },
-                onTapPaynemtSelection: _showHinhThucThanhToan,
-              )));
+                      ),
+                    );
+                  },
+                );
+              }
+            },
+            onTapPaynemtSelection: _showHinhThucThanhToan,
+          ));
     }
   }
 }

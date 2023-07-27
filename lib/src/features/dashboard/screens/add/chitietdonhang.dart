@@ -82,13 +82,10 @@ class _ChiTietHoaDonNewState extends State<ChiTietHoaDonNew> {
               color: whiteColor,
             ),
             onPressed: () {
-              for (var element in allHangHoa) {
-                element["soluong"] = 0;
-              }
-              setState(() {
-                controller.loadAllHangHoa();
-              });
-              Navigator.of(context).pop(allHangHoa);
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              //out về dashboard
             }),
         title: const Text(
           "Chi tiết đơn hàng",
