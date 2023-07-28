@@ -198,6 +198,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ThemDonHangScreen(
+                              dulieuPicked: filteredItems,
                               slpick: controllersl,
                             ),
                           ),

@@ -7,7 +7,6 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_d
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/appbar_backgroud_and_back.widget.dart';
 import 'package:hobin_warehouse/src/repository/add_repository/add_repository.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
-import '../../controllers/add/chonhanghoa_controller.dart';
 import '../../models/themdonhang_model.dart';
 import 'chitietdonhang.dart';
 import 'choose_khachhang.dart';
@@ -20,25 +19,21 @@ import 'widget/themdonhang/thongtin_khachhang.dart';
 import 'widget/themdonhang/total_price_widget.dart';
 
 class ThemDonHangScreen extends StatefulWidget {
+  final List<dynamic> dulieuPicked;
   final List<TextEditingController> slpick;
-  const ThemDonHangScreen({super.key, required this.slpick});
+  const ThemDonHangScreen(
+      {super.key, required this.slpick, required this.dulieuPicked});
 
   @override
   State<ThemDonHangScreen> createState() => _ThemDonHangScreenState();
 }
 
 class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
-  final controller = Get.put(ChonHangHoaController());
   final controllerTaoDonHang = Get.put(TaoDonHangController());
   final controllerAddRepo = Get.put(AddRepository());
   num disCount = 0;
   int paymentSelected = 0;
   String khachHangSelected = "Khách hàng";
-  @override
-  void initState() {
-    super.initState();
-    controller.loadAllHangHoa();
-  }
 
   void updateDiscount(num newDiscount) {
     setState(() {
@@ -66,7 +61,7 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (controller.allHangHoaFireBase.isEmpty) {
+    if (widget.dulieuPicked.isEmpty) {
       return const Scaffold(
         appBar: AppBarBGBack(
           phanBietNhatXuat: 0,
@@ -81,22 +76,15 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
       num no = num.tryParse(controllerTaoDonHang.noController.text) ?? 0;
       num sumPrice = 0;
       //tinh tong gia tien khi chon
-      for (int i = 0; i < controller.allHangHoaFireBase.length; i++) {
-        widget.slpick[i].text =
-            controller.allHangHoaFireBase[i]["soluong"].toString();
+      for (int i = 0; i < widget.dulieuPicked.length; i++) {
         sumPrice = int.parse(widget.slpick[i].text) *
-                controller.allHangHoaFireBase[i]["giaban"] +
+                widget.dulieuPicked[i]["giaban"] +
             sumPrice;
       }
       //tinh tong item
       int sumItem = 0;
       for (var i = 0; i < widget.slpick.length; i++) {
         sumItem += int.parse(widget.slpick[i].text);
-      }
-      void updateSumItem(int newSumItem) {
-        setState(() {
-          sumItem = newSumItem;
-        });
       }
 
       void updateNo(num newNo) {
@@ -190,131 +178,121 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
       }
 
       return ExitConfirmationDialog(
-          message: 'Bạn muốn thoát trang thêm đơn hàng?',
-          onConfirmed: () {
-            Navigator.of(context).pop(); // Đóng dialog và trả về giá trị false
-            //Đóng bottomsheet
-            Navigator.of(context).pop();
-          },
-          dialogChild: Scaffold(
-              appBar: const AppBarBGBack(
-                phanBietNhatXuat: 0,
-                title: 'Thêm đơn hàng',
-              ),
-              body: SingleChildScrollView(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ThongTinKhachHang(
-                        showKhachHang: _showKhachHang,
-                        phanbietNhapXuat: phanbietNhapXuat,
-                        khachHangSelected: khachHangSelected,
-                        onDeleteKhachhang: deleteKhachHang,
-                      ),
-                      const SizedBox(height: 8),
-                      CardItemBanHangDaChon(
-                        phanbietNhapXuat: phanbietNhapXuat,
-                        allHangHoa: controller.allHangHoaFireBase,
-                        sumItem: sumItem,
-                        // onUpdateSumItem: updateSumItem,
-                      ),
-                      TotalPriceWidget(
-                        phanbietNhapXuat: phanbietNhapXuat,
-                        sumItem: sumItem,
-                        disCount: disCount,
-                        sumPrice: sumPrice,
-                        showDiscount: _showDiscount,
-                      ),
-                      NoWidget(
-                        no: no,
-                        onTapShowNo: _showNo,
-                        phanbietNhapXuat: phanbietNhapXuat,
-                      ),
-                    ]),
-              ),
-              bottomNavigationBar: BottomBarThanhToan(
-                sumPrice: sumPrice,
-                disCount: disCount,
-                no: no,
-                paymentSelected: paymentSelected,
-                onPressedThanhToan: () {
-                  List<dynamic> filteredList = controller.allHangHoaFireBase
-                      .where((element) => element["soluong"] > 0)
-                      .toList();
-
-                  if (filteredList.isEmpty) {
-                    MyDialog.showAlertDialogOneBtn(
-                        context,
-                        'Giỏ hàng đang trống',
-                        'Vui lòng kiểm tra lại đơn hàng');
-                  } else {
-                    MyDialog.showAlertDialog(context, 'Xác nhận thanh toán',
-                        'Vui lòng kiểm tra đơn hàng trước khi thanh toán', () {
-                      final bHcode = generateBHCode();
-                      final ngaytao = formatNgaytao();
-                      final datetime = formatDatetime();
-
-                      final donbanhang = ThemDonHangModel(
-                        datetime: datetime,
-                        soHD: bHcode,
-                        ngaytao: ngaytao,
-                        khachhang: khachHangSelected,
-                        payment: paymentSelected == 0
-                            ? "Tiền mặt"
-                            : paymentSelected == 1
-                                ? "Chuyển khoản"
-                                : "Ví điện tử",
-                        tongsl: sumItem,
-                        tongtien: sumPrice,
-                        giamgia: disCount,
-                        no: no,
-                        trangthai: no == 0 ? "Thành công" : "Đang chờ",
-                        tongthanhtoan: sumPrice - disCount - no,
-                        billType: 'BanHang',
-                      );
-                      controllerAddRepo.createDonBanHang(
-                          donbanhang, filteredList);
-                      controllerAddRepo.createTongDoanhThuNgay(
-                          datetime, sumPrice - disCount - no, no);
-                      controllerAddRepo.createTongDoanhThuTuan(
-                          datetime, sumPrice - disCount - no, no);
-                      controllerAddRepo.createTongDoanhThuThang(
-                          datetime, sumPrice - disCount - no, no);
-                      // Đóng dialog hiện tại (nếu có)
-                      Navigator.of(context).pop();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChiTietHoaDonNew(
-                            //biến model từ dạng instance vè json
-                            model: donbanhang.toJson(),
-                            maHD: bHcode,
-                            date: ngaytao,
-                            sumPrice: sumPrice,
-                            disCount: disCount,
-                            sumItem: sumItem,
-                            no: no,
-                            paymentSelected: paymentSelected,
-                            phanbietNhapXuat: phanbietNhapXuat,
-                            khachhang: khachHangSelected,
-                            billType: 'BanHang',
-                          ),
-                        ),
-                      ).then((value) {
-                        setState(() {
-                          paymentSelected = 0;
-                          controller.allHangHoaFireBase = value;
-                          controllerTaoDonHang.noController.clear();
-                          controllerTaoDonHang.giamgiaController.clear();
-                          disCount = 0;
-                        });
-                      });
-                    });
-                  }
-                },
-                onTapPaynemtSelection: _showHinhThucThanhToan,
+        message: 'Bạn muốn thoát trang thêm đơn hàng?',
+        onConfirmed: () {
+          Navigator.of(context).pop(); // Đóng dialog và trả về giá trị false
+          //Đóng bottomsheet
+          Navigator.of(context).pop();
+        },
+        dialogChild: Scaffold(
+          appBar: const AppBarBGBack(
+            phanBietNhatXuat: 0,
+            title: 'Thêm đơn hàng',
+          ),
+          body: SingleChildScrollView(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              ThongTinKhachHang(
+                showKhachHang: _showKhachHang,
                 phanbietNhapXuat: phanbietNhapXuat,
-              )));
+                khachHangSelected: khachHangSelected,
+                onDeleteKhachhang: deleteKhachHang,
+              ),
+              const SizedBox(height: 8),
+              CardItemBanHangDaChon(
+                phanbietNhapXuat: phanbietNhapXuat,
+                allHangHoa: widget.dulieuPicked,
+                sumItem: sumItem,
+                // onUpdateSumItem: updateSumItem,
+              ),
+              TotalPriceWidget(
+                phanbietNhapXuat: phanbietNhapXuat,
+                sumItem: sumItem,
+                disCount: disCount,
+                sumPrice: sumPrice,
+                showDiscount: _showDiscount,
+              ),
+              NoWidget(
+                no: no,
+                onTapShowNo: _showNo,
+                phanbietNhapXuat: phanbietNhapXuat,
+              ),
+            ]),
+          ),
+          bottomNavigationBar: BottomBarThanhToan(
+            phanbietNhapXuat: phanbietNhapXuat,
+            sumPrice: sumPrice,
+            disCount: disCount,
+            no: no,
+            paymentSelected: paymentSelected,
+            onPressedThanhToan: () {
+              List<dynamic> filteredList = widget.dulieuPicked
+                  .where((element) => element["soluong"] > 0)
+                  .toList();
+
+              if (filteredList.isEmpty) {
+                MyDialog.showAlertDialogOneBtn(context, 'Giỏ hàng đang trống',
+                    'Vui lòng kiểm tra lại đơn hàng');
+              } else {
+                MyDialog.showAlertDialog(context, 'Xác nhận thanh toán',
+                    'Vui lòng kiểm tra đơn hàng trước khi thanh toán', () {
+                  final bHcode = generateBHCode();
+                  final ngaytao = formatNgaytao();
+                  final datetime = formatDatetime();
+
+                  final donbanhang = ThemDonHangModel(
+                    datetime: datetime,
+                    soHD: bHcode,
+                    ngaytao: ngaytao,
+                    khachhang: khachHangSelected,
+                    payment: paymentSelected == 0
+                        ? "Tiền mặt"
+                        : paymentSelected == 1
+                            ? "Chuyển khoản"
+                            : "Ví điện tử",
+                    tongsl: sumItem,
+                    tongtien: sumPrice,
+                    giamgia: disCount,
+                    no: no,
+                    trangthai: no == 0 ? "Thành công" : "Đang chờ",
+                    tongthanhtoan: sumPrice - disCount - no,
+                    billType: 'BanHang',
+                  );
+                  controllerAddRepo.createDonBanHang(donbanhang, filteredList);
+                  controllerAddRepo.createTongDoanhThuNgay(
+                      datetime, sumPrice - disCount - no, no);
+                  controllerAddRepo.createTongDoanhThuTuan(
+                      datetime, sumPrice - disCount - no, no);
+                  controllerAddRepo.createTongDoanhThuThang(
+                      datetime, sumPrice - disCount - no, no);
+                  // Đóng dialog hiện tại (nếu có)
+                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChiTietHoaDonNew(
+                        //biến model từ dạng instance vè json
+                        model: donbanhang.toJson(),
+                        maHD: bHcode,
+                        date: ngaytao,
+                        sumPrice: sumPrice,
+                        disCount: disCount,
+                        sumItem: sumItem,
+                        no: no,
+                        paymentSelected: paymentSelected,
+                        phanbietNhapXuat: phanbietNhapXuat,
+                        khachhang: khachHangSelected,
+                        billType: 'BanHang',
+                      ),
+                    ),
+                  );
+                });
+              }
+            },
+            onTapPaynemtSelection: _showHinhThucThanhToan,
+          ),
+        ),
+      );
     }
   }
 }

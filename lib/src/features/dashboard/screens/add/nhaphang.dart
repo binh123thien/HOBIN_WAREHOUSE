@@ -18,11 +18,11 @@ import 'widget/themdonhang/bottombar_thanhtoan.dart';
 import 'widget/themdonhang/no_widget.dart';
 import 'widget/themdonhang/total_price_widget.dart';
 
-// ignore: must_be_immutable
 class NhapHangScreen extends StatefulWidget {
-  List<dynamic> dulieuPicked;
+  final List<dynamic> dulieuPicked;
   final List<TextEditingController> slpick;
-  NhapHangScreen({super.key, required this.slpick, required this.dulieuPicked});
+  const NhapHangScreen(
+      {super.key, required this.slpick, required this.dulieuPicked});
 
   @override
   State<NhapHangScreen> createState() => _NhapHangScreenState();
