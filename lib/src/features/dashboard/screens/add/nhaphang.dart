@@ -53,6 +53,12 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
     });
   }
 
+  void deleteKhachHang(String newKhachHangSelected) {
+    setState(() {
+      khachHangSelected = newKhachHangSelected;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.dulieuPicked.isEmpty) {
@@ -81,12 +87,6 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
       int sumItem = 0;
       for (var i = 0; i < widget.slpick.length; i++) {
         sumItem += int.parse(widget.slpick[i].text);
-      }
-
-      void deleteKhachHang(String newKhachHangSelected) {
-        setState(() {
-          khachHangSelected = newKhachHangSelected;
-        });
       }
 
       void updateNo(num newNo) {
