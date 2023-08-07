@@ -165,11 +165,31 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
         ),
       ),
       body: SingleChildScrollView(
-        child: CardItemBanHang(
-          phanbietNhapXuat: widget.phanbietNhapXuat,
-          allHangHoa: filteredItems,
-          controllerSoluong: controllersl,
-        ),
+        child: filteredItems.isNotEmpty
+            ? CardItemBanHang(
+                phanbietNhapXuat: widget.phanbietNhapXuat,
+                allHangHoa: filteredItems,
+                controllerSoluong: controllersl,
+              )
+            : allHangHoa.isEmpty
+                ? const Padding(
+                    padding: EdgeInsets.only(top: 300),
+                    child: Center(
+                      child: Text(
+                        "Chưa có hàng hóa...",
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ),
+                  )
+                : const Padding(
+                    padding: EdgeInsets.only(top: 300),
+                    child: Center(
+                      child: Text(
+                        "Không tìm thấy hàng hóa!",
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ),
+                  ),
       ),
       bottomNavigationBar: BottomAppBar(
         height: 80,
@@ -179,7 +199,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width - 30,
-              height: 55,
+              height: 50,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
@@ -217,7 +237,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                       },
                 child: const Text(
                   'Xác nhận',
-                  style: TextStyle(fontSize: 22),
+                  style: TextStyle(fontSize: 19),
                 ),
               ),
             ),

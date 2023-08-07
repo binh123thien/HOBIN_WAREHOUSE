@@ -9,6 +9,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/history/history_s
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/home_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/statistics_screen.dart';
 import '../controllers/statistics/doanhthu_controller.dart';
+import 'add/them_donhang.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -33,9 +34,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final screen = [
     const HomePage(),
     const StatisticsScreen(),
-    // ThemDonHangScreen(
-    //     dulieuPicked: [],
-    //     slpick: []), // (set TH currentpage =2), bấm vào Thêm không hiện trang này đâu
+    const ThemDonHangScreen(dulieuPicked: [], slpick: []),
+    //
+    //// (set TH currentpage =2), bấm vào Thêm không hiện trang này đâu
     const HistoryScreen(),
     const Goods(),
   ];
