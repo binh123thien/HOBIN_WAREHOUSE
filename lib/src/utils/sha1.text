@@ -1,4 +1,5 @@
 keytool -list -v -keystore "C:\Users\doanh\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+keytool -list -v -keystore "C:\Users\binh1\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
 dart pub outdated
 dart pub upgrade
 
