@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/search_widget.dart';
 import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../goods/widget/them_hang_hoa.dart';
 import 'nhaphang.dart';
+import 'nhaphang/cardnhaphangshowmore.dart';
 import 'them_donhang.dart';
 import 'widget/themdonhang/danhsachsortby_hanghoa_taodon.dart';
 
@@ -66,6 +66,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     locdulieu();
     for (var item in filteredItems) {
       controllerMap[item['tensanpham']] = TextEditingController();
@@ -166,10 +167,26 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
       ),
       body: SingleChildScrollView(
         child: filteredItems.isNotEmpty
-            ? CardItemBanHang(
-                phanbietNhapXuat: widget.phanbietNhapXuat,
-                allHangHoa: filteredItems,
-                controllerSoluong: controllersl,
+            ? ListView(
+                shrinkWrap: true,
+                children: [
+                  SizedBox(
+                    width: size.width,
+                    height: size.height - 230,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: ListView.builder(
+                        itemCount: filteredItems.length,
+                        itemBuilder: (context, index) {
+                          var hanghoa = filteredItems[index];
+                          return CardNhapHangShowMore(
+                            hanghoa: hanghoa,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               )
             : allHangHoa.isEmpty
                 ? const Padding(

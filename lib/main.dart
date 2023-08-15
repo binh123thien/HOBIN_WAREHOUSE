@@ -7,9 +7,12 @@ import 'package:hobin_warehouse/src/repository/authentication_repository/authent
 import 'package:hobin_warehouse/src/utils/theme/theme.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-      .then((value) => Get.put(AuthenticationRepository()));
+  Future.delayed(const Duration(seconds: 2), () {
+    WidgetsFlutterBinding.ensureInitialized();
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+        .then((value) => Get.put(AuthenticationRepository()));
+  });
+
   runApp(const MyApp());
 }
 
