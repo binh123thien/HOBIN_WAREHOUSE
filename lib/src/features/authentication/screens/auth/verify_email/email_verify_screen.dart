@@ -13,6 +13,8 @@ import 'package:hobin_warehouse/src/features/dashboard/models/donvi_model.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/dashboard.dart';
 import 'package:hobin_warehouse/src/repository/user_repository/user_repository.dart';
 
+import '../../../../dashboard/models/danhmuc_model.dart';
+
 class EmailVerifyScreen extends StatefulWidget {
   const EmailVerifyScreen({super.key});
 
@@ -78,6 +80,17 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
       for (var i = 0; i < allDonvi.length; i++) {
         final donvidefault = DonViModel(donvi: allDonvi[i]);
         userRepo.createDonViDefault(donvidefault);
+      }
+
+      final List<String> allDanhMuc = [
+        "đồ ăn",
+        "thức ăn",
+        "đồ gia dụng",
+        "nước uống",
+      ];
+      for (var i = 0; i < allDanhMuc.length; i++) {
+        final danhmucdefault = DanhMucModel(danhmuc: allDanhMuc[i]);
+        userRepo.createDanhMucDefault(danhmucdefault);
       }
 
       SignUpController.instance.createUserFireStore(user);
