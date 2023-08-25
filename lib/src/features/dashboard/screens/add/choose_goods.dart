@@ -32,6 +32,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   List<dynamic> allHangHoa = [];
   List<dynamic> filteredItems = [];
   Map<dynamic, TextEditingController> controllerMap = {};
+
   @override
   void initState() {
     allHangHoa = controllerAllHangHoa.allHangHoaFireBase;

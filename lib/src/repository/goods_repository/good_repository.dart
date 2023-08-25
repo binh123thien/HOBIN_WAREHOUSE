@@ -8,6 +8,7 @@ import 'package:hobin_warehouse/src/features/dashboard/models/danhmuc_model.dart
 import '../../features/dashboard/controllers/goods/chondanhmuc_controller.dart';
 import '../../features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 import '../../features/dashboard/controllers/image_controller.dart';
+import '../../features/dashboard/models/add/add_location_model.dart';
 import '../../features/dashboard/models/donvi_model.dart';
 import '../../features/dashboard/models/themhanghoa_model.dart';
 
@@ -277,5 +278,37 @@ class GoodRepository extends GetxController {
           colorText: Colors.green);
     });
     // where("donvi", isEqualTo: donViDelete).
+  }
+
+  createLocaion(
+      AddLocationModel locationModel, String macode, String id) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    await _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa")
+        .doc(macode)
+        .collection("Location")
+        .doc(id)
+        .set(locationModel.toJson())
+        .whenComplete(() => Get.snackbar(
+            "Thành công", "Đã thêm hàng vào danh sách",
+            colorText: Colors.green));
+  }
+
+  getAllLocation(String macode) {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final getAllLocation = FirebaseFirestore.instance
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa")
+        .doc(macode)
+        .collection("Location")
+        .snapshots();
+    return getAllLocation;
   }
 }
