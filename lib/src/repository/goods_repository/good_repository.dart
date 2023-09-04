@@ -280,6 +280,39 @@ class GoodRepository extends GetxController {
     // where("donvi", isEqualTo: donViDelete).
   }
 
+  updateSLandExpLocaion(
+      String macode, String location, int soLuongUpdate) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    var snapshot = await _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa")
+        .doc(macode)
+        .collection("Location")
+        .where('location', isEqualTo: location)
+        .get();
+    // Lấy danh sách các tài liệu từ QuerySnapshot
+    List<QueryDocumentSnapshot> documents = snapshot.docs;
+    // Lặp qua các tài liệu và truy cập dữ liệu bên trong
+    for (var documentSnapshot in documents) {
+      // Truy cập vào dữ liệu của tài liệu
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
+      await _db
+          .collection("Users")
+          .doc(firebaseUser.uid)
+          .collection("Goods")
+          .doc(firebaseUser.uid)
+          .collection("HangHoa")
+          .doc(macode)
+          .collection("Location")
+          .doc(data['id'])
+          .update({'soluong': soLuongUpdate});
+    }
+  }
+
   createLocaion(
       AddLocationModel locationModel, String macode, String id) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;

@@ -5,6 +5,7 @@ import 'package:hobin_warehouse/src/features/dashboard/controllers/add/nhaphang_
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_dachon_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/appbar_backgroud_and_back.widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/widget/themdonhang/thongtin_khachhang.dart';
+import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 
 import '../../../../repository/add_repository/add_repository.dart';
@@ -21,8 +22,12 @@ import 'widget/themdonhang/total_price_widget.dart';
 class NhapHangScreen extends StatefulWidget {
   final List<dynamic> dulieuPicked;
   final List<TextEditingController> slpick;
+  final List<Map<String, dynamic>> listMapTable;
   const NhapHangScreen(
-      {super.key, required this.slpick, required this.dulieuPicked});
+      {super.key,
+      required this.slpick,
+      required this.dulieuPicked,
+      required this.listMapTable});
 
   @override
   State<NhapHangScreen> createState() => _NhapHangScreenState();
@@ -34,6 +39,11 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
   num disCount = 0;
   int paymentSelected = 0;
   String khachHangSelected = "Nhà cung cấp";
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void updateDiscount(num newDiscount) {
     setState(() {
@@ -251,6 +261,17 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       datetime: datetime,
                     );
                     controllerAddRepo.createDonNhapHang(donnhaphang);
+
+                    final goodsRepo = Get.put(GoodRepository());
+                    for (var elementDuLieuPicked in widget.dulieuPicked) {
+                      for (var elementListMapTable in widget.listMapTable) {
+                        goodsRepo.updateSLandExpLocaion(
+                            elementDuLieuPicked["macode"],
+                            elementListMapTable.keys.join(', '),
+                            elementListMapTable.values.first);
+                      }
+                    }
+
                     // Đóng dialog hiện tại (nếu có)
                     Navigator.of(context).pop();
                     Navigator.push(

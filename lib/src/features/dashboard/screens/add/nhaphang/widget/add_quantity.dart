@@ -3,8 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
 class AddQuantity extends StatefulWidget {
+  final dynamic hanghoa;
+  final String location;
   const AddQuantity({
     super.key,
+    this.hanghoa,
+    required this.location,
   });
 
   @override
@@ -12,6 +16,7 @@ class AddQuantity extends StatefulWidget {
 }
 
 class _AddQuantityState extends State<AddQuantity> {
+  TextEditingController controllerSL = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -43,7 +48,7 @@ class _AddQuantityState extends State<AddQuantity> {
                 child: Column(
                   children: [
                     TextFormField(
-                      // controller: ,
+                      controller: controllerSL,
                       maxLength: 20,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
@@ -70,9 +75,9 @@ class _AddQuantityState extends State<AddQuantity> {
                                 ),
                               ),
                               onPressed: () {
-                                // createLocation();
                                 Future.delayed(const Duration(seconds: 1), () {
-                                  Navigator.of(context).pop();
+                                  Navigator.of(context)
+                                      .pop<String>(controllerSL.text);
                                 });
                               },
                               child: const Text("Xác nhận"))),
@@ -86,15 +91,4 @@ class _AddQuantityState extends State<AddQuantity> {
       ),
     );
   }
-
-  // createLocation() {
-  //   final id = generateRandomCode(10);
-  //   var newlocation = AddLocationModel(
-  //       location: _AddLocationController.text.toUpperCase(),
-  //       exp: "",
-  //       id: id,
-  //       soluong: 0);
-  //   final goodsRepo = Get.put(GoodRepository());
-  //   goodsRepo.createLocaion(newlocation, widget.hanghoa["macode"], id);
-  // }
 }

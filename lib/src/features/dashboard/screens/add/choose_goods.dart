@@ -32,6 +32,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   List<dynamic> allHangHoa = [];
   List<dynamic> filteredItems = [];
   Map<dynamic, TextEditingController> controllerMap = {};
+  List<Map<String, dynamic>> listMapTable = [];
 
   @override
   void initState() {
@@ -183,6 +184,13 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                           return CardNhapHangShowMore(
                             phanbietNhapXuat: widget.phanbietNhapXuat,
                             hanghoa: hanghoa,
+                            callbackSL: (totalSL) {
+                              // Xử lý giá trị soLuongTable ở đây
+                              hanghoa['soluong'] = totalSL;
+                            },
+                            callbackNameLocation: (nameLocation) {
+                              listMapTable.add(nameLocation);
+                            },
                           );
                         },
                       ),
@@ -250,6 +258,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             builder: (context) => NhapHangScreen(
                               dulieuPicked: filteredItems,
                               slpick: controllersl,
+                              listMapTable: listMapTable,
                             ),
                           ),
                         );

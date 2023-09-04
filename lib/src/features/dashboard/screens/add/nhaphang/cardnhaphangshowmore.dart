@@ -13,10 +13,14 @@ import 'widget/add_quantity.dart';
 class CardNhapHangShowMore extends StatefulWidget {
   final int phanbietNhapXuat;
   final dynamic hanghoa;
+  final Function(int) callbackSL;
+  final Function(Map<String, dynamic>) callbackNameLocation;
   const CardNhapHangShowMore({
     super.key,
     this.hanghoa,
     required this.phanbietNhapXuat,
+    required this.callbackSL,
+    required this.callbackNameLocation,
   });
 
   @override
@@ -27,18 +31,21 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
   bool isExpanded = false;
   final conntroller = Get.put(GoodRepository());
   List<Map<String, dynamic>> dataMapList = [];
+  late List<int> soLuongTable = [];
 
   @override
   void initState() {
     super.initState();
+    soLuongTable.clear();
     conntroller
         .getAllLocation(widget.hanghoa["macode"])
         .listen((QuerySnapshot snapshot) {
       setState(() {
         List<Map<String, dynamic>> tempList =
             List.from(dataMapList); // Tạo danh sách tạm thời
-
         for (var doc in snapshot.docs) {
+          soLuongTable.add(
+              doc['soluong'] as int); // Thêm giá trị vào danh sách soLuongTable
           String location = doc['location'];
           String expiration = doc['exp'];
           Map<String, dynamic> dataMap = {
@@ -82,8 +89,8 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
       );
     }
 
-    Future<void> addQuantity() async {
-      await showModalBottomSheet<num>(
+    Future<void> addQuantity(String location) async {
+      final result = await showModalBottomSheet<String>(
         context: context,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
@@ -93,9 +100,28 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
           ),
         ),
         builder: (BuildContext context) {
-          return const AddQuantity();
+          return AddQuantity(
+            hanghoa: widget.hanghoa,
+            location: location,
+          );
         },
       );
+      if (result != null) {
+        setState(() {
+          int locationIndex = dataMapList
+              .indexWhere((element) => element['location'] == location);
+          // có giá trị trả về từ Bottom sheet
+          soLuongTable[locationIndex] += int.parse(result);
+          int sum = 0;
+          for (int value in soLuongTable) {
+            sum += value;
+          }
+          widget.callbackSL(sum);
+          widget.callbackNameLocation({location: soLuongTable[locationIndex]});
+        });
+      } else {
+        // Xử lý khi không nhận được giá trị trả về
+      }
     }
 
     return Padding(
@@ -215,7 +241,8 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
                           ...List.generate(snapshot.data!.docs.length, (index) {
                             var document = snapshot.data!.docs[index];
                             var location = document['location'];
-                            var soluong = document['soluong'];
+                            int locationIndex = dataMapList.indexWhere(
+                                (element) => element['location'] == location);
 
                             return TableRow(
                               children: [
@@ -231,7 +258,8 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(
                                         4.0), // Padding cho ô
-                                    child: Text(soluong.toString(),
+                                    child: Text(
+                                        soLuongTable[locationIndex].toString(),
                                         style: const TextStyle(fontSize: 16)),
                                   ),
                                 ),
@@ -276,7 +304,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
                                         4.0), // Padding cho ô
                                     child: InkWell(
                                       onTap: () {
-                                        addQuantity();
+                                        addQuantity(location);
                                       },
                                       child: const Text(
                                         "Chọn",
