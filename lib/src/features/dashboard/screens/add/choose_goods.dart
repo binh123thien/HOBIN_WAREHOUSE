@@ -117,7 +117,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                 Icons.add_circle_outline_outlined,
                 size: 30,
               ),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -182,7 +182,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                         itemBuilder: (context, index) {
                           var hanghoa = filteredItems[index];
                           return CardNhapHangShowMore(
-                            phanbietNhapXuat: widget.phanbietNhapXuat,
                             hanghoa: hanghoa,
                             callbackSL: (totalSL) {
                               // Xử lý giá trị soLuongTable ở đây
