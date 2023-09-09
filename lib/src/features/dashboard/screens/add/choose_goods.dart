@@ -73,23 +73,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
     for (var item in filteredItems) {
       controllerMap[item['tensanpham']] = TextEditingController();
     }
-    void onSearchTextChanged(String value) {
-      setState(() {
-        searchHangHoa = value.toLowerCase();
-        filteredItems = allHangHoa
-            .where((item) => item["tensanpham"]
-                .toString()
-                .toLowerCase()
-                .contains(searchHangHoa))
-            .toList();
-        controllersl =
-            List.generate(filteredItems.length, (_) => TextEditingController());
-        for (int i = 0; i < filteredItems.length; i++) {
-          controllersl[i].text = filteredItems[i]["soluong"].toString();
-        }
-      });
-      locdulieu();
-    }
 
     return Scaffold(
       appBar: AppBar(
