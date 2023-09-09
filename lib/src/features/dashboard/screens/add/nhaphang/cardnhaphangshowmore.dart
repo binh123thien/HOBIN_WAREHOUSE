@@ -125,7 +125,11 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Container(
-        color: whiteColor,
+        decoration: BoxDecoration(
+          borderRadius:
+              BorderRadius.circular(12), // Đặt bán kính bo góc tại đây
+          color: whiteColor,
+        ),
         child: ExpansionTile(
           onExpansionChanged: (value) {
             setState(() {
@@ -168,7 +172,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
                 ),
               ),
               child: const Text(
-                'Thêm',
+                'Nhập',
                 style: TextStyle(fontSize: 13),
               ),
             ),
@@ -180,7 +184,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
           ),
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.all(10),
               child: StreamBuilder<QuerySnapshot>(
                   stream: conntroller.getAllLocation(widget.hanghoa["macode"]),
                   builder: (BuildContext context,
@@ -193,10 +197,9 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
                       return Table(
                         border: TableBorder.all(),
                         columnWidths: const {
-                          0: FixedColumnWidth(90), // Location column width
-                          1: FixedColumnWidth(70), // SL column width
-                          2: FixedColumnWidth(105), // Exp column width
-                          3: FixedColumnWidth(80), // Nhập column width
+                          0: FixedColumnWidth(120), // Location column width
+                          1: FixedColumnWidth(100), // SL column width
+                          2: FixedColumnWidth(120), // Exp column width
                         },
                         children: [
                           const TableRow(
@@ -221,13 +224,6 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
                                 child: Padding(
                                   padding: EdgeInsets.all(4.0), // Padding cho ô
                                   child: Text('Exp',
-                                      style: TextStyle(fontSize: 16)),
-                                ),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.0), // Padding cho ô
-                                  child: Text('Nhập',
                                       style: TextStyle(fontSize: 16)),
                                 ),
                               ),
@@ -262,50 +258,9 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(
                                         4.0), // Padding cho ô
-                                    child: InkWell(
-                                      onTap: () {
-                                        showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(2020),
-                                          lastDate: DateTime(2030),
-                                        ).then((selectedDate) {
-                                          if (selectedDate != null) {
-                                            String newDate =
-                                                DateFormat('dd/MM/yyyy')
-                                                    .format(selectedDate);
-                                            updateExpirationDate(
-                                                index, newDate);
-                                          }
-                                        });
-                                      },
-                                      child: Text(
-                                        dataMapList[index]["exp"].isEmpty
-                                            ? "Date"
-                                            : dataMapList[index]["exp"],
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: dataMapList[index]["exp"]
-                                                    .isEmpty
-                                                ? blueColor
-                                                : cancel600Color),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                        4.0), // Padding cho ô
-                                    child: InkWell(
-                                      onTap: () {
-                                        addQuantity(location);
-                                      },
-                                      child: const Text(
-                                        "Chọn",
-                                        style: TextStyle(
-                                            fontSize: 16, color: blueColor),
-                                      ),
+                                    child: Text(
+                                      dataMapList[index]["exp"],
+                                      style: const TextStyle(fontSize: 16),
                                     ),
                                   ),
                                 ),
