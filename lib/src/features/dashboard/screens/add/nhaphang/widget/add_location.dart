@@ -56,26 +56,61 @@ class _AddLocationState extends State<AddLocation> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Vị trí",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700)),
-                    DropdownButton<String>(
-                      value: dropdownValue,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownValue = newValue!;
-                        });
-                      },
-                      items:
-                          items.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          enabled: (value != 'Chọn'),
-                          child: Text(value),
-                        );
-                      }).toList(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text("Vị trí: ",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w700)),
+                        DropdownButton<String>(
+                          value: dropdownValue,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                            });
+                          },
+                          items: items
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              enabled: (value != 'Chọn'),
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ],
                     ),
-                    Text("Ngày hết hạn "),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 4, 0, 14),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text("Ngày hết hạn: ",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w700)),
+                          SizedBox(
+                            width: 65,
+                            height: 25,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                backgroundColor: blueColor,
+                                side: const BorderSide(color: blueColor),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      10), // giá trị này xác định bán kính bo tròn
+                                ),
+                              ),
+                              child: const Text(
+                                'Chọn',
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     const Text(
                       "Số lượng",
                       style:
