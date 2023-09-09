@@ -19,6 +19,12 @@ class AddLocation extends StatefulWidget {
 
 class _AddLocationState extends State<AddLocation> {
   final TextEditingController _AddLocationController = TextEditingController();
+  List<String> items = <String>[
+    "Chọn",
+    "A201",
+    "A202",
+  ];
+  String dropdownValue = "Chọn";
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -26,7 +32,7 @@ class _AddLocationState extends State<AddLocation> {
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SizedBox(
-        height: size.height * 0.295,
+        height: size.height * 0.5,
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(
@@ -35,7 +41,7 @@ class _AddLocationState extends State<AddLocation> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Thêm vị trí", style: TextStyle(fontSize: 18)),
+                  const Text("Nhập thêm hàng", style: TextStyle(fontSize: 18)),
                   IconButton(
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -45,13 +51,40 @@ class _AddLocationState extends State<AddLocation> {
               ),
               const SizedBox(height: 4),
               SizedBox(
-                height: 150,
+                height: 300,
                 width: size.width - 30,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const Text("Vị trí",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w700)),
+                    DropdownButton<String>(
+                      value: dropdownValue,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownValue = newValue!;
+                        });
+                      },
+                      items:
+                          items.map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          enabled: (value != 'Chọn'),
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                    Text("Ngày hết hạn "),
+                    const Text(
+                      "Số lượng",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    ),
                     TextFormField(
                       controller: _AddLocationController,
                       maxLength: 8,
+                      keyboardType: TextInputType.number,
                       decoration: const InputDecoration(
                           errorStyle: TextStyle(fontSize: 15),
                           border: UnderlineInputBorder(),
@@ -59,7 +92,7 @@ class _AddLocationState extends State<AddLocation> {
                               borderSide:
                                   BorderSide(color: mainColor, width: 2)),
                           contentPadding: EdgeInsets.zero,
-                          labelText: 'Nhập vị trí mới'),
+                          labelText: 'Nhập số lượng'),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
