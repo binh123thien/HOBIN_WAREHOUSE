@@ -165,6 +165,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                         itemBuilder: (context, index) {
                           var hanghoa = filteredItems[index];
                           return CardNhapHangShowMore(
+                            phanBietNhapXuat: widget.phanbietNhapXuat,
                             hanghoa: hanghoa,
                             callbackSL: (totalSL) {
                               // Xử lý giá trị soLuongTable ở đây

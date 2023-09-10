@@ -11,6 +11,7 @@ import 'widget/add_location.dart';
 import 'widget/add_quantity.dart';
 
 class CardNhapHangShowMore extends StatefulWidget {
+  final int phanBietNhapXuat;
   final dynamic hanghoa;
   final Function(int) callbackSL;
   final Function(Map<String, dynamic>) callbackNameLocation;
@@ -19,6 +20,7 @@ class CardNhapHangShowMore extends StatefulWidget {
     this.hanghoa,
     required this.callbackSL,
     required this.callbackNameLocation,
+    required this.phanBietNhapXuat,
   });
 
   @override
@@ -81,6 +83,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
         ),
         builder: (BuildContext context) {
           return AddLocation(
+            phanBietNhapXuat: widget.phanBietNhapXuat,
             hanghoa: widget.hanghoa,
           );
         },
@@ -164,8 +167,11 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
-                backgroundColor: blueColor,
-                side: const BorderSide(color: blueColor),
+                backgroundColor:
+                    widget.phanBietNhapXuat == 1 ? blueColor : mainColor,
+                side: BorderSide(
+                    color:
+                        widget.phanBietNhapXuat == 1 ? blueColor : mainColor),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                       10), // giá trị này xác định bán kính bo tròn

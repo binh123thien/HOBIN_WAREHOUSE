@@ -7,10 +7,12 @@ import '../../../../../../repository/goods_repository/good_repository.dart';
 import '../../../../../../utils/utils.dart';
 
 class AddLocation extends StatefulWidget {
+  final int phanBietNhapXuat;
   final dynamic hanghoa;
   const AddLocation({
     super.key,
     required this.hanghoa,
+    required this.phanBietNhapXuat,
   });
 
   @override
@@ -95,8 +97,13 @@ class _AddLocationState extends State<AddLocation> {
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                backgroundColor: blueColor,
-                                side: const BorderSide(color: blueColor),
+                                backgroundColor: widget.phanBietNhapXuat == 1
+                                    ? blueColor
+                                    : mainColor,
+                                side: BorderSide(
+                                    color: widget.phanBietNhapXuat == 1
+                                        ? blueColor
+                                        : mainColor),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       10), // giá trị này xác định bán kính bo tròn
@@ -120,14 +127,17 @@ class _AddLocationState extends State<AddLocation> {
                       controller: _AddLocationController,
                       maxLength: 8,
                       keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                          errorStyle: TextStyle(fontSize: 15),
-                          border: UnderlineInputBorder(),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: mainColor, width: 2)),
-                          contentPadding: EdgeInsets.zero,
-                          labelText: 'Nhập số lượng'),
+                      decoration: InputDecoration(
+                        errorStyle: const TextStyle(fontSize: 15),
+                        border: const UnderlineInputBorder(),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: widget.phanBietNhapXuat == 1
+                                    ? blueColor
+                                    : mainColor,
+                                width: 2)),
+                        contentPadding: EdgeInsets.zero,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
