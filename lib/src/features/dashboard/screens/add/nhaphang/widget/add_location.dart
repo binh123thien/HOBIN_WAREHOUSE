@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/date_picker/date_picker.dart';
+import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/models/add/add_location_model.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../repository/goods_repository/good_repository.dart';
 import '../../../../../../utils/utils.dart';
@@ -20,7 +23,10 @@ class AddLocation extends StatefulWidget {
 }
 
 class _AddLocationState extends State<AddLocation> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _AddLocationController = TextEditingController();
+  late String textExpire = '';
+
   List<String> items = <String>[
     "Chọn",
     "A201",
@@ -29,6 +35,8 @@ class _AddLocationState extends State<AddLocation> {
   String dropdownValue = "Chọn";
   @override
   Widget build(BuildContext context) {
+    ThemeData datePickerTheme =
+        MyTheme.getCustomDatePickerTheme(widget.phanBietNhapXuat);
     final size = MediaQuery.of(context).size;
     return Padding(
       padding:
@@ -90,11 +98,44 @@ class _AddLocationState extends State<AddLocation> {
                           const Text("Ngày hết hạn: ",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w700)),
+                          textExpire == ''
+                              ? const Text(
+                                  'Hãy bấm chọn',
+                                  style: TextStyle(fontSize: 17),
+                                )
+                              : Text(
+                                  textExpire,
+                                  style: const TextStyle(
+                                      color: Colors.red, fontSize: 17),
+                                ),
                           SizedBox(
                             width: 65,
                             height: 25,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime(2030),
+                                  builder:
+                                      (BuildContext context, Widget? child) {
+                                    return Theme(
+                                      data: datePickerTheme,
+                                      child: child!,
+                                    );
+                                  },
+                                ).then((selectedDate) {
+                                  if (selectedDate != null) {
+                                    setState(() {
+                                      String newDate = DateFormat('dd/MM/yyyy')
+                                          .format(selectedDate);
+                                      textExpire = newDate;
+                                    });
+                                    // updateExpirationDate(index, newDate);
+                                  }
+                                });
+                              },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
                                 backgroundColor: widget.phanBietNhapXuat == 1
@@ -123,20 +164,26 @@ class _AddLocationState extends State<AddLocation> {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                    TextFormField(
-                      controller: _AddLocationController,
-                      maxLength: 8,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        errorStyle: const TextStyle(fontSize: 15),
-                        border: const UnderlineInputBorder(),
-                        focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: widget.phanBietNhapXuat == 1
-                                    ? blueColor
-                                    : mainColor,
-                                width: 2)),
-                        contentPadding: EdgeInsets.zero,
+                    Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        validator: (value) {
+                          return oneCharacter(value!);
+                        },
+                        controller: _AddLocationController,
+                        maxLength: 8,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          errorStyle: const TextStyle(fontSize: 15),
+                          border: const UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: widget.phanBietNhapXuat == 1
+                                      ? blueColor
+                                      : mainColor,
+                                  width: 2)),
+                          contentPadding: EdgeInsets.zero,
+                        ),
                       ),
                     ),
                     Padding(
@@ -151,10 +198,19 @@ class _AddLocationState extends State<AddLocation> {
                                 ),
                               ),
                               onPressed: () {
-                                createLocation();
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  Navigator.of(context).pop();
-                                });
+                                if (_formKey.currentState!.validate() &&
+                                    textExpire != '' &&
+                                    dropdownValue != 'Chọn') {
+                                  createLocation();
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    Navigator.of(context).pop();
+                                  });
+                                } else {
+                                  Get.snackbar(
+                                      'Lỗi', 'Vui lòng điền hết thông tin',
+                                      colorText: Colors.red);
+                                }
                               },
                               child: const Text("Thêm"))),
                     )
