@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/notification.dart';
 import '../../../controllers/account/profile_controller.dart';
 import '../../account/account_screen.dart';
 
@@ -73,7 +74,22 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                       const Text("Welcome to Hoin",
                           style: TextStyle(fontSize: 15)),
                     ],
-                  )
+                  ),
+                  const SizedBox(
+                    width: 110,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NotificationScreen()),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.notifications,
+                        size: 28,
+                      ))
                 ],
               ),
             ),

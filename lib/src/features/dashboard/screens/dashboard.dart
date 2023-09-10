@@ -35,7 +35,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     const HomePage(),
     const StatisticsScreen(),
     const ThemDonHangScreen(dulieuPicked: [], slpick: []),
-    //
     //// (set TH currentpage =2), bấm vào Thêm không hiện trang này đâu
     const HistoryScreen(),
     const Goods(),
