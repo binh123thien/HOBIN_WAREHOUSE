@@ -7,7 +7,6 @@ import 'package:hobin_warehouse/src/features/dashboard/models/add/add_location_m
 import 'package:intl/intl.dart';
 
 import '../../../../../../repository/goods_repository/good_repository.dart';
-import '../../../../../../utils/utils.dart';
 
 class AddLocation extends StatefulWidget {
   final int phanBietNhapXuat;
@@ -26,6 +25,7 @@ class _AddLocationState extends State<AddLocation> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _AddLocationController = TextEditingController();
   late String textExpire = '';
+  late Map<String, dynamic> mapNhapHang;
 
   List<String> items = <String>[
     "Chọn",
@@ -201,7 +201,7 @@ class _AddLocationState extends State<AddLocation> {
                                 if (_formKey.currentState!.validate() &&
                                     textExpire != '' &&
                                     dropdownValue != 'Chọn') {
-                                  createLocation();
+                                  createListNhapHang();
                                   Future.delayed(const Duration(seconds: 1),
                                       () {
                                     Navigator.of(context).pop();
@@ -224,14 +224,14 @@ class _AddLocationState extends State<AddLocation> {
     );
   }
 
-  createLocation() {
-    final id = generateRandomCode(10);
-    var newlocation = AddLocationModel(
-        location: _AddLocationController.text.toUpperCase(),
-        exp: "",
-        id: id,
-        soluong: 0);
+  createListNhapHang() {
+    mapNhapHang = {
+      'tensp': widget.hanghoa['tensanpham'],
+      'location': dropdownValue,
+      'expire': textExpire,
+      'soluong': _AddLocationController.text,
+    };
     final goodsRepo = Get.put(GoodRepository());
-    goodsRepo.createLocaion(newlocation, widget.hanghoa["macode"], id);
+    goodsRepo.listNhapXuathang.add(mapNhapHang);
   }
 }

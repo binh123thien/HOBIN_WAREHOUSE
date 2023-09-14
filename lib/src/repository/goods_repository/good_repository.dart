@@ -14,7 +14,7 @@ import '../../features/dashboard/models/themhanghoa_model.dart';
 
 class GoodRepository extends GetxController {
   static GoodRepository get instance => Get.find();
-
+  RxList<Map<String, dynamic>> listNhapXuathang = <Map<String, dynamic>>[].obs;
   final _db = FirebaseFirestore.instance;
 
 //=============================== Thêm hàng hóa mới =============================================
