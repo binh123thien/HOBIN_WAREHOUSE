@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/date_picker/date_picker.dart';
-import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
-import 'package:hobin_warehouse/src/features/dashboard/models/add/add_location_model.dart';
+import 'package:hobin_warehouse/src/utils/validate/validate.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../../repository/goods_repository/good_repository.dart';
@@ -168,7 +167,7 @@ class _AddLocationState extends State<AddLocation> {
                       key: _formKey,
                       child: TextFormField(
                         validator: (value) {
-                          return oneCharacter(value!);
+                          return nonZeroInput(value!);
                         },
                         controller: _AddLocationController,
                         maxLength: 8,
@@ -226,6 +225,7 @@ class _AddLocationState extends State<AddLocation> {
 
   createListNhapHang() {
     mapNhapHang = {
+      'macode': widget.hanghoa['macode'],
       'tensp': widget.hanghoa['tensanpham'],
       'location': dropdownValue,
       'expire': textExpire,

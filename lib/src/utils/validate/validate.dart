@@ -72,6 +72,8 @@ String? nonZeroInput(String? value) {
     return 'Vui lòng nhập số khác 0';
   } else if (value.startsWith('0')) {
     return 'Số đầu tiên không thể là 0';
+  } else if (value.startsWith('-')) {
+    return 'Không thể là số âm';
   }
   return null;
 }

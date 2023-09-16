@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/willpopscope.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
@@ -74,13 +75,13 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
       controllerMap[item['tensanpham']] = TextEditingController();
     }
 
-    return WillPopScope(
-      onWillPop: () async {
+    return ExitConfirmationDialog(
+      onConfirmed: () {
         controllerGoodRepo.listNhapXuathang.clear();
-        Navigator.pop(context);
-        return false;
+        Navigator.of(context).pop(true);
       },
-      child: Scaffold(
+      message: 'Bạn muốn quay lại trang trước?',
+      dialogChild: Scaffold(
         appBar: AppBar(
           title: widget.phanbietNhapXuat == 0
               ? const Text(
@@ -173,13 +174,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             return CardNhapHangShowMore(
                               phanBietNhapXuat: widget.phanbietNhapXuat,
                               hanghoa: hanghoa,
-                              callbackSL: (totalSL) {
-                                // Xử lý giá trị soLuongTable ở đây
-                                hanghoa['soluong'] = totalSL;
-                              },
-                              callbackNameLocation: (nameLocation) {
-                                listMapTable.add(nameLocation);
-                              },
                             );
                           },
                         ),
@@ -248,7 +242,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                               builder: (context) => NhapHangScreen(
                                 dulieuPicked: filteredItems,
                                 slpick: controllersl,
-                                listMapTable: listMapTable,
                               ),
                             ),
                           );

@@ -13,13 +13,9 @@ import 'widget/add_quantity.dart';
 class CardNhapHangShowMore extends StatefulWidget {
   final int phanBietNhapXuat;
   final dynamic hanghoa;
-  final Function(int) callbackSL;
-  final Function(Map<String, dynamic>) callbackNameLocation;
   const CardNhapHangShowMore({
     super.key,
     this.hanghoa,
-    required this.callbackSL,
-    required this.callbackNameLocation,
     required this.phanBietNhapXuat,
   });
 
@@ -29,23 +25,20 @@ class CardNhapHangShowMore extends StatefulWidget {
 
 class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
   bool isExpanded = false;
-  final conntroller = Get.put(GoodRepository());
+  final conntrollerGood = Get.put(GoodRepository());
   List<Map<String, dynamic>> dataMapList = [];
-  late List<int> soLuongTable = [];
 
   @override
   void initState() {
     super.initState();
-    soLuongTable.clear();
-    conntroller
+    conntrollerGood
         .getAllLocation(widget.hanghoa["macode"])
         .listen((QuerySnapshot snapshot) {
       setState(() {
         List<Map<String, dynamic>> tempList =
             List.from(dataMapList); // Tạo danh sách tạm thời
+
         for (var doc in snapshot.docs) {
-          soLuongTable.add(
-              doc['soluong'] as int); // Thêm giá trị vào danh sách soLuongTable
           String location = doc['location'];
           String expiration = doc['exp'];
           Map<String, dynamic> dataMap = {
@@ -71,6 +64,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
 
   @override
   Widget build(BuildContext context) {
+    print('build card ${conntrollerGood.listNhapXuathang}');
     Future<void> addLocation() async {
       await showModalBottomSheet<num>(
         context: context,
@@ -90,8 +84,8 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
       );
     }
 
-    Future<void> addQuantity(String location) async {
-      final result = await showModalBottomSheet<String>(
+    Future<void> addQuantity() async {
+      await showModalBottomSheet<num>(
         context: context,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
@@ -101,28 +95,9 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
           ),
         ),
         builder: (BuildContext context) {
-          return AddQuantity(
-            hanghoa: widget.hanghoa,
-            location: location,
-          );
+          return const AddQuantity();
         },
       );
-      if (result != null) {
-        setState(() {
-          int locationIndex = dataMapList
-              .indexWhere((element) => element['location'] == location);
-          // có giá trị trả về từ Bottom sheet
-          soLuongTable[locationIndex] += int.parse(result);
-          int sum = 0;
-          for (int value in soLuongTable) {
-            sum += value;
-          }
-          widget.callbackSL(sum);
-          widget.callbackNameLocation({location: soLuongTable[locationIndex]});
-        });
-      } else {
-        // Xử lý khi không nhận được giá trị trả về
-      }
     }
 
     return Padding(
@@ -191,92 +166,96 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: StreamBuilder<QuerySnapshot>(
-                  stream: conntroller.getAllLocation(widget.hanghoa["macode"]),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.data!.docs.isEmpty) {
-                      return const Center(child: Text("Không có dữ liệu"));
-                    } else {
-                      return Table(
-                        border: TableBorder.all(),
-                        columnWidths: const {
-                          0: FixedColumnWidth(120), // Location column width
-                          1: FixedColumnWidth(100), // SL column width
-                          2: FixedColumnWidth(120), // Exp column width
-                        },
+              child: Column(
+                children: [
+                  Table(
+                    border: TableBorder.all(),
+                    columnWidths: const {
+                      0: FixedColumnWidth(120), // Location column width
+                      1: FixedColumnWidth(100), // SL column width
+                      2: FixedColumnWidth(120), // Exp column width
+                    },
+                    children: const [
+                      TableRow(
                         children: [
-                          const TableRow(
-                            children: [
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.0), // Padding cho ô
-                                  child: Text(
-                                    'Location',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                ),
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Text(
+                                'Location',
+                                style: TextStyle(fontSize: 16),
                               ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.0), // Padding cho ô
-                                  child: Text('SL',
-                                      style: TextStyle(fontSize: 16)),
-                                ),
-                              ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.0), // Padding cho ô
-                                  child: Text('Exp',
-                                      style: TextStyle(fontSize: 16)),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
-                          ...List.generate(snapshot.data!.docs.length, (index) {
-                            var document = snapshot.data!.docs[index];
-                            var location = document['location'];
-                            int locationIndex = dataMapList.indexWhere(
-                                (element) => element['location'] == location);
-
-                            return TableRow(
-                              children: [
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                        4.0), // Padding cho ô
-                                    child: Text(location,
-                                        style: const TextStyle(fontSize: 16)),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                        4.0), // Padding cho ô
-                                    child: Text(
-                                        soLuongTable[locationIndex].toString(),
-                                        style: const TextStyle(fontSize: 16)),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                        4.0), // Padding cho ô
-                                    child: Text(
-                                      dataMapList[index]["exp"],
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child: Text('SL', style: TextStyle(fontSize: 16)),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: EdgeInsets.all(4.0),
+                              child:
+                                  Text('Exp', style: TextStyle(fontSize: 16)),
+                            ),
+                          ),
                         ],
-                      );
-                    }
-                  }),
+                      ),
+                    ],
+                  ),
+                  ...conntrollerGood.listNhapXuathang
+                      .where((element) =>
+                          widget.hanghoa['macode'] == element['macode'])
+                      .toList()
+                      .map((document) {
+                    var location = document['location'];
+                    var soluong = document['soluong'];
+                    var expire = document['expire'];
+                    return Table(
+                      border: TableBorder.all(),
+                      columnWidths: const {
+                        0: FixedColumnWidth(120), // Location column width
+                        1: FixedColumnWidth(100), // SL column width
+                        2: FixedColumnWidth(120), // Exp column width
+                      },
+                      children: [
+                        TableRow(
+                          children: [
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  location,
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  soluong.toString(),
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ),
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  expire.toString(),
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ],
+              ),
             ),
           ],
         ),
