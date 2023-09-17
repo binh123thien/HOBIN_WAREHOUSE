@@ -88,48 +88,43 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Container(
-              width: double.infinity,
-              height: 280,
-              decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.01),
-                        spreadRadius: 10,
-                        blurRadius: 3)
-                  ]),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Doanh Thu",
-                            style: TextStyle(
-                                fontSize: 13, fontWeight: FontWeight.w400),
-                          ),
-                          const SizedBox(height: 7),
-                          Text(
-                            formatCurrency(selectedTongDoanhThu),
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w700),
-                          ),
-                        ],
+          Container(
+            width: double.infinity,
+            height: 400,
+            decoration: BoxDecoration(
+                color: whiteColor,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.01),
+                      spreadRadius: 10,
+                      blurRadius: 3)
+                ]),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Doanh Thu",
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.w400),
                       ),
-                    ),
-                    ChartScreen(),
-                  ],
+                      const SizedBox(height: 7),
+                      Text(
+                        formatCurrency(selectedTongDoanhThu),
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w700),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+                SizedBox(height: 30),
+                ChartScreen(),
+              ],
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/bar_graph/bar_graph.dart';
 
 class ChartScreen extends StatefulWidget {
   const ChartScreen({super.key});
@@ -8,7 +9,7 @@ class ChartScreen extends StatefulWidget {
 }
 
 class _ChartScreenState extends State<ChartScreen> {
-  List<double> doanhthutuan = [
+  List<double> weeklySummary = [
     200,
     300,
     256,
@@ -19,6 +20,11 @@ class _ChartScreenState extends State<ChartScreen> {
   ];
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      height: 220,
+      child: BarGraph(
+        weeklySummary: weeklySummary,
+      ),
+    );
   }
 }
