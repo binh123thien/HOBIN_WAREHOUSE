@@ -193,7 +193,7 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
             const SizedBox(height: 8),
             CardItemBanHangDaChon(
               phanbietNhapXuat: phanbietNhapXuat,
-              allHangHoa: widget.dulieuPicked,
+              hangHoaPicked: widget.dulieuPicked,
               sumItem: sumItem,
               // onUpdateSumItem: updateSumItem,
             ),

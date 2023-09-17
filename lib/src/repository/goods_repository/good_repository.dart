@@ -8,13 +8,13 @@ import 'package:hobin_warehouse/src/features/dashboard/models/danhmuc_model.dart
 import '../../features/dashboard/controllers/goods/chondanhmuc_controller.dart';
 import '../../features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 import '../../features/dashboard/controllers/image_controller.dart';
-import '../../features/dashboard/models/add/add_location_model.dart';
+import '../../features/dashboard/models/add/add_location_model(canK).dart';
 import '../../features/dashboard/models/donvi_model.dart';
 import '../../features/dashboard/models/themhanghoa_model.dart';
 
 class GoodRepository extends GetxController {
   static GoodRepository get instance => Get.find();
-
+  RxList<Map<String, dynamic>> listNhapXuathang = <Map<String, dynamic>>[].obs;
   final _db = FirebaseFirestore.instance;
 
 //=============================== Thêm hàng hóa mới =============================================
@@ -278,39 +278,6 @@ class GoodRepository extends GetxController {
           colorText: Colors.green);
     });
     // where("donvi", isEqualTo: donViDelete).
-  }
-
-  updateSLandExpLocaion(
-      String macode, String location, int soLuongUpdate) async {
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-    var snapshot = await _db
-        .collection("Users")
-        .doc(firebaseUser!.uid)
-        .collection("Goods")
-        .doc(firebaseUser.uid)
-        .collection("HangHoa")
-        .doc(macode)
-        .collection("Location")
-        .where('location', isEqualTo: location)
-        .get();
-    // Lấy danh sách các tài liệu từ QuerySnapshot
-    List<QueryDocumentSnapshot> documents = snapshot.docs;
-    // Lặp qua các tài liệu và truy cập dữ liệu bên trong
-    for (var documentSnapshot in documents) {
-      // Truy cập vào dữ liệu của tài liệu
-      Map<String, dynamic> data =
-          documentSnapshot.data() as Map<String, dynamic>;
-      await _db
-          .collection("Users")
-          .doc(firebaseUser.uid)
-          .collection("Goods")
-          .doc(firebaseUser.uid)
-          .collection("HangHoa")
-          .doc(macode)
-          .collection("Location")
-          .doc(data['id'])
-          .update({'soluong': soLuongUpdate});
-    }
   }
 
   createLocaion(

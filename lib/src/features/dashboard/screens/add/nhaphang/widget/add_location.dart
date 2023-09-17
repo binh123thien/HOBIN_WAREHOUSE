@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/date_picker/date_picker.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
-import 'package:hobin_warehouse/src/features/dashboard/models/add/add_location_model.dart';
+import 'package:hobin_warehouse/src/utils/validate/validate.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../repository/goods_repository/good_repository.dart';
-import '../../../../../../utils/utils.dart';
 
 class AddLocation extends StatefulWidget {
+  final int phanBietNhapXuat;
   final dynamic hanghoa;
   const AddLocation({
     super.key,
     required this.hanghoa,
+    required this.phanBietNhapXuat,
   });
 
   @override
@@ -18,7 +21,11 @@ class AddLocation extends StatefulWidget {
 }
 
 class _AddLocationState extends State<AddLocation> {
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _AddLocationController = TextEditingController();
+  late String textExpire = '';
+  late Map<String, dynamic> mapNhapHang;
+
   List<String> items = <String>[
     "Chọn",
     "A201",
@@ -27,6 +34,8 @@ class _AddLocationState extends State<AddLocation> {
   String dropdownValue = "Chọn";
   @override
   Widget build(BuildContext context) {
+    ThemeData datePickerTheme =
+        MyTheme.getCustomDatePickerTheme(widget.phanBietNhapXuat);
     final size = MediaQuery.of(context).size;
     return Padding(
       padding:
@@ -88,15 +97,53 @@ class _AddLocationState extends State<AddLocation> {
                           const Text("Ngày hết hạn: ",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.w700)),
+                          textExpire == ''
+                              ? const Text(
+                                  'Hãy bấm chọn',
+                                  style: TextStyle(fontSize: 17),
+                                )
+                              : Text(
+                                  textExpire,
+                                  style: const TextStyle(
+                                      color: Colors.red, fontSize: 17),
+                                ),
                           SizedBox(
                             width: 65,
                             height: 25,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2020),
+                                  lastDate: DateTime(2030),
+                                  builder:
+                                      (BuildContext context, Widget? child) {
+                                    return Theme(
+                                      data: datePickerTheme,
+                                      child: child!,
+                                    );
+                                  },
+                                ).then((selectedDate) {
+                                  if (selectedDate != null) {
+                                    setState(() {
+                                      String newDate = DateFormat('dd/MM/yyyy')
+                                          .format(selectedDate);
+                                      textExpire = newDate;
+                                    });
+                                    // updateExpirationDate(index, newDate);
+                                  }
+                                });
+                              },
                               style: ElevatedButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                backgroundColor: blueColor,
-                                side: const BorderSide(color: blueColor),
+                                backgroundColor: widget.phanBietNhapXuat == 1
+                                    ? blueColor
+                                    : mainColor,
+                                side: BorderSide(
+                                    color: widget.phanBietNhapXuat == 1
+                                        ? blueColor
+                                        : mainColor),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       10), // giá trị này xác định bán kính bo tròn
@@ -116,18 +163,27 @@ class _AddLocationState extends State<AddLocation> {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
                     ),
-                    TextFormField(
-                      controller: _AddLocationController,
-                      maxLength: 8,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                          errorStyle: TextStyle(fontSize: 15),
-                          border: UnderlineInputBorder(),
+                    Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        validator: (value) {
+                          return nonZeroInput(value!);
+                        },
+                        controller: _AddLocationController,
+                        maxLength: 8,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          errorStyle: const TextStyle(fontSize: 15),
+                          border: const UnderlineInputBorder(),
                           focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: mainColor, width: 2)),
+                              borderSide: BorderSide(
+                                  color: widget.phanBietNhapXuat == 1
+                                      ? blueColor
+                                      : mainColor,
+                                  width: 2)),
                           contentPadding: EdgeInsets.zero,
-                          labelText: 'Nhập số lượng'),
+                        ),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
@@ -141,10 +197,19 @@ class _AddLocationState extends State<AddLocation> {
                                 ),
                               ),
                               onPressed: () {
-                                createLocation();
-                                Future.delayed(const Duration(seconds: 1), () {
-                                  Navigator.of(context).pop();
-                                });
+                                if (_formKey.currentState!.validate() &&
+                                    textExpire != '' &&
+                                    dropdownValue != 'Chọn') {
+                                  createListNhapHang();
+                                  Future.delayed(const Duration(seconds: 1),
+                                      () {
+                                    Navigator.of(context).pop();
+                                  });
+                                } else {
+                                  Get.snackbar(
+                                      'Lỗi', 'Vui lòng điền hết thông tin',
+                                      colorText: Colors.red);
+                                }
                               },
                               child: const Text("Thêm"))),
                     )
@@ -158,14 +223,23 @@ class _AddLocationState extends State<AddLocation> {
     );
   }
 
-  createLocation() {
-    final id = generateRandomCode(10);
-    var newlocation = AddLocationModel(
-        location: _AddLocationController.text.toUpperCase(),
-        exp: "",
-        id: id,
-        soluong: 0);
+  createListNhapHang() {
+    mapNhapHang = {
+      'macode': widget.hanghoa['macode'],
+      'tensp': widget.hanghoa['tensanpham'],
+      'location': dropdownValue,
+      'expire': textExpire,
+      'soluong': _AddLocationController.text,
+    };
+
+    if (widget.phanBietNhapXuat == 1) {
+      mapNhapHang['gianhap'] = widget.hanghoa['gianhap'];
+    } else {
+      mapNhapHang['giaban'] = widget.hanghoa['giaban'];
+    }
+    //add thêm tồn kho
+    mapNhapHang['tonkho'] = widget.hanghoa['tonkho'];
     final goodsRepo = Get.put(GoodRepository());
-    goodsRepo.createLocaion(newlocation, widget.hanghoa["macode"], id);
+    goodsRepo.listNhapXuathang.add(mapNhapHang);
   }
 }

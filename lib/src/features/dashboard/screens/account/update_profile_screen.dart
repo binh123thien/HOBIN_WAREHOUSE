@@ -51,6 +51,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return ExitConfirmationDialog(
+      phanBietNhapXuat: 0, //maincolor
       message: 'Bạn muốn quay lại trang trước?',
       onConfirmed: () {
         //xóa những tấm hình khách chưa lưu

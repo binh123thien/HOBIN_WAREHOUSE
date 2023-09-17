@@ -8,8 +8,10 @@ class ExitConfirmationDialog extends StatelessWidget {
     required this.message,
     required this.onConfirmed,
     required this.dialogChild,
+    required this.phanBietNhapXuat,
   }) : super(key: key);
 
+  final int phanBietNhapXuat;
   final String message;
   final VoidCallback onConfirmed;
   final Widget dialogChild;
@@ -24,10 +26,10 @@ class ExitConfirmationDialog extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),
             ),
-            title: const Text(
+            title: Text(
               'Xác nhận',
               style: TextStyle(
-                color: mainColor,
+                color: phanBietNhapXuat == 0 ? mainColor : blueColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
               ),
@@ -48,10 +50,11 @@ class ExitConfirmationDialog extends StatelessWidget {
               ),
               TextButton(
                 onPressed: onConfirmed,
-                child: const Text(
+                child: Text(
                   'CÓ',
-                  style:
-                      TextStyle(color: mainColor, fontWeight: FontWeight.w800),
+                  style: TextStyle(
+                      color: phanBietNhapXuat == 0 ? mainColor : blueColor,
+                      fontWeight: FontWeight.w800),
                 ),
               ),
             ],

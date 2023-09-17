@@ -11,14 +11,12 @@ import 'widget/add_location.dart';
 import 'widget/add_quantity.dart';
 
 class CardNhapHangShowMore extends StatefulWidget {
+  final int phanBietNhapXuat;
   final dynamic hanghoa;
-  final Function(int) callbackSL;
-  final Function(Map<String, dynamic>) callbackNameLocation;
   const CardNhapHangShowMore({
     super.key,
     this.hanghoa,
-    required this.callbackSL,
-    required this.callbackNameLocation,
+    required this.phanBietNhapXuat,
   });
 
   @override
@@ -27,23 +25,20 @@ class CardNhapHangShowMore extends StatefulWidget {
 
 class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
   bool isExpanded = false;
-  final conntroller = Get.put(GoodRepository());
+  final conntrollerGood = Get.put(GoodRepository());
   List<Map<String, dynamic>> dataMapList = [];
-  late List<int> soLuongTable = [];
 
   @override
   void initState() {
     super.initState();
-    soLuongTable.clear();
-    conntroller
+    conntrollerGood
         .getAllLocation(widget.hanghoa["macode"])
         .listen((QuerySnapshot snapshot) {
       setState(() {
         List<Map<String, dynamic>> tempList =
             List.from(dataMapList); // Tạo danh sách tạm thời
+
         for (var doc in snapshot.docs) {
-          soLuongTable.add(
-              doc['soluong'] as int); // Thêm giá trị vào danh sách soLuongTable
           String location = doc['location'];
           String expiration = doc['exp'];
           Map<String, dynamic> dataMap = {
@@ -69,6 +64,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
 
   @override
   Widget build(BuildContext context) {
+    print('build card ${conntrollerGood.listNhapXuathang}');
     Future<void> addLocation() async {
       await showModalBottomSheet<num>(
         context: context,
@@ -81,14 +77,15 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
         ),
         builder: (BuildContext context) {
           return AddLocation(
+            phanBietNhapXuat: widget.phanBietNhapXuat,
             hanghoa: widget.hanghoa,
           );
         },
       );
     }
 
-    Future<void> addQuantity(String location) async {
-      final result = await showModalBottomSheet<String>(
+    Future<void> addQuantity() async {
+      await showModalBottomSheet<num>(
         context: context,
         isScrollControlled: true,
         shape: const RoundedRectangleBorder(
@@ -98,28 +95,9 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
           ),
         ),
         builder: (BuildContext context) {
-          return AddQuantity(
-            hanghoa: widget.hanghoa,
-            location: location,
-          );
+          return const AddQuantity();
         },
       );
-      if (result != null) {
-        setState(() {
-          int locationIndex = dataMapList
-              .indexWhere((element) => element['location'] == location);
-          // có giá trị trả về từ Bottom sheet
-          soLuongTable[locationIndex] += int.parse(result);
-          int sum = 0;
-          for (int value in soLuongTable) {
-            sum += value;
-          }
-          widget.callbackSL(sum);
-          widget.callbackNameLocation({location: soLuongTable[locationIndex]});
-        });
-      } else {
-        // Xử lý khi không nhận được giá trị trả về
-      }
     }
 
     return Padding(
@@ -131,6 +109,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
           color: whiteColor,
         ),
         child: ExpansionTile(
+          textColor: widget.phanBietNhapXuat == 0 ? mainColor : blueColor,
           onExpansionChanged: (value) {
             setState(() {
               isExpanded = value;
@@ -164,8 +143,11 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.zero,
-                backgroundColor: blueColor,
-                side: const BorderSide(color: blueColor),
+                backgroundColor:
+                    widget.phanBietNhapXuat == 1 ? blueColor : mainColor,
+                side: BorderSide(
+                    color:
+                        widget.phanBietNhapXuat == 1 ? blueColor : mainColor),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                       10), // giá trị này xác định bán kính bo tròn
@@ -178,99 +160,115 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
             ),
           ),
           subtitle: Text(
-            "Kho: ${widget.hanghoa["tonkho"]} ${widget.hanghoa["donvi"]} - ${formatCurrency(widget.hanghoa["giaban"])}",
+            "Kho: ${widget.hanghoa["tonkho"]} ${widget.hanghoa["donvi"]} - ${widget.phanBietNhapXuat == 1 ? formatCurrency(widget.hanghoa["gianhap"]) : formatCurrency(widget.hanghoa["giaban"])}",
             style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w100),
             textAlign: TextAlign.start,
           ),
           children: [
             Padding(
               padding: const EdgeInsets.all(10),
-              child: StreamBuilder<QuerySnapshot>(
-                  stream: conntroller.getAllLocation(widget.hanghoa["macode"]),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.data!.docs.isEmpty) {
-                      return const Center(child: Text("Không có dữ liệu"));
-                    } else {
-                      return Table(
-                        border: TableBorder.all(),
-                        columnWidths: const {
-                          0: FixedColumnWidth(120), // Location column width
-                          1: FixedColumnWidth(100), // SL column width
-                          2: FixedColumnWidth(120), // Exp column width
-                        },
-                        children: [
-                          const TableRow(
-                            children: [
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.0), // Padding cho ô
-                                  child: Text(
-                                    'Location',
-                                    style: TextStyle(fontSize: 16),
-                                  ),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.grey, // Màu nền mong muốn
+                    ),
+                    child: Table(
+                      border: TableBorder.all(),
+                      columnWidths: const {
+                        0: FixedColumnWidth(120), // Location column width
+                        1: FixedColumnWidth(100), // SL column width
+                        2: FixedColumnWidth(120), // Exp column width
+                      },
+                      children: const [
+                        TableRow(
+                          children: [
+                            TableCell(
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text(
+                                  'Vị trí',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.0), // Padding cho ô
-                                  child: Text('SL',
-                                      style: TextStyle(fontSize: 16)),
+                            ),
+                            TableCell(
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text('Số lượng',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            TableCell(
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text('Ngày hết hạn',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  ...conntrollerGood.listNhapXuathang
+                      .where((element) =>
+                          widget.hanghoa['macode'] == element['macode'])
+                      .toList()
+                      .map((document) {
+                    var location = document['location'];
+                    var soluong = document['soluong'];
+                    var expire = document['expire'];
+                    return Table(
+                      border: TableBorder.all(),
+                      columnWidths: const {
+                        0: FixedColumnWidth(120), // Location column width
+                        1: FixedColumnWidth(100), // SL column width
+                        2: FixedColumnWidth(120), // Exp column width
+                      },
+                      children: [
+                        TableRow(
+                          children: [
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  location,
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ),
-                              TableCell(
-                                child: Padding(
-                                  padding: EdgeInsets.all(4.0), // Padding cho ô
-                                  child: Text('Exp',
-                                      style: TextStyle(fontSize: 16)),
+                            ),
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  soluong.toString(),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ),
-                            ],
-                          ),
-                          ...List.generate(snapshot.data!.docs.length, (index) {
-                            var document = snapshot.data!.docs[index];
-                            var location = document['location'];
-                            int locationIndex = dataMapList.indexWhere(
-                                (element) => element['location'] == location);
-
-                            return TableRow(
-                              children: [
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                        4.0), // Padding cho ô
-                                    child: Text(location,
-                                        style: const TextStyle(fontSize: 16)),
-                                  ),
+                            ),
+                            TableCell(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Text(
+                                  expire.toString(),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                        4.0), // Padding cho ô
-                                    child: Text(
-                                        soLuongTable[locationIndex].toString(),
-                                        style: const TextStyle(fontSize: 16)),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(
-                                        4.0), // Padding cho ô
-                                    child: Text(
-                                      dataMapList[index]["exp"],
-                                      style: const TextStyle(fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          }),
-                        ],
-                      );
-                    }
-                  }),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ],
+              ),
             ),
           ],
         ),

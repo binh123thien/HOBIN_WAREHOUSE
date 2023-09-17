@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/willpopscope.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
@@ -26,13 +27,12 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   final controllerAllHangHoa = Get.put(ChonHangHoaController());
   final controllersortby = Get.put(ThemHangHoaController());
   final controllerGoodRepo = Get.put(GoodRepository());
-  List<TextEditingController> controllersl = [];
 
+  List<TextEditingController> controllersl = [];
   String searchHangHoa = "";
   List<dynamic> allHangHoa = [];
   List<dynamic> filteredItems = [];
   Map<dynamic, TextEditingController> controllerMap = {};
-  List<Map<String, dynamic>> listMapTable = [];
 
   @override
   void initState() {
@@ -74,184 +74,188 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
       controllerMap[item['tensanpham']] = TextEditingController();
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: widget.phanbietNhapXuat == 0
-            ? const Text(
-                "Thêm đơn hàng",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: whiteColor),
-              )
-            : const Text(
-                "Nhập hàng",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: whiteColor),
-              ),
-        backgroundColor: widget.phanbietNhapXuat == 0 ? mainColor : blueColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: IconButton(
-              icon: const Icon(
-                Icons.add_circle_outline_outlined,
-                size: 30,
-              ),
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ThemGoodsScreen()),
-                ).then((_) {
-                  setState(() {
-                    allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
+    return ExitConfirmationDialog(
+      phanBietNhapXuat: widget.phanbietNhapXuat,
+      onConfirmed: () {
+        controllerGoodRepo.listNhapXuathang.clear();
+        Navigator.of(context).pop(true);
+      },
+      message: 'Bạn muốn quay lại trang trước?',
+      dialogChild: Scaffold(
+        appBar: AppBar(
+          title: widget.phanbietNhapXuat == 0
+              ? const Text(
+                  "Thêm đơn hàng",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: whiteColor),
+                )
+              : const Text(
+                  "Nhập hàng",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: whiteColor),
+                ),
+          backgroundColor: widget.phanbietNhapXuat == 0 ? mainColor : blueColor,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.add_circle_outline_outlined,
+                  size: 30,
+                ),
+                onPressed: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ThemGoodsScreen()),
+                  ).then((_) {
+                    setState(() {
+                      allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
+                    });
                   });
-                });
-              },
-            ),
-          ),
-        ],
-        centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(kToolbarHeight),
-          child: Container(
-            color: whiteColor,
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SearchWidget(
-                      onChanged: (value) {
-                        setState(() {
-                          searchHangHoa = value;
-                        });
-                      },
-                      width: 320,
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        _showSortbyHangHoaTaoDon();
-                      },
-                      icon: const Image(
-                        image: AssetImage(sortbyIcon),
-                        height: 28,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-              ],
-            ),
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: filteredItems.isNotEmpty
-            ? ListView(
-                shrinkWrap: true,
-                children: [
-                  SizedBox(
-                    width: size.width,
-                    height: size.height - 230,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: ListView.builder(
-                        itemCount: filteredItems.length,
-                        itemBuilder: (context, index) {
-                          var hanghoa = filteredItems[index];
-                          return CardNhapHangShowMore(
-                            hanghoa: hanghoa,
-                            callbackSL: (totalSL) {
-                              // Xử lý giá trị soLuongTable ở đây
-                              hanghoa['soluong'] = totalSL;
-                            },
-                            callbackNameLocation: (nameLocation) {
-                              listMapTable.add(nameLocation);
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            : allHangHoa.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 300),
-                    child: Center(
-                      child: Text(
-                        "Chưa có hàng hóa...",
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: 300),
-                    child: Center(
-                      child: Text(
-                        "Không tìm thấy hàng hóa!",
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    ),
-                  ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        height: 80,
-        color: whiteColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width - 30,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      widget.phanbietNhapXuat == 0 ? mainColor : blueColor,
-                  side: BorderSide(
-                      color:
-                          widget.phanbietNhapXuat == 0 ? mainColor : blueColor),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        10), // giá trị này xác định bán kính bo tròn
-                  ),
-                ),
-                onPressed: widget.phanbietNhapXuat == 0
-                    ? () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ThemDonHangScreen(
-                              dulieuPicked: filteredItems,
-                              slpick: controllersl,
-                            ),
-                          ),
-                        );
-                      }
-                    : () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => NhapHangScreen(
-                              dulieuPicked: filteredItems,
-                              slpick: controllersl,
-                              listMapTable: listMapTable,
-                            ),
-                          ),
-                        );
-                      },
-                child: const Text(
-                  'Xác nhận',
-                  style: TextStyle(fontSize: 19),
-                ),
+                },
               ),
             ),
           ],
+          centerTitle: true,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: Container(
+              color: whiteColor,
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SearchWidget(
+                        onChanged: (value) {
+                          setState(() {
+                            searchHangHoa = value;
+                          });
+                        },
+                        width: 320,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          _showSortbyHangHoaTaoDon();
+                        },
+                        icon: const Image(
+                          image: AssetImage(sortbyIcon),
+                          height: 28,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                ],
+              ),
+            ),
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: filteredItems.isNotEmpty
+              ? ListView(
+                  shrinkWrap: true,
+                  children: [
+                    SizedBox(
+                      width: size.width,
+                      height: size.height - 230,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: ListView.builder(
+                          itemCount: filteredItems.length,
+                          itemBuilder: (context, index) {
+                            var hanghoa = filteredItems[index];
+                            return CardNhapHangShowMore(
+                              phanBietNhapXuat: widget.phanbietNhapXuat,
+                              hanghoa: hanghoa,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : allHangHoa.isEmpty
+                  ? const Padding(
+                      padding: EdgeInsets.only(top: 300),
+                      child: Center(
+                        child: Text(
+                          "Chưa có hàng hóa...",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
+                    )
+                  : const Padding(
+                      padding: EdgeInsets.only(top: 300),
+                      child: Center(
+                        child: Text(
+                          "Không tìm thấy hàng hóa!",
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
+                    ),
+        ),
+        bottomNavigationBar: BottomAppBar(
+          height: 80,
+          color: whiteColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 30,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        widget.phanbietNhapXuat == 0 ? mainColor : blueColor,
+                    side: BorderSide(
+                        color: widget.phanbietNhapXuat == 0
+                            ? mainColor
+                            : blueColor),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10), // giá trị này xác định bán kính bo tròn
+                    ),
+                  ),
+                  onPressed: widget.phanbietNhapXuat == 0
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ThemDonHangScreen(
+                                dulieuPicked:
+                                    controllerGoodRepo.listNhapXuathang,
+                                slpick: controllersl,
+                              ),
+                            ),
+                          );
+                        }
+                      : () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NhapHangScreen(
+                                dulieuPicked:
+                                    controllerGoodRepo.listNhapXuathang,
+                                slpick: controllersl,
+                              ),
+                            ),
+                          );
+                        },
+                  child: const Text(
+                    'Xác nhận',
+                    style: TextStyle(fontSize: 19),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
