@@ -109,6 +109,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
           color: whiteColor,
         ),
         child: ExpansionTile(
+          textColor: widget.phanBietNhapXuat == 0 ? mainColor : blueColor,
           onExpansionChanged: (value) {
             setState(() {
               isExpanded = value;
@@ -168,41 +169,53 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
               padding: const EdgeInsets.all(10),
               child: Column(
                 children: [
-                  Table(
-                    border: TableBorder.all(),
-                    columnWidths: const {
-                      0: FixedColumnWidth(120), // Location column width
-                      1: FixedColumnWidth(100), // SL column width
-                      2: FixedColumnWidth(120), // Exp column width
-                    },
-                    children: const [
-                      TableRow(
-                        children: [
-                          TableCell(
-                            child: Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Text(
-                                'Location',
-                                style: TextStyle(fontSize: 16),
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.grey, // Màu nền mong muốn
+                    ),
+                    child: Table(
+                      border: TableBorder.all(),
+                      columnWidths: const {
+                        0: FixedColumnWidth(120), // Location column width
+                        1: FixedColumnWidth(100), // SL column width
+                        2: FixedColumnWidth(120), // Exp column width
+                      },
+                      children: const [
+                        TableRow(
+                          children: [
+                            TableCell(
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text(
+                                  'Vị trí',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
-                          ),
-                          TableCell(
-                            child: Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child: Text('SL', style: TextStyle(fontSize: 16)),
+                            TableCell(
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text('Số lượng',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
                             ),
-                          ),
-                          TableCell(
-                            child: Padding(
-                              padding: EdgeInsets.all(4.0),
-                              child:
-                                  Text('Exp', style: TextStyle(fontSize: 16)),
+                            TableCell(
+                              child: Padding(
+                                padding: EdgeInsets.all(4.0),
+                                child: Text('Ngày hết hạn',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   ...conntrollerGood.listNhapXuathang
                       .where((element) =>

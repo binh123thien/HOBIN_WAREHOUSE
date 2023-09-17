@@ -231,11 +231,14 @@ class _AddLocationState extends State<AddLocation> {
       'expire': textExpire,
       'soluong': _AddLocationController.text,
     };
+
     if (widget.phanBietNhapXuat == 1) {
       mapNhapHang['gianhap'] = widget.hanghoa['gianhap'];
     } else {
       mapNhapHang['giaban'] = widget.hanghoa['giaban'];
     }
+    //add thêm tồn kho
+    mapNhapHang['tonkho'] = widget.hanghoa['tonkho'];
     final goodsRepo = Get.put(GoodRepository());
     goodsRepo.listNhapXuathang.add(mapNhapHang);
   }

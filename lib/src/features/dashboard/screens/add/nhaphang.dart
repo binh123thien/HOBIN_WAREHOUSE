@@ -61,7 +61,6 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('build nhâp hàng ${widget.dulieuPicked}');
     if (widget.dulieuPicked.isEmpty) {
       return const Scaffold(
         appBar: AppBarBGBack(
@@ -195,7 +194,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
               const SizedBox(height: 8),
               CardItemBanHangDaChon(
                 phanbietNhapXuat: phanbietNhapXuat,
-                allHangHoa: widget.dulieuPicked,
+                hangHoaPicked: widget.dulieuPicked,
                 sumItem: sumItem,
               ),
               TotalPriceWidget(
