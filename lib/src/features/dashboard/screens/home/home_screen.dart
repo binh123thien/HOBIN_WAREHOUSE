@@ -6,6 +6,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/appba
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuticon.dart';
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../../controllers/history/history_controller.dart';
+import '../../controllers/statistics/doanhthu_controller.dart';
 import 'widget/card_dashboard.dart';
 import 'widget/expense_graph.dart';
 
@@ -19,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final controller = Get.put(ChonHangHoaController());
   final controllerHistory = Get.put(HistoryController());
+  final controllerDoanhThu = Get.put(DoanhThuController());
   final HistoryController controllerHistoryRepo = Get.find();
   @override
   void initState() {
@@ -26,6 +28,7 @@ class _HomePageState extends State<HomePage> {
     controller.loadAllHangHoa();
     controllerHistory.loadPhiNhapHangTrongThang("NhapHang");
     controllerHistory.loadPhiNhapHangTrongThang("BanHang");
+    controllerDoanhThu.loadDoanhThuTuanChart();
   }
 
   @override

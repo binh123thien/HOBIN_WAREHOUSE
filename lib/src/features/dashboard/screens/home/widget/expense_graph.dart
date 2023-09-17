@@ -1,10 +1,10 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
-import 'package:hobin_warehouse/src/constants/day_month.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/chart.dart';
+import 'package:hobin_warehouse/src/utils/utils.dart';
 
-import 'sliding_segmented_control.dart';
+import '../../../controllers/statistics/doanhthu_controller.dart';
+import 'chartScreen.dart';
 
 class ExpenseTrack extends StatefulWidget {
   const ExpenseTrack({super.key});
@@ -14,138 +14,126 @@ class ExpenseTrack extends StatefulWidget {
 }
 
 class _ExpenseTrackState extends State<ExpenseTrack> {
-  int activeMonth = 4;
+  final dropdownValue = RxString('Đang tải...');
+  var selectedWeek = '';
+  num selectedTongDoanhThu = 0.0;
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Container(
-          decoration: const BoxDecoration(color: whiteColor, boxShadow: [
-            BoxShadow(color: whiteColor, spreadRadius: 0, blurRadius: 0)
-          ]),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
-                    Text(
-                      "Tracking",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    SlidingSegmentedControl(),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: List.generate(months.length, (index) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          activeMonth = index;
-                        });
-                      },
-                      child: SizedBox(
-                        width: (size.width - 40) / 7,
-                        child: Column(
-                          children: [
-                            Text(
-                              months[index]['label'],
-                              style: const TextStyle(fontSize: 10),
-                            ),
-                            const SizedBox(height: 10),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: activeMonth == index
-                                    ? mainColor
-                                    : whiteColor,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(
-                                    color: activeMonth == index
-                                        ? mainColor
-                                        : Colors.black.withOpacity(0.3)),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(12, 7, 12, 7),
-                                child: Center(
-                                  child: Text(
-                                    months[index]["day"],
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: activeMonth == index
-                                            ? Colors.white
-                                            : Colors.black),
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
-                )
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            width: double.infinity,
-            height: 280,
-            decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.01),
-                      spreadRadius: 10,
-                      blurRadius: 3)
-                ]),
+    final DoanhThuController doanhThuControllerRepo = Get.find();
+    return Obx(() {
+      if (doanhThuControllerRepo.docDoanhThuTuanChart.isNotEmpty &&
+          dropdownValue.value == "Đang tải...") {
+        dropdownValue.value =
+            doanhThuControllerRepo.docDoanhThuTuanChart[0]["datetime"];
+      }
+
+      return Column(
+        children: [
+          Container(
+            color: whiteColor,
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Stack(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+              child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          "Doanh Thu",
-                          style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400),
-                        ),
-                        SizedBox(height: 7),
-                        Text(
-                          "\$2123",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w400),
-                        ),
-                      ],
-                    ),
+                  const Text(
+                    "Doanh Thu Tuần",
+                    style: TextStyle(fontSize: 17),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    child: SizedBox(
-                      width: size.width - 20,
-                      height: 180,
-                      child: LineChart(mainData()),
-                    ),
-                  )
+                  const SizedBox(height: 8),
+                  Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors
+                                .grey), // Màu viền và độ dày có thể được thay đổi
+                        borderRadius:
+                            BorderRadius.circular(4), // Bo góc viền ngoại
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: DropdownButton<dynamic>(
+                          value: dropdownValue.value,
+                          items: doanhThuControllerRepo.docDoanhThuTuanChart
+                              .map<DropdownMenuItem<dynamic>>((dynamic value) {
+                            String datetime = value["datetime"];
+                            return DropdownMenuItem(
+                              value: datetime,
+                              child: Text(datetime),
+                            );
+                          }).toList(),
+                          onChanged: (dynamic newValue) {
+                            setState(() {
+                              dropdownValue.value = newValue!;
+                              selectedWeek = doanhThuControllerRepo
+                                  .docDoanhThuTuanChart
+                                  .firstWhere((item) =>
+                                      item["datetime"] ==
+                                      dropdownValue.value)["week"];
+                              selectedTongDoanhThu = doanhThuControllerRepo
+                                  .docDoanhThuTuanChart
+                                  .firstWhere((item) =>
+                                      item["datetime"] ==
+                                      dropdownValue.value)["doanhthu"];
+                              print(dropdownValue);
+                              print(selectedWeek);
+                              print(selectedTongDoanhThu);
+                            });
+                          },
+                          underline:
+                              Container(), // Loại bỏ gạch chân mặc định của DropdownButton
+                          icon: const Icon(
+                              Icons.arrow_drop_down), // Icon mũi tên xuống),
+                        ),
+                      ))
                 ],
               ),
             ),
           ),
-        ),
-      ],
-    );
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Container(
+              width: double.infinity,
+              height: 280,
+              decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.01),
+                        spreadRadius: 10,
+                        blurRadius: 3)
+                  ]),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Doanh Thu",
+                            style: TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.w400),
+                          ),
+                          const SizedBox(height: 7),
+                          Text(
+                            formatCurrency(selectedTongDoanhThu),
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ChartScreen(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

@@ -8,11 +8,42 @@ import '../../../../repository/add_repository/add_repository.dart';
 
 class DoanhThuController extends GetxController {
   static DoanhThuController get instance => Get.find();
+  RxList<dynamic> docDoanhThuTuanChart = [].obs;
   List<dynamic> docDoanhThuNgay = [].obs;
   List<dynamic> docDoanhThuTuan = [].obs;
   List<dynamic> docDoanhThuThang = [].obs;
   final controllerRepo = Get.put(DoanhThuRepository());
   final controllerAdd = Get.put(AddRepository());
+
+  loadDoanhThuTuanChart() async {
+    await controllerRepo.getTongDoanhThuTuan().listen((snapshot) {
+      docDoanhThuTuanChart
+          .assignAll(snapshot.docs.map((doc) => doc.data()).toList());
+      DateTime currentDate = DateTime.now();
+      String formattedDate =
+          "${currentDate.day.toString().padLeft(2, '0')}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.year}";
+
+      String tuanNgay =
+          controllerAdd.getTuanFromDate(formattedDate, "datetime");
+      String week = controllerAdd.getTuanFromDate(formattedDate, "week");
+
+      if (docDoanhThuTuanChart.isEmpty ||
+          docDoanhThuTuanChart[0]['datetime'] != tuanNgay) {
+        final currentWeek = {
+          'datetime': tuanNgay,
+          'week': week,
+          'dangcho': 0,
+          'thanhcong': 0,
+          'huy': 0,
+          'doanhthu': 0,
+        };
+        docDoanhThuTuanChart.insert(0, currentWeek);
+      }
+      // Cập nhật giá trị và thông báo cho Obx widget cần cập nhật giao diện
+      docDoanhThuTuanChart.refresh();
+    });
+  }
+
   loadDoanhThuNgay() async {
     await controllerRepo.getTongDoanhThuNgay().listen((snapshot) {
       docDoanhThuNgay = snapshot.docs.map((doc) => doc.data()).toList();
