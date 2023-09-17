@@ -33,7 +33,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   List<dynamic> allHangHoa = [];
   List<dynamic> filteredItems = [];
   Map<dynamic, TextEditingController> controllerMap = {};
-  List<Map<String, dynamic>> listMapTable = [];
 
   @override
   void initState() {
@@ -76,6 +75,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
     }
 
     return ExitConfirmationDialog(
+      phanBietNhapXuat: widget.phanbietNhapXuat,
       onConfirmed: () {
         controllerGoodRepo.listNhapXuathang.clear();
         Navigator.of(context).pop(true);
@@ -229,7 +229,8 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => ThemDonHangScreen(
-                                dulieuPicked: filteredItems,
+                                dulieuPicked:
+                                    controllerGoodRepo.listNhapXuathang,
                                 slpick: controllersl,
                               ),
                             ),
@@ -240,7 +241,8 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             context,
                             MaterialPageRoute(
                               builder: (context) => NhapHangScreen(
-                                dulieuPicked: filteredItems,
+                                dulieuPicked:
+                                    controllerGoodRepo.listNhapXuathang,
                                 slpick: controllersl,
                               ),
                             ),

@@ -61,13 +61,16 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('build nhâp hàng ${widget.dulieuPicked}');
     if (widget.dulieuPicked.isEmpty) {
       return const Scaffold(
         appBar: AppBarBGBack(
           phanBietNhatXuat: 1,
           title: 'Nhập hàng',
         ),
-        body: Center(child: Text("Chưa có hàng hóa!\nBạn cần thêm hàng hóa")),
+        body: Center(
+            child: Text(
+                "           Chưa có hàng hóa!\nBạn cần thêm hàng hóa vào giỏ")),
       );
     } else {
       //nhập hàng

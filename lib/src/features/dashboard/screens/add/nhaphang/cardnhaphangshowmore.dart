@@ -159,7 +159,7 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
             ),
           ),
           subtitle: Text(
-            "Kho: ${widget.hanghoa["tonkho"]} ${widget.hanghoa["donvi"]} - ${formatCurrency(widget.hanghoa["giaban"])}",
+            "Kho: ${widget.hanghoa["tonkho"]} ${widget.hanghoa["donvi"]} - ${widget.phanBietNhapXuat == 1 ? formatCurrency(widget.hanghoa["gianhap"]) : formatCurrency(widget.hanghoa["giaban"])}",
             style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w100),
             textAlign: TextAlign.start,
           ),
