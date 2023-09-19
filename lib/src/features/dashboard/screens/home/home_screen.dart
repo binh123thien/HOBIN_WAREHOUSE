@@ -49,10 +49,10 @@ class _HomePageState extends State<HomePage> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             CardDashboard(),
-            ShortCutIcon(),
-            SizedBox(height: 20),
-            ExpenseTrack(),
             SizedBox(height: 10),
+            ShortCutIcon(),
+            SizedBox(height: 10),
+            ExpenseTrack(),
           ]),
         ),
       ),

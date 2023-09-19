@@ -31,12 +31,13 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
             doanhThuControllerRepo.docDoanhThuTuanChart[0]["doanhthu"];
       }
 
-      return Column(
-        children: [
-          Container(
-            color: whiteColor,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15), color: whiteColor),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
                   const Text(
@@ -77,9 +78,6 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
                                   .firstWhere((item) =>
                                       item["datetime"] ==
                                       dropdownValue.value)["doanhthu"];
-                              print(dropdownValue);
-                              print(selectedWeek);
-                              print(selectedTongDoanhThu);
                             });
                           },
                           underline:
@@ -91,47 +89,47 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
                 ],
               ),
             ),
-          ),
-          Container(
-            width: double.infinity,
-            height: 400,
-            decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.grey.withOpacity(0.01),
-                      spreadRadius: 10,
-                      blurRadius: 3)
-                ]),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 5, left: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Doanh Thu",
-                        style: TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.w400),
-                      ),
-                      const SizedBox(height: 7),
-                      Text(
-                        formatCurrency(selectedTongDoanhThu),
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w700),
-                      ),
-                    ],
+            Container(
+              width: double.infinity,
+              height: 310,
+              decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.01),
+                        spreadRadius: 10,
+                        blurRadius: 3)
+                  ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5, left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Doanh Thu",
+                          style: TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.w400),
+                        ),
+                        const SizedBox(height: 7),
+                        Text(
+                          formatCurrency(selectedTongDoanhThu),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                ChartScreen(selectedWeek: selectedWeek),
-              ],
+                  const SizedBox(height: 30),
+                  ChartScreen(selectedWeek: selectedWeek),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     });
   }
