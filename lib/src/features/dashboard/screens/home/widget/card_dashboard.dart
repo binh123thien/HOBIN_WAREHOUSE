@@ -28,12 +28,12 @@ class CardDashboard extends StatelessWidget {
         },
         {
           "icon": const AssetImage(chitieuthang),
-          "title": "Nhập hàng",
+          "title": "Nhập hàng/tháng",
           "value": controllerHistoryRepo.tongNhapHang.value,
         },
         {
           "icon": const AssetImage(doanhthuthang),
-          "title": "Doanh thu",
+          "title": "Doanh thu/tháng",
           "value": controllerHistoryRepo.tongBanHang.value,
         },
       ];
