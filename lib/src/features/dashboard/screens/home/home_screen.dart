@@ -42,19 +42,17 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: mainColor,
         title: const AppBarDashBoard(),
       ),
-      backgroundColor: whiteColor,
+      // backgroundColor: whiteColor,
       body: const SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: EdgeInsets.all(8.0),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             CardDashboard(),
-            Divider(),
-            ShortCutIcon(),
-            SizedBox(height: 20),
-            Divider(),
-            ExpenseTrack(),
             SizedBox(height: 10),
+            ShortCutIcon(),
+            SizedBox(height: 10),
+            ExpenseTrack(),
           ]),
         ),
       ),

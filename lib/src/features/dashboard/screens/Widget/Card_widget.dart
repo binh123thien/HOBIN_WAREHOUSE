@@ -1,3 +1,4 @@
+import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
@@ -13,51 +14,66 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Wrap(
-      spacing: 20,
-      children: List.generate(arrayList.length, (index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 7),
-          child: Container(
-            width: (size.width - 50) / 2,
-            height: 65,
-            decoration: BoxDecoration(
-                color: backGroundColor.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: darkColor.withOpacity(0.1))),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 8, 10, 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                    SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: Image(image: arrayList[index]["icon"]),
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: whiteColor,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: arrayList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(6),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Image(image: arrayList[index]["icon"]),
+                            ),
+                            const SizedBox(width: 9),
+                            Text(
+                              arrayList[index]["title"],
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w100),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          index == 0
+                              ? arrayList[index]["value"].toString()
+                              : formatCurrency(arrayList[index]["value"]),
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                    Text(
-                      arrayList[index]["title"],
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w100),
-                    ),
-                  ]),
-                  Text(
-                    index == 0
-                        ? arrayList[index]["value"].toString()
-                        : formatCurrency(arrayList[index]["value"]),
-                    style: const TextStyle(
-                        fontSize: 17, fontWeight: FontWeight.w400),
-                  ),
-                ],
-              ),
-            ),
+                    const SizedBox(height: 10),
+                    index != arrayList.length - 1
+                        ? const DottedLine(
+                            direction: Axis.horizontal,
+                            lineLength: double.infinity,
+                            lineThickness: 1,
+                            dashLength: 8.0,
+                            dashColor: Color.fromARGB(255, 209, 209, 209),
+                            dashGapLength: 6.0,
+                            dashGapColor: Colors.transparent,
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
+              );
+            },
           ),
-        );
-      }),
-    );
+        ));
   }
 }
