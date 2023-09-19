@@ -67,8 +67,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '546470862682',
     projectId: 'hobinwarehouse',
     storageBucket: 'hobinwarehouse.appspot.com',
-    androidClientId: '546470862682-t1ad47h6132c9ghqg3rmkndtuf2canci.apps.googleusercontent.com',
-    iosClientId: '546470862682-qg1aq01pojlcg2s9lfentke2e2pajcgp.apps.googleusercontent.com',
+    androidClientId:
+        '546470862682-t1ad47h6132c9ghqg3rmkndtuf2canci.apps.googleusercontent.com',
+    iosClientId:
+        '546470862682-qg1aq01pojlcg2s9lfentke2e2pajcgp.apps.googleusercontent.com',
     iosBundleId: 'com.example.hobinWarehouse',
   );
 
@@ -78,8 +80,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '546470862682',
     projectId: 'hobinwarehouse',
     storageBucket: 'hobinwarehouse.appspot.com',
-    androidClientId: '546470862682-t1ad47h6132c9ghqg3rmkndtuf2canci.apps.googleusercontent.com',
-    iosClientId: '546470862682-qg1aq01pojlcg2s9lfentke2e2pajcgp.apps.googleusercontent.com',
+    androidClientId:
+        '546470862682-t1ad47h6132c9ghqg3rmkndtuf2canci.apps.googleusercontent.com',
+    iosClientId:
+        '546470862682-qg1aq01pojlcg2s9lfentke2e2pajcgp.apps.googleusercontent.com',
     iosBundleId: 'com.example.hobinWarehouse',
   );
 }

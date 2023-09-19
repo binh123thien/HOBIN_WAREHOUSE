@@ -201,6 +201,9 @@ class _AddLocationState extends State<AddLocation> {
                                     textExpire != '' &&
                                     dropdownValue != 'Chọn') {
                                   createListNhapHang();
+                                  Get.find<GoodRepository>()
+                                      .expandShowMore
+                                      .value = true;
                                   Future.delayed(const Duration(seconds: 1),
                                       () {
                                     Navigator.of(context).pop();
