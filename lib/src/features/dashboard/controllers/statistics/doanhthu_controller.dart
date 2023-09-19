@@ -110,6 +110,35 @@ class DoanhThuController extends GetxController {
     });
   }
 
+  Stream<List<double>> getDoanhThu7DayFromFirebase(String inputString) async* {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final dates = getDatesFromString(inputString);
+    final List<double> doanhThuList7DayChart = [];
+
+    for (final date in dates) {
+      final snapshot = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(firebaseUser!.uid)
+          .collection("History")
+          .doc(firebaseUser.uid)
+          .collection("TongDoanhThu")
+          .doc(firebaseUser.uid)
+          .collection("HangNgay")
+          .where('datetime', isEqualTo: date)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        final doc = snapshot.docs[0];
+        final doanhThu = doc.data()['doanhthu'];
+        doanhThuList7DayChart.add(doanhThu);
+      } else {
+        doanhThuList7DayChart.add(0.0);
+      }
+    }
+
+    yield doanhThuList7DayChart;
+  }
+
   Stream<List<DocumentSnapshot>> filterDocumentsByDate(String inputString) {
     final dates = getDatesFromString(inputString);
 

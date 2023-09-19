@@ -16,7 +16,8 @@ class ExpenseTrack extends StatefulWidget {
 class _ExpenseTrackState extends State<ExpenseTrack> {
   final dropdownValue = RxString('Đang tải...');
   var selectedWeek = '';
-  num selectedTongDoanhThu = 0.0;
+  num selectedTongDoanhThu = 10.0;
+
   @override
   Widget build(BuildContext context) {
     final DoanhThuController doanhThuControllerRepo = Get.find();
@@ -25,6 +26,9 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
           dropdownValue.value == "Đang tải...") {
         dropdownValue.value =
             doanhThuControllerRepo.docDoanhThuTuanChart[0]["datetime"];
+        selectedWeek = doanhThuControllerRepo.docDoanhThuTuanChart[0]["week"];
+        selectedTongDoanhThu =
+            doanhThuControllerRepo.docDoanhThuTuanChart[0]["doanhthu"];
       }
 
       return Column(
@@ -122,8 +126,8 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
                     ],
                   ),
                 ),
-                SizedBox(height: 30),
-                ChartScreen(),
+                const SizedBox(height: 30),
+                ChartScreen(selectedWeek: selectedWeek),
               ],
             ),
           ),

@@ -1,12 +1,15 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
+import 'package:hobin_warehouse/src/utils/utils.dart';
 
 import 'bar_data.dart';
 
 class BarGraph extends StatefulWidget {
   final List weeklySummary;
-  const BarGraph({super.key, required this.weeklySummary});
+  final double maxElement;
+  const BarGraph(
+      {super.key, required this.weeklySummary, required this.maxElement});
 
   @override
   State<BarGraph> createState() => _BarGraphState();
@@ -26,13 +29,20 @@ class _BarGraphState extends State<BarGraph> {
     myBarData.initializeBarData();
     return BarChart(
       BarChartData(
-          maxY: 500,
+          maxY: widget.maxElement,
           minY: 0,
           barTouchData: BarTouchData(
-              handleBuiltInTouches: true,
-              touchTooltipData: BarTouchTooltipData(
-                  tooltipBgColor: whiteColor,
-                  tooltipBorder: const BorderSide(color: darkColor))),
+            handleBuiltInTouches: true,
+            touchTooltipData: BarTouchTooltipData(
+              tooltipBgColor: whiteColor,
+              tooltipBorder: const BorderSide(color: darkColor),
+              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                String value = formatCurrency(rod.toY);
+                return BarTooltipItem(
+                    value, const TextStyle(color: mainColor, fontSize: 17));
+              },
+            ),
+          ),
           gridData: FlGridData(
             show: false,
           ),
@@ -55,7 +65,9 @@ class _BarGraphState extends State<BarGraph> {
                       width: 25,
                       borderRadius: BorderRadius.circular(4),
                       backDrawRodData: BackgroundBarChartRodData(
-                          show: true, toY: 500, color: backGroundColor))
+                          show: true,
+                          toY: widget.maxElement,
+                          color: backGroundColor))
                 ]),
               )
               .toList()),
