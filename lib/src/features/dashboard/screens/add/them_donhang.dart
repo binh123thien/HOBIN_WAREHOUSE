@@ -225,8 +225,11 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
               MyDialog.showAlertDialogOneBtn(context, 'Giỏ hàng đang trống',
                   'Vui lòng kiểm tra lại đơn hàng');
             } else {
-              MyDialog.showAlertDialog(context, 'Xác nhận thanh toán',
-                  'Vui lòng kiểm tra đơn hàng trước khi thanh toán', () {
+              MyDialog.showAlertDialog(
+                  context,
+                  'Xác nhận thanh toán',
+                  'Vui lòng kiểm tra đơn hàng trước khi thanh toán',
+                  phanbietNhapXuat, () {
                 final bHcode = generateBHCode();
                 final ngaytao = formatNgaytao();
                 final datetime = formatDatetime();

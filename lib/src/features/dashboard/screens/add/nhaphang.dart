@@ -229,6 +229,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                   context,
                   'Xác nhận thanh toán',
                   'Vui lòng kiểm tra đơn hàng trước khi thanh toán',
+                  phanbietNhapXuat,
                   () {
                     final nHcode = generateNHCode();
                     final ngaytao = formatNgayTao();

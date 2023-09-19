@@ -89,7 +89,7 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               title: "Xóa",
               onTap: () {
                 MyDialog.showAlertDialog(
-                    context, 'Xác nhận', 'Bạn muốn xóa hàng hóa này?', () {
+                    context, 'Xác nhận', 'Bạn muốn xóa hàng hóa này?', 0, () {
                   controllerGoodRepo
                       .deleteHangHoaByTen(hanghoanew["tensanpham"]);
 

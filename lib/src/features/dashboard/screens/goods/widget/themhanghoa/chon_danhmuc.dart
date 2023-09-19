@@ -22,7 +22,7 @@ class _DanhSachDanhMucState extends State<DanhSachDanhMuc> {
   //để lắng nghe dữ liệu thay đổi
   late List<dynamic> foundDanhMuc;
 
-  Set<String> selectedDanhMuc = Set<String>();
+  Set<String> selectedDanhMuc = <String>{};
 
   _DanhSachDanhMucState(List<String> selectedUnits) {
     final allDanhMuc = chonDanhMucController.allDanhMucFirebase;
@@ -198,7 +198,8 @@ class _DanhSachDanhMucState extends State<DanhSachDanhMuc> {
                         MyDialog.showAlertDialog(
                             context,
                             'Bạn muốn thêm danh mục ?',
-                            'Danh mục mới sẽ là: ${searchText}',
+                            'Danh mục mới sẽ là: $searchText',
+                            0,
                             () => addDanhMuc());
                       },
                     ))
@@ -218,7 +219,7 @@ class _DanhSachDanhMucState extends State<DanhSachDanhMuc> {
                     },
                     confirmDismiss: (direction) async {
                       MyDialog.showAlertDialog(
-                          context, 'Xác nhận', "Bạn có muốn xóa ?", () {
+                          context, 'Xác nhận', "Bạn có muốn xóa ?", 0, () {
                         chonDanhMucController.deleteDanhMucByTen(danhmuc);
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
