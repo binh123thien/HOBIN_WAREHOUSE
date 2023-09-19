@@ -41,54 +41,56 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: 45,
-                    height: 45,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: (userAccount['PhotoURL'].isNotEmpty)
-                          ? CachedNetworkImage(
-                              imageUrl: userAccount['PhotoURL'],
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            )
-                          : const Icon(
-                              Icons.account_circle,
-                              color: Colors.white,
-                              size: 45,
-                            ),
-                    ),
-                  ),
-                  const SizedBox(width: 7),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Row(
                     children: [
-                      Text(
-                        "Hi, ${userAccount["Name"]}!",
-                        style: const TextStyle(fontSize: 13),
+                      SizedBox(
+                        width: 45,
+                        height: 45,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: (userAccount['PhotoURL'].isNotEmpty)
+                              ? CachedNetworkImage(
+                                  imageUrl: userAccount['PhotoURL'],
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                )
+                              : const Icon(
+                                  Icons.account_circle,
+                                  color: Colors.white,
+                                  size: 45,
+                                ),
+                        ),
                       ),
-                      const Text("Welcome to Hoin",
-                          style: TextStyle(fontSize: 15)),
+                      const SizedBox(width: 7),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Hi, ${userAccount["Name"]}!",
+                            style: const TextStyle(fontSize: 13),
+                          ),
+                          const Text("Welcome to Hoin",
+                              style: TextStyle(fontSize: 15)),
+                        ],
+                      ),
                     ],
-                  ),
-                  const SizedBox(
-                    width: 110,
                   ),
                   IconButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => NotificationScreen()),
+                              builder: (context) => const NotificationScreen()),
                         );
                       },
                       icon: const Icon(
                         Icons.notifications,
-                        size: 28,
+                        size: 37,
                       ))
                 ],
               ),
