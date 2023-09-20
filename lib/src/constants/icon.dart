@@ -21,6 +21,7 @@ const String khachhangIcon = "assets/images/icon/dashboard/khachhang.png";
 const String khoIcon = "assets/images/icon/dashboard/kho.png";
 const String sonoIcon = "assets/images/icon/dashboard/sono.png";
 const String hethanIcon = "assets/images/icon/dashboard/hethan.png";
+const String lichIcon = "assets/images/icon/dashboard/lich.png";
 
 //Appbar
 const String backIcon = "assets/images/icon/appbar/back.png";
