@@ -84,11 +84,11 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
       //tinh tong gia tien khi chon
       for (int i = 0; i < widget.dulieuPicked.length; i++) {
         //tính tiền
-        sumPrice = int.parse(widget.dulieuPicked[i]['soluong']) *
+        sumPrice = widget.dulieuPicked[i]['soluong'] *
                 widget.dulieuPicked[i]["gianhap"] +
             sumPrice;
 
-        sumItem += int.parse(widget.dulieuPicked[i]['soluong']);
+        sumItem += int.parse(widget.dulieuPicked[i]['soluong'].toString());
       }
 
       void updateNo(num newNo) {

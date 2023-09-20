@@ -35,7 +35,7 @@ class TableChiTietDonHang extends StatelessWidget {
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
           TableRow(
-            decoration: BoxDecoration(color: whiteColor),
+            decoration: const BoxDecoration(color: whiteColor),
             children: [
               TableCell(
                   verticalAlignment: TableCellVerticalAlignment.middle,
@@ -71,11 +71,12 @@ class TableChiTietDonHang extends StatelessWidget {
             filteredList.length,
             (index) {
               final item = filteredList[index];
-              final tenSanPham = item["tensanpham"];
+              final tenSanPham = item["tensp"];
               final soLuong = item["soluong"];
               final donGia =
                   phanbietNhapXuat == 0 ? item["giaban"] : item["gianhap"];
-              final thanhTien = soLuong * donGia;
+
+              final thanhTien = ((soLuong) * donGia);
 
               hoaDonPDF.add({
                 "tenSanPham": tenSanPham,

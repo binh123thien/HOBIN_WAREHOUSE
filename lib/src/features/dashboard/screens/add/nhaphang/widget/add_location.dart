@@ -115,8 +115,8 @@ class _AddLocationState extends State<AddLocation> {
                                 showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
-                                  firstDate: DateTime(2020),
-                                  lastDate: DateTime(2030),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2040),
                                   builder:
                                       (BuildContext context, Widget? child) {
                                     return Theme(
@@ -232,7 +232,7 @@ class _AddLocationState extends State<AddLocation> {
       'tensp': widget.hanghoa['tensanpham'],
       'location': dropdownValue,
       'expire': textExpire,
-      'soluong': _AddLocationController.text,
+      'soluong': int.tryParse(_AddLocationController.text),
     };
 
     if (widget.phanBietNhapXuat == 1) {
@@ -251,9 +251,8 @@ class _AddLocationState extends State<AddLocation> {
               mapNhapHang['location']) {
             checkFor = true;
             goodsRepo.listNhapXuathang[i]['soluong'] =
-                (int.parse(goodsRepo.listNhapXuathang[i]['soluong']) +
-                        int.parse(mapNhapHang['soluong']))
-                    .toString();
+                (goodsRepo.listNhapXuathang[i]['soluong']) +
+                    (mapNhapHang['soluong']);
           }
         }
       }

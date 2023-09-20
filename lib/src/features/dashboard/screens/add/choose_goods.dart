@@ -56,6 +56,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
       ),
       builder: (BuildContext context) {
         return DanhSachSortByHangHoaTaoDon(
+          phanBietNhapXuat: widget.phanbietNhapXuat,
           sortbyhanghoaTaoDonController:
               controllersortby.sortbyhanghoaTaoDonController,
         ); // Gọi Widget BottomSheetContent để hiển thị bottom sheet

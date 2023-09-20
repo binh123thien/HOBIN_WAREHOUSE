@@ -5,8 +5,11 @@ import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_ha
 
 class DanhSachSortByHangHoaTaoDon extends StatefulWidget {
   final TextEditingController sortbyhanghoaTaoDonController;
+  final int phanBietNhapXuat;
   const DanhSachSortByHangHoaTaoDon(
-      {super.key, required this.sortbyhanghoaTaoDonController});
+      {super.key,
+      required this.sortbyhanghoaTaoDonController,
+      required this.phanBietNhapXuat});
 
   @override
   State<DanhSachSortByHangHoaTaoDon> createState() =>
@@ -65,7 +68,9 @@ class _DanhSachSortByHangHoaTaoDonState
               child: Container(
                 width: size.width,
                 height: 45,
-                color: isSelected ? mainColor : Colors.transparent,
+                color: isSelected
+                    ? (widget.phanBietNhapXuat == 0 ? mainColor : blueColor)
+                    : Colors.transparent,
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
