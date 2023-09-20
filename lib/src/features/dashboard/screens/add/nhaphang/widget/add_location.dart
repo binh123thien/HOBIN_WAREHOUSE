@@ -115,8 +115,8 @@ class _AddLocationState extends State<AddLocation> {
                                 showDatePicker(
                                   context: context,
                                   initialDate: DateTime.now(),
-                                  firstDate: DateTime(2020),
-                                  lastDate: DateTime(2030),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2040),
                                   builder:
                                       (BuildContext context, Widget? child) {
                                     return Theme(
