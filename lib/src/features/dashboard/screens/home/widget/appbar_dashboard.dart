@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/notification.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../../controllers/account/profile_controller.dart';
 import '../../account/account_screen.dart';
 
@@ -32,10 +33,9 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      AccountScreen(userAccountUpdate: userAccount),
-                ),
+                PageTransition(
+                    type: PageTransitionType.bottomToTop,
+                    child: AccountScreen(userAccountUpdate: userAccount)),
               );
             },
             child: Padding(
@@ -84,8 +84,9 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const NotificationScreen()),
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: const NotificationScreen()),
                         );
                       },
                       icon: const Icon(

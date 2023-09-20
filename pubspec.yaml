@@ -75,6 +75,7 @@ dependencies:
   printing: ^5.11.0
   flutter_launcher_icons: ^0.13.1
   dotted_line: ^3.2.2
+  page_transition: ^2.1.0
 flutter_launcher_icons:
   android: true
   ios: true
