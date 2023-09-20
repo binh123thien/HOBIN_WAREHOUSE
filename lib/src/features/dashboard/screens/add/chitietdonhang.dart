@@ -5,6 +5,7 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/constants/image_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/chonhanghoa_controller.dart';
+import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 
 import '../../../../common_widgets/bottom_sheet_pdf.dart';
 import '../../../../common_widgets/printting.dart';
@@ -45,6 +46,7 @@ class ChiTietHoaDonNew extends StatefulWidget {
 
 class _ChiTietHoaDonNewState extends State<ChiTietHoaDonNew> {
   final controller = Get.put(ChonHangHoaController());
+  final controllerGoodRepo = Get.put(GoodRepository());
   final ChonHangHoaController chonHangHoaController = Get.find();
   late List<dynamic> allHangHoa;
 
@@ -52,6 +54,13 @@ class _ChiTietHoaDonNewState extends State<ChiTietHoaDonNew> {
   void initState() {
     allHangHoa = chonHangHoaController.allHangHoaFireBase;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    controllerGoodRepo.listNhapXuathang.clear();
+    // Thực hiện các tác vụ dọn dẹp và giải phóng tài nguyên ở đây
+    super.dispose();
   }
 
   @override
