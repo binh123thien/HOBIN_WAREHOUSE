@@ -54,9 +54,11 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
               icon: const Icon(Icons.edit, color: darkColor)),
           IconButton(
               onPressed: () {
-                MyDialog.showAlertDialog(context, 'Xóa khách hàng!',
+                MyDialog.showAlertDialog(
+                    context,
+                    'Xóa khách hàng!',
                     'Bạn có chắc chắn muốn xóa khách hàng?\n\nLưu ý: Khi xóa khách hàng tất cả dữ liệu của khách hàng sẽ mất.',
-                    () {
+                    0, () {
                   controller
                       .deleteKhachHang(khachhangCurrent["maKH"])
                       .then((value) {

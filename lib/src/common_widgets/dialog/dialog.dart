@@ -3,7 +3,7 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 
 class MyDialog {
   static void showAlertDialog(BuildContext context, String textTitle,
-      String textContent, VoidCallback onYES) {
+      String textContent, int phanBietNhapXuat, VoidCallback onYES) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -12,8 +12,8 @@ class MyDialog {
         ),
         title: Text(
           textTitle,
-          style: const TextStyle(
-            color: mainColor,
+          style: TextStyle(
+            color: phanBietNhapXuat == 0 ? mainColor : blueColor,
             fontSize: 20,
             fontWeight: FontWeight.w800,
           ),
@@ -37,9 +37,11 @@ class MyDialog {
             onPressed: () {
               onYES();
             },
-            child: const Text(
+            child: Text(
               'CÓ',
-              style: TextStyle(color: mainColor, fontWeight: FontWeight.w800),
+              style: TextStyle(
+                  color: phanBietNhapXuat == 0 ? mainColor : blueColor,
+                  fontWeight: FontWeight.w800),
             ),
           ),
         ],
@@ -94,7 +96,7 @@ class MyDialog {
       String textContent,
       VoidCallback onYES,
       TextEditingController controller) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -114,7 +116,7 @@ class MyDialog {
           height: 100, // set custom width
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: TextFormField(
                 controller: controller,
                 validator: (value) {
@@ -135,7 +137,7 @@ class MyDialog {
           ),
           TextButton(
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
+              if (formKey.currentState!.validate()) {
                 onYES();
               }
             },

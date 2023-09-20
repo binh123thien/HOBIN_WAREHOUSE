@@ -66,6 +66,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 context,
                 'Xác nhận',
                 'Bạn muốn quay lại trang trước?',
+                0,
                 () {
                   //xóa những tấm hình khách chưa lưu
                   controllerImage.deleteAllImageList('profile');

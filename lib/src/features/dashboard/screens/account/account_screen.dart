@@ -121,6 +121,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 context,
                 "Đăng xuất",
                 "Bạn muốn đăng xuất tài khoản?",
+                0,
                 () => logout(context),
               );
             },

@@ -243,6 +243,23 @@ class _AddLocationState extends State<AddLocation> {
     //add thêm tồn kho
     mapNhapHang['tonkho'] = widget.hanghoa['tonkho'];
     final goodsRepo = Get.put(GoodRepository());
-    goodsRepo.listNhapXuathang.add(mapNhapHang);
+    bool checkFor = false;
+    for (int i = 0; i < goodsRepo.listNhapXuathang.length; i++) {
+      if (goodsRepo.listNhapXuathang[i]['tensp'] == mapNhapHang['tensp']) {
+        if (goodsRepo.listNhapXuathang[i]['expire'] == mapNhapHang['expire']) {
+          if (goodsRepo.listNhapXuathang[i]['location'] ==
+              mapNhapHang['location']) {
+            checkFor = true;
+            goodsRepo.listNhapXuathang[i]['soluong'] =
+                (int.parse(goodsRepo.listNhapXuathang[i]['soluong']) +
+                        int.parse(mapNhapHang['soluong']))
+                    .toString();
+          }
+        }
+      }
+    }
+    if (checkFor == false) {
+      goodsRepo.listNhapXuathang.add(mapNhapHang);
+    }
   }
 }

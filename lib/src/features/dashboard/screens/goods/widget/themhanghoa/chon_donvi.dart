@@ -179,7 +179,8 @@ class _DanhSachDonViState extends State<DanhSachDonVi> {
                           MyDialog.showAlertDialog(
                               context,
                               'Bạn muốn thêm đơn vị ?',
-                              'Đơn vị mới sẽ là: ${searchText}',
+                              'Đơn vị mới sẽ là: $searchText',
+                              0,
                               () => addDonVi());
                         }))
               ],
@@ -198,7 +199,7 @@ class _DanhSachDonViState extends State<DanhSachDonVi> {
                     },
                     confirmDismiss: (direction) async {
                       MyDialog.showAlertDialog(
-                          context, 'Xác nhận', "Bạn có muốn xóa ?", () {
+                          context, 'Xác nhận', "Bạn có muốn xóa ?", 0, () {
                         chonDonViController.deleteDonviByTen(donvi);
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
