@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/willpopscope.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
+import 'package:hobin_warehouse/src/features/dashboard/controllers/add/nhaphang_controller.dart';
+import 'package:hobin_warehouse/src/features/dashboard/controllers/add/taodonhang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/search_widget.dart';
 import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
@@ -27,8 +29,9 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   final controllerAllHangHoa = Get.put(ChonHangHoaController());
   final controllersortby = Get.put(ThemHangHoaController());
   final controllerGoodRepo = Get.put(GoodRepository());
+  final controllerBanHang = Get.put(TaoDonHangController());
+  final controllerNhapHang = Get.put(NhapHangController());
 
-  List<TextEditingController> controllersl = [];
   String searchHangHoa = "";
   List<dynamic> allHangHoa = [];
   List<dynamic> filteredItems = [];
@@ -77,6 +80,8 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
     return ExitConfirmationDialog(
       phanBietNhapXuat: widget.phanbietNhapXuat,
       onConfirmed: () {
+        controllerBanHang.giamgiaController.clear();
+        controllerNhapHang.noNhapHangController.clear();
         controllerGoodRepo.listNhapXuathang.clear();
         Navigator.of(context).pop(true);
       },
@@ -231,7 +236,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                               builder: (context) => ThemDonHangScreen(
                                 dulieuPicked:
                                     controllerGoodRepo.listNhapXuathang,
-                                slpick: controllersl,
+                                slpick: const [],
                               ),
                             ),
                           );
@@ -243,7 +248,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                               builder: (context) => NhapHangScreen(
                                 dulieuPicked:
                                     controllerGoodRepo.listNhapXuathang,
-                                slpick: controllersl,
                               ),
                             ),
                           );
@@ -271,18 +275,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
           .toList();
       controllerGoodRepo.sortby(
           filteredItems, controllersortby.sortbyhanghoaTaoDonController.text);
-      controllersl =
-          List.generate(filteredItems.length, (_) => TextEditingController());
-      for (int i = 0; i < filteredItems.length; i++) {
-        var itemId = filteredItems[i]["tensanpham"];
-        if (controllerMap.containsKey(itemId)) {
-          controllersl[i] = controllerMap[itemId]!;
-        } else {
-          controllerMap[itemId] = TextEditingController();
-          controllersl[i] = controllerMap[itemId]!;
-        }
-        controllersl[i].text = filteredItems[i]["soluong"].toString();
-      }
     });
   }
 }

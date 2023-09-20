@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/nhaphang_controller.dart';
+import 'package:hobin_warehouse/src/features/dashboard/controllers/add/taodonhang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_dachon_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/appbar_backgroud_and_back.widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/widget/themdonhang/thongtin_khachhang.dart';
+import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 
 import '../../../../repository/add_repository/add_repository.dart';
@@ -20,9 +22,7 @@ import 'widget/themdonhang/total_price_widget.dart';
 
 class NhapHangScreen extends StatefulWidget {
   final List<dynamic> dulieuPicked;
-  final List<TextEditingController> slpick;
-  const NhapHangScreen(
-      {super.key, required this.slpick, required this.dulieuPicked});
+  const NhapHangScreen({super.key, required this.dulieuPicked});
 
   @override
   State<NhapHangScreen> createState() => _NhapHangScreenState();
@@ -31,6 +31,9 @@ class NhapHangScreen extends StatefulWidget {
 class _NhapHangScreenState extends State<NhapHangScreen> {
   final controllerNhapHang = Get.put(NhapHangController());
   final controllerAddRepo = Get.put(AddRepository());
+  final controllerGoodRepo = Get.put(GoodRepository());
+  final controllerBanHang = Get.put(TaoDonHangController());
+
   num disCount = 0;
   int paymentSelected = 0;
   String khachHangSelected = "Nhà cung cấp";
@@ -76,19 +79,18 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
       int phanbietNhapXuat = 1;
 
       num no = num.tryParse(controllerNhapHang.noNhapHangController.text) ?? 0;
+
+      //tinh tong item
+      int sumItem = 0;
       num sumPrice = 0;
       //tinh tong gia tien khi chon
       for (int i = 0; i < widget.dulieuPicked.length; i++) {
         //tính tiền
-        sumPrice = int.parse(widget.slpick[i].text) *
+        sumPrice = int.parse(widget.dulieuPicked[i]['soluong']) *
                 widget.dulieuPicked[i]["gianhap"] +
             sumPrice;
-      }
 
-      //tinh tong item
-      int sumItem = 0;
-      for (var i = 0; i < widget.slpick.length; i++) {
-        sumItem += int.parse(widget.slpick[i].text);
+        sumItem += int.parse(widget.dulieuPicked[i]['soluong']);
       }
 
       void updateNo(num newNo) {
@@ -218,10 +220,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
             no: no,
             paymentSelected: paymentSelected,
             onPressedThanhToan: () {
-              List<dynamic> filteredList = widget.dulieuPicked
-                  .where((element) => element["soluong"] > 0)
-                  .toList();
-              if (filteredList.isEmpty) {
+              if (widget.dulieuPicked.isEmpty) {
                 MyDialog.showAlertDialogOneBtn(context, 'Giỏ hàng đang trống',
                     'Vui lòng kiểm tra lại đơn hàng');
               } else {
@@ -231,6 +230,9 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                   'Vui lòng kiểm tra đơn hàng trước khi thanh toán',
                   phanbietNhapXuat,
                   () {
+                    controllerBanHang.giamgiaController.clear();
+                    controllerNhapHang.noNhapHangController.clear();
+                    controllerGoodRepo.listNhapXuathang.clear();
                     final nHcode = generateNHCode();
                     final ngaytao = formatNgayTao();
                     final datetime = formatDatetime();
