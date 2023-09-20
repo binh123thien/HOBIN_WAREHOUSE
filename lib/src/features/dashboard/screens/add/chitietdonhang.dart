@@ -65,8 +65,6 @@ class _ChiTietHoaDonNewState extends State<ChiTietHoaDonNew> {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> filteredList =
-        allHangHoa.where((element) => element["soluong"] > 0).toList();
     final tongtien = widget.sumPrice - widget.no - widget.disCount;
     return WillPopScope(
       onWillPop: () async {
@@ -132,35 +130,33 @@ class _ChiTietHoaDonNewState extends State<ChiTietHoaDonNew> {
           ],
         ),
         body: SingleChildScrollView(
-            child: Container(
-          child: Column(
-            children: [
-              TieuDeChiTietDonHang(
-                no: widget.no,
-                billType: widget.billType,
-                bHcode: widget.maHD,
-                date: widget.date,
-                tongtien: tongtien,
-                paymentSelected: widget.paymentSelected,
-                khachhang: widget.khachhang,
-              ),
-              const Divider(),
-              const Text("Chi tiết hóa đơn",
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-              TableChiTietDonHang(
-                filteredList: filteredList,
-                phanbietNhapXuat: widget.phanbietNhapXuat,
-              ),
-              const Divider(),
-              TotalPriceChiTietDonHangWidget(
-                sumItem: widget.sumItem,
-                sumPrice: widget.sumPrice,
-                disCount: widget.disCount,
-                tienno: widget.no,
-                billType: widget.billType,
-              ),
-            ],
-          ),
+            child: Column(
+          children: [
+            TieuDeChiTietDonHang(
+              no: widget.no,
+              billType: widget.billType,
+              bHcode: widget.maHD,
+              date: widget.date,
+              tongtien: tongtien,
+              paymentSelected: widget.paymentSelected,
+              khachhang: widget.khachhang,
+            ),
+            const Divider(),
+            const Text("Chi tiết hóa đơn",
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+            TableChiTietDonHang(
+              filteredList: controllerGoodRepo.listNhapXuathang,
+              phanbietNhapXuat: widget.phanbietNhapXuat,
+            ),
+            const Divider(),
+            TotalPriceChiTietDonHangWidget(
+              sumItem: widget.sumItem,
+              sumPrice: widget.sumPrice,
+              disCount: widget.disCount,
+              tienno: widget.no,
+              billType: widget.billType,
+            ),
+          ],
         )),
       ),
     );

@@ -232,7 +232,7 @@ class _AddLocationState extends State<AddLocation> {
       'tensp': widget.hanghoa['tensanpham'],
       'location': dropdownValue,
       'expire': textExpire,
-      'soluong': _AddLocationController.text,
+      'soluong': int.tryParse(_AddLocationController.text),
     };
 
     if (widget.phanBietNhapXuat == 1) {
@@ -251,9 +251,8 @@ class _AddLocationState extends State<AddLocation> {
               mapNhapHang['location']) {
             checkFor = true;
             goodsRepo.listNhapXuathang[i]['soluong'] =
-                (int.parse(goodsRepo.listNhapXuathang[i]['soluong']) +
-                        int.parse(mapNhapHang['soluong']))
-                    .toString();
+                (goodsRepo.listNhapXuathang[i]['soluong']) +
+                    (mapNhapHang['soluong']);
           }
         }
       }
