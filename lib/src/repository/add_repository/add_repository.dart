@@ -43,6 +43,24 @@ class AddRepository extends GetxController {
   }
 
   //=============================== Thêm hàng hóa mới =============================================
+  createLocation(Map<String, dynamic> duLieuPicked) {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("Location")
+        .doc(duLieuPicked['macode'])
+        .collection(duLieuPicked['macode'])
+        .doc(duLieuPicked['location'])
+        .set({
+      'exp': duLieuPicked['expire'],
+      'location': duLieuPicked['location'],
+      'soluong': duLieuPicked['soluong']
+    });
+  }
+
   // Lưu trữ good trên firestore
   createDonBanHang(
       ThemDonHangModel donbanhang, List<dynamic> filteredList) async {

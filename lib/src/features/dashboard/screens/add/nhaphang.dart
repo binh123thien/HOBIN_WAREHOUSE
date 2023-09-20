@@ -6,7 +6,6 @@ import 'package:hobin_warehouse/src/features/dashboard/controllers/add/taodonhan
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_dachon_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/appbar_backgroud_and_back.widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/widget/themdonhang/thongtin_khachhang.dart';
-import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 
 import '../../../../repository/add_repository/add_repository.dart';
@@ -21,7 +20,7 @@ import 'widget/themdonhang/no_widget.dart';
 import 'widget/themdonhang/total_price_widget.dart';
 
 class NhapHangScreen extends StatefulWidget {
-  final List<dynamic> dulieuPicked;
+  final List<Map<String, dynamic>> dulieuPicked;
   const NhapHangScreen({super.key, required this.dulieuPicked});
 
   @override
@@ -31,7 +30,6 @@ class NhapHangScreen extends StatefulWidget {
 class _NhapHangScreenState extends State<NhapHangScreen> {
   final controllerNhapHang = Get.put(NhapHangController());
   final controllerAddRepo = Get.put(AddRepository());
-  final controllerGoodRepo = Get.put(GoodRepository());
   final controllerBanHang = Get.put(TaoDonHangController());
 
   num disCount = 0;
@@ -232,7 +230,6 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                   () {
                     controllerBanHang.giamgiaController.clear();
                     controllerNhapHang.noNhapHangController.clear();
-                    controllerGoodRepo.listNhapXuathang.clear();
                     final nHcode = generateNHCode();
                     final ngaytao = formatNgayTao();
                     final datetime = formatDatetime();
@@ -256,6 +253,9 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       datetime: datetime,
                     );
                     controllerAddRepo.createDonNhapHang(donnhaphang);
+                    for (int i = 0; i < widget.dulieuPicked.length; i++) {
+                      controllerAddRepo.createLocation(widget.dulieuPicked[i]);
+                    }
                     // Đóng dialog hiện tại (nếu có)
                     Navigator.of(context).pop();
                     Navigator.push(
