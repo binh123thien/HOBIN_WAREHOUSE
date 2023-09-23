@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
+import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/taodonhang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_dachon_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/appbar_backgroud_and_back.widget.dart';
@@ -64,7 +65,7 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
       return const Scaffold(
         appBar: AppBarBGBack(
           phanBietNhatXuat: 0,
-          title: 'Thêm đơn hàng',
+          title: tXuatHangHoa,
         ),
         body: Center(child: Text("Chưa có hàng hóa!\nBạn cần thêm hàng hóa")),
       );
@@ -179,7 +180,7 @@ class _ThemDonHangScreenState extends State<ThemDonHangScreen> {
       return Scaffold(
         appBar: const AppBarBGBack(
           phanBietNhatXuat: 0,
-          title: 'Thêm đơn hàng',
+          title: tXuatHangHoa,
         ),
         body: SingleChildScrollView(
           child:

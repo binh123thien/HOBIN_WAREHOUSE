@@ -78,3 +78,6 @@ const String tTongDonNo = "Tổng đơn nợ";
 const String tTongTienNo = "Tổng tiền nợ";
 //Hang hoa Screen
 const String tHangHoa = "Hàng hóa";
+
+const String tXuatHangHoa = "Xuất hàng";
+const String tNhapHangHoa = "Nhập hàng";

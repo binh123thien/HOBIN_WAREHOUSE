@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/willpopscope.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
+import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/nhaphang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/taodonhang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
@@ -91,14 +92,14 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
         appBar: AppBar(
           title: widget.phanbietNhapXuat == 0
               ? const Text(
-                  "Thêm đơn hàng",
+                  tXuatHangHoa,
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: whiteColor),
                 )
               : const Text(
-                  "Nhập hàng",
+                  tNhapHangHoa,
                   style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,

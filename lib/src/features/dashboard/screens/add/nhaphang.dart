@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
+import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/nhaphang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/taodonhang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/add/card_donhang_dachon_widget.dart';
@@ -66,7 +67,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
       return const Scaffold(
         appBar: AppBarBGBack(
           phanBietNhatXuat: 1,
-          title: 'Nhập hàng',
+          title: tNhapHangHoa,
         ),
         body: Center(
             child: Text(
@@ -180,7 +181,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
       return Scaffold(
           appBar: const AppBarBGBack(
             phanBietNhatXuat: 1,
-            title: 'Nhập hàng',
+            title: tNhapHangHoa,
           ),
           body: SingleChildScrollView(
             child:
