@@ -28,6 +28,19 @@ String generateRandomCode(int length) {
       .join();
 }
 
+String formatNgayTaoString(String dateString) {
+  final inputFormat = DateFormat('dd/MM/yyyy');
+  final outputFormat = DateFormat('ddMMyyyy');
+
+  // Chuyển đổi chuỗi ngày sang đúng định dạng
+  final date = inputFormat.parse(dateString);
+
+  // Định dạng lại ngày theo đúng định dạng đầu ra
+  final formattedDate = outputFormat.format(date);
+
+  return formattedDate;
+}
+
 String generateBHCode() {
   final DateTime now = DateTime.now();
   final formatter = DateFormat('yyMMdd-HHmmss'); // Thêm định dạng giây

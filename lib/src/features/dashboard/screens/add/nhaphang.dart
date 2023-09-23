@@ -255,7 +255,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                     );
                     controllerAddRepo.createDonNhapHang(donnhaphang);
                     for (int i = 0; i < widget.dulieuPicked.length; i++) {
-                      controllerAddRepo.createLocation(widget.dulieuPicked[i]);
+                      controllerAddRepo.checkLocation(widget.dulieuPicked[i]);
                     }
                     // Đóng dialog hiện tại (nếu có)
                     Navigator.of(context).pop();
