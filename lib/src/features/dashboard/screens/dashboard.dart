@@ -19,12 +19,12 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final controller = Get.put(ChonHangHoaController());
+  final controllerHangHoa = Get.put(ChonHangHoaController());
   final controllerDoanhThu = Get.put(DoanhThuController());
   @override
   void initState() {
     super.initState();
-    controller.loadAllHangHoa();
+    controllerHangHoa.loadAllHangHoa();
     controllerDoanhThu.loadDoanhThuNgay();
     controllerDoanhThu.loadDoanhThuTuan();
     controllerDoanhThu.loadDoanhThuThang();
@@ -70,7 +70,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             selectedIndex: currentPage,
             onDestinationSelected: (int currentPage) {
               if (currentPage == 2) {
-                ChooseAddScreen.buildShowModalBottomSheet(context);
+                ChooseAddScreen.buildShowModalBottomSheet(context).then((_) {
+                  restartScreen();
+                });
               } else {
                 setState(() => this.currentPage = currentPage);
               }
@@ -108,5 +110,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
         ));
+  }
+
+  void restartScreen() {
+    setState(() {
+      currentPage = 0;
+      // Thực hiện các tác vụ khởi tạo lại dữ liệu hoặc load dữ liệu mới tại đây.
+      controllerHangHoa.loadAllHangHoa();
+      controllerDoanhThu.loadDoanhThuNgay();
+      controllerDoanhThu.loadDoanhThuTuan();
+      controllerDoanhThu.loadDoanhThuThang();
+    });
   }
 }
