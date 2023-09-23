@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/models/themdonhang_model.dart';
+import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 import 'package:intl/intl.dart';
 
 import '../../features/dashboard/controllers/add/chonhanghoa_controller.dart';
@@ -11,6 +12,7 @@ class AddRepository extends GetxController {
   static AddRepository get instance => Get.find();
   final _db = FirebaseFirestore.instance;
   final ChonHangHoaController chonHangHoaController = Get.find();
+  final controllerGoodRepo = Get.put(GoodRepository());
 
   //get sản phẩm cũ của hàng hóa đó
   getTonKho(String docMaCode) async {
@@ -104,9 +106,6 @@ class AddRepository extends GetxController {
 
 //=============================== Nhập hàng =======================================
   createDonNhapHang(ThemDonHangModel donnhaphang) async {
-    List<dynamic> filteredList = chonHangHoaController.allHangHoaFireBase
-        .where((element) => element["soluong"] > 0)
-        .toList();
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final nhapHangCollectionRef = _db
         .collection("Users")
@@ -127,9 +126,9 @@ class AddRepository extends GetxController {
         newDonNhapHangDocSnapshot.reference.collection("HoaDon");
 
     // Thêm các sản phẩm trong allHangHoa vào collection HoaDon
-    for (var product in filteredList) {
+    for (var product in controllerGoodRepo.listNhapXuathang) {
       await hoaDonCollectionRef.add({
-        "tensanpham": product["tensanpham"],
+        "tensanpham": product["tensp"],
         "soluong": product["soluong"],
         "gianhap": product["gianhap"],
       });
