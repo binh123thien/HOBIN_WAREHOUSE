@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
@@ -12,25 +14,25 @@ import '../controllers/statistics/doanhthu_controller.dart';
 import 'add/them_donhang.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+  int currentPage;
+  DashboardScreen({super.key, required this.currentPage});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final controller = Get.put(ChonHangHoaController());
+  final controllerHangHoa = Get.put(ChonHangHoaController());
   final controllerDoanhThu = Get.put(DoanhThuController());
   @override
   void initState() {
     super.initState();
-    controller.loadAllHangHoa();
+    controllerHangHoa.loadAllHangHoa();
     controllerDoanhThu.loadDoanhThuNgay();
     controllerDoanhThu.loadDoanhThuTuan();
     controllerDoanhThu.loadDoanhThuThang();
   }
 
-  int currentPage = 0;
   final screen = [
     const HomePage(),
     const StatisticsScreen(),
@@ -42,7 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: screen[currentPage],
+        body: screen[widget.currentPage],
         bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
               //mau nen select
@@ -67,12 +69,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
           child: NavigationBar(
             height: 65,
             backgroundColor: backGroundColor,
-            selectedIndex: currentPage,
+            selectedIndex: widget.currentPage,
             onDestinationSelected: (int currentPage) {
               if (currentPage == 2) {
-                ChooseAddScreen.buildShowModalBottomSheet(context);
+                ChooseAddScreen.buildShowModalBottomSheet(context).then((_) {
+                  restartScreen();
+                });
               } else {
-                setState(() => this.currentPage = currentPage);
+                setState(() => widget.currentPage = currentPage);
               }
             },
             destinations: const [
@@ -108,5 +112,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ],
           ),
         ));
+  }
+
+  void restartScreen() {
+    setState(() {
+      // Điều hướng đến trang HomePage và xóa bỏ các trang khác trong stack
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => DashboardScreen(
+                  currentPage: 0,
+                )),
+        (route) => false,
+      );
+      // Thực hiện các tác vụ khởi tạo lại dữ liệu hoặc load dữ liệu mới tại đây.
+      controllerHangHoa.loadAllHangHoa();
+      controllerDoanhThu.loadDoanhThuNgay();
+      controllerDoanhThu.loadDoanhThuTuan();
+      controllerDoanhThu.loadDoanhThuThang();
+    });
   }
 }

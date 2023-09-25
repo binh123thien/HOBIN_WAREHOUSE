@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/models/themdonhang_model.dart';
+import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
+import 'package:hobin_warehouse/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 
 import '../../features/dashboard/controllers/add/chonhanghoa_controller.dart';
@@ -11,6 +13,7 @@ class AddRepository extends GetxController {
   static AddRepository get instance => Get.find();
   final _db = FirebaseFirestore.instance;
   final ChonHangHoaController chonHangHoaController = Get.find();
+  final controllerGoodRepo = Get.put(GoodRepository());
 
   //get sản phẩm cũ của hàng hóa đó
   getTonKho(String docMaCode) async {
@@ -42,25 +45,51 @@ class AddRepository extends GetxController {
     });
   }
 
-  //=============================== Thêm hàng hóa mới =============================================
-  createLocation(Map<String, dynamic> duLieuPicked) {
+  //=============================== Thêm hàng hóa, location mới =============================================
+  createLocation(String dateFormat, Map<String, dynamic> duLieuPicked,
+      CollectionReference<Map<String, dynamic>> locationCollectionRef) async {
+    await locationCollectionRef.doc(dateFormat + duLieuPicked['location']).set({
+      'expire': duLieuPicked['expire'],
+      'location': duLieuPicked['location'],
+      'soluong': duLieuPicked['soluong']
+    });
+  }
+
+  checkLocation(Map<String, dynamic> duLieuPicked) async {
+    final dateFormat = formatNgayTaoString(duLieuPicked['expire']);
     final firebaseUser = FirebaseAuth.instance.currentUser;
-    _db
+    final locationCollectionRef = _db
         .collection("Users")
         .doc(firebaseUser!.uid)
         .collection("Goods")
         .doc(firebaseUser.uid)
         .collection("Location")
         .doc(duLieuPicked['macode'])
-        .collection(duLieuPicked['macode'])
-        .doc(duLieuPicked['location'])
-        .set({
-      'exp': duLieuPicked['expire'],
-      'location': duLieuPicked['location'],
-      'soluong': duLieuPicked['soluong']
-    });
+        .collection(duLieuPicked['macode']);
+
+    final querySnapshot = await locationCollectionRef
+        .where('expire', isEqualTo: duLieuPicked['expire'])
+        .where('location', isEqualTo: duLieuPicked['location'])
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // Có tài liệu với cùng "expire" và location, cập nhật số lượng mới
+      for (var documentSnapshot in querySnapshot.docs) {
+        final currentQuantity = documentSnapshot.data()['soluong'];
+        final newQuantity = currentQuantity + duLieuPicked['soluong'];
+
+        // Cập nhật số lượng mới
+        await documentSnapshot.reference.update({'soluong': newQuantity});
+      }
+      print('Cập nhật số lượng thành công');
+    } else {
+      // Không có tài liệu với cùng "expire" và location, tạo mới tài liệu
+      createLocation(dateFormat, duLieuPicked, locationCollectionRef);
+      print('Tạo mới dữ liệu thành công');
+    }
   }
 
+//==================================Location========================================================
   // Lưu trữ good trên firestore
   createDonBanHang(
       ThemDonHangModel donbanhang, List<dynamic> filteredList) async {
@@ -104,9 +133,6 @@ class AddRepository extends GetxController {
 
 //=============================== Nhập hàng =======================================
   createDonNhapHang(ThemDonHangModel donnhaphang) async {
-    List<dynamic> filteredList = chonHangHoaController.allHangHoaFireBase
-        .where((element) => element["soluong"] > 0)
-        .toList();
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final nhapHangCollectionRef = _db
         .collection("Users")
@@ -127,9 +153,9 @@ class AddRepository extends GetxController {
         newDonNhapHangDocSnapshot.reference.collection("HoaDon");
 
     // Thêm các sản phẩm trong allHangHoa vào collection HoaDon
-    for (var product in filteredList) {
+    for (var product in controllerGoodRepo.listNhapXuathang) {
       await hoaDonCollectionRef.add({
-        "tensanpham": product["tensanpham"],
+        "tensanpham": product["tensp"],
         "soluong": product["soluong"],
         "gianhap": product["gianhap"],
       });

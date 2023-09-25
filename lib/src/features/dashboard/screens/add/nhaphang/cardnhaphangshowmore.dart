@@ -108,7 +108,31 @@ class _CardNhapHangShowMoreState extends State<CardNhapHangShowMore> {
               'Bạn muốn xóa danh sách vừa tạo trong item này ?',
               widget.phanBietNhapXuat,
               () {
-                print('llllllll');
+                // Danh sách sử dụng để lưu trữ các index cần xóa
+                List<int> indicesToRemove = [];
+                for (var i = 0;
+                    i < conntrollerGood.listNhapXuathang.length;
+                    i++) {
+                  if (widget.hanghoa['tensanpham'] ==
+                      conntrollerGood.listNhapXuathang[i]['tensp']) {
+                    // clear map trong List index về {}
+                    conntrollerGood.listNhapXuathang[i].clear();
+                    // thêm biến index vào list
+                    indicesToRemove.add(i);
+                  }
+                }
+                // đảo ngược thứ tự so sánh (giảm dần)
+                indicesToRemove.sort((a, b) => b.compareTo(a));
+
+                print('list Giảm dần $indicesToRemove');
+
+                for (var index in indicesToRemove) {
+                  print('vào for xóa map {} trong listNhapXuathang $index');
+                  conntrollerGood.listNhapXuathang.removeAt(index);
+                }
+                conntrollerGood.expandShowMore.value = false;
+                // Đóng dialog hiện tại (nếu có)
+                Navigator.of(context).pop();
               },
             );
           },

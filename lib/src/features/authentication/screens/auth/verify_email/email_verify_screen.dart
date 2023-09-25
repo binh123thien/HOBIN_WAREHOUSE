@@ -113,7 +113,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
 
   @override
   Widget build(BuildContext context) => isEmailVerified
-      ? const DashboardScreen()
+      ? DashboardScreen(currentPage: 0)
       : SafeArea(
           child: Scaffold(
             body: SingleChildScrollView(

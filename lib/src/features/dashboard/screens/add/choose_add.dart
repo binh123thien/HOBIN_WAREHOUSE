@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
+import 'package:hobin_warehouse/src/constants/text_strings.dart';
 
 import '../goods/widget/them_hang_hoa.dart';
 import '../statistics/khachhang/widget/them_khachhang.dart';
@@ -37,7 +38,7 @@ class ChooseAddScreen {
           const SizedBox(height: 20),
           CardAdd(
             icon: adddonhangIcon,
-            title: "Thêm đơn hàng",
+            title: tXuatHangHoa,
             onTap: () {
               Navigator.push(
                 context,
@@ -52,7 +53,7 @@ class ChooseAddScreen {
           ),
           CardAdd(
             icon: importIcon,
-            title: "Nhập hàng",
+            title: tNhapHangHoa,
             onTap: () {
               Navigator.push(
                 context,
