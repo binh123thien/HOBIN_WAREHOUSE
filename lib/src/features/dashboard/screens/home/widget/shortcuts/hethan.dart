@@ -17,7 +17,11 @@ class HetHanShortcutScreen extends StatefulWidget {
 class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
   final controllerHetHan = Get.put(HetHanController());
   List<Map<String, dynamic>> dataHetHan = [];
+  List<Map<String, dynamic>> selectedItemsHetHan = [];
+
+  bool checkdataEmpty = false;
   bool? isChecked = false;
+  bool selectAll = false;
   DateTime? startDate;
   DateTime? endDate;
   String startDateFormated = "";
@@ -57,137 +61,212 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
-      appBar: AppBar(
-        title: const Text("Hết Hạn",
-            style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700)),
-        backgroundColor: mainColor,
-        centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: Container(
-            color: whiteColor,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: _onTap,
-                        child: Container(
-                          width: 230,
+        backgroundColor: whiteColor,
+        appBar: AppBar(
+          title: const Text("Hết Hạn",
+              style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700)),
+          backgroundColor: mainColor,
+          centerTitle: true,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: Container(
+              color: whiteColor,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: _onTap,
+                          child: Container(
+                            width: 230,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                border: Border.all(color: darkColor),
+                                borderRadius: BorderRadius.circular(7)),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8),
+                              child: Row(
+                                children: [
+                                  const Image(
+                                    image: AssetImage(lichIcon),
+                                    height: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    startDate != null && endDate != null
+                                        ? '${startDate!.day}/${startDate!.month}/${startDate!.year} - ${endDate!.day}/${endDate!.month}/${endDate!.year}'
+                                        : 'Chọn ngày...',
+                                    style: const TextStyle(fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        SizedBox(
+                          width: 110,
                           height: 40,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: darkColor),
-                              borderRadius: BorderRadius.circular(7)),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Row(
-                              children: [
-                                const Image(
-                                  image: AssetImage(lichIcon),
-                                  height: 20,
-                                ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  startDate != null && endDate != null
-                                      ? '${startDate!.day}/${startDate!.month}/${startDate!.year} - ${endDate!.day}/${endDate!.month}/${endDate!.year}'
-                                      : 'Chọn ngày...',
-                                  style: const TextStyle(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        width: 110,
-                        height: 40,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            controllerHetHan
-                                .getFilteredData(
-                                    startDateFormated, endDateFormated)
-                                .then((value) {
-                              setState(() {
-                                dataHetHan = value;
+                          child: ElevatedButton(
+                            onPressed: () {
+                              controllerHetHan
+                                  .getFilteredData(
+                                      startDateFormated, endDateFormated)
+                                  .then((value) {
+                                setState(() {
+                                  dataHetHan = value;
+                                  if (value.isEmpty) {
+                                    checkdataEmpty = true;
+                                  } else {
+                                    checkdataEmpty = false;
+                                  }
+                                });
                               });
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            backgroundColor: mainColor,
-                            side: const BorderSide(color: mainColor),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  7), // giá trị này xác định bán kính bo tròn
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              backgroundColor: mainColor,
+                              side: const BorderSide(color: mainColor),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    7), // giá trị này xác định bán kính bo tròn
+                              ),
+                            ),
+                            child: const Text(
+                              'Tìm kiếm',
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
-                          child: const Text(
-                            'Tìm kiếm',
-                            style: TextStyle(fontSize: 16),
-                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 7),
-        child: Container(
-          child: ListView.builder(
-              itemCount: dataHetHan.length,
-              itemBuilder: (context, index) {
-                final docdata = dataHetHan[index];
-                return Column(
+        body: Padding(
+            padding: const EdgeInsets.only(top: 7),
+            child: checkdataEmpty == true
+                ? const Center(child: Text("Không có dữ liệu"))
+                : Column(
+                    children: [
+                      dataHetHan.isNotEmpty
+                          ? CheckboxListTile(
+                              title: Text("Chọn tất cả"),
+                              value: selectAll,
+                              activeColor: mainColor,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  selectAll = newValue!;
+                                  if (selectAll) {
+                                    selectedItemsHetHan.addAll(dataHetHan);
+                                  } else {
+                                    selectedItemsHetHan.clear();
+                                  }
+                                });
+                              },
+                            )
+                          : const SizedBox(),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: dataHetHan.length,
+                          itemBuilder: (context, index) {
+                            final docdata = dataHetHan[index];
+                            return Column(
+                              children: [
+                                CheckboxListTile(
+                                    title: Text(
+                                      "${docdata['tensanpham']} - ${docdata['gia']}",
+                                    ),
+                                    value:
+                                        selectedItemsHetHan.contains(docdata),
+                                    onChanged: (bool? newValue) {
+                                      setState(() {
+                                        if (newValue != null && newValue) {
+                                          selectedItemsHetHan.add(docdata);
+                                        } else {
+                                          selectedItemsHetHan.remove(docdata);
+                                        }
+                                        if (selectedItemsHetHan.length ==
+                                            dataHetHan.length) {
+                                          selectAll = true;
+                                        } else {
+                                          selectAll = false;
+                                        }
+                                      });
+                                    },
+                                    activeColor: mainColor,
+                                    subtitle: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "${docdata["exp"]} - SL: ${docdata["soluong"]}",
+                                            style:
+                                                const TextStyle(fontSize: 14),
+                                          ),
+                                          Text(
+                                            "${docdata["location"]}",
+                                            style:
+                                                const TextStyle(fontSize: 14),
+                                          )
+                                        ])
+                                    // Các thuộc tính khác của CheckboxListTile
+                                    // ...
+                                    ),
+                                const DottedLine(
+                                  direction: Axis.horizontal,
+                                  lineLength: double.infinity,
+                                  lineThickness: 1,
+                                  dashLength: 8.0,
+                                  dashColor: Color.fromARGB(255, 209, 209, 209),
+                                  dashGapLength: 6.0,
+                                  dashGapColor: Colors.transparent,
+                                )
+                              ],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  )),
+        bottomNavigationBar: dataHetHan.isNotEmpty
+            ? BottomAppBar(
+                height: 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    CheckboxListTile(
-                      title:
-                          Text("${docdata["tensanpham"]} - ${docdata["gia"]}"),
-                      value: isChecked,
-                      onChanged: (bool? newvalue) {
-                        setState(() {
-                          isChecked = newvalue;
-                        });
-                      },
-                      activeColor: mainColor,
-                      tileColor: whiteColor,
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "${docdata["exp"]} - SL: ${docdata["soluong"]}",
-                            style: const TextStyle(fontSize: 14),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 30,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: mainColor,
+                          side: BorderSide(
+                              color: selectedItemsHetHan.isEmpty
+                                  ? backGroundColor
+                                  : mainColor),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                10), // giá trị này xác định bán kính bo tròn
                           ),
-                          Text(
-                            "${docdata["location"]}",
-                            style: const TextStyle(fontSize: 14),
-                          ),
-                        ],
+                        ),
+                        onPressed: selectedItemsHetHan.isEmpty ? null : () {},
+                        child: const Text(
+                          'Xuất kho',
+                          style: TextStyle(fontSize: 19),
+                        ),
                       ),
                     ),
-                    const DottedLine(
-                      direction: Axis.horizontal,
-                      lineLength: double.infinity,
-                      lineThickness: 1,
-                      dashLength: 8.0,
-                      dashColor: Color.fromARGB(255, 209, 209, 209),
-                      dashGapLength: 6.0,
-                      dashGapColor: Colors.transparent,
-                    )
                   ],
-                );
-              }),
-        ),
-      ),
-    );
+                ),
+              )
+            : const SizedBox());
   }
 }
