@@ -2,10 +2,12 @@ import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuts/hethan/xuatkhohethan.dart';
 import 'package:intl/intl.dart';
+import 'package:page_transition/page_transition.dart';
 
-import '../../../../../../constants/color.dart';
-import '../../../../controllers/home/hethan_controller.dart';
+import '../../../../../../../constants/color.dart';
+import '../../../../../controllers/home/hethan_controller.dart';
 
 class HetHanShortcutScreen extends StatefulWidget {
   const HetHanShortcutScreen({super.key});
@@ -158,7 +160,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                     children: [
                       dataHetHan.isNotEmpty
                           ? CheckboxListTile(
-                              title: Text("Chọn tất cả"),
+                              title: const Text("Chọn tất cả"),
                               value: selectAll,
                               activeColor: mainColor,
                               onChanged: (newValue) {
@@ -257,7 +259,17 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                 10), // giá trị này xác định bán kính bo tròn
                           ),
                         ),
-                        onPressed: selectedItemsHetHan.isEmpty ? null : () {},
+                        onPressed: selectedItemsHetHan.isEmpty
+                            ? null
+                            : () {
+                                Navigator.push(
+                                    context,
+                                    PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: XuatKhoHetHanScreen(
+                                            selectedItemsHetHan:
+                                                selectedItemsHetHan)));
+                              },
                         child: const Text(
                           'Xuất kho',
                           style: TextStyle(fontSize: 19),
