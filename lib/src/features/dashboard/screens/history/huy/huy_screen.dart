@@ -6,7 +6,8 @@ import '../../../../../repository/history_repository/history_repository.dart';
 import '../widget/phanloai/streamlist_phanloai.dart';
 
 class HuyHistoryScreen extends StatefulWidget {
-  const HuyHistoryScreen({super.key});
+  final String searchHistory;
+  const HuyHistoryScreen({super.key, required this.searchHistory});
   @override
   State<HuyHistoryScreen> createState() => _HuyHistoryScreenState();
 }
@@ -45,6 +46,8 @@ class _HuyHistoryScreenState extends State<HuyHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamListHistoryPhanLoai(
-        controller: controller, docsByMonth: docsByMonthly);
+        searchHistory: widget.searchHistory,
+        controller: controller,
+        docsByMonth: docsByMonthly);
   }
 }

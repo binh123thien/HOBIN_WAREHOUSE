@@ -17,7 +17,7 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  String searchHangHoa = "";
+  String searchHistory = "";
 
   late PageController _pageController;
   int _currentIndex = 0;
@@ -60,7 +60,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       SearchWidget(
                         onChanged: (value) {
                           setState(() {
-                            searchHangHoa = value;
+                            searchHistory = value;
                           });
                         },
                         width: 320,
@@ -118,15 +118,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
               shrinkWrap: true,
               children: [
                 if (index == 0)
-                  const XuatHangScreen()
+                  XuatHangScreen(searchHistory: searchHistory)
                 else if (index == 1)
-                  const NhapHangHistoryScreen()
+                  NhapHangHistoryScreen(searchHistory: searchHistory)
                 else if (index == 2)
-                  const ThanhCongHistoryScreen()
+                  ThanhCongHistoryScreen(searchHistory: searchHistory)
                 else if (index == 3)
-                  const DangChoHistoryScreen()
+                  DangChoHistoryScreen(searchHistory: searchHistory)
                 else if (index == 4)
-                  const HuyHistoryScreen(),
+                  HuyHistoryScreen(searchHistory: searchHistory),
               ],
             );
           },

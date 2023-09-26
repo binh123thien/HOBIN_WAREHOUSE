@@ -6,11 +6,13 @@ import '../card_history.dart';
 import 'chitiet_thang.dart';
 
 class StreamList extends StatelessWidget {
+  final String searchHistory;
   const StreamList({
     super.key,
     required this.controller,
     required List<List<DocumentSnapshot<Object?>>> docsByMonth,
     required this.snapshotCollection,
+    required this.searchHistory,
   }) : _docsByMonth = docsByMonth;
   final String snapshotCollection;
   final HistoryRepository controller;
@@ -18,6 +20,23 @@ class StreamList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<dynamic> filteredItems = _docsByMonth.expand((month) {
+      return month.where((item) {
+        final soHDMatch = item["soHD"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        final tenKhachHangMatch = item["khachhang"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        final ngaytaoMatch = item["ngaytao"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
+      });
+    }).toList();
     final size = MediaQuery.of(context).size;
     return Container(
       color: whiteColor,
@@ -83,7 +102,7 @@ class StreamList extends StatelessWidget {
                           ),
                         ),
                         CardHistory(
-                          docs: docs,
+                          docs: filteredItems,
                         )
                       ],
                     ),

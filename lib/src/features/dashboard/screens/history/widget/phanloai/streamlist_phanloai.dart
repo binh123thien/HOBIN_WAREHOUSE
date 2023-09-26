@@ -7,10 +7,12 @@ import '../../../../../../constants/color.dart';
 import '../../../../../../repository/history_repository/history_repository.dart';
 
 class StreamListHistoryPhanLoai extends StatelessWidget {
+  final String searchHistory;
   const StreamListHistoryPhanLoai({
     super.key,
     required this.controller,
     required this.docsByMonth,
+    required this.searchHistory,
   });
 
   final HistoryRepository controller;
@@ -19,7 +21,23 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
+    List<dynamic> filteredItems = docsByMonth.expand((month) {
+      return month.where((item) {
+        final soHDMatch = item["soHD"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        final tenKhachHangMatch = item["khachhang"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        final ngaytaoMatch = item["ngaytao"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
+      });
+    }).toList();
     return Container(
       color: whiteColor,
       height: size.height - kToolbarHeight - 140,
@@ -82,7 +100,7 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                         ),
                       ),
                       CardHistory(
-                        docs: docs,
+                        docs: filteredItems,
                       )
                     ]),
                   );

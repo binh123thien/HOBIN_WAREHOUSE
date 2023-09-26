@@ -6,7 +6,8 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/history/widget/ph
 import '../../../../../repository/history_repository/history_repository.dart';
 
 class ThanhCongHistoryScreen extends StatefulWidget {
-  const ThanhCongHistoryScreen({super.key});
+  final String searchHistory;
+  const ThanhCongHistoryScreen({super.key, required this.searchHistory});
   @override
   State<ThanhCongHistoryScreen> createState() => _ThanhCongHistoryScreenState();
 }
@@ -45,6 +46,8 @@ class _ThanhCongHistoryScreenState extends State<ThanhCongHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamListHistoryPhanLoai(
-        controller: controller, docsByMonth: docsByMonthly);
+        searchHistory: widget.searchHistory,
+        controller: controller,
+        docsByMonth: docsByMonthly);
   }
 }

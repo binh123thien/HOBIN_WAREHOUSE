@@ -6,7 +6,8 @@ import '../../../../../repository/history_repository/history_repository.dart';
 import '../widget/phanloai/streamlist_phanloai.dart';
 
 class DangChoHistoryScreen extends StatefulWidget {
-  const DangChoHistoryScreen({super.key});
+  final String searchHistory;
+  const DangChoHistoryScreen({super.key, required this.searchHistory});
   @override
   State<DangChoHistoryScreen> createState() => _DangChoHistoryScreenState();
 }
@@ -45,6 +46,8 @@ class _DangChoHistoryScreenState extends State<DangChoHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamListHistoryPhanLoai(
-        controller: controller, docsByMonth: docsByMonthly);
+        searchHistory: widget.searchHistory,
+        controller: controller,
+        docsByMonth: docsByMonthly);
   }
 }

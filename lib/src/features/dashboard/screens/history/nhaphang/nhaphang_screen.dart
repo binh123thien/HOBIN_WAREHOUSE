@@ -6,7 +6,8 @@ import '../../../../../repository/history_repository/history_repository.dart';
 import '../widget/nhapbanhang/streamlist.dart';
 
 class NhapHangHistoryScreen extends StatefulWidget {
-  const NhapHangHistoryScreen({super.key});
+  final String searchHistory;
+  const NhapHangHistoryScreen({super.key, required this.searchHistory});
   @override
   State<NhapHangHistoryScreen> createState() => _NhapHangHistoryScreenState();
 }
@@ -45,6 +46,7 @@ class _NhapHangHistoryScreenState extends State<NhapHangHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamList(
+      searchHistory: widget.searchHistory,
       controller: controller,
       docsByMonth: docsByMonthly,
       snapshotCollection: 'NhapHang',
