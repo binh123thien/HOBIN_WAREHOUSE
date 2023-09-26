@@ -42,7 +42,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                     height: 45,
                     child: Image(
                       image: AssetImage(billType == "BanHang" && no == 0
-                          ? banhangIcon
+                          ? xuathangIcon
                           : billType == "NhapHang" && no == 0
                               ? nhaphangIcon
                               : dangchoIcon),

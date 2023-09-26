@@ -16,14 +16,14 @@ class Button2nutBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      height: 80,
+      height: 70,
       color: whiteColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           SizedBox(
             width: 170,
-            height: 55,
+            height: 45,
             child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: mainColor),
@@ -40,7 +40,7 @@ class Button2nutBar extends StatelessWidget {
           ),
           SizedBox(
               width: 170,
-              height: 55,
+              height: 45,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: mainColor,

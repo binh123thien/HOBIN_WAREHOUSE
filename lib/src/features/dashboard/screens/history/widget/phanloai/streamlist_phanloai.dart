@@ -33,7 +33,7 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
               return const Center(child: Text("Không có dữ liệu"));
             } else {
               return ListView.builder(
-                physics: const BouncingScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: docsByMonth.length,
                 itemBuilder: ((BuildContext context, int index) {
@@ -49,7 +49,6 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                       .where((doc) => doc['billType'] == 'NhapHang')
                       .fold<num>(
                           0, (prev, curr) => prev + curr['tongthanhtoan']);
-
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     color: whiteColor,
@@ -57,7 +56,7 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Container(
-                          color: backGroundSearch,
+                          color: whiteColor,
                           child: Column(
                             children: [
                               Padding(

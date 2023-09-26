@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../constants/color.dart';
 import '../../../../../../utils/utils.dart';
 
 class ChitietThangPhanLoai extends StatelessWidget {
@@ -23,6 +24,12 @@ class ChitietThangPhanLoai extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Chip(
+              backgroundColor: whiteColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+                side: const BorderSide(
+                    color: mainColor, width: 1.5), // Màu và độ dày của viền
+              ),
               label: Text(
                 "Tổng thu: ${formatCurrency(tongBanHangMonthly)}",
                 style:
@@ -31,6 +38,12 @@ class ChitietThangPhanLoai extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             Chip(
+              backgroundColor: whiteColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+                side: const BorderSide(
+                    color: mainColor, width: 1.5), // Màu và độ dày của viền
+              ),
               label: Text(
                 "Tổng chi: ${formatCurrency(tongNhapHangMonthly)}",
                 style:

@@ -24,8 +24,10 @@ const String hethanIcon = "assets/images/icon/dashboard/hethan.png";
 const String lichIcon = "assets/images/icon/dashboard/lich.png";
 
 //dashboard/xuatkho
-const String tongtienxuatkhoIcon = "assets/images/icon/dashboard/xuatkho/tongtienxuatkho.png";
-const String tongsoluongxuatkhoIcon = "assets/images/icon/dashboard/xuatkho/tongsoluongxuatkho.png";
+const String tongtienxuatkhoIcon =
+    "assets/images/icon/dashboard/xuatkho/tongtienxuatkho.png";
+const String tongsoluongxuatkhoIcon =
+    "assets/images/icon/dashboard/xuatkho/tongsoluongxuatkho.png";
 
 //Appbar
 const String backIcon = "assets/images/icon/appbar/back.png";
@@ -63,7 +65,7 @@ const String historyShareGoodIcon = "assets/images/icon/goods/history.png";
 const String distributeGoodIcon =
     "assets/images/icon/goods/distribute_good.png";
 //history
-const String banhangIcon = "assets/images/icon/history/banhang.png";
+const String xuathangIcon = "assets/images/icon/history/xuathang.png";
 const String nhaphangIcon = "assets/images/icon/history/nhaphang.png";
 const String dangchoIcon = "assets/images/icon/history/dangcho.png";
 const String huyIcon = "assets/images/icon/history/huy.png";

@@ -32,7 +32,7 @@ class StreamList extends StatelessWidget {
               return const Center(child: Text("Không có dữ liệu"));
             } else {
               return ListView.builder(
-                physics: const BouncingScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: _docsByMonth.length,
                 itemBuilder: ((BuildContext context, int index) {
@@ -53,7 +53,7 @@ class StreamList extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           child: Container(
-                            color: backGroundSearch,
+                            color: whiteColor,
                             child: Column(
                               children: [
                                 Padding(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/constants/color.dart';
 
 import '../../../../../../utils/utils.dart';
 
@@ -27,6 +28,12 @@ class ChitietThang extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Chip(
+                backgroundColor: whiteColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  side: const BorderSide(
+                      color: mainColor, width: 1.5), // Màu và độ dày của viền
+                ),
                 label: Text(
                   phanbietNhapHangBanHang == "BanHang"
                       ? "Tổng thu: ${formatCurrency(doanhThuMonthlyTotal)}"
@@ -37,6 +44,12 @@ class ChitietThang extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Chip(
+                backgroundColor: whiteColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  side: const BorderSide(
+                      color: mainColor, width: 1.5), // Màu và độ dày của viền
+                ),
                 label: Text(
                   phanbietNhapHangBanHang == "BanHang"
                       ? "Đã bán: $soluongMonthlyTotal"
@@ -47,6 +60,12 @@ class ChitietThang extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Chip(
+                backgroundColor: whiteColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  side: const BorderSide(
+                      color: mainColor, width: 1.5), // Màu và độ dày của viền
+                ),
                 label: Text(
                   "Đơn hàng: $soLuongDonHangMonthlyTotal",
                   style: const TextStyle(

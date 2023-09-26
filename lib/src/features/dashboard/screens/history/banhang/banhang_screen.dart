@@ -5,13 +5,13 @@ import 'package:get/get.dart';
 import '../../../../../repository/history_repository/history_repository.dart';
 import '../widget/nhapbanhang/streamlist.dart';
 
-class BanHangScreen extends StatefulWidget {
-  const BanHangScreen({super.key});
+class XuatHangScreen extends StatefulWidget {
+  const XuatHangScreen({super.key});
   @override
-  State<BanHangScreen> createState() => _BanHangScreenState();
+  State<XuatHangScreen> createState() => _XuatHangScreenState();
 }
 
-class _BanHangScreenState extends State<BanHangScreen> {
+class _XuatHangScreenState extends State<XuatHangScreen> {
   final controller = Get.put(HistoryRepository());
   List<List<DocumentSnapshot>> docsByMonthly = [];
   bool _isMounted = false;
