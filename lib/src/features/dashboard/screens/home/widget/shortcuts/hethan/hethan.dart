@@ -62,6 +62,9 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime datetimenow = DateTime.now();
+    String datecurrenly = formatDate(datetimenow);
+    print(datecurrenly);
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
@@ -180,48 +183,78 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                           itemCount: dataHetHan.length,
                           itemBuilder: (context, index) {
                             final docdata = dataHetHan[index];
+                            String dateString = docdata["exp"];
+                            DateTime expirationDate =
+                                DateFormat('dd/MM/yyyy').parse(dateString);
+                            DateTime currentDate = DateTime.now();
+                            int daysRemaining =
+                                expirationDate.difference(currentDate).inDays;
                             return Column(
                               children: [
                                 CheckboxListTile(
-                                    title: Text(
-                                      "${docdata['tensanpham']} - ${docdata['gia']}",
-                                    ),
-                                    value:
-                                        selectedItemsHetHan.contains(docdata),
-                                    onChanged: (bool? newValue) {
-                                      setState(() {
-                                        if (newValue != null && newValue) {
-                                          selectedItemsHetHan.add(docdata);
-                                        } else {
-                                          selectedItemsHetHan.remove(docdata);
-                                        }
-                                        if (selectedItemsHetHan.length ==
-                                            dataHetHan.length) {
-                                          selectAll = true;
-                                        } else {
-                                          selectAll = false;
-                                        }
-                                      });
-                                    },
-                                    activeColor: mainColor,
-                                    subtitle: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "${docdata["exp"]} - SL: ${docdata["soluong"]}",
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          ),
-                                          Text(
-                                            "${docdata["location"]}",
-                                            style:
-                                                const TextStyle(fontSize: 14),
-                                          )
-                                        ])
-                                    // Các thuộc tính khác của CheckboxListTile
-                                    // ...
-                                    ),
+                                  title: Text(
+                                    "${docdata['tensanpham']} - ${docdata['gia']}",
+                                  ),
+                                  value: selectedItemsHetHan.contains(docdata),
+                                  onChanged: (bool? newValue) {
+                                    setState(() {
+                                      if (newValue != null && newValue) {
+                                        selectedItemsHetHan.add(docdata);
+                                      } else {
+                                        selectedItemsHetHan.remove(docdata);
+                                      }
+                                      if (selectedItemsHetHan.length ==
+                                          dataHetHan.length) {
+                                        selectAll = true;
+                                      } else {
+                                        selectAll = false;
+                                      }
+                                    });
+                                  },
+                                  activeColor: mainColor,
+                                  subtitle: Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.center,
+                                    runSpacing: 5,
+                                    children: [
+                                      Text(
+                                        "${docdata["exp"]} - SL: ${docdata["soluong"]} - ${docdata["location"]}",
+                                        style: const TextStyle(fontSize: 14),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Container(
+                                        width: daysRemaining > 1000 ? 80 : 70,
+                                        height: 24,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            border: Border.all(
+                                                color: daysRemaining < 10
+                                                    ? mainColor
+                                                    : successColor),
+                                            color: whiteColor),
+                                        child: Center(
+                                          child: currentDate
+                                                  .isAfter(expirationDate)
+                                              ? const Text(
+                                                  "Hết hạn",
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: mainColor),
+                                                )
+                                              : Text(
+                                                  "$daysRemaining ngày",
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: daysRemaining < 10
+                                                          ? mainColor
+                                                          : successColor),
+                                                ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
                                 const DottedLine(
                                   direction: Axis.horizontal,
                                   lineLength: double.infinity,
