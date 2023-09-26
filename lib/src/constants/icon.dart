@@ -23,6 +23,10 @@ const String sonoIcon = "assets/images/icon/dashboard/sono.png";
 const String hethanIcon = "assets/images/icon/dashboard/hethan.png";
 const String lichIcon = "assets/images/icon/dashboard/lich.png";
 
+//dashboard/xuatkho
+const String tongtienxuatkhoIcon = "assets/images/icon/dashboard/xuatkho/tongtienxuatkho.png";
+const String tongsoluongxuatkhoIcon = "assets/images/icon/dashboard/xuatkho/tongsoluongxuatkho.png";
+
 //Appbar
 const String backIcon = "assets/images/icon/appbar/back.png";
 const String checkIcon = "assets/images/icon/appbar/check.png";

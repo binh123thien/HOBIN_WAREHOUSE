@@ -170,6 +170,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                 setState(() {
                                   selectAll = newValue!;
                                   if (selectAll) {
+                                    selectedItemsHetHan.clear();
                                     selectedItemsHetHan.addAll(dataHetHan);
                                   } else {
                                     selectedItemsHetHan.clear();
@@ -273,15 +274,16 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                   )),
         bottomNavigationBar: dataHetHan.isNotEmpty
             ? BottomAppBar(
-                height: 80,
+                height: 70,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 30,
-                      height: 50,
+                      height: 45,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
                           backgroundColor: mainColor,
                           side: BorderSide(
                               color: selectedItemsHetHan.isEmpty
