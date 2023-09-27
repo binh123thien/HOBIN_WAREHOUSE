@@ -13,7 +13,6 @@ import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../goods/widget/them_hang_hoa.dart';
 import 'nhaphang.dart';
-import 'nhaphang/cardnhaphangshowmore.dart';
 import 'them_donhang.dart';
 import 'widget/themdonhang/danhsachsortby_hanghoa_taodon.dart';
 
@@ -177,11 +176,11 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                         child: ListView.builder(
                           itemCount: filteredItems.length,
                           itemBuilder: (context, index) {
-                            var hanghoa = filteredItems[index];
-                            return CardNhapHangShowMore(
-                              phanBietNhapXuat: widget.phanbietNhapXuat,
-                              hanghoa: hanghoa,
-                            );
+                            // var hanghoa = filteredItems[index];
+                            // return CardNhapHangShowMore(
+                            //   phanBietNhapXuat: widget.phanbietNhapXuat,
+                            //   hanghoa: hanghoa,
+                            // );
                           },
                         ),
                       ),

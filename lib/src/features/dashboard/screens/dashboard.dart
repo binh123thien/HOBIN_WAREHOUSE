@@ -10,6 +10,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/goods/goods.dart'
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/history_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/home_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/statistics_screen.dart';
+import '../controllers/add/nhaphang_controller.dart';
 import '../controllers/statistics/doanhthu_controller.dart';
 import 'add/them_donhang.dart';
 
@@ -24,6 +25,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final controllerHangHoa = Get.put(ChonHangHoaController());
   final controllerDoanhThu = Get.put(DoanhThuController());
+  final controllerLocation = Get.put(NhapHangController());
   @override
   void initState() {
     super.initState();
@@ -31,6 +33,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     controllerDoanhThu.loadDoanhThuNgay();
     controllerDoanhThu.loadDoanhThuTuan();
     controllerDoanhThu.loadDoanhThuThang();
+    controllerLocation.loadAllLocationsName();
   }
 
   final screen = [

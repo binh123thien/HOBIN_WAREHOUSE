@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/choose_goods.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/choose_location.dart';
 
 class NhapHangScreen extends StatefulWidget {
   const NhapHangScreen({super.key});
@@ -49,12 +50,27 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ChooseGoodsScreen()),
+                            builder: (context) => const ChooseGoodsScreen()),
                       ).then((value) {
-                        setState(() {
-                          thongTinItemNhap["hanghoa"] = value["tensanpham"];
-                          print(thongTinItemNhap);
-                        });
+                        if (value != null) {
+                          setState(() {
+                            thongTinItemNhap["hanghoa"] = value["tensanpham"];
+                          });
+                        }
+                      });
+                    }
+                    if (index == 1) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ChooseLocationScreen()),
+                      ).then((value) {
+                        if (value != null) {
+                          setState(() {
+                            thongTinItemNhap["location"] = value["id"];
+                            print(thongTinItemNhap);
+                          });
+                        }
                       });
                     }
                   },

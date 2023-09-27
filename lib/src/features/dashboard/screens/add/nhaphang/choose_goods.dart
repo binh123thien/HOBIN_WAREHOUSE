@@ -106,7 +106,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                               width: isSelected && selectedDoc == doc ? 2 : 1,
                               color: isSelected && selectedDoc == doc
                                   ? Colors
-                                      .pink // Màu border khi Container được chọn
+                                      .blue // Màu border khi Container được chọn
                                   : Colors
                                       .black26, // Màu border khi Container không được chọn
                             )),
