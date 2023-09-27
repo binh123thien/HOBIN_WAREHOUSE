@@ -84,6 +84,12 @@ const String processWalletIcon = "assets/images/icon/add/processWallet.png";
 const String cancelWalletcon = "assets/images/icon/add/cancelWallet.png";
 const String refundWalletIcon = "assets/images/icon/add/refundWallet.png";
 const String importIcon = "assets/images/icon/add/import.png";
+
+//add/nhaphang/
+const String locationIcon = "assets/images/icon/add/nhaphang/location.png";
+const String calendarIcon = "assets/images/icon/add/nhaphang/calendar.png";
+const String quantityIcon = "assets/images/icon/add/nhaphang/quantity.png";
+
 //Statistics khach hang
 const String customerIcon = "assets/images/icon/statistics/customer.png";
 //Statistics kho
