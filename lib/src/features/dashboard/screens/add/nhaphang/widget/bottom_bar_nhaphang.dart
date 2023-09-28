@@ -35,6 +35,7 @@ class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
 
   @override
   Widget build(BuildContext context) {
+    print("1");
     return BottomAppBar(
       height: 70,
       child: Row(
