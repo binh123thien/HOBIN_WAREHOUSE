@@ -9,8 +9,12 @@ import 'delete_item.dart';
 class DanhSachItemsDaChonScreen extends StatefulWidget {
   final List<Map<String, dynamic>> selectedItems;
   final bool blockOnPress;
+  final Function reLoad;
   const DanhSachItemsDaChonScreen(
-      {super.key, required this.selectedItems, required this.blockOnPress});
+      {super.key,
+      required this.selectedItems,
+      required this.blockOnPress,
+      required this.reLoad});
 
   @override
   State<DanhSachItemsDaChonScreen> createState() =>
@@ -31,6 +35,10 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
       builder: (BuildContext context) {
         return DeleteItemsScreen(
           thongTinItemNhapHienTai: widget.selectedItems[index],
+          onDelete: () {
+            widget.selectedItems.removeAt(index);
+            widget.reLoad(widget.selectedItems);
+          },
         );
       },
     );
@@ -38,13 +46,17 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
 
   @override
   Widget build(BuildContext context) {
-    num totalPrice = widget.selectedItems
-        .map<num>((item) => item['soluong'] * item['gia'])
-        .reduce((value, element) => value + element);
+    num totalPrice = widget.selectedItems.isNotEmpty
+        ? widget.selectedItems
+            .map<num>((item) => item['soluong'] * item['gia'])
+            .reduce((value, element) => value + element)
+        : 0;
 
-    num totalQuantity = widget.selectedItems
-        .map<num>((item) => item['soluong'])
-        .reduce((value, element) => value + element);
+    num totalQuantity = widget.selectedItems.isNotEmpty
+        ? widget.selectedItems
+            .map<num>((item) => item['soluong'])
+            .reduce((value, element) => value + element)
+        : 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

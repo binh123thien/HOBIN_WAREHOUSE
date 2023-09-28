@@ -93,6 +93,12 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
     });
   }
 
+  void _reload(List<Map<String, dynamic>> selectedItems) {
+    setState(() {
+      allThongTinItemNhap = selectedItems;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,6 +123,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       child: DanhSachItemsDaChonScreen(
                         selectedItems: allThongTinItemNhap,
                         blockOnPress: false,
+                        reLoad: _reload,
                       ),
                     )
                   : const SizedBox(),

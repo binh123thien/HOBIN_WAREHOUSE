@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/widget/danhsach_items_dachon.dart';
 
+import '../../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../../constants/icon.dart';
 import '../../widget/card_add_widget.dart';
 
 class DeleteItemsScreen extends StatefulWidget {
   final Map<String, dynamic> thongTinItemNhapHienTai;
-  const DeleteItemsScreen({super.key, required this.thongTinItemNhapHienTai});
+  final Function onDelete;
+  const DeleteItemsScreen({
+    super.key,
+    required this.thongTinItemNhapHienTai,
+    required this.onDelete,
+  });
 
   @override
   State<DeleteItemsScreen> createState() => _DeleteItemsScreenState();
@@ -31,6 +38,7 @@ class _DeleteItemsScreenState extends State<DeleteItemsScreen> {
           DanhSachItemsDaChonScreen(
             blockOnPress: true,
             selectedItems: list,
+            reLoad: () {},
           ),
           const Padding(
             padding: EdgeInsets.all(10.0),
@@ -42,7 +50,12 @@ class _DeleteItemsScreenState extends State<DeleteItemsScreen> {
           CardAdd(
             icon: deleteIcon,
             title: "Xóa",
-            onTap: () {},
+            onTap: () {
+              widget.onDelete();
+              Navigator.of(context).pop();
+              SnackBarWidget.showSnackBar(
+                  context, "Xóa thành công", successColor);
+            },
           ),
         ],
       ),
