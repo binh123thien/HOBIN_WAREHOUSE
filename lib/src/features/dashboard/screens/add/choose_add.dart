@@ -5,6 +5,7 @@ import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import '../goods/widget/them_hang_hoa.dart';
 import '../statistics/khachhang/widget/them_khachhang.dart';
 import 'choose_goods.dart';
+import 'nhaphang/nhaphang_screen.dart';
 import 'widget/card_add_widget.dart';
 
 class ChooseAddScreen {
@@ -57,10 +58,7 @@ class ChooseAddScreen {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const ChooseGoodsScreen(
-                          phanbietNhapXuat: 1,
-                        )),
+                MaterialPageRoute(builder: (context) => const NhapHangScreen()),
               ).then((_) {
                 Navigator.pop(context); // Tắt showModalBottomSheet
               });
