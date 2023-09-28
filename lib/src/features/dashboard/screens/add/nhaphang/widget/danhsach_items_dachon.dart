@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
+import 'delete_item.dart';
 
 class DanhSachItemsDaChonScreen extends StatefulWidget {
   final List<Map<String, dynamic>> selectedItems;
-  const DanhSachItemsDaChonScreen({super.key, required this.selectedItems});
+  final bool blockOnPress;
+  const DanhSachItemsDaChonScreen(
+      {super.key, required this.selectedItems, required this.blockOnPress});
 
   @override
   State<DanhSachItemsDaChonScreen> createState() =>
@@ -15,6 +18,24 @@ class DanhSachItemsDaChonScreen extends StatefulWidget {
 }
 
 class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
+  void _deleteItem(int index) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return DeleteItemsScreen(
+          thongTinItemNhapHienTai: widget.selectedItems[index],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     num totalPrice = widget.selectedItems
@@ -107,33 +128,40 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
                 final docdata = widget.selectedItems[index];
                 return Column(
                   children: [
-                    ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: backGroundColor,
-                          foregroundColor: mainColor,
-                          child: Text(
-                            (index + 1).toString(),
-                            style: const TextStyle(fontSize: 17),
+                    InkWell(
+                      onLongPress: widget.blockOnPress == false
+                          ? () {
+                              _deleteItem(index);
+                            }
+                          : null,
+                      child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: backGroundColor,
+                            foregroundColor: mainColor,
+                            child: Text(
+                              (index + 1).toString(),
+                              style: const TextStyle(fontSize: 17),
+                            ),
                           ),
-                        ),
-                        title: Text(
-                          "${docdata['tensanpham']} - ${formatCurrency(docdata['gia'])}",
-                        ),
-                        subtitle: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "${docdata["exp"]} - SL: ${docdata["soluong"]}",
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              Text(
-                                "${docdata["location"]}",
-                                style: const TextStyle(fontSize: 14),
-                              )
-                            ])
-                        // Các thuộc tính khác của CheckboxListTile
-                        // ...
-                        ),
+                          title: Text(
+                            "${docdata['tensanpham']} - ${formatCurrency(docdata['gia'])}",
+                          ),
+                          subtitle: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "${docdata["exp"]} - SL: ${docdata["soluong"]}",
+                                  style: const TextStyle(fontSize: 14),
+                                ),
+                                Text(
+                                  "${docdata["location"]}",
+                                  style: const TextStyle(fontSize: 14),
+                                )
+                              ])
+                          // Các thuộc tính khác của CheckboxListTile
+                          // ...
+                          ),
+                    ),
                     index != widget.selectedItems.length - 1
                         ? const DottedLine(
                             direction: Axis.horizontal,

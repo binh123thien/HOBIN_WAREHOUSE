@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:intl/intl.dart';
+import 'widget/bottom_bar_nhaphang.dart';
 import 'widget/chonsoluong_widget.dart';
 import 'widget/danhsach_items_dachon.dart';
 import 'widget/nhapthongtin_item.dart';
@@ -79,126 +80,55 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
     });
   }
 
-  void _showSuccessSnackbar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        showCloseIcon: true,
-        closeIconColor: whiteColor,
-        backgroundColor: successColor,
-        content: Text('Thêm thành công!'),
-        duration: Duration(seconds: 2), // Thời gian hiển thị
-      ),
-    );
+  void _setDefaulseThongTinNhapHang() {
+    setState(() {
+      thongTinItemNhap = {
+        "macode": "",
+        "tensanpham": "",
+        "location": "",
+        "exp": "",
+        "soluong": 0,
+        "gia": 0,
+      };
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text("Nhập hàng", style: TextStyle(fontSize: 18)),
-        backgroundColor: blueColor,
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            NhapThongTinItemScreen(
-              thongTinItemNhap: thongTinItemNhap,
-              checkFields: _checkFields,
-              selectDate: _selectDate,
-              chonSoluong: _chonSoluong,
-            ),
-            allThongTinItemNhap.isNotEmpty
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: DanhSachItemsDaChonScreen(
-                      selectedItems: allThongTinItemNhap,
-                    ),
-                  )
-                : const SizedBox(),
-          ],
+        appBar: AppBar(
+          elevation: 0,
+          title: const Text("Nhập hàng", style: TextStyle(fontSize: 18)),
+          backgroundColor: blueColor,
+          centerTitle: true,
         ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        height: 70,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return SizedBox(
-                  width: (MediaQuery.of(context).size.width - 30) * 6 / 10,
-                  height: 45,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      backgroundColor: blueColor,
-                      side: BorderSide(
-                          color: isButtonEnabled ? blueColor : Colors.black12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10), // giá trị này xác định bán kính bo tròn
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              NhapThongTinItemScreen(
+                thongTinItemNhap: thongTinItemNhap,
+                checkFields: _checkFields,
+                selectDate: _selectDate,
+                chonSoluong: _chonSoluong,
+              ),
+              allThongTinItemNhap.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: DanhSachItemsDaChonScreen(
+                        selectedItems: allThongTinItemNhap,
+                        blockOnPress: false,
                       ),
-                    ),
-                    onPressed: isButtonEnabled
-                        ? () {
-                            setState(() {
-                              allThongTinItemNhap.add(thongTinItemNhap);
-                              thongTinItemNhap = {
-                                "macode": "",
-                                "tensanpham": "",
-                                "location": "",
-                                "exp": "",
-                                "soluong": 0
-                              };
-                              _checkFields();
-                              _showSuccessSnackbar(context);
-                              print(allThongTinItemNhap);
-                            });
-                          }
-                        : null,
-                    child: const Text(
-                      'Thêm',
-                      style: TextStyle(fontSize: 19),
-                    ),
-                  ),
-                );
-              },
-            ),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return SizedBox(
-                  width: (MediaQuery.of(context).size.width - 30) * 4 / 10,
-                  height: 45,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      backgroundColor: blueColor,
-                      side: BorderSide(
-                          color: isButtonEnabled ? blueColor : Colors.black12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10), // giá trị này xác định bán kính bo tròn
-                      ),
-                    ),
-                    onPressed: allThongTinItemNhap.isNotEmpty ? () {} : null,
-                    child: allThongTinItemNhap.isEmpty
-                        ? const Text(
-                            'Thanh toán',
-                            style: TextStyle(fontSize: 18),
-                          )
-                        : Text(
-                            'Thanh toán (${allThongTinItemNhap.length})',
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                  ),
-                );
-              },
-            )
-          ],
+                    )
+                  : const SizedBox(),
+            ],
+          ),
         ),
-      ),
-    );
+        bottomNavigationBar: BottomBarNhapHang(
+          isButtonEnabled: isButtonEnabled,
+          checkFields: _checkFields,
+          allThongTinItemNhap: allThongTinItemNhap,
+          thongTinItemNhap: thongTinItemNhap,
+          setDefaulseThongTinNhapHang: _setDefaulseThongTinNhapHang,
+        ));
   }
 }
