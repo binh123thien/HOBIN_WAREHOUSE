@@ -89,6 +89,7 @@ const String importIcon = "assets/images/icon/add/import.png";
 const String locationIcon = "assets/images/icon/add/nhaphang/location.png";
 const String calendarIcon = "assets/images/icon/add/nhaphang/calendar.png";
 const String quantityIcon = "assets/images/icon/add/nhaphang/quantity.png";
+const String giaIcon = "assets/images/icon/add/nhaphang/gia.png";
 
 //Statistics khach hang
 const String customerIcon = "assets/images/icon/statistics/customer.png";

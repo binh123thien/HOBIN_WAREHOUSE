@@ -30,8 +30,8 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
-        elevation: 0,
         title: const Text("Chọn vị trí", style: TextStyle(fontSize: 18)),
         backgroundColor: blueColor,
         centerTitle: true,

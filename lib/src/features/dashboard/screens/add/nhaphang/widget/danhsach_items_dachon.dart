@@ -46,93 +46,93 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
 
   @override
   Widget build(BuildContext context) {
-    num totalPrice = widget.selectedItems.isNotEmpty
-        ? widget.selectedItems
-            .map<num>((item) => item['soluong'] * item['gia'])
-            .reduce((value, element) => value + element)
-        : 0;
+    num totalPrice = widget.selectedItems
+        .map<num>((item) => item['soluong'] * item['gia'])
+        .reduce((value, element) => value + element);
 
-    num totalQuantity = widget.selectedItems.isNotEmpty
-        ? widget.selectedItems
-            .map<num>((item) => item['soluong'])
-            .reduce((value, element) => value + element)
-        : 0;
+    num totalQuantity = widget.selectedItems
+        .map<num>((item) => item['soluong'])
+        .reduce((value, element) => value + element);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Container(
+          height: 10,
+          color: greyColor,
+        ),
         Padding(
-          padding: const EdgeInsets.all(10),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.black26)),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.fromLTRB(15, 10, 15, 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Row(
                 children: [
-                  const Text("Ước tính chi phí",
-                      style: TextStyle(fontSize: 17)),
-                  const SizedBox(height: 7),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Row(
-                        children: [
-                          SizedBox(
-                            width: 18,
-                            height: 18,
-                            child:
-                                Image(image: AssetImage(tongtienxuatkhoIcon)),
-                          ),
-                          SizedBox(width: 5),
-                          Text("Tổng tiền:", style: TextStyle(fontSize: 17)),
-                        ],
-                      ),
-                      Text(formatCurrency(totalPrice),
-                          style: const TextStyle(fontSize: 17)),
-                    ],
+                  SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: Image(image: AssetImage(tongtienxuatkhoIcon)),
                   ),
-                  const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Row(
-                        children: [
-                          SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: Image(
-                                image: AssetImage(tongsoluongxuatkhoIcon)),
-                          ),
-                          SizedBox(width: 5),
-                          Text("Tổng số lượng:",
-                              style: TextStyle(fontSize: 17)),
-                        ],
-                      ),
-                      Text(totalQuantity.toString(),
-                          style: const TextStyle(fontSize: 17)),
-                    ],
+                  SizedBox(width: 7),
+                  Text("Ước tính chi phí",
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.only(left: 22),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text("Tổng tiền:", style: TextStyle(fontSize: 17)),
+                    Text(formatCurrency(totalPrice),
+                        style: const TextStyle(fontSize: 17)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 7),
+              Padding(
+                padding: const EdgeInsets.only(left: 22),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Row(
+                      children: [
+                        Text("Tổng số lượng:", style: TextStyle(fontSize: 17)),
+                      ],
+                    ),
+                    Text(totalQuantity.toString(),
+                        style: const TextStyle(fontSize: 17)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          height: 10,
+          color: greyColor,
+        ),
+        Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(15, 10, 15, 7),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: Image(image: AssetImage(tongsoluongxuatkhoIcon)),
+                  ),
+                  SizedBox(width: 7),
+                  Text(
+                    "Danh sách đã chọn",
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
                   ),
                 ],
               ),
             ),
-          ),
-        ),
-        const Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Text(
-            "Danh sách đã chọn",
-            style: TextStyle(fontSize: 17),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.black26)),
-            child: ListView.builder(
+            ListView.builder(
               physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               itemCount: widget.selectedItems.length,
@@ -148,11 +148,13 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
                           : null,
                       child: ListTile(
                           leading: CircleAvatar(
+                            // radius: 17,
                             backgroundColor: backGroundColor,
                             foregroundColor: mainColor,
                             child: Text(
                               (index + 1).toString(),
-                              style: const TextStyle(fontSize: 17),
+                              style: const TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.w700),
                             ),
                           ),
                           title: Text(
@@ -189,8 +191,8 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
                 );
               },
             ),
-          ),
-        ),
+          ],
+        )
       ],
     );
   }

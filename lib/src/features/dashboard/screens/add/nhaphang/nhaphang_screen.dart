@@ -5,6 +5,7 @@ import 'widget/bottom_bar_nhaphang.dart';
 import 'widget/chonsoluong_widget.dart';
 import 'widget/danhsach_items_dachon.dart';
 import 'widget/nhapthongtin_item.dart';
+import 'widget/thaydoigia_widget.dart';
 
 class NhapHangScreen extends StatefulWidget {
   const NhapHangScreen({super.key});
@@ -38,6 +39,28 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
         isButtonEnabled = false;
       });
     }
+  }
+
+  void _thayDoiGia() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return const ThayDoiGiaWidget();
+      },
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          thongTinItemNhap["gia"] = int.tryParse(value);
+        });
+      }
+    });
   }
 
   void _selectDate() {
@@ -102,6 +125,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: whiteColor,
         appBar: AppBar(
           elevation: 0,
           title: const Text("Nhập hàng", style: TextStyle(fontSize: 18)),
@@ -116,6 +140,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                 checkFields: _checkFields,
                 selectDate: _selectDate,
                 chonSoluong: _chonSoluong,
+                thayDoiGia: _thayDoiGia,
               ),
               allThongTinItemNhap.isNotEmpty
                   ? Padding(

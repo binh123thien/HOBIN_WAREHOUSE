@@ -10,6 +10,7 @@ const backGroundSearch = Color(0xFFf0f0f0);
 const darkColor = Color(0xFF272727);
 const darkLiteColor = Color(0xFFb9b9b9);
 const whiteColor = Color(0xFFFFFFFF);
+const greyColor = Color(0xFFF5F5F5);
 
 const successColor = Color(0xFF22C55E);
 const success600Color = Color(0xFF16a34a);

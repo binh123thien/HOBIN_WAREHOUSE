@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../constants/color.dart';
 
-class ChonSoLuongWidget extends StatefulWidget {
-  const ChonSoLuongWidget({
-    super.key,
-  });
+class ThayDoiGiaWidget extends StatefulWidget {
+  const ThayDoiGiaWidget({super.key});
 
   @override
-  State<ChonSoLuongWidget> createState() => _ChonSoLuongWidgetState();
+  State<ThayDoiGiaWidget> createState() => _ThayDoiGiaWidgetState();
 }
 
-class _ChonSoLuongWidgetState extends State<ChonSoLuongWidget> {
-  final TextEditingController _controllerSoluong = TextEditingController();
+class _ThayDoiGiaWidgetState extends State<ThayDoiGiaWidget> {
+  final TextEditingController _controllerThayDoiGia = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -30,13 +28,13 @@ class _ChonSoLuongWidgetState extends State<ChonSoLuongWidget> {
             child: Column(
               children: [
                 const SizedBox(height: 10),
-                const Text("Nhập số lượng"),
+                const Text("Giá Nhập Hàng"),
                 const SizedBox(height: 10),
                 TextFormField(
                   validator: (value) {
                     return oneCharacter(value!);
                   },
-                  controller: _controllerSoluong,
+                  controller: _controllerThayDoiGia,
                   keyboardType: TextInputType.number,
                   maxLength: 10,
                   decoration: const InputDecoration(
@@ -45,7 +43,7 @@ class _ChonSoLuongWidgetState extends State<ChonSoLuongWidget> {
                       focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: blueColor, width: 2)),
                       contentPadding: EdgeInsets.zero,
-                      hintText: 'Nhập số lượng'),
+                      hintText: 'Nhập giá'),
                 ),
                 const SizedBox(height: 20),
                 SizedBox(
@@ -63,7 +61,7 @@ class _ChonSoLuongWidgetState extends State<ChonSoLuongWidget> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.of(context).pop(_controllerSoluong.text);
+                        Navigator.of(context).pop(_controllerThayDoiGia.text);
                       }
                     },
                     child: const Text(
