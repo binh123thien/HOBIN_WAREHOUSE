@@ -56,10 +56,6 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          height: 10,
-          color: greyColor,
-        ),
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 10, 15, 8),
           child: Column(

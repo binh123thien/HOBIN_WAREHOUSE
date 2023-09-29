@@ -145,10 +145,18 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
               allThongTinItemNhap.isNotEmpty
                   ? Padding(
                       padding: const EdgeInsets.only(top: 10),
-                      child: DanhSachItemsDaChonScreen(
-                        selectedItems: allThongTinItemNhap,
-                        blockOnPress: false,
-                        reLoad: _reload,
+                      child: Column(
+                        children: [
+                          Container(
+                            height: 10,
+                            color: greyColor,
+                          ),
+                          DanhSachItemsDaChonScreen(
+                            selectedItems: allThongTinItemNhap,
+                            blockOnPress: false,
+                            reLoad: _reload,
+                          ),
+                        ],
                       ),
                     )
                   : const SizedBox(),

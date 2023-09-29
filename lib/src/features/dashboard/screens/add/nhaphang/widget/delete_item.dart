@@ -29,7 +29,8 @@ class _DeleteItemsScreenState extends State<DeleteItemsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      color: whiteColor,
       height: MediaQuery.of(context).size.height * 0.45,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,11 +41,15 @@ class _DeleteItemsScreenState extends State<DeleteItemsScreen> {
             selectedItems: list,
             reLoad: () {},
           ),
+          Container(
+            height: 10,
+            color: greyColor,
+          ),
           const Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
             child: Text(
               "Tùy chọn",
-              style: TextStyle(fontSize: 17),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
             ),
           ),
           CardAdd(

@@ -55,7 +55,7 @@ class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
                             : Colors.black12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          10), // giá trị này xác định bán kính bo tròn
+                          5), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
                   onPressed: widget.isButtonEnabled
@@ -92,7 +92,7 @@ class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
                             : Colors.black12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          10), // giá trị này xác định bán kính bo tròn
+                          5), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
                   onPressed:
