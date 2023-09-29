@@ -176,11 +176,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                         child: ListView.builder(
                           itemCount: filteredItems.length,
                           itemBuilder: (context, index) {
-                            // var hanghoa = filteredItems[index];
-                            // return CardNhapHangShowMore(
-                            //   phanBietNhapXuat: widget.phanbietNhapXuat,
-                            //   hanghoa: hanghoa,
-                            // );
+                            return const Text("www");
                           },
                         ),
                       ),

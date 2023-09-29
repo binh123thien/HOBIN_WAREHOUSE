@@ -1,4 +1,3 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
@@ -6,6 +5,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/short
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../controllers/home/hethan_controller.dart';
 
@@ -256,15 +256,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                     ],
                                   ),
                                 ),
-                                const DottedLine(
-                                  direction: Axis.horizontal,
-                                  lineLength: double.infinity,
-                                  lineThickness: 1,
-                                  dashLength: 8.0,
-                                  dashColor: Color.fromARGB(255, 209, 209, 209),
-                                  dashGapLength: 6.0,
-                                  dashGapColor: Colors.transparent,
-                                )
+                                DotLineWidget.dotLine(context),
                               ],
                             );
                           },

@@ -1,10 +1,9 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
-
 import '../../../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/validate/validate.dart';
@@ -101,15 +100,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                             ],
                           ),
                           const SizedBox(height: 7),
-                          const DottedLine(
-                            direction: Axis.horizontal,
-                            lineLength: double.infinity,
-                            lineThickness: 1,
-                            dashLength: 8.0,
-                            dashColor: Color.fromARGB(255, 209, 209, 209),
-                            dashGapLength: 6.0,
-                            dashGapColor: Colors.transparent,
-                          ),
+                          DotLineWidget.dotLine(context),
                           Padding(
                             padding: const EdgeInsets.only(top: 13, bottom: 7),
                             child: Column(
@@ -206,16 +197,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                                 // ...
                                 ),
                             index != widget.selectedItemsHetHan.length - 1
-                                ? const DottedLine(
-                                    direction: Axis.horizontal,
-                                    lineLength: double.infinity,
-                                    lineThickness: 1,
-                                    dashLength: 8.0,
-                                    dashColor:
-                                        Color.fromARGB(255, 209, 209, 209),
-                                    dashGapLength: 6.0,
-                                    dashGapColor: Colors.transparent,
-                                  )
+                                ? DotLineWidget.dotLine(context)
                                 : const SizedBox()
                           ],
                         );

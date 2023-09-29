@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/chonhanghoa_controller.dart';
+import 'package:hobin_warehouse/src/features/dashboard/controllers/add/khachhang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/choose_add.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/goods.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/history_screen.dart';
@@ -26,10 +27,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final controllerHangHoa = Get.put(ChonHangHoaController());
   final controllerDoanhThu = Get.put(DoanhThuController());
   final controllerLocation = Get.put(NhapHangController());
+  final controllerKhachHang = Get.put(KhachHangController());
   @override
   void initState() {
     super.initState();
     controllerHangHoa.loadAllHangHoa();
+    controllerKhachHang.loadAllKhachHang();
     controllerDoanhThu.loadDoanhThuNgay();
     controllerDoanhThu.loadDoanhThuTuan();
     controllerDoanhThu.loadDoanhThuThang();

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../../../../../constants/color.dart';
+import '../../thanhtoan/thanhtoan_screen.dart';
 
 class BottomBarNhapHang extends StatefulWidget {
   final bool isButtonEnabled;
@@ -95,8 +97,19 @@ class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
                           5), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
-                  onPressed:
-                      widget.allThongTinItemNhap.isNotEmpty ? () {} : null,
+                  onPressed: widget.allThongTinItemNhap.isNotEmpty
+                      ? () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: ThanhToanScreen(
+                                  allThongTinItemNhap:
+                                      widget.allThongTinItemNhap,
+                                )),
+                          );
+                        }
+                      : null,
                   child: widget.allThongTinItemNhap.isEmpty
                       ? const Text(
                           'Thanh toán',

@@ -91,6 +91,10 @@ const String calendarIcon = "assets/images/icon/add/nhaphang/calendar.png";
 const String quantityIcon = "assets/images/icon/add/nhaphang/quantity.png";
 const String giaIcon = "assets/images/icon/add/nhaphang/gia.png";
 
+//add/thanhtoan
+const String khachHangThanhToanIcon =
+    "assets/images/icon/add/thanhtoan/khachhang.png";
+
 //Statistics khach hang
 const String customerIcon = "assets/images/icon/statistics/customer.png";
 //Statistics kho

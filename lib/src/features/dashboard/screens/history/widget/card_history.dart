@@ -1,6 +1,6 @@
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
+import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../utils/utils.dart';
 
@@ -139,15 +139,7 @@ class CardHistory extends StatelessWidget {
                   ),
                 ),
               ),
-              const DottedLine(
-                direction: Axis.horizontal,
-                lineLength: double.infinity,
-                lineThickness: 1,
-                dashLength: 8.0,
-                dashColor: Color.fromARGB(255, 209, 209, 209),
-                dashGapLength: 6.0,
-                dashGapColor: Colors.transparent,
-              )
+              DotLineWidget.dotLine(context),
             ],
           );
         });
