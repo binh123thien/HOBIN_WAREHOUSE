@@ -100,7 +100,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                             ],
                           ),
                           const SizedBox(height: 7),
-                          DotLineWidget.dotLine(context),
+                          PhanCachWidget.dotLine(context),
                           Padding(
                             padding: const EdgeInsets.only(top: 13, bottom: 7),
                             child: Column(
@@ -197,7 +197,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                                 // ...
                                 ),
                             index != widget.selectedItemsHetHan.length - 1
-                                ? DotLineWidget.dotLine(context)
+                                ? PhanCachWidget.dotLine(context)
                                 : const SizedBox()
                           ],
                         );

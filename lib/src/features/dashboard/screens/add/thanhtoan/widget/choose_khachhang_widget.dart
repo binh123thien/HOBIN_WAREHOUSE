@@ -31,7 +31,7 @@ class _ChooseKhachHangWidgetState extends State<ChooseKhachHangWidget> {
         });
       },
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 18, 10, 18),
+        padding: const EdgeInsets.fromLTRB(15, 18, 15, 18),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

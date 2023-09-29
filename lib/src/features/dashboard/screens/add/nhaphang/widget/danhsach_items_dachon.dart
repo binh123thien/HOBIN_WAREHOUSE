@@ -104,10 +104,7 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
             ],
           ),
         ),
-        Container(
-          height: 10,
-          color: greyColor,
-        ),
+        PhanCachWidget.space(),
         Column(
           children: [
             const Padding(
@@ -152,27 +149,40 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
                                   fontSize: 17, fontWeight: FontWeight.w700),
                             ),
                           ),
-                          title: Text(
-                            "${docdata['tensanpham']} - ${formatCurrency(docdata['gia'])}",
-                          ),
-                          subtitle: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "${docdata["exp"]} - SL: ${docdata["soluong"]}",
-                                  style: const TextStyle(fontSize: 14),
-                                ),
-                                Text(
-                                  "${docdata["location"]}",
-                                  style: const TextStyle(fontSize: 14),
-                                )
-                              ])
+                          title: Text("${docdata['tensanpham']} ",
+                              style: const TextStyle(fontSize: 17)),
+                          subtitle: Column(
+                            children: [
+                              const SizedBox(height: 3),
+                              Row(
+                                children: [
+                                  Text(
+                                      "${docdata["exp"]} - ${docdata["location"]}",
+                                      style: const TextStyle(fontSize: 14))
+                                ],
+                              ),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "${formatCurrency(docdata['gia'])} x ${docdata["soluong"]}",
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    Text(
+                                      formatCurrency(
+                                          docdata['gia'] * docdata["soluong"]),
+                                      style: const TextStyle(fontSize: 14),
+                                    )
+                                  ]),
+                            ],
+                          )
                           // Các thuộc tính khác của CheckboxListTile
                           // ...
                           ),
                     ),
                     index != widget.selectedItems.length - 1
-                        ? DotLineWidget.dotLine(context)
+                        ? PhanCachWidget.dotLine(context)
                         : const SizedBox()
                   ],
                 );

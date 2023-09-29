@@ -1,7 +1,9 @@
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
-class DotLineWidget {
+import '../../constants/color.dart';
+
+class PhanCachWidget {
   static Widget dotLine(BuildContext context) {
     return DottedLine(
       direction: Axis.horizontal,
@@ -11,6 +13,13 @@ class DotLineWidget {
       dashColor: const Color.fromARGB(255, 209, 209, 209),
       dashGapLength: 6.0,
       dashGapColor: Colors.transparent,
+    );
+  }
+
+  static Widget space() {
+    return Container(
+      height: 10,
+      color: greyColor,
     );
   }
 }

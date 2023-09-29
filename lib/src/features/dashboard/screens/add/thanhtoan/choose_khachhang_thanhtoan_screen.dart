@@ -115,7 +115,7 @@ class _ChooseKhachHangThanhToanScreenState
                       ],
                     ),
                     const SizedBox(height: 10),
-                    DotLineWidget.dotLine(context),
+                    PhanCachWidget.dotLine(context),
                   ],
                 ),
               ),

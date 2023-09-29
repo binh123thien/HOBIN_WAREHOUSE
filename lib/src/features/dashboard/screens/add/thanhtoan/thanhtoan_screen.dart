@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
+import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
 import 'widget/choose_khachhang_widget.dart';
 
 class ThanhToanScreen extends StatefulWidget {
@@ -46,10 +48,82 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
             khachhang: khachhang,
             reload: _reload,
           ),
-          Container(
-            height: 10,
-            color: greyColor,
-          )
+          PhanCachWidget.space(),
+          DanhSachSanPhamDaChonWidget(
+            selectedItems: widget.allThongTinItemNhap,
+          ),
+          PhanCachWidget.space(),
+          InkWell(
+            onTap: () {},
+            child: const Padding(
+              padding: EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: Image(image: AssetImage(disCountIcon)),
+                      ),
+                      SizedBox(width: 7),
+                      Text(
+                        "Giảm giá",
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 20,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          PhanCachWidget.dotLine(context),
+          InkWell(
+            onTap: () {},
+            child: const Padding(
+              padding: EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: Image(
+                          image: AssetImage(noIcon),
+                          color: successColor,
+                        ),
+                      ),
+                      SizedBox(width: 7),
+                      Text(
+                        "Nợ",
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 20,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+          PhanCachWidget.space(),
         ],
       ),
     );

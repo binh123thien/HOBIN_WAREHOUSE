@@ -159,12 +159,12 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                                   ? Column(
                                       children: [
                                         const SizedBox(height: 7),
-                                        DotLineWidget.dotLine(context),
+                                        PhanCachWidget.dotLine(context),
                                         const SizedBox(height: 7),
                                         LocationWidget(hanghoa: doc)
                                       ],
                                     )
-                                  : SizedBox()
+                                  : const SizedBox()
                             ],
                           ),
                         ),

@@ -256,7 +256,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                     ],
                                   ),
                                 ),
-                                DotLineWidget.dotLine(context),
+                                PhanCachWidget.dotLine(context),
                               ],
                             );
                           },

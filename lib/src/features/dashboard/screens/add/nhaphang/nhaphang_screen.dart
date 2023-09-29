@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:intl/intl.dart';
+import '../../../../../common_widgets/dotline/dotline.dart';
 import 'widget/bottom_bar_nhaphang.dart';
 import 'widget/chonsoluong_widget.dart';
 import 'widget/danhsach_items_dachon.dart';
@@ -147,10 +148,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       padding: const EdgeInsets.only(top: 10),
                       child: Column(
                         children: [
-                          Container(
-                            height: 10,
-                            color: greyColor,
-                          ),
+                          PhanCachWidget.space(),
                           DanhSachItemsDaChonScreen(
                             selectedItems: allThongTinItemNhap,
                             blockOnPress: false,

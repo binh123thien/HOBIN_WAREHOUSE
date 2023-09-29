@@ -139,7 +139,7 @@ class CardHistory extends StatelessWidget {
                   ),
                 ),
               ),
-              DotLineWidget.dotLine(context),
+              PhanCachWidget.dotLine(context),
             ],
           );
         });

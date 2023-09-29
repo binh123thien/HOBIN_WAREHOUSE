@@ -58,7 +58,7 @@ class CardWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     index != arrayList.length - 1
-                        ? DotLineWidget.dotLine(context)
+                        ? PhanCachWidget.dotLine(context)
                         : const SizedBox(),
                   ],
                 ),
