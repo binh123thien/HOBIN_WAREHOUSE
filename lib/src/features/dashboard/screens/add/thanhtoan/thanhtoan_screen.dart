@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
-
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
-import 'widget/choose_khachhang_thanhtoan_screen.dart';
+import 'widget/choose_khachhang_widget.dart';
 
 class ThanhToanScreen extends StatefulWidget {
   final List<Map<String, dynamic>> allThongTinItemNhap;
@@ -14,6 +12,14 @@ class ThanhToanScreen extends StatefulWidget {
 }
 
 class _ThanhToanScreenState extends State<ThanhToanScreen> {
+  Map<String, dynamic> khachhang = {};
+
+  void _reload(Map<String, dynamic> khachhangPicked) {
+    setState(() {
+      khachhang = khachhangPicked;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,44 +42,9 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
       ),
       body: Column(
         children: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: const ChooseKhachHangThanhToanScreen()),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 18, 10, 18),
-              child: Container(
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(
-                          height: 20,
-                          width: 20,
-                          child:
-                              Image(image: AssetImage(khachHangThanhToanIcon)),
-                        ),
-                        SizedBox(width: 7),
-                        Text(
-                          "Nhà Cung Cấp",
-                          style: TextStyle(fontSize: 17),
-                        ),
-                      ],
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          ChooseKhachHangWidget(
+            khachhang: khachhang,
+            reload: _reload,
           ),
           Container(
             height: 10,
