@@ -4,6 +4,7 @@ import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
 import 'widget/choose_khachhang_widget.dart';
+import 'widget/giamgia_widget.dart';
 
 class ThanhToanScreen extends StatefulWidget {
   final List<Map<String, dynamic>> allThongTinItemNhap;
@@ -19,6 +20,29 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
   void _reload(Map<String, dynamic> khachhangPicked) {
     setState(() {
       khachhang = khachhangPicked;
+    });
+  }
+
+  void _giamGia() {
+    // Khởi tạo FocusNode
+    final focusNode = FocusNode();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        // Gọi requestFocus sau khi showModalBottomSheet được mở
+        Future.delayed(const Duration(milliseconds: 100), () {
+          focusNode.requestFocus();
+        });
+        return GiamGiaWidget(focusNode: focusNode);
+      },
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          // Thực hiện xử lý khi giá trị được trả về từ bottom sheet
+        });
+      }
     });
   }
 
@@ -54,7 +78,9 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
           ),
           PhanCachWidget.space(),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              _giamGia();
+            },
             child: const Padding(
               padding: EdgeInsets.all(15),
               child: Row(
