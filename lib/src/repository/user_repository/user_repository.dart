@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/models/danhmuc_model.dart';
+import 'package:hobin_warehouse/src/features/dashboard/models/location_model.dart';
 
 import '../../features/authentication/models/user_models.dart';
 import '../../features/dashboard/models/donvi_model.dart';
@@ -24,6 +25,17 @@ class UserRepository extends GetxController {
         .catchError((error, stackTrace) {
       Get.snackbar("Lỗi", "Tao TK that bai!", colorText: Colors.red);
     });
+  }
+
+  createLocationDefault(LocationModel location) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    await _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("LocationName")
+        .add(location.toJson());
   }
 
   createDonViDefault(DonViModel donvi) async {

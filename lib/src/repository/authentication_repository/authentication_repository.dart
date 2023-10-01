@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hobin_warehouse/src/features/authentication/screens/auth/verify_email/email_verify_screen.dart';
 import 'package:hobin_warehouse/src/features/authentication/screens/welcome/welcome_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/models/danhmuc_model.dart';
+import 'package:hobin_warehouse/src/features/dashboard/models/location_model.dart';
 import 'package:hobin_warehouse/src/repository/exceptions/signup_email_password_failure.dart';
 import 'package:hobin_warehouse/src/repository/user_repository/user_repository.dart';
 
@@ -132,6 +133,17 @@ class AuthenticationRepository extends GetxController {
       for (var i = 0; i < allDanhMuc.length; i++) {
         final danhmucdefault = DanhMucModel(danhmuc: allDanhMuc[i]);
         userRepo.createDanhMucDefault(danhmucdefault);
+      }
+
+      final List<String> allLocaion = [
+        "A1-01",
+        "A2-01",
+        "A3-01",
+        "A4-01",
+      ];
+      for (var i = 0; i < allLocaion.length; i++) {
+        final locationdefault = LocationModel(id: allLocaion[i]);
+        userRepo.createLocationDefault(locationdefault);
       }
       //tạo user
       await userRepo.createUserFireStore(user);
