@@ -62,9 +62,6 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime datetimenow = DateTime.now();
-    String datecurrenly = formatDate(datetimenow);
-    print(datecurrenly);
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(

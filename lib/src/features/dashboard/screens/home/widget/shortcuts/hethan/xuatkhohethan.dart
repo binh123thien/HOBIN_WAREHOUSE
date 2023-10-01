@@ -22,12 +22,12 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
   @override
   Widget build(BuildContext context) {
     final _formKey1 = GlobalKey<FormState>();
-    int totalPrice = widget.selectedItemsHetHan
-        .map<int>((item) => item['soluong'] * item['gia'])
+    num totalPrice = widget.selectedItemsHetHan
+        .map<num>((item) => item['soluong'] * item['gia'])
         .reduce((value, element) => value + element);
 
-    int totalQuantity = widget.selectedItemsHetHan
-        .map<int>((item) => item['soluong'])
+    num totalQuantity = widget.selectedItemsHetHan
+        .map<num>((item) => item['soluong'])
         .reduce((value, element) => value + element);
     return Scaffold(
         backgroundColor: whiteColor,

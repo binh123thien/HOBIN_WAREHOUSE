@@ -40,6 +40,7 @@ class HetHanController extends GetxController {
               subDocSnapshot.data() as Map<String, dynamic>?;
           if (locationData != null) {
             data.add(locationData);
+            print(data);
           }
         }
       }
