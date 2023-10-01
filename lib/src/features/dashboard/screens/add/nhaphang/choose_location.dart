@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../controllers/add/nhaphang_controller.dart';
@@ -17,6 +18,9 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
   final controllerLocation = Get.put(NhapHangController());
   List<dynamic> allLocationName = [];
 
+  final TextEditingController _controllerLocation = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   bool isSelected =
       false; // Biến để theo dõi trạng thái Container đã được chọn hay chưa
   dynamic selectedDoc; // Biến để lưu trữ giá trị doc được chọn
@@ -32,6 +36,87 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                  ),
+                  builder: (BuildContext context) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.27,
+                        child: Form(
+                          key: _formKey,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 10),
+                                const Text("Nhập vị trí"),
+                                const SizedBox(height: 10),
+                                TextFormField(
+                                  validator: (value) {
+                                    return oneCharacter(value!);
+                                  },
+                                  controller: _controllerLocation,
+                                  maxLength: 10,
+                                  decoration: const InputDecoration(
+                                      errorStyle: TextStyle(fontSize: 15),
+                                      border: UnderlineInputBorder(),
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: blueColor, width: 2)),
+                                      contentPadding: EdgeInsets.zero,
+                                      hintText: 'Nhập vị trí'),
+                                ),
+                                const SizedBox(height: 20),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width - 30,
+                                  height: 45,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      backgroundColor: blueColor,
+                                      side: const BorderSide(color: blueColor),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            10), // giá trị này xác định bán kính bo tròn
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        controllerLocation.createLocationName(
+                                            _controllerLocation.text);
+                                        Navigator.of(context)
+                                            .pop(_controllerLocation.text);
+                                      }
+                                    },
+                                    child: const Text(
+                                      'Xác nhận',
+                                      style: TextStyle(fontSize: 19),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              icon: const Icon(Icons.add))
+        ],
         title: const Text("Chọn vị trí", style: TextStyle(fontSize: 18)),
         backgroundColor: blueColor,
         centerTitle: true,
