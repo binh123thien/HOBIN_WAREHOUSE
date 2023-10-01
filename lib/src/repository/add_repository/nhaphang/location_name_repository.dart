@@ -29,7 +29,43 @@ class LocationNameRepo extends GetxController {
         .collection("LocationName")
         .add({'id': vitri}).whenComplete(() => Get.snackbar(
             "Thành công", "Đã thêm vị trí mới vào danh sách",
-            colorText: Colors.green));
+            colorText: Colors.red));
     // controllerLocation.allLocationNameFirebase.add({'id': vitri});
+  }
+
+  Future<void> deleteLocationByTen(String tenLocationDelete) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final QuerySnapshot snapshot = await _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("LocationName")
+        .where("id", isEqualTo: tenLocationDelete)
+        .get();
+    //Get được Donvi theo ten donvi
+    final List<QueryDocumentSnapshot> docs = snapshot.docs;
+    if (docs.isNotEmpty) {
+      final String locationID = docs.first.id;
+      await deleteLocation(locationID);
+    } else {
+      print("Không tìm thấy hàng hóa với tên tương ứng.");
+    }
+  }
+
+  deleteLocation(String docDelete) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    await _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("LocationName")
+        .doc(docDelete)
+        .delete()
+        .whenComplete(() {
+      Get.snackbar("Xóa thành công", "Vị trí đã được xóa khỏi danh sách",
+          colorText: Colors.red);
+    });
   }
 }

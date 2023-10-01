@@ -19,4 +19,8 @@ class NhapHangController extends GetxController {
   createLocationName(String vitri) {
     controllerLocationNameRepo.createLocationName(vitri);
   }
+
+  deleteLocationName(String vitriName) {
+    controllerLocationNameRepo.deleteLocationByTen(vitriName);
+  }
 }
