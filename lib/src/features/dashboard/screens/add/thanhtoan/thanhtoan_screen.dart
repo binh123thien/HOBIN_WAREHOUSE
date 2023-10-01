@@ -213,8 +213,10 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                             billType: 'NhapHang',
                             datetime: datetime,
                           );
-                          controllerAddRepo.createDonNhapHang(
-                              donnhaphang, widget.allThongTinItemNhap);
+                          // controllerAddRepo.createDonNhapHang(
+                          //     donnhaphang, widget.allThongTinItemNhap);
+                          controllerAddRepo
+                              .createExpired(widget.allThongTinItemNhap);
                         },
                         child: const Text(
                           'Thanh toán',

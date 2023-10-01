@@ -171,6 +171,59 @@ class AddRepository extends GetxController {
       updateTonKho(product['macode'], tonKhoMoi, daBanHientai);
     }
   }
+
+  Future<void> createExpired(List<Map<String, dynamic>> dataList) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collection = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("Expired");
+    for (final data in dataList) {
+      final expValue = data['exp'].replaceAll('/', '-');
+
+      // Kiểm tra xem có tài liệu trên Firestore có trường 'exp' tương tự không
+      final query = await collection.where("exp", isEqualTo: expValue).get();
+
+      if (query.docs.isEmpty) {
+        // Nếu không có tài liệu, thêm mới tài liệu vào Firestore
+        await collection.doc(expValue).set({"exp": expValue});
+      }
+      final checkData = await collection
+          .doc(expValue)
+          .collection("masanpham")
+          .doc(data['macode'])
+          .collection("location")
+          .doc(data['location'])
+          .get();
+
+      final dataToUpdate = {
+        "exp": data['exp'],
+        "gia": data['gia'],
+        "location": data['location'],
+        "tensanpham": data['tensanpham'],
+        "soluong": data['soluong']
+      };
+
+      if (checkData.exists) {
+        // Nếu tài liệu đã tồn tại, tăng giá trị của trường "soluong"
+        final existingData = checkData.data() as Map<String, dynamic>;
+        final existingSoluong = existingData['soluong'] ?? 0;
+        final additionalSoluong = data['soluong'] ?? 0;
+        dataToUpdate['soluong'] = existingSoluong + additionalSoluong;
+      }
+
+// Sử dụng `set` hoặc `update` để cập nhật dữ liệu
+      await collection
+          .doc(expValue)
+          .collection("masanpham")
+          .doc(data['macode'])
+          .collection("location")
+          .doc(data['location'])
+          .set(dataToUpdate);
+    }
+  }
 // ==============================Xu ly phan doanh thu ==================================//
 
   String getTuanFromDate(String ngay, String field) {
