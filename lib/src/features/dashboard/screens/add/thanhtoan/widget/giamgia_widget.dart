@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import '../../../../../../constants/color.dart';
 
 class GiamGiaWidget extends StatefulWidget {
+  final String keyWord;
   final FocusNode focusNode;
-  const GiamGiaWidget({super.key, required this.focusNode});
+  const GiamGiaWidget(
+      {super.key, required this.focusNode, required this.keyWord});
 
   @override
   State<GiamGiaWidget> createState() => _GiamGiaWidgetState();
@@ -27,7 +29,9 @@ class _GiamGiaWidgetState extends State<GiamGiaWidget> {
             child: Column(
               children: [
                 const SizedBox(height: 10),
-                const Text("Giảm giá"),
+                widget.keyWord == "giamgia"
+                    ? const Text("Giảm giá")
+                    : const Text("Nợ"),
                 const SizedBox(height: 20),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,

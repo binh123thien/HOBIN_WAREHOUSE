@@ -41,7 +41,10 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
         Future.delayed(const Duration(milliseconds: 100), () {
           focusNode.requestFocus();
         });
-        return GiamGiaWidget(focusNode: focusNode);
+        return GiamGiaWidget(
+          focusNode: focusNode,
+          keyWord: 'giamgia',
+        );
       },
     ).then((value) {
       if (value != null) {
@@ -64,7 +67,10 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
         Future.delayed(const Duration(milliseconds: 100), () {
           focusNode.requestFocus();
         });
-        return GiamGiaWidget(focusNode: focusNode);
+        return GiamGiaWidget(
+          focusNode: focusNode,
+          keyWord: 'no',
+        );
       },
     ).then((value) {
       if (value != null) {
