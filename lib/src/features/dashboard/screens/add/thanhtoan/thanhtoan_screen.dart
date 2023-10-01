@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/utils/utils.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
@@ -16,7 +17,8 @@ class ThanhToanScreen extends StatefulWidget {
 
 class _ThanhToanScreenState extends State<ThanhToanScreen> {
   Map<String, dynamic> khachhang = {};
-
+  num giamgia = 0;
+  num no = 0;
   void _reload(Map<String, dynamic> khachhangPicked) {
     setState(() {
       khachhang = khachhangPicked;
@@ -40,7 +42,30 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
     ).then((value) {
       if (value != null) {
         setState(() {
-          // Thực hiện xử lý khi giá trị được trả về từ bottom sheet
+          giamgia = num.tryParse(value)!;
+        });
+      }
+    });
+  }
+
+  void _no() {
+    // Khởi tạo FocusNode
+    final focusNode = FocusNode();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        // Gọi requestFocus sau khi showModalBottomSheet được mở
+        Future.delayed(const Duration(milliseconds: 100), () {
+          focusNode.requestFocus();
+        });
+        return GiamGiaWidget(focusNode: focusNode);
+      },
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          no = num.tryParse(value)!;
         });
       }
     });
@@ -81,12 +106,12 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
             onTap: () {
               _giamGia();
             },
-            child: const Padding(
-              padding: EdgeInsets.all(15),
+            child: Padding(
+              padding: const EdgeInsets.all(15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       SizedBox(
                         width: 18,
@@ -102,7 +127,14 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                   ),
                   Row(
                     children: [
-                      Icon(
+                      giamgia != 0
+                          ? Text(
+                              "-${formatCurrency(giamgia)}",
+                              style: const TextStyle(
+                                  fontSize: 16, color: cancelColor),
+                            )
+                          : const SizedBox(),
+                      const Icon(
                         Icons.arrow_forward_ios,
                         size: 20,
                       ),
@@ -112,15 +144,20 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
               ),
             ),
           ),
-          PhanCachWidget.dotLine(context),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: PhanCachWidget.dotLine(context),
+          ),
           InkWell(
-            onTap: () {},
-            child: const Padding(
-              padding: EdgeInsets.all(15),
+            onTap: () {
+              _no();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
+                  const Row(
                     children: [
                       SizedBox(
                         width: 18,
@@ -139,7 +176,14 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                   ),
                   Row(
                     children: [
-                      Icon(
+                      no != 0
+                          ? Text(
+                              formatCurrency(no),
+                              style: const TextStyle(
+                                  fontSize: 16, color: successColor),
+                            )
+                          : const SizedBox(),
+                      const Icon(
                         Icons.arrow_forward_ios,
                         size: 20,
                       ),
