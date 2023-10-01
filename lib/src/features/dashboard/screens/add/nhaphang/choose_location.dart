@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
+import 'package:hobin_warehouse/src/utils/validate/validate.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../controllers/add/nhaphang_controller.dart';
@@ -13,7 +13,8 @@ class ChooseLocationScreen extends StatefulWidget {
   State<ChooseLocationScreen> createState() => _ChooseLocationScreenState();
 }
 
-class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
+class _ChooseLocationScreenState extends State<ChooseLocationScreen>
+    with InputValidationMixin {
   String searchLocation = "";
   final controllerLocation = Get.put(NhapHangController());
   List<dynamic> allLocationName = [];
@@ -65,7 +66,8 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
                                 const SizedBox(height: 10),
                                 TextFormField(
                                   validator: (value) {
-                                    return oneCharacter(value!);
+                                    return locationNameCheckForm(
+                                        value!, allLocationName);
                                   },
                                   controller: _controllerLocation,
                                   maxLength: 10,
@@ -96,6 +98,10 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen> {
                                       if (_formKey.currentState!.validate()) {
                                         controllerLocation.createLocationName(
                                             _controllerLocation.text);
+                                        //thêm vào list local
+                                        allLocationName.add(
+                                            {'id': _controllerLocation.text});
+                                        setState(() {});
                                         Navigator.of(context)
                                             .pop(_controllerLocation.text);
                                       }

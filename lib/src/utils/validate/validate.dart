@@ -16,6 +16,29 @@ class InputValidationMixin {
     return emailRegExp.hasMatch(email);
   }
 
+  locationNameCheckForm(String nameLocation, List<dynamic> locationList) {
+    // Loại bỏ khoảng trắng khỏi nameLocation
+    var cleanedNameLocation = nameLocation.replaceAll(" ", "");
+    if (cleanedNameLocation.isEmpty) {
+      return "Không được để trống";
+    } else {
+      // Duyệt qua từng Map trong danh sách
+      for (var map in locationList) {
+        // Kiểm tra xem Map có key "id" không
+        if (map.containsKey("id")) {
+          var mapValue = map["id"].toString();
+          // Loại bỏ khoảng trắng khỏi giá trị trong Map
+          var cleanedMapValue = mapValue.replaceAll(" ", "");
+          // So sánh cleanedNameLocation và cleanedMapValue
+          if (cleanedMapValue == cleanedNameLocation) {
+            return "Vị trí đã tồn tại";
+          }
+        }
+      }
+      return;
+    }
+  }
+
   emailCheckForm(String email) {
     if (email.isEmpty) {
       return "Không được để trống Email";
