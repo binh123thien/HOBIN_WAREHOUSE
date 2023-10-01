@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
+import '../../../../../repository/add_repository/add_repository.dart';
+import '../../../models/themdonhang_model.dart';
 import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
 import 'widget/choose_khachhang_widget.dart';
 import 'widget/giamgia_widget.dart';
@@ -19,6 +22,7 @@ class ThanhToanScreen extends StatefulWidget {
 }
 
 class _ThanhToanScreenState extends State<ThanhToanScreen> {
+  final controllerAddRepo = Get.put(AddRepository());
   Map<String, dynamic> khachhang = {};
   num giamgia = 0;
   num no = 0;
@@ -188,7 +192,30 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                 10), // giá trị này xác định bán kính bo tròn
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          final nHcode = generateNHCode();
+                          final ngaytao = formatNgayTao();
+                          final datetime = formatDatetime();
+
+                          final donnhaphang = ThemDonHangModel(
+                            soHD: nHcode,
+                            ngaytao: ngaytao,
+                            khachhang: khachhang.isEmpty
+                                ? "Nhà cung cấp"
+                                : khachhang["tenkhachhang"],
+                            payment: selectedPaymentMethod,
+                            tongsl: totalQuantity,
+                            tongtien: totalPrice,
+                            giamgia: giamgia,
+                            no: no,
+                            trangthai: no == 0 ? "Thành công" : "Đang chờ",
+                            tongthanhtoan: tong,
+                            billType: 'NhapHang',
+                            datetime: datetime,
+                          );
+                          controllerAddRepo.createDonNhapHang(
+                              donnhaphang, widget.allThongTinItemNhap);
+                        },
                         child: const Text(
                           'Thanh toán',
                           style: TextStyle(fontSize: 19),

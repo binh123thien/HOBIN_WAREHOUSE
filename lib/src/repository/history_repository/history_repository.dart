@@ -48,18 +48,18 @@ class HistoryRepository extends GetxController {
           .collection(collectionName)
           .orderBy('soHD', descending: true) // add this line to sort by 'soHD'
           .get();
-      print(snapshot);
       // Group documents by month
       final Map<String, List<DocumentSnapshot>> docsByMonth = {};
       for (final doc in snapshot.docs) {
         final month = doc['ngaytao'].split('/')[1];
+        print(month);
         if (!docsByMonth.containsKey(month)) {
           docsByMonth[month] = [doc];
         } else {
           docsByMonth[month]!.add(doc);
+          print(docsByMonth);
         }
       }
-
       // Sort document groups by month
       DateTime parseDateTime(String dateTimeStr) {
         final dateFormat = DateFormat('yyMMdd-hhMMss');
@@ -69,9 +69,9 @@ class HistoryRepository extends GetxController {
       final docsByMonthly = docsByMonth.values.toList();
       docsByMonthly.sort((a, b) => parseDateTime(b.first['soHD'])
           .compareTo(parseDateTime(a.first['soHD'])));
-
       return docsByMonthly;
     } catch (e) {
+      print(e);
       return [];
     }
   }

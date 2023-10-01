@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/features/dashboard/controllers/add/khachhang_controller.dart';
 
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
+import '../../../controllers/statistics/khachhang_controller.dart';
 import '../../Widget/appbar/search_widget.dart';
 
 class ChooseKhachHangThanhToanScreen extends StatefulWidget {

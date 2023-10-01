@@ -253,7 +253,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
                       billType: 'NhapHang',
                       datetime: datetime,
                     );
-                    controllerAddRepo.createDonNhapHang(donnhaphang);
+                    // controllerAddRepo.createDonNhapHang(donnhaphang);
                     for (int i = 0; i < widget.dulieuPicked.length; i++) {
                       controllerAddRepo.checkLocation(widget.dulieuPicked[i]);
                     }

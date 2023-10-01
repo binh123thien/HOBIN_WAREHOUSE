@@ -132,7 +132,8 @@ class AddRepository extends GetxController {
 //============================ end thêm đơn bán hàng ============================
 
 //=============================== Nhập hàng =======================================
-  createDonNhapHang(ThemDonHangModel donnhaphang) async {
+  createDonNhapHang(ThemDonHangModel donnhaphang,
+      List<Map<String, dynamic>> allThongTinItemNhap) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final nhapHangCollectionRef = _db
         .collection("Users")
@@ -153,11 +154,11 @@ class AddRepository extends GetxController {
         newDonNhapHangDocSnapshot.reference.collection("HoaDon");
 
     // Thêm các sản phẩm trong allHangHoa vào collection HoaDon
-    for (var product in controllerGoodRepo.listNhapXuathang) {
+    for (var product in allThongTinItemNhap) {
       await hoaDonCollectionRef.add({
-        "tensanpham": product["tensp"],
+        "tensanpham": product["tensanpham"],
         "soluong": product["soluong"],
-        "gianhap": product["gianhap"],
+        "gianhap": product["gia"],
       });
       // Lấy sản phẩm hiện tại của mặt hàng.
       DocumentSnapshot productHienTai = await getTonKho(product['macode']);

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/add/chonhanghoa_controller.dart';
-import 'package:hobin_warehouse/src/features/dashboard/controllers/add/khachhang_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/choose_add.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/goods.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/history_screen.dart';
@@ -13,6 +12,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/home/home_screen.
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/statistics_screen.dart';
 import '../controllers/add/nhaphang_controller.dart';
 import '../controllers/statistics/doanhthu_controller.dart';
+import '../controllers/statistics/khachhang_controller.dart';
 import 'add/them_donhang.dart';
 
 class DashboardScreen extends StatefulWidget {
