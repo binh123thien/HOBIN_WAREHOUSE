@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/utils/validate/validate.dart';
 
 import '../../../../../constants/color.dart';
@@ -190,6 +191,18 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
               return Padding(
                 padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
                 child: InkWell(
+                  onLongPress: () {
+                    MyDialog.showAlertDialog(
+                        context, 'Xác nhận', 'Bạn muốn xóa vị trí này?', 1, () {
+                      controllerLocation.deleteLocationName(doc['id']);
+                      setState(() {
+                        allLocationName.removeWhere(
+                            (element) => element['id'] == doc['id']);
+                      });
+
+                      Navigator.of(context).pop();
+                    });
+                  },
                   onTap: () {
                     setState(() {
                       isSelected = true;
