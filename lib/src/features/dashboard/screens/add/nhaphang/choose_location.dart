@@ -32,6 +32,24 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
     allLocationName = controllerLocation.allLocationNameFirebase;
   }
 
+  void runFilter(String enterKeyboard) {
+    final allLocation = controllerLocation.allLocationNameFirebase;
+    List<dynamic> result = [];
+    if (enterKeyboard.isEmpty) {
+      result = allLocation;
+    } else {
+      result = allLocation
+          .where((locationName) => locationName['id']
+              .toString()
+              .toLowerCase()
+              .contains(enterKeyboard.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      allLocationName = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,7 +157,7 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                     SearchWidget(
                       onChanged: (value) {
                         setState(() {
-                          searchLocation = value;
+                          runFilter(value);
                         });
                       },
                       width: 320,
