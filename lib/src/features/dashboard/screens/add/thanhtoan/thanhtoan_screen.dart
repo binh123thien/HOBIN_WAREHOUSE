@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hobin_warehouse/src/utils/utils.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
 import 'widget/choose_khachhang_widget.dart';
 import 'widget/giamgia_widget.dart';
+import 'widget/giamgiavano_widget.dart';
 
 class ThanhToanScreen extends StatefulWidget {
   final List<Map<String, dynamic>> allThongTinItemNhap;
@@ -102,97 +102,11 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
             selectedItems: widget.allThongTinItemNhap,
           ),
           PhanCachWidget.space(),
-          InkWell(
-            onTap: () {
-              _giamGia();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    children: [
-                      SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: Image(image: AssetImage(disCountIcon)),
-                      ),
-                      SizedBox(width: 7),
-                      Text(
-                        "Giảm giá",
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      giamgia != 0
-                          ? Text(
-                              "-${formatCurrency(giamgia)}",
-                              style: const TextStyle(
-                                  fontSize: 16, color: cancelColor),
-                            )
-                          : const SizedBox(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: PhanCachWidget.dotLine(context),
-          ),
-          InkWell(
-            onTap: () {
-              _no();
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    children: [
-                      SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: Image(
-                          image: AssetImage(noIcon),
-                          color: successColor,
-                        ),
-                      ),
-                      SizedBox(width: 7),
-                      Text(
-                        "Nợ",
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      no != 0
-                          ? Text(
-                              formatCurrency(no),
-                              style: const TextStyle(
-                                  fontSize: 16, color: successColor),
-                            )
-                          : const SizedBox(),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 20,
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
+          GiamGiaVaNoWidget(
+              giamgia: giamgia,
+              no: no,
+              giamgiaFunction: _giamGia,
+              noFunction: _no),
           PhanCachWidget.space(),
         ],
       ),
