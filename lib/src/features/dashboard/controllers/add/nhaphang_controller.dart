@@ -15,4 +15,8 @@ class NhapHangController extends GetxController {
       allLocationNameFirebase = snapshot.docs.map((doc) => doc.data()).toList();
     });
   }
+
+  createLocationName(String vitri) {
+    controllerLocationNameRepo.createLocationName(vitri);
+  }
 }
