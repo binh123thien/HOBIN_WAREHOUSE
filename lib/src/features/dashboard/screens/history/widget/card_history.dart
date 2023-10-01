@@ -3,6 +3,7 @@ import 'package:hobin_warehouse/src/constants/icon.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../utils/utils.dart';
+import 'chitiet_lichsu_donhang.dart';
 
 class CardHistory extends StatelessWidget {
   const CardHistory({
@@ -55,11 +56,11 @@ class CardHistory extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => ChiTietLichSuDonHang(doc: doc)),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ChiTietLichSuDonHang(doc: doc)),
+                  );
                 },
                 child: ListTile(
                   leading: Padding(

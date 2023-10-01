@@ -95,6 +95,9 @@ const String giaIcon = "assets/images/icon/add/nhaphang/gia.png";
 const String khachHangThanhToanIcon =
     "assets/images/icon/add/thanhtoan/khachhang.png";
 const String noIcon = "assets/images/icon/add/thanhtoan/no.png";
+const String tienMatIcon = "assets/images/icon/add/thanhtoan/tienmat.png";
+const String chuyenKhoangIcon = "assets/images/icon/add/thanhtoan/nganhang.png";
+const String viDienTuIcon = "assets/images/icon/add/thanhtoan/vidientu.png";
 
 //Statistics khach hang
 const String customerIcon = "assets/images/icon/statistics/customer.png";

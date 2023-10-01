@@ -6,6 +6,7 @@ import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
 import 'widget/choose_khachhang_widget.dart';
 import 'widget/giamgia_widget.dart';
 import 'widget/giamgiavano_widget.dart';
+import 'widget/phuongthucthanhtoan_widget.dart';
 
 class ThanhToanScreen extends StatefulWidget {
   final List<Map<String, dynamic>> allThongTinItemNhap;
@@ -19,6 +20,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
   Map<String, dynamic> khachhang = {};
   num giamgia = 0;
   num no = 0;
+  String selectedPaymentMethod = "Tiền mặt";
   void _reload(Map<String, dynamic> khachhangPicked) {
     setState(() {
       khachhang = khachhangPicked;
@@ -71,6 +73,13 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
     });
   }
 
+  void _updatePaymentMethod(String newValue) {
+    setState(() {
+      selectedPaymentMethod = newValue;
+      print(selectedPaymentMethod);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,24 +100,31 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
             }),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          ChooseKhachHangWidget(
-            khachhang: khachhang,
-            reload: _reload,
-          ),
-          PhanCachWidget.space(),
-          DanhSachSanPhamDaChonWidget(
-            selectedItems: widget.allThongTinItemNhap,
-          ),
-          PhanCachWidget.space(),
-          GiamGiaVaNoWidget(
-              giamgia: giamgia,
-              no: no,
-              giamgiaFunction: _giamGia,
-              noFunction: _no),
-          PhanCachWidget.space(),
-        ],
+      body: SingleChildScrollView(
+        physics: const PageScrollPhysics(),
+        child: Column(
+          children: [
+            ChooseKhachHangWidget(
+              khachhang: khachhang,
+              reload: _reload,
+            ),
+            PhanCachWidget.space(),
+            DanhSachSanPhamDaChonWidget(
+              selectedItems: widget.allThongTinItemNhap,
+            ),
+            PhanCachWidget.space(),
+            GiamGiaVaNoWidget(
+                giamgia: giamgia,
+                no: no,
+                giamgiaFunction: _giamGia,
+                noFunction: _no),
+            PhanCachWidget.space(),
+            PhuongThucThanhToanWidget(
+              selectedPaymentMethod: selectedPaymentMethod,
+              reload: _updatePaymentMethod,
+            ),
+          ],
+        ),
       ),
     );
   }

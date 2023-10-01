@@ -71,7 +71,7 @@ class TableChiTietDonHang extends StatelessWidget {
             filteredList.length,
             (index) {
               final item = filteredList[index];
-              final tenSanPham = item["tensp"];
+              final tenSanPham = item["tensanpham"];
               final soLuong = item["soluong"];
               final donGia =
                   phanbietNhapXuat == 0 ? item["giaban"] : item["gianhap"];
