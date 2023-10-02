@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../../../repository/add_repository/add_repository.dart';
@@ -238,6 +239,13 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                     ),
                                     // (route) =>
                                     //     false, // Xóa hết tất cả các trang khỏi ngăn xếp
+                                  ).then(
+                                    (value) {
+                                      SnackBarWidget.showSnackBar(
+                                          context,
+                                          "Tạo hóa đơn thành công!",
+                                          successColor);
+                                    },
                                   );
                                 }
                               });

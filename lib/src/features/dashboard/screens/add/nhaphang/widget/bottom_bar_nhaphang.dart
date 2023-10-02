@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../../../../constants/color.dart';
@@ -23,18 +24,6 @@ class BottomBarNhapHang extends StatefulWidget {
 }
 
 class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
-  void _showSuccessSnackbar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        showCloseIcon: true,
-        closeIconColor: whiteColor,
-        backgroundColor: successColor,
-        content: Text('Thêm thành công!'),
-        duration: Duration(seconds: 2), // Thời gian hiển thị
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -67,7 +56,8 @@ class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
                                 .add(widget.thongTinItemNhap);
                             widget.setDefaulseThongTinNhapHang();
                             widget.checkFields();
-                            _showSuccessSnackbar(context);
+                            SnackBarWidget.showSnackBar(
+                                context, "Thêm thành công", successColor);
                           });
                         }
                       : null,
