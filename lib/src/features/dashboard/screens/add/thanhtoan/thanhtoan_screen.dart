@@ -239,14 +239,9 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                     ),
                                     // (route) =>
                                     //     false, // Xóa hết tất cả các trang khỏi ngăn xếp
-                                  ).then(
-                                    (value) {
-                                      SnackBarWidget.showSnackBar(
-                                          context,
-                                          "Tạo hóa đơn thành công!",
-                                          successColor);
-                                    },
                                   );
+                                  SnackBarWidget.showSnackBar(context,
+                                      "Tạo hóa đơn thành công!", successColor);
                                 }
                               });
                             },

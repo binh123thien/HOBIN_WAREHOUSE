@@ -184,17 +184,24 @@ class AddRepository extends GetxController {
       final expValue = data["exp"].replaceAll('/', '-');
 
       // Kiểm tra xem có tài liệu trên Firestore có trường 'exp' tương tự không
-      final query = await collection.where("exp", isEqualTo: expValue).get();
+      final queryExp = await collection.where("exp", isEqualTo: expValue).get();
 
-      if (query.docs.isEmpty) {
-        // Nếu không có tài liệu, thêm mới tài liệu vào Firestore
+      if (queryExp.docs.isEmpty) {
         await collection.doc(expValue).set({"exp": expValue});
+      }
+      final queryMacode = await collection
+          .doc(expValue)
+          .collection("masanpham")
+          .where("macode", isEqualTo: data["macode"])
+          .get();
+      if (queryMacode.docs.isEmpty) {
         await collection
             .doc(expValue)
             .collection("masanpham")
             .doc(data["macode"])
             .set({"macode": data["macode"]});
       }
+
       final checkData = await collection
           .doc(expValue)
           .collection("masanpham")
