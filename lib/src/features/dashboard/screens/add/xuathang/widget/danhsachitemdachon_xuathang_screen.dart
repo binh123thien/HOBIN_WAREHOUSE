@@ -132,7 +132,6 @@ class _DanhSachItemDaChonXuatHangScreenState
               itemCount: widget.selectedItems.length,
               itemBuilder: (context, index) {
                 final docdata = widget.selectedItems[index];
-                print(docdata);
                 return Column(
                   children: [
                     InkWell(
