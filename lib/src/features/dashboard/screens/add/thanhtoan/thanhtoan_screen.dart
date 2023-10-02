@@ -7,6 +7,7 @@ import '../../../../../constants/icon.dart';
 import '../../../../../repository/add_repository/add_repository.dart';
 import '../../../models/themdonhang_model.dart';
 import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
+import 'chitiethoadon_screen.dart';
 import 'widget/choose_khachhang_widget.dart';
 import 'widget/giamgia_widget.dart';
 import 'widget/giamgiavano_widget.dart';
@@ -26,6 +27,9 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
   Map<String, dynamic> khachhang = {};
   num giamgia = 0;
   num no = 0;
+  bool _isLoading = false; // Sử dụng biến này để kiểm soát hiển thị loading
+  bool _isDataSubmitted =
+      false; // Sử dụng biến này để kiểm soát khi nào dữ liệu đã được gửi thành công
   String selectedPaymentMethod = "Tiền mặt";
   void _reload(Map<String, dynamic> khachhangPicked) {
     setState(() {
@@ -188,11 +192,14 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                           backgroundColor: blueColor,
                           side: const BorderSide(color: blueColor),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                10), // giá trị này xác định bán kính bo tròn
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          setState(() {
+                            _isLoading = true; // Kích hoạt hiệu ứng loading
+                          });
+
                           final nHcode = generateNHCode();
                           final ngaytao = formatNgayTao();
                           final datetime = formatDatetime();
@@ -213,15 +220,42 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                             billType: 'NhapHang',
                             datetime: datetime,
                           );
-                          // controllerAddRepo.createDonNhapHang(
-                          //     donnhaphang, widget.allThongTinItemNhap);
-                          controllerAddRepo
-                              .createExpired(widget.allThongTinItemNhap);
+
+                          _performDataProcessing(context, donnhaphang).then(
+                            (value) {
+                              setState(() {
+                                _isLoading = false;
+                                _isDataSubmitted = true;
+                                if (_isDataSubmitted) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChiTietHoaDonScreen(
+                                        donnhaphang: donnhaphang,
+                                        allThongTinItemNhap:
+                                            widget.allThongTinItemNhap,
+                                      ), // Thay 'TrangKhac' bằng tên trang bạn muốn chuyển đến
+                                    ),
+                                    // (route) =>
+                                    //     false, // Xóa hết tất cả các trang khỏi ngăn xếp
+                                  );
+                                }
+                              });
+                            },
+                          );
                         },
-                        child: const Text(
-                          'Thanh toán',
-                          style: TextStyle(fontSize: 19),
-                        ),
+                        child: _isLoading
+                            ? const SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: CircularProgressIndicator(
+                                  color: whiteColor,
+                                ),
+                              ) // Hiển thị tiến trình loading
+                            : const Text(
+                                'Thanh toán',
+                                style: TextStyle(fontSize: 19),
+                              ),
                       ),
                     ),
                   ],
@@ -230,5 +264,17 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
             ],
           ),
         ));
+  }
+
+  Future<void> _performDataProcessing(
+      BuildContext context, ThemDonHangModel donnhaphang) async {
+    try {
+      // Perform data processing
+      // await controllerAddRepo.createDonNhapHang(
+      //     donnhaphang, widget.allThongTinItemNhap);
+      await controllerAddRepo.createExpired(widget.allThongTinItemNhap);
+    } catch (e) {
+      // print("Error: $e");
+    }
   }
 }

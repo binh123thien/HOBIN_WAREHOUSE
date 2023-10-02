@@ -73,11 +73,7 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
               bHcode: widget.doc["soHD"],
               date: widget.doc["ngaytao"],
               tongtien: widget.doc["tongthanhtoan"],
-              paymentSelected: widget.doc["payment"] == "Tiền mặt"
-                  ? 0
-                  : widget.doc["payment"] == "Chuyển khoản"
-                      ? 1
-                      : 2,
+              paymentSelected: widget.doc["payment"],
               khachhang: widget.doc["khachhang"],
               billType: widget.doc["billType"],
             ),

@@ -138,7 +138,7 @@ class _ChiTietHoaDonNewState extends State<ChiTietHoaDonNew> {
               bHcode: widget.maHD,
               date: widget.date,
               tongtien: tongtien,
-              paymentSelected: widget.paymentSelected,
+              paymentSelected: widget.paymentSelected.toString(),
               khachhang: widget.khachhang,
             ),
             const Divider(),
