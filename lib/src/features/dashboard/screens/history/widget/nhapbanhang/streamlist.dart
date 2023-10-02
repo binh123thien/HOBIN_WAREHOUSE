@@ -20,24 +20,26 @@ class StreamList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> filteredItems = _docsByMonth.expand((month) {
-      return month.where((item) {
-        final soHDMatch = item["soHD"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        final tenKhachHangMatch = item["khachhang"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        final ngaytaoMatch = item["ngaytao"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
-      });
-    }).toList();
+    // //list được chia theo tháng
+    // List<dynamic> filteredItems = _docsByMonth.expand((month) {
+    //   return month.where((item) {
+    //     final soHDMatch = item["soHD"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     final tenKhachHangMatch = item["khachhang"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     final ngaytaoMatch = item["ngaytao"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
+    //   });
+    // }).toList();
     final size = MediaQuery.of(context).size;
+    // print('length docByMonth ${_docsByMonth.length}');
     return Container(
       color: whiteColor,
       height: size.height - kToolbarHeight - 140,
@@ -102,7 +104,7 @@ class StreamList extends StatelessWidget {
                           ),
                         ),
                         CardHistory(
-                          docs: filteredItems,
+                          docs: docs,
                         )
                       ],
                     ),

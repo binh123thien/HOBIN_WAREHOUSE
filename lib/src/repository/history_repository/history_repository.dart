@@ -59,42 +59,7 @@ class HistoryRepository extends GetxController {
           // print('map theo tháng 08: list $docsByMonth');
         }
       }
-      // Sort document groups by month
-      DateTime parseDateTime(String dateTimeStr) {
-        final dateFormat = DateFormat('yyMMdd-hhMMss');
-        return dateFormat.parse(dateTimeStr);
-      }
-
       final docsByMonthly = docsByMonth.values.toList();
-
-      if (docsByMonthly.length == 1) {
-        // Nếu chỉ có một tháng, sắp xếp dựa trên thời gian của tài liệu đầu tiên
-        docsByMonthly.sort((a, b) => parseDateTime(b.first['soHD'])
-            .compareTo(parseDateTime(a.first['soHD'])));
-      } else {
-        // print('vao else $docsByMonthly');
-        // // Sắp xếp danh sách `docsByMonthly` theo tháng
-        // docsByMonthly.sort((a, b) {
-        //   final aMonth = a.first['ngaytao'].split('/')[1];
-        //   final bMonth = b.first['ngaytao'].split('/')[1];
-        //   return aMonth.compareTo(bMonth);
-        // });
-
-        // Sắp xếp danh sách tài liệu trong từng tháng
-        // for (final monthlyDocs in docsByMonthly) {
-        //   for (var i in monthlyDocs) {
-        //     print('Data : ${i.data()}');
-        //   }
-        //   // monthlyDocs.sort((a, b) {
-        //   //   final aSoHD = a['soHD'];
-        //   //   final bSoHD = b['soHD'];
-        //   //   final aDateTime = parseDateTime(aSoHD);
-        //   //   final bDateTime = parseDateTime(bSoHD);
-        //   //   return aDateTime.compareTo(bDateTime);
-        //   // });
-        // }
-      }
-
       return docsByMonthly;
     } catch (e) {
       print(' catch history repo $e');
