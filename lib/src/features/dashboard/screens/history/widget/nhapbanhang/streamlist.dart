@@ -20,27 +20,29 @@ class StreamList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> filteredItems = _docsByMonth.expand((month) {
-      return month.where((item) {
-        final soHDMatch = item["soHD"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        final tenKhachHangMatch = item["khachhang"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        final ngaytaoMatch = item["ngaytao"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
-      });
-    }).toList();
+    // //list được chia theo tháng
+    // List<dynamic> filteredItems = _docsByMonth.expand((month) {
+    //   return month.where((item) {
+    //     final soHDMatch = item["soHD"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     final tenKhachHangMatch = item["khachhang"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     final ngaytaoMatch = item["ngaytao"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
+    //   });
+    // }).toList();
     final size = MediaQuery.of(context).size;
+    // print('length docByMonth ${_docsByMonth.length}');
     return Container(
       color: whiteColor,
-      height: size.height - kToolbarHeight - 140,
+      height: size.height - kToolbarHeight - 180,
       child: StreamBuilder<QuerySnapshot>(
           stream: controller.getAllDonBanHangHoacNhapHang(snapshotCollection),
           builder:
@@ -69,40 +71,36 @@ class StreamList extends StatelessWidget {
                     color: whiteColor,
                     child: Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Container(
-                            color: whiteColor,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Tháng $month" "/" "$year",
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w700),
-                                      ),
-                                    ],
-                                  ),
+                        Container(
+                          color: whiteColor,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Tháng $month" "/" "$year",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
                                 ),
-                                ChitietThang(
-                                  doanhThuMonthlyTotal: doanhThuMonthlyTotal,
-                                  soluongMonthlyTotal: soluongMonthlyTotal,
-                                  soLuongDonHangMonthlyTotal:
-                                      soLuongDonHangMonthlyTotal,
-                                  phanbietNhapHangBanHang: snapshotCollection,
-                                ),
-                              ],
-                            ),
+                              ),
+                              ChitietThang(
+                                doanhThuMonthlyTotal: doanhThuMonthlyTotal,
+                                soluongMonthlyTotal: soluongMonthlyTotal,
+                                soLuongDonHangMonthlyTotal:
+                                    soLuongDonHangMonthlyTotal,
+                                phanbietNhapHangBanHang: snapshotCollection,
+                              ),
+                            ],
                           ),
                         ),
                         CardHistory(
-                          docs: filteredItems,
+                          docs: docs,
                         )
                       ],
                     ),

@@ -16,7 +16,7 @@ class ChitietThangPhanLoai extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
