@@ -11,8 +11,8 @@ import '../../Widget/appbar/search_widget.dart';
 import 'widget/location_widget.dart';
 
 class ChooseGoodsScreen extends StatefulWidget {
-  const ChooseGoodsScreen({super.key});
-
+  final int phanBietNhapXuat;
+  const ChooseGoodsScreen({super.key, required this.phanBietNhapXuat});
   @override
   State<ChooseGoodsScreen> createState() => _ChooseGoodsScreenState();
 }
@@ -43,7 +43,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
         appBar: AppBar(
           elevation: 0,
           title: const Text("Chọn hàng hóa", style: TextStyle(fontSize: 18)),
-          backgroundColor: blueColor,
+          backgroundColor: widget.phanBietNhapXuat == 1 ? blueColor : mainColor,
           centerTitle: true,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -84,7 +84,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
           child: Column(
             children: [
               ListView.builder(
-                physics: PageScrollPhysics(),
+                physics: const PageScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: filteredItems.length,
                 itemBuilder: (context, index) {
@@ -105,8 +105,9 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             border: Border.all(
                               width: isSelected && selectedDoc == doc ? 2 : 1,
                               color: isSelected && selectedDoc == doc
-                                  ? Colors
-                                      .blue // Màu border khi Container được chọn
+                                  ? widget.phanBietNhapXuat == 1
+                                      ? Colors.blue
+                                      : mainColor // Màu border khi Container được chọn
                                   : Colors
                                       .black26, // Màu border khi Container không được chọn
                             )),
@@ -188,8 +189,12 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
-                      backgroundColor: blueColor,
-                      side: const BorderSide(color: blueColor),
+                      backgroundColor:
+                          widget.phanBietNhapXuat == 1 ? blueColor : mainColor,
+                      side: BorderSide(
+                          color: widget.phanBietNhapXuat == 1
+                              ? blueColor
+                              : mainColor),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             10), // giá trị này xác định bán kính bo tròn

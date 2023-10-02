@@ -4,8 +4,10 @@ import '../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../constants/color.dart';
 
 class ChonSoLuongWidget extends StatefulWidget {
+  final int phanBietNhapXuat;
   const ChonSoLuongWidget({
     super.key,
+    required this.phanBietNhapXuat,
   });
 
   @override
@@ -39,11 +41,15 @@ class _ChonSoLuongWidgetState extends State<ChonSoLuongWidget> {
                   controller: _controllerSoluong,
                   keyboardType: TextInputType.number,
                   maxLength: 10,
-                  decoration: const InputDecoration(
-                      errorStyle: TextStyle(fontSize: 15),
-                      border: UnderlineInputBorder(),
+                  decoration: InputDecoration(
+                      errorStyle: const TextStyle(fontSize: 15),
+                      border: const UnderlineInputBorder(),
                       focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: blueColor, width: 2)),
+                          borderSide: BorderSide(
+                              color: widget.phanBietNhapXuat == 1
+                                  ? blueColor
+                                  : mainColor,
+                              width: 2)),
                       contentPadding: EdgeInsets.zero,
                       hintText: 'Nhập số lượng'),
                 ),
@@ -54,8 +60,12 @@ class _ChonSoLuongWidgetState extends State<ChonSoLuongWidget> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
-                      backgroundColor: blueColor,
-                      side: const BorderSide(color: blueColor),
+                      backgroundColor:
+                          widget.phanBietNhapXuat == 1 ? blueColor : mainColor,
+                      side: BorderSide(
+                          color: widget.phanBietNhapXuat == 1
+                              ? blueColor
+                              : mainColor),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             10), // giá trị này xác định bán kính bo tròn

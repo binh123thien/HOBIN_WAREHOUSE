@@ -16,6 +16,7 @@ class NhapHangScreen extends StatefulWidget {
 }
 
 class _NhapHangScreenState extends State<NhapHangScreen> {
+  final int phanBietNhap = 1;
   List<Map<String, dynamic>> allThongTinItemNhap = [];
   Map<String, dynamic> thongTinItemNhap = {
     "macode": "",
@@ -92,7 +93,9 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
         ),
       ),
       builder: (BuildContext context) {
-        return const ChonSoLuongWidget();
+        return ChonSoLuongWidget(
+          phanBietNhapXuat: phanBietNhap,
+        );
       },
     ).then((value) {
       if (value != null) {

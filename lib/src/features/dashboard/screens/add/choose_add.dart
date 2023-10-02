@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/constants/text_strings.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/xuathang_screen.dart';
 
 import '../goods/widget/them_hang_hoa.dart';
 import '../statistics/khachhang/widget/them_khachhang.dart';
-import 'choose_goods.dart';
 import 'nhaphang/nhaphang_screen.dart';
 import 'widget/card_add_widget.dart';
 
@@ -43,10 +43,7 @@ class ChooseAddScreen {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => const ChooseGoodsScreen(
-                          phanbietNhapXuat: 0,
-                        )),
+                MaterialPageRoute(builder: (context) => const XuatHangScreen()),
               ).then((_) {
                 Navigator.pop(context); // Tắt showModalBottomSheet
               });
