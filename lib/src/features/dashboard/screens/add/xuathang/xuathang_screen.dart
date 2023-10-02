@@ -16,14 +16,24 @@ class XuatHangScreen extends StatefulWidget {
 class _XuatHangScreenState extends State<XuatHangScreen> {
   final int phanBietXuat = 0;
   List<Map<String, dynamic>> allThongTinItemXuat = [];
-  Map<String, dynamic> thongTinItemXuat = {
-    "macode": "",
-    "tensanpham": "",
-    "location": "",
-    "exp": "",
-    "soluong": 0,
-    "gia": 0,
-  };
+  List<Map<String, dynamic>> listLocation = [];
+  Map<String, dynamic> thongTinItemXuat = {};
+
+  @override
+  void initState() {
+    super.initState();
+
+    thongTinItemXuat = {
+      "tonkho": "",
+      "macode": "",
+      "tensanpham": "",
+      "location": listLocation,
+      "exp": "",
+      "soluong": 0,
+      "gia": 0,
+    };
+  }
+
   bool isButtonEnabled = false;
   // Hàm kiểm tra xem tất cả các trường đã có dữ liệu hay chưa
   void _checkFields() {
@@ -96,6 +106,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
             XuatThongTinItemXuatHangScreen(
               chonSoluong: _chonSoluong,
               thongTinItemXuat: thongTinItemXuat,
+              checkFields: _checkFields,
             ),
             allThongTinItemXuat.isNotEmpty
                 ? Padding(

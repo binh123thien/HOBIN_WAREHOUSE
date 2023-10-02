@@ -13,7 +13,6 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/statis
 import '../controllers/add/nhaphang_controller.dart';
 import '../controllers/statistics/doanhthu_controller.dart';
 import '../controllers/statistics/khachhang_controller.dart';
-import 'add/them_donhang.dart';
 
 class DashboardScreen extends StatefulWidget {
   int currentPage;
@@ -42,8 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final screen = [
     const HomePage(),
     const StatisticsScreen(),
-    const ThemDonHangScreen(dulieuPicked: [], slpick: []),
-    //// (set TH currentpage =2), bấm vào Thêm không hiện trang này đâu
+    const SizedBox(),
     const HistoryScreen(),
     const Goods(),
   ];

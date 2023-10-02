@@ -7,10 +7,12 @@ import '../../../../../../constants/icon.dart';
 class XuatThongTinItemXuatHangScreen extends StatefulWidget {
   final Map<String, dynamic> thongTinItemXuat;
   final VoidCallback chonSoluong;
+  final VoidCallback checkFields;
   const XuatThongTinItemXuatHangScreen({
     super.key,
     required this.thongTinItemXuat,
     required this.chonSoluong,
+    required this.checkFields,
   });
 
   @override
@@ -20,6 +22,7 @@ class XuatThongTinItemXuatHangScreen extends StatefulWidget {
 
 class _XuatThongTinItemXuatHangScreenState
     extends State<XuatThongTinItemXuatHangScreen> {
+  bool blockSoLuong = true;
   final int phanBietXuat = 0;
   List<Map<String, String>> items = [
     {"icon": goodsIcon, "title": "Chọn hàng hóa"},
@@ -35,30 +38,34 @@ class _XuatThongTinItemXuatHangScreenState
         return Padding(
           padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
           child: InkWell(
-            onTap: () {
-              if (index == 0) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ChooseGoodsScreen(
-                            phanBietNhapXuat: phanBietXuat,
-                          )),
-                ).then((value) {
-                  if (value != null) {
-                    setState(() {
-                      widget.thongTinItemXuat["tensanpham"] =
-                          value["tensanpham"];
-                      widget.thongTinItemXuat["macode"] = value["macode"];
-                      widget.thongTinItemXuat["gia"] = value["gianhap"];
-                      // widget.checkFields();
-                    });
-                  }
-                });
-              }
-              if (index == 1) {
-                widget.chonSoluong();
-              }
-            },
+            onTap: index == 1 && blockSoLuong
+                ? null
+                : () {
+                    if (index == 0) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChooseGoodsScreen(
+                                  phanBietNhapXuat: phanBietXuat,
+                                )),
+                      ).then((value) {
+                        if (value != null) {
+                          setState(() {
+                            widget.thongTinItemXuat["tensanpham"] =
+                                value["tensanpham"];
+                            widget.thongTinItemXuat["macode"] = value["macode"];
+                            widget.thongTinItemXuat["gia"] = value["gianhap"];
+                            widget.thongTinItemXuat["tonkho"] = value["tonkho"];
+                            widget.checkFields();
+                            blockSoLuong = false;
+                          });
+                        }
+                      });
+                    }
+                    if (index == 1 && !blockSoLuong) {
+                      widget.chonSoluong();
+                    }
+                  },
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
