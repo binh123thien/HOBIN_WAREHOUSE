@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/widget/chonsoluong_widget.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/widget/danhsach_items_dachon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/bottom_bar_xuathang.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/xuatthongtin_item.dart';
 
@@ -12,6 +14,7 @@ class XuatHangScreen extends StatefulWidget {
 }
 
 class _XuatHangScreenState extends State<XuatHangScreen> {
+  final int phanBietXuat = 0;
   List<Map<String, dynamic>> allThongTinItemXuat = [];
   Map<String, dynamic> thongTinItemXuat = {
     "macode": "",
@@ -47,7 +50,9 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
         ),
       ),
       builder: (BuildContext context) {
-        return const ChonSoLuongWidget();
+        return ChonSoLuongWidget(
+          phanBietNhapXuat: phanBietXuat,
+        );
       },
     ).then((value) {
       if (value != null) {
@@ -69,11 +74,11 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
     });
   }
 
-  // void _reload(List<Map<String, dynamic>> selectedItems) {
-  //   setState(() {
-  //     allThongTinItemNhap = selectedItems;
-  //   });
-  // }
+  void _reload(List<Map<String, dynamic>> selectedItems) {
+    setState(() {
+      allThongTinItemXuat = selectedItems;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +96,22 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
             XuatThongTinItemXuatHangScreen(
               chonSoluong: _chonSoluong,
               thongTinItemXuat: thongTinItemXuat,
-            )
+            ),
+            allThongTinItemXuat.isNotEmpty
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      children: [
+                        PhanCachWidget.space(),
+                        DanhSachItemsDaChonScreen(
+                          selectedItems: allThongTinItemXuat,
+                          blockOnPress: false,
+                          reLoad: _reload,
+                        ),
+                      ],
+                    ),
+                  )
+                : const SizedBox(),
           ],
         ),
       ),
