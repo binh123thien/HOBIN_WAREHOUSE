@@ -74,7 +74,7 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                             "Hi, ${userAccount["Name"]}!",
                             style: const TextStyle(fontSize: 13),
                           ),
-                          const Text("Welcome to Hoin",
+                          const Text("Welcome to HoBin",
                               style: TextStyle(fontSize: 15)),
                         ],
                       ),
