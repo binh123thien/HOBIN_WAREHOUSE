@@ -56,7 +56,7 @@ class HistoryRepository extends GetxController {
           docsByMonth[month] = [doc];
         } else {
           docsByMonth[month]!.add(doc);
-          print('map theo tháng 08: list $docsByMonth');
+          // print('map theo tháng 08: list $docsByMonth');
         }
       }
       // Sort document groups by month
@@ -72,28 +72,27 @@ class HistoryRepository extends GetxController {
         docsByMonthly.sort((a, b) => parseDateTime(b.first['soHD'])
             .compareTo(parseDateTime(a.first['soHD'])));
       } else {
-        // Sắp xếp danh sách `docsByMonthly` theo tháng
-        docsByMonthly.sort((a, b) {
-          final aMonth = a.first['ngaytao'].split('/')[1];
-          final bMonth = b.first['ngaytao'].split('/')[1];
-          return aMonth.compareTo(bMonth);
-        });
+        // print('vao else $docsByMonthly');
+        // // Sắp xếp danh sách `docsByMonthly` theo tháng
+        // docsByMonthly.sort((a, b) {
+        //   final aMonth = a.first['ngaytao'].split('/')[1];
+        //   final bMonth = b.first['ngaytao'].split('/')[1];
+        //   return aMonth.compareTo(bMonth);
+        // });
 
         // Sắp xếp danh sách tài liệu trong từng tháng
-        for (final monthlyDocs in docsByMonthly) {
-          for (var i in monthlyDocs) {
-            var data = i['soHD'];
-            print('Data of document: $data');
-          }
-          // monthlyDocs.sort((a, b) {
-          //   final aSoHD = a['soHD'];
-          //   final bSoHD = b['soHD'];
-          //   final aDateTime = parseDateTime(aSoHD);
-          //   final bDateTime = parseDateTime(bSoHD);
-          //   return aDateTime.compareTo(bDateTime);
-          // });
-        }
-        // print('Sau khi sắp xếp: $docsByMonthly');
+        // for (final monthlyDocs in docsByMonthly) {
+        //   for (var i in monthlyDocs) {
+        //     print('Data : ${i.data()}');
+        //   }
+        //   // monthlyDocs.sort((a, b) {
+        //   //   final aSoHD = a['soHD'];
+        //   //   final bSoHD = b['soHD'];
+        //   //   final aDateTime = parseDateTime(aSoHD);
+        //   //   final bDateTime = parseDateTime(bSoHD);
+        //   //   return aDateTime.compareTo(bDateTime);
+        //   // });
+        // }
       }
 
       return docsByMonthly;
