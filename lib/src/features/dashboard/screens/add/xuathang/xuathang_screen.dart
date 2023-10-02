@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/widget/chonsoluong_widget.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/widget/danhsach_items_dachon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/bottom_bar_xuathang.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/xuatthongtin_item.dart';
+
+import 'widget/chonsoluong_xuathang_widget.dart';
+import 'widget/danhsachitemdachon_xuathang_screen.dart';
 
 class XuatHangScreen extends StatefulWidget {
   const XuatHangScreen({super.key});
@@ -18,17 +19,16 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
   List<Map<String, dynamic>> allThongTinItemXuat = [];
   List<Map<String, dynamic>> listLocation = [];
   Map<String, dynamic> thongTinItemXuat = {};
-
+  bool blockSoLuong = true;
   @override
   void initState() {
     super.initState();
 
     thongTinItemXuat = {
-      "tonkho": "",
+      "tonkho": 0,
       "macode": "",
       "tensanpham": "",
-      "location": listLocation,
-      "exp": "",
+      "locationAndexp": listLocation,
       "soluong": 0,
       "gia": 0,
     };
@@ -50,36 +50,40 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
   }
 
   void _chonSoluong() {
+    final focusNode = FocusNode();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
       builder: (BuildContext context) {
-        return ChonSoLuongWidget(
-          phanBietNhapXuat: phanBietXuat,
+        // Gọi requestFocus sau khi showModalBottomSheet được mở
+        Future.delayed(const Duration(milliseconds: 100), () {
+          focusNode.requestFocus();
+        });
+        return ChonSoLuongXuatHangWidget(
+          focusNode: focusNode,
+          tonkho: thongTinItemXuat["tonkho"],
         );
       },
     ).then((value) {
       if (value != null) {
         setState(() {
-          thongTinItemXuat["soluong"] = int.tryParse(value);
+          thongTinItemXuat["soluong"] = num.tryParse(value)!;
           _checkFields();
         });
       }
     });
   }
 
-  void _setDefaulseThongTinNhapHang() {
+  void _setDefaulseThongTinXuatHang() {
     setState(() {
       thongTinItemXuat = {
+        "tonkho": 0,
         "macode": "",
         "tensanpham": "",
+        "locationAndexp": [],
         "soluong": 0,
+        "gia": 0,
       };
     });
   }
@@ -87,6 +91,12 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
   void _reload(List<Map<String, dynamic>> selectedItems) {
     setState(() {
       allThongTinItemXuat = selectedItems;
+    });
+  }
+
+  void _changeStateBlockSoluong() {
+    setState(() {
+      blockSoLuong = !blockSoLuong;
     });
   }
 
@@ -107,6 +117,8 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
               chonSoluong: _chonSoluong,
               thongTinItemXuat: thongTinItemXuat,
               checkFields: _checkFields,
+              blockSoLuong: blockSoLuong,
+              changeStateBlockSoluong: _changeStateBlockSoluong,
             ),
             allThongTinItemXuat.isNotEmpty
                 ? Padding(
@@ -114,7 +126,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
                     child: Column(
                       children: [
                         PhanCachWidget.space(),
-                        DanhSachItemsDaChonScreen(
+                        DanhSachItemDaChonXuatHangScreen(
                           selectedItems: allThongTinItemXuat,
                           blockOnPress: false,
                           reLoad: _reload,
@@ -127,11 +139,12 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
         ),
       ),
       bottomNavigationBar: BottomBarXuatHang(
-        setDefaulseThongTinXuatHang: _setDefaulseThongTinNhapHang,
+        setDefaulseThongTinXuatHang: _setDefaulseThongTinXuatHang,
         thongTinItemXuat: thongTinItemXuat,
-        checkFields: _checkFields,
         isButtonEnabled: isButtonEnabled,
         allThongTinItemXuat: allThongTinItemXuat,
+        checkFields: _checkFields,
+        changeStateBlockSoluong: _changeStateBlockSoluong,
       ),
     );
   }

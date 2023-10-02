@@ -5,14 +5,18 @@ import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 
 class XuatThongTinItemXuatHangScreen extends StatefulWidget {
+  final bool blockSoLuong;
   final Map<String, dynamic> thongTinItemXuat;
   final VoidCallback chonSoluong;
   final VoidCallback checkFields;
+  final VoidCallback changeStateBlockSoluong;
   const XuatThongTinItemXuatHangScreen({
     super.key,
     required this.thongTinItemXuat,
     required this.chonSoluong,
     required this.checkFields,
+    required this.blockSoLuong,
+    required this.changeStateBlockSoluong,
   });
 
   @override
@@ -22,7 +26,6 @@ class XuatThongTinItemXuatHangScreen extends StatefulWidget {
 
 class _XuatThongTinItemXuatHangScreenState
     extends State<XuatThongTinItemXuatHangScreen> {
-  bool blockSoLuong = true;
   final int phanBietXuat = 0;
   List<Map<String, String>> items = [
     {"icon": goodsIcon, "title": "Chọn hàng hóa"},
@@ -38,7 +41,7 @@ class _XuatThongTinItemXuatHangScreenState
         return Padding(
           padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
           child: InkWell(
-            onTap: index == 1 && blockSoLuong
+            onTap: index == 1 && widget.blockSoLuong
                 ? null
                 : () {
                     if (index == 0) {
@@ -56,13 +59,14 @@ class _XuatThongTinItemXuatHangScreenState
                             widget.thongTinItemXuat["macode"] = value["macode"];
                             widget.thongTinItemXuat["gia"] = value["gianhap"];
                             widget.thongTinItemXuat["tonkho"] = value["tonkho"];
+                            widget.thongTinItemXuat["soluong"] = 0;
                             widget.checkFields();
-                            blockSoLuong = false;
+                            widget.changeStateBlockSoluong();
                           });
                         }
                       });
                     }
-                    if (index == 1 && !blockSoLuong) {
+                    if (index == 1 && !widget.blockSoLuong) {
                       widget.chonSoluong();
                     }
                   },

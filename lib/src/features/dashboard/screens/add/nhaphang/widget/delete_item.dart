@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/widget/danhsach_items_dachon.dart';
 
 import '../../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../../constants/icon.dart';
 import '../../widget/card_add_widget.dart';
+import 'danhsachitemdachon/danhsachsanpham_dachon.dart';
 
 class DeleteItemsScreen extends StatefulWidget {
   final Map<String, dynamic> thongTinItemNhapHienTai;
@@ -31,15 +31,13 @@ class _DeleteItemsScreenState extends State<DeleteItemsScreen> {
   Widget build(BuildContext context) {
     return Container(
       color: whiteColor,
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: MediaQuery.of(context).size.height * 0.3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          DanhSachItemsDaChonScreen(
-            blockOnPress: true,
-            selectedItems: list,
-            reLoad: () {},
+          DanhSachSanPhamDaChonWidget(
+            selectedItems: [widget.thongTinItemNhapHienTai],
           ),
           Container(
             height: 10,

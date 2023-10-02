@@ -1,38 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/thanhtoan/thanhtoan_xuathang_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../../../../../repository/add_repository/xuathang/xuathang_repository.dart';
+
 class BottomBarXuatHang extends StatefulWidget {
   final bool isButtonEnabled;
   final VoidCallback checkFields;
+  final VoidCallback changeStateBlockSoluong;
   final VoidCallback setDefaulseThongTinXuatHang;
   final List<Map<String, dynamic>> allThongTinItemXuat;
   final Map<String, dynamic> thongTinItemXuat;
   const BottomBarXuatHang(
       {super.key,
       required this.isButtonEnabled,
-      required this.checkFields,
       required this.setDefaulseThongTinXuatHang,
       required this.allThongTinItemXuat,
-      required this.thongTinItemXuat});
+      required this.thongTinItemXuat,
+      required this.checkFields,
+      required this.changeStateBlockSoluong});
 
   @override
   State<BottomBarXuatHang> createState() => _BottomBarXuatHangState();
 }
 
 class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
-  void _showSuccessSnackbar(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        showCloseIcon: true,
-        closeIconColor: whiteColor,
-        backgroundColor: successColor,
-        content: Text('Thêm thành công!'),
-        duration: Duration(seconds: 2), // Thời gian hiển thị
-      ),
-    );
-  }
+  final controllerRepo = Get.put(XuatHangRepository());
 
   @override
   Widget build(BuildContext context) {
@@ -61,12 +57,21 @@ class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
                   ),
                   onPressed: widget.isButtonEnabled
                       ? () {
-                          setState(() {
-                            widget.allThongTinItemXuat
-                                .add(widget.thongTinItemXuat);
-                            widget.setDefaulseThongTinXuatHang();
-                            widget.checkFields();
-                            _showSuccessSnackbar(context);
+                          controllerRepo
+                              .createListLocation(widget.thongTinItemXuat,
+                                  widget.thongTinItemXuat["soluong"])
+                              .then((result) {
+                            setState(() {
+                              widget.thongTinItemXuat["locationAndexp"] =
+                                  result;
+                              widget.allThongTinItemXuat
+                                  .add(widget.thongTinItemXuat);
+                              widget.setDefaulseThongTinXuatHang();
+                              widget.checkFields();
+                              widget.changeStateBlockSoluong();
+                              SnackBarWidget.showSnackBar(
+                                  context, "Thêm thành công!", successColor);
+                            });
                           });
                         }
                       : null,
@@ -88,7 +93,7 @@ class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
                     padding: EdgeInsets.zero,
                     backgroundColor: mainColor,
                     side: BorderSide(
-                        color: widget.isButtonEnabled
+                        color: widget.allThongTinItemXuat.isNotEmpty
                             ? mainColor
                             : Colors.black12),
                     shape: RoundedRectangleBorder(
