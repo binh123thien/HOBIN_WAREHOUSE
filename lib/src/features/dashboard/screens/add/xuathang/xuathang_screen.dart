@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/widget/chonsoluong_widget.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/bottom_bar_xuathang.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/xuatthongtin_item.dart';
 
 class XuatHangScreen extends StatefulWidget {
@@ -11,8 +12,8 @@ class XuatHangScreen extends StatefulWidget {
 }
 
 class _XuatHangScreenState extends State<XuatHangScreen> {
-  List<Map<String, dynamic>> allThongTinItemNhap = [];
-  Map<String, dynamic> thongTinItemNhap = {
+  List<Map<String, dynamic>> allThongTinItemXuat = [];
+  Map<String, dynamic> thongTinItemXuat = {
     "macode": "",
     "tensanpham": "",
     "location": "",
@@ -23,8 +24,8 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
   bool isButtonEnabled = false;
   // Hàm kiểm tra xem tất cả các trường đã có dữ liệu hay chưa
   void _checkFields() {
-    if (thongTinItemNhap["tensanpham"].isNotEmpty &&
-        thongTinItemNhap["soluong"] > 0) {
+    if (thongTinItemXuat["tensanpham"].isNotEmpty &&
+        thongTinItemXuat["soluong"] > 0) {
       setState(() {
         isButtonEnabled = true;
       });
@@ -51,22 +52,22 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
     ).then((value) {
       if (value != null) {
         setState(() {
-          thongTinItemNhap["soluong"] = int.tryParse(value);
+          thongTinItemXuat["soluong"] = int.tryParse(value);
           _checkFields();
         });
       }
     });
   }
 
-  // void _setDefaulseThongTinNhapHang() {
-  //   setState(() {
-  //     thongTinItemNhap = {
-  //       "macode": "",
-  //       "tensanpham": "",
-  //       "soluong": 0,
-  //     };
-  //   });
-  // }
+  void _setDefaulseThongTinNhapHang() {
+    setState(() {
+      thongTinItemXuat = {
+        "macode": "",
+        "tensanpham": "",
+        "soluong": 0,
+      };
+    });
+  }
 
   // void _reload(List<Map<String, dynamic>> selectedItems) {
   //   setState(() {
@@ -89,18 +90,18 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
           children: [
             XuatThongTinItemXuatHangScreen(
               chonSoluong: _chonSoluong,
-              thongTinItemNhap: thongTinItemNhap,
+              thongTinItemXuat: thongTinItemXuat,
             )
           ],
         ),
       ),
-      // bottomNavigationBar: BottomBarNhapHang(
-      //   isButtonEnabled: isButtonEnabled,
-      //   checkFields: _checkFields,
-      //   allThongTinItemNhap: allThongTinItemNhap,
-      //   thongTinItemNhap: thongTinItemNhap,
-      //   setDefaulseThongTinNhapHang: _setDefaulseThongTinNhapHang,
-      // ),
+      bottomNavigationBar: BottomBarXuatHang(
+        setDefaulseThongTinXuatHang: _setDefaulseThongTinNhapHang,
+        thongTinItemXuat: thongTinItemXuat,
+        checkFields: _checkFields,
+        isButtonEnabled: isButtonEnabled,
+        allThongTinItemXuat: allThongTinItemXuat,
+      ),
     );
   }
 }

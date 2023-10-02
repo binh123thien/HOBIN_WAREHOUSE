@@ -25,6 +25,7 @@ class NhapThongTinItemScreen extends StatefulWidget {
 }
 
 class _NhapThongTinItemScreenState extends State<NhapThongTinItemScreen> {
+  final int phanBietNhap = 1;
   List<Map<String, String>> items = [
     {"icon": goodsIcon, "title": "Chọn hàng hóa"},
     {"icon": giaIcon, "title": "Giá nhập hàng"},
@@ -47,7 +48,9 @@ class _NhapThongTinItemScreenState extends State<NhapThongTinItemScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ChooseGoodsScreen()),
+                      builder: (context) => ChooseGoodsScreen(
+                            phanBietNhapXuat: phanBietNhap,
+                          )),
                 ).then((value) {
                   if (value != null) {
                     setState(() {

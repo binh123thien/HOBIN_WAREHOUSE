@@ -5,11 +5,11 @@ import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 
 class XuatThongTinItemXuatHangScreen extends StatefulWidget {
-  final Map<String, dynamic> thongTinItemNhap;
+  final Map<String, dynamic> thongTinItemXuat;
   final VoidCallback chonSoluong;
   const XuatThongTinItemXuatHangScreen({
     super.key,
-    required this.thongTinItemNhap,
+    required this.thongTinItemXuat,
     required this.chonSoluong,
   });
 
@@ -20,6 +20,7 @@ class XuatThongTinItemXuatHangScreen extends StatefulWidget {
 
 class _XuatThongTinItemXuatHangScreenState
     extends State<XuatThongTinItemXuatHangScreen> {
+  final int phanBietXuat = 0;
   List<Map<String, String>> items = [
     {"icon": goodsIcon, "title": "Chọn hàng hóa"},
     {"icon": quantityIcon, "title": "Chọn số lượng"},
@@ -39,14 +40,16 @@ class _XuatThongTinItemXuatHangScreenState
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ChooseGoodsScreen()),
+                      builder: (context) => ChooseGoodsScreen(
+                            phanBietNhapXuat: phanBietXuat,
+                          )),
                 ).then((value) {
                   if (value != null) {
                     setState(() {
-                      widget.thongTinItemNhap["tensanpham"] =
+                      widget.thongTinItemXuat["tensanpham"] =
                           value["tensanpham"];
-                      widget.thongTinItemNhap["macode"] = value["macode"];
-                      widget.thongTinItemNhap["gia"] = value["gianhap"];
+                      widget.thongTinItemXuat["macode"] = value["macode"];
+                      widget.thongTinItemXuat["gia"] = value["gianhap"];
                       // widget.checkFields();
                     });
                   }
@@ -73,15 +76,15 @@ class _XuatThongTinItemXuatHangScreenState
                     const SizedBox(width: 7),
                     Flexible(
                       child: index == 0 &&
-                              widget.thongTinItemNhap["tensanpham"].isNotEmpty
+                              widget.thongTinItemXuat["tensanpham"].isNotEmpty
                           ? Text(
-                              widget.thongTinItemNhap["tensanpham"],
+                              widget.thongTinItemXuat["tensanpham"],
                               style: const TextStyle(fontSize: 17),
                             )
                           : index == 1 &&
-                                  widget.thongTinItemNhap["soluong"] != 0
+                                  widget.thongTinItemXuat["soluong"] != 0
                               ? Text(
-                                  widget.thongTinItemNhap["soluong"].toString(),
+                                  widget.thongTinItemXuat["soluong"].toString(),
                                   style: const TextStyle(fontSize: 17),
                                 )
                               : Text(
