@@ -21,23 +21,23 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    List<dynamic> filteredItems = docsByMonth.expand((month) {
-      return month.where((item) {
-        final soHDMatch = item["soHD"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        final tenKhachHangMatch = item["khachhang"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        final ngaytaoMatch = item["ngaytao"]
-            .toString()
-            .toLowerCase()
-            .contains(searchHistory.toLowerCase());
-        return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
-      });
-    }).toList();
+    // List<dynamic> filteredItems = docsByMonth.expand((month) {
+    //   return month.where((item) {
+    //     final soHDMatch = item["soHD"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     final tenKhachHangMatch = item["khachhang"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     final ngaytaoMatch = item["ngaytao"]
+    //         .toString()
+    //         .toLowerCase()
+    //         .contains(searchHistory.toLowerCase());
+    //     return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
+    //   });
+    // }).toList();
     return Container(
       color: whiteColor,
       height: size.height - kToolbarHeight - 140,
@@ -100,7 +100,7 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                         ),
                       ),
                       CardHistory(
-                        docs: filteredItems,
+                        docs: docs,
                       )
                     ]),
                   );
