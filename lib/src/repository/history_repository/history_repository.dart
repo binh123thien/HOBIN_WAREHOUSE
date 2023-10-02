@@ -52,12 +52,11 @@ class HistoryRepository extends GetxController {
       final Map<String, List<DocumentSnapshot>> docsByMonth = {};
       for (final doc in snapshot.docs) {
         final month = doc['ngaytao'].split('/')[1];
-        print(month);
         if (!docsByMonth.containsKey(month)) {
           docsByMonth[month] = [doc];
         } else {
           docsByMonth[month]!.add(doc);
-          print(docsByMonth);
+          print('map theo tháng 08: list $docsByMonth');
         }
       }
       // Sort document groups by month
@@ -67,11 +66,39 @@ class HistoryRepository extends GetxController {
       }
 
       final docsByMonthly = docsByMonth.values.toList();
-      docsByMonthly.sort((a, b) => parseDateTime(b.first['soHD'])
-          .compareTo(parseDateTime(a.first['soHD'])));
+
+      if (docsByMonthly.length == 1) {
+        // Nếu chỉ có một tháng, sắp xếp dựa trên thời gian của tài liệu đầu tiên
+        docsByMonthly.sort((a, b) => parseDateTime(b.first['soHD'])
+            .compareTo(parseDateTime(a.first['soHD'])));
+      } else {
+        // Sắp xếp danh sách `docsByMonthly` theo tháng
+        docsByMonthly.sort((a, b) {
+          final aMonth = a.first['ngaytao'].split('/')[1];
+          final bMonth = b.first['ngaytao'].split('/')[1];
+          return aMonth.compareTo(bMonth);
+        });
+
+        // Sắp xếp danh sách tài liệu trong từng tháng
+        for (final monthlyDocs in docsByMonthly) {
+          for (var i in monthlyDocs) {
+            var data = i['soHD'];
+            print('Data of document: $data');
+          }
+          // monthlyDocs.sort((a, b) {
+          //   final aSoHD = a['soHD'];
+          //   final bSoHD = b['soHD'];
+          //   final aDateTime = parseDateTime(aSoHD);
+          //   final bDateTime = parseDateTime(bSoHD);
+          //   return aDateTime.compareTo(bDateTime);
+          // });
+        }
+        // print('Sau khi sắp xếp: $docsByMonthly');
+      }
+
       return docsByMonthly;
     } catch (e) {
-      print(e);
+      print(' catch history repo $e');
       return [];
     }
   }
