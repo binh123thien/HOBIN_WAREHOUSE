@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/add/thanhtoan/thanhtoan_xuathang_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class BottomBarXuatHang extends StatefulWidget {
   final bool isButtonEnabled;
@@ -96,15 +98,15 @@ class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
                   ),
                   onPressed: widget.allThongTinItemXuat.isNotEmpty
                       ? () {
-                          // Navigator.push(
-                          //   context,
-                          //   PageTransition(
-                          //       type: PageTransitionType.rightToLeft,
-                          //       child: ThanhToanScreen(
-                          //         allThongTinItemNhap:
-                          //             widget.allThongTinItemNhap,
-                          //       )),
-                          // );
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: ThanhToanXuatHangScreen(
+                                  allThongTinItemXuat:
+                                      widget.allThongTinItemXuat,
+                                )),
+                          );
                         }
                       : null,
                   child: widget.allThongTinItemXuat.isEmpty
