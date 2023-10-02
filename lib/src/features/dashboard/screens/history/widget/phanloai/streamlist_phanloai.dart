@@ -40,7 +40,7 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
     // }).toList();
     return Container(
       color: whiteColor,
-      height: size.height - kToolbarHeight - 140,
+      height: size.height - kToolbarHeight - 180,
       child: StreamBuilder<QuerySnapshot>(
           stream: controller.getAllDonBanHangHoacNhapHang("NhapHang"),
           builder:
@@ -71,32 +71,29 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     color: whiteColor,
                     child: Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Container(
-                          color: whiteColor,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Tháng $month" "/" "$year",
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ],
-                                ),
+                      Container(
+                        color: whiteColor,
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Tháng $month" "/" "$year",
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ],
                               ),
-                              ChitietThangPhanLoai(
-                                tongBanHangMonthly: tongBanHangMonthly,
-                                tongNhapHangMonthly: tongNhapHangMonthly,
-                              ),
-                            ],
-                          ),
+                            ),
+                            ChitietThangPhanLoai(
+                              tongBanHangMonthly: tongBanHangMonthly,
+                              tongNhapHangMonthly: tongNhapHangMonthly,
+                            ),
+                          ],
                         ),
                       ),
                       CardHistory(
