@@ -19,7 +19,7 @@ class _SoNoScreenState extends State<SoNoScreen> {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(8.0),
               child: CardSoNoWidget(),
             ),
             TabbarSoNoWidget(),

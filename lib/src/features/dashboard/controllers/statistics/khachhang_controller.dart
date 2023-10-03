@@ -27,8 +27,8 @@ class KhachHangController extends GetxController {
     });
   }
 
-  loadAllDonBanHang() async {
-    await controllerKhachHangRepo.getAllDonHang("BanHang").listen((snapshot) {
+  loadAllDonXuatHang() async {
+    await controllerKhachHangRepo.getAllDonHang("XuatHang").listen((snapshot) {
       allDonBanHangFirebase = snapshot.docs.map((doc) => doc.data()).toList();
     });
   }

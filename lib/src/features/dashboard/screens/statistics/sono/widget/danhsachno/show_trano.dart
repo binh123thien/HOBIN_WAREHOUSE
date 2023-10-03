@@ -37,7 +37,7 @@ class _ShowTraNoState extends State<ShowTraNo> {
       trano = num.tryParse(controllerNo.traNoController.text) ?? 0;
       // Lấy danh sách các documents trong collection NhapHang hoặc BanHang
 
-      final alldonhang = await controllerHistory.loadAllDonBanHangHoacNhapHang(
+      final alldonhang = await controllerHistory.loadAllDonXuatHangHoacNhapHang(
           widget.billType == "BanHang" ? "BanHang" : "NhapHang");
       final listNo = alldonhang.docs
           .where(
