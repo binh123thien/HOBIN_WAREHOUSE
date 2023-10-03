@@ -279,6 +279,8 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
       // await controllerNhapHangRepo.createExpired(widget.allThongTinItemNhap);
       await controllerNhapHangRepo
           .createHangHoaExpired(widget.allThongTinItemNhap);
+      await controllerNhapHangRepo
+          .capNhatGiaTriTonKhoNhapHang(widget.allThongTinItemNhap);
     } catch (e) {
       // print("Error: $e");
     }

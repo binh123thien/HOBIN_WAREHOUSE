@@ -124,4 +124,34 @@ class NhapHangRepository extends GetxController {
       }
     }
   }
+
+  Future<void> capNhatGiaTriTonKhoNhapHang(
+      List<Map<String, dynamic>> allThongTinItemNhap) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collection = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa");
+    for (var doc in allThongTinItemNhap) {
+      String macode = doc["macode"];
+      int soluong = doc["soluong"];
+      QuerySnapshot querySnapshot =
+          await collection.where("macode", isEqualTo: macode).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        // Lấy tài liệu duy nhất có macode trùng
+        DocumentSnapshot docSnapshot = querySnapshot.docs.first;
+
+        // Lấy giá trị tồn kho hiện tại từ Firebase
+        num tonkhoHienTai = docSnapshot["tonkho"];
+
+        // Tính giá trị tồn kho mới
+        num tonkhoMoi = tonkhoHienTai + soluong;
+
+        // Cập nhật giá trị tonkho
+        await collection.doc(docSnapshot.id).update({"tonkho": tonkhoMoi});
+      }
+    }
+  }
 }
