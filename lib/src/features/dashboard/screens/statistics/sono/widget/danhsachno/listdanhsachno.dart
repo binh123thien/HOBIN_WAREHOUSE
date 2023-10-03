@@ -44,32 +44,32 @@ class _ListDanhSachNoState extends State<ListDanhSachNo> {
       }
     });
     Future<void> showTraNo() async {
-      num? result = await showModalBottomSheet<num>(
+      final focusNode = FocusNode();
+      showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
         builder: (BuildContext context) {
+          Future.delayed(const Duration(milliseconds: 100), () {
+            focusNode.requestFocus();
+          });
           return ShowTraNo(
             tenkhachhang: widget.tenkhachhang,
             billType: widget.billType,
             tongno: tongno,
+            focusNode: focusNode,
           );
         },
-      );
-      if (result != null) {
-        setState(() {
-          SnackBarWidget.showSnackBar(
-              context, "Trả nợ thành công!", successColor);
-          alldonhang = widget.billType == "NhapHang"
-              ? controller.allDonNhapHangFirebase
-              : controller.allDonBanHangFirebase;
-        });
-      }
+      ).then((value) {
+        if (value != null) {
+          setState(() {
+            SnackBarWidget.showSnackBar(
+                context, "Trả nợ thành công!", successColor);
+            alldonhang = widget.billType == "NhapHang"
+                ? controller.allDonNhapHangFirebase
+                : controller.allDonBanHangFirebase;
+          });
+        }
+      });
     }
 
     return Scaffold(
@@ -89,14 +89,6 @@ class _ListDanhSachNoState extends State<ListDanhSachNo> {
               Navigator.of(context).pop();
             }),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: showTraNo,
-              icon: const Image(
-                image: AssetImage(refundIcon),
-                height: 28,
-              ))
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 10),

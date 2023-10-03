@@ -1,25 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/repository/history_repository/history_repository.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../repository/history_repository/lichsutrano_repository.dart';
 import '../../../../../../../repository/statistics_repository/no_repository.dart';
 import '../../../../../../../utils/utils.dart';
+import '../../../../../../../utils/validate/formsoluong.dart';
+import '../../../../../../../utils/validate/validate.dart';
 import '../../../../../controllers/statistics/no_controlller.dart';
 import '../../../../../models/statistics/lichsutrano_model.dart';
-import '../../../../Widget/add/maxmin_input_textformfield.dart';
 
 class ShowTraNo extends StatefulWidget {
   final num tongno;
   final String billType;
   final String tenkhachhang;
+  final FocusNode focusNode;
   const ShowTraNo(
       {super.key,
       required this.tongno,
       required this.billType,
-      required this.tenkhachhang});
+      required this.tenkhachhang,
+      required this.focusNode});
 
   @override
   State<ShowTraNo> createState() => _ShowTraNoState();
@@ -31,6 +33,9 @@ class _ShowTraNoState extends State<ShowTraNo> {
   final controllerHistory = Get.put(HistoryRepository());
   final controllerNoRepo = Get.put(NoRepository());
   num trano = 0;
+  bool hasError = false;
+  final TextEditingController _controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   Future<void> _onSaveButtonPressed() async {
     try {
@@ -104,76 +109,93 @@ class _ShowTraNoState extends State<ShowTraNo> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    // print(widget.sumPrice);
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SizedBox(
-        height: size.height * 0.285,
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text("Trả tiền nợ", style: TextStyle(fontSize: 18)),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: const Icon(Icons.close))
-                ],
-              ),
-              const SizedBox(height: 4),
-              SizedBox(
-                height: 120,
-                width: size.width - 30,
-                child: Column(
+        height: MediaQuery.of(context).size.height * 0.19,
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                const SizedBox(height: 10),
+                const Text(
+                  "Nhập số tiền trả",
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    TextFormField(
-                      controller: controllerNo.traNoController,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(RegExp('[0-9]')),
-                        NumberFormatter(maxValue: (widget.tongno).round()),
-                      ],
-                      decoration: const InputDecoration(
+                    SizedBox(
+                      height: hasError ? 66 : 40,
+                      width: (MediaQuery.of(context).size.width - 30) * 7 / 10,
+                      child: TextFormField(
+                        focusNode: widget.focusNode,
+                        onChanged: (value) {
+                          setState(() {});
+                        },
+                        controller: _controller,
+                        validator: (value) {
+                          return nonZeroInput(value);
+                        },
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          MaxValueTextInputFormatter(widget.tongno)
+                        ],
+                        decoration: const InputDecoration(
                           errorStyle: TextStyle(fontSize: 15),
-                          border: UnderlineInputBorder(),
-                          focusedBorder: UnderlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: mainColor, width: 2)),
-                          contentPadding: EdgeInsets.zero,
-                          labelText: 'Nhập số cần trả'),
+                          contentPadding: EdgeInsets.only(left: 10),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                            borderRadius: BorderRadius.zero,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: blueColor, width: 2),
+                            borderRadius: BorderRadius.zero,
+                          ),
+                          hintText: 'Nhập giá trị',
+                        ),
+                      ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: SizedBox(
-                          height: 50,
-                          width: size.width - 30,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                              onPressed: () {
-                                _onSaveButtonPressed().then((value) {
-                                  setState(() {
-                                    controllerNo.traNoController.clear();
-                                    Navigator.of(context).pop(trano);
+                    SizedBox(
+                      width:
+                          (MediaQuery.of(context).size.width - 30) * 2.9 / 10,
+                      height: 40,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          backgroundColor: blueColor,
+                          side: BorderSide(
+                              color: _controller.text.isNotEmpty
+                                  ? blueColor
+                                  : Colors.grey[500]!),
+                        ),
+                        onPressed: _controller.text.isNotEmpty
+                            ? () {
+                                if (_formKey.currentState!.validate()) {
+                                  _onSaveButtonPressed().then((value) {
+                                    Navigator.of(context).pop(_controller.text);
                                   });
-                                });
-                              },
-                              child: const Text("Xong"))),
+                                } else {
+                                  setState(() {
+                                    hasError = true; // Đặt trạng thái lỗi
+                                  });
+                                }
+                              }
+                            : null,
+                        child: const Text(
+                          'Xác nhận',
+                          style: TextStyle(fontSize: 17),
+                        ),
+                      ),
                     )
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
