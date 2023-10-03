@@ -135,12 +135,33 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(doc["tensanpham"]),
-                                    Text(
-                                      "Kho: ${doc["tonkho"]} ${doc["donvi"]} - ${formatCurrency(doc["gianhap"])}",
-                                      style: const TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w100),
-                                      textAlign: TextAlign.start,
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Kho: ${doc["tonkho"]} ${doc["donvi"]} - ",
+                                          style: const TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w100),
+                                          textAlign: TextAlign.start,
+                                        ),
+                                        widget.phanBietNhapXuat == 1
+                                            ? Text(
+                                                formatCurrency(doc["gianhap"]),
+                                                style: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w100),
+                                                textAlign: TextAlign.start,
+                                              )
+                                            : Text(
+                                                formatCurrency(doc["giaban"]),
+                                                style: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w100),
+                                                textAlign: TextAlign.start,
+                                              ),
+                                      ],
                                     ),
                                   ],
                                 ),

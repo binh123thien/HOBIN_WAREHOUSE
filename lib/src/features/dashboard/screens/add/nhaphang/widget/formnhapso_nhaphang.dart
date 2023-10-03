@@ -36,9 +36,13 @@ class _FormNhapSoNhapHangWidgetState extends State<FormNhapSoNhapHangWidget> {
                     ? const Text(
                         "Nhập số lượng",
                       )
-                    : const Text(
-                        "Nhập giá nhập hàng",
-                      ),
+                    : widget.phanbietgianhapHoacSoluong == "gianhap"
+                        ? const Text(
+                            "Nhập giá nhập hàng",
+                          )
+                        : const Text(
+                            "Nhập giá xuất hàng",
+                          ),
                 const SizedBox(height: 10),
                 const SizedBox(height: 10),
                 Row(

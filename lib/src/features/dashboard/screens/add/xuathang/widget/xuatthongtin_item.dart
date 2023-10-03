@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/choose_goods.dart';
+import 'package:hobin_warehouse/src/utils/utils.dart';
 
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
@@ -8,6 +9,7 @@ class XuatThongTinItemXuatHangScreen extends StatefulWidget {
   final bool blockSoLuong;
   final Map<String, dynamic> thongTinItemXuat;
   final VoidCallback chonSoluong;
+  final VoidCallback thayDoiGia;
   final VoidCallback checkFields;
   final VoidCallback changeStateBlockSoluong;
   const XuatThongTinItemXuatHangScreen({
@@ -17,6 +19,7 @@ class XuatThongTinItemXuatHangScreen extends StatefulWidget {
     required this.checkFields,
     required this.blockSoLuong,
     required this.changeStateBlockSoluong,
+    required this.thayDoiGia,
   });
 
   @override
@@ -29,6 +32,7 @@ class _XuatThongTinItemXuatHangScreenState
   final int phanBietXuat = 0;
   List<Map<String, String>> items = [
     {"icon": goodsIcon, "title": "Chọn hàng hóa"},
+    {"icon": giaIcon, "title": "Giá xuất hàng"},
     {"icon": quantityIcon, "title": "Chọn số lượng"},
   ];
   @override
@@ -41,7 +45,8 @@ class _XuatThongTinItemXuatHangScreenState
         return Padding(
           padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
           child: InkWell(
-            onTap: index == 1 && widget.blockSoLuong
+            onTap: index == 1 && widget.blockSoLuong ||
+                    index == 2 && widget.blockSoLuong
                 ? null
                 : () {
                     if (index == 0) {
@@ -57,7 +62,7 @@ class _XuatThongTinItemXuatHangScreenState
                             widget.thongTinItemXuat["tensanpham"] =
                                 value["tensanpham"];
                             widget.thongTinItemXuat["macode"] = value["macode"];
-                            widget.thongTinItemXuat["gia"] = value["gianhap"];
+                            widget.thongTinItemXuat["gia"] = value["giaban"];
                             widget.thongTinItemXuat["tonkho"] = value["tonkho"];
                             widget.thongTinItemXuat["soluong"] = 0;
                             widget.checkFields();
@@ -66,7 +71,10 @@ class _XuatThongTinItemXuatHangScreenState
                         }
                       });
                     }
-                    if (index == 1 && !widget.blockSoLuong) {
+                    if (index == 1) {
+                      widget.thayDoiGia();
+                    }
+                    if (index == 2 && !widget.blockSoLuong) {
                       widget.chonSoluong();
                     }
                   },
@@ -92,16 +100,23 @@ class _XuatThongTinItemXuatHangScreenState
                               widget.thongTinItemXuat["tensanpham"],
                               style: const TextStyle(fontSize: 17),
                             )
-                          : index == 1 &&
-                                  widget.thongTinItemXuat["soluong"] != 0
+                          : index == 1 && widget.thongTinItemXuat["gia"] != 0
                               ? Text(
-                                  widget.thongTinItemXuat["soluong"].toString(),
+                                  formatCurrency(
+                                      widget.thongTinItemXuat["gia"]),
                                   style: const TextStyle(fontSize: 17),
                                 )
-                              : Text(
-                                  docs["title"]!,
-                                  style: const TextStyle(fontSize: 17),
-                                ),
+                              : index == 2 &&
+                                      widget.thongTinItemXuat["soluong"] != 0
+                                  ? Text(
+                                      widget.thongTinItemXuat["soluong"]
+                                          .toString(),
+                                      style: const TextStyle(fontSize: 17),
+                                    )
+                                  : Text(
+                                      docs["title"]!,
+                                      style: const TextStyle(fontSize: 17),
+                                    ),
                     )
                   ],
                 ),

@@ -6,6 +6,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widg
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/xuatthongtin_item.dart';
 
 import '../../../controllers/add/chonhanghoa_controller.dart';
+import '../nhaphang/widget/formnhapso_nhaphang.dart';
 import 'widget/chonsoluong_xuathang_widget.dart';
 import 'widget/danhsachitemdachon_xuathang_screen.dart';
 
@@ -50,6 +51,32 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
         isButtonEnabled = false;
       });
     }
+  }
+
+  void _thayDoiGia() {
+    final focusNode = FocusNode();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        // Gọi requestFocus sau khi showModalBottomSheet được mở
+        Future.delayed(const Duration(milliseconds: 100), () {
+          focusNode.requestFocus();
+        });
+        return FormNhapSoNhapHangWidget(
+          focusNode: focusNode,
+          phanbietgianhapHoacSoluong: 'giaxuat',
+        );
+      },
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          thongTinItemXuat["gia"] = num.tryParse(value)!;
+          _checkFields();
+        });
+      }
+    });
   }
 
   void _chonSoluong() {
@@ -128,6 +155,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
               checkFields: _checkFields,
               blockSoLuong: blockSoLuong,
               changeStateBlockSoluong: _changeStateBlockSoluong,
+              thayDoiGia: _thayDoiGia,
             ),
             allThongTinItemXuat.isNotEmpty
                 ? Padding(
