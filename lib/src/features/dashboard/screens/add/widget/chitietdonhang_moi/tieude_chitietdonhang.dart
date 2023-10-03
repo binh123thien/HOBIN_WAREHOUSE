@@ -98,7 +98,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                           )
                         : const Text(
                             "Đang chờ",
-                            style: TextStyle(fontSize: 14, color: successColor),
+                            style: TextStyle(fontSize: 14, color: processColor),
                           ),
                   ),
                 )
