@@ -6,22 +6,23 @@ import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
 import 'delete_item_xuathang.dart';
 
-class ItemDaChonXuatHangWidget extends StatefulWidget {
+class DanhSachItemDaChonXuatHangWidget extends StatefulWidget {
   final List<Map<String, dynamic>> selectedItems;
   final bool blockOnPress;
   final Function reLoadOnDeleteXuatHang;
-  const ItemDaChonXuatHangWidget(
+  const DanhSachItemDaChonXuatHangWidget(
       {super.key,
       required this.selectedItems,
       required this.blockOnPress,
       required this.reLoadOnDeleteXuatHang});
 
   @override
-  State<ItemDaChonXuatHangWidget> createState() =>
-      _ItemDaChonXuatHangWidgetState();
+  State<DanhSachItemDaChonXuatHangWidget> createState() =>
+      _DanhSachItemDaChonXuatHangWidgetState();
 }
 
-class _ItemDaChonXuatHangWidgetState extends State<ItemDaChonXuatHangWidget> {
+class _DanhSachItemDaChonXuatHangWidgetState
+    extends State<DanhSachItemDaChonXuatHangWidget> {
   void _deleteItem(int index) {
     showModalBottomSheet(
       context: context,

@@ -8,7 +8,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widg
 import '../../../controllers/add/chonhanghoa_controller.dart';
 import '../nhaphang/widget/formnhapso_nhaphang.dart';
 import 'widget/chonsoluong_xuathang_widget.dart';
-import 'widget/danhsachitemdachon_xuathang_screen.dart';
+import 'widget/danhsach_xuathang_screen.dart';
 
 class XuatHangScreen extends StatefulWidget {
   const XuatHangScreen({super.key});
@@ -163,7 +163,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
                     child: Column(
                       children: [
                         PhanCachWidget.space(),
-                        DanhSachItemDaChonXuatHangScreen(
+                        DanhSachXuatHangWidget(
                           selectedItems: allThongTinItemXuat,
                           blockOnPress: false,
                           reLoadOnDeleteXuatHang: _reLoadOnDeleteXuatHang,

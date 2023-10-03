@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 import '../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../repository/add_repository/xuathang/xuathang_repository.dart';
 import '../../../../models/themdonhang_model.dart';
-import '../../xuathang/widget/itemdachon_xuathang_widget.dart';
+import '../../xuathang/widget/danhsach_itemdachon_xuathang_widget.dart';
+import '../chitiethoadon_screen.dart';
 import '../widget/choose_khachhang_widget.dart';
 import '../widget/giamgia_widget.dart';
 import '../widget/giamgiavano_widget.dart';
@@ -27,6 +29,8 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
   Map<String, dynamic> khachhang = {};
   num giamgia = 0;
   num no = 0;
+  bool _isLoading = false; // Sử dụng biến này để kiểm soát hiển thị loading
+  bool _isDataSubmitted = false;
   String selectedPaymentMethod = "Tiền mặt";
   void _reload(Map<String, dynamic> khachhangPicked) {
     setState(() {
@@ -130,7 +134,7 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                 phanbietnhapxuat: 'xuathang',
               ),
               PhanCachWidget.space(),
-              ItemDaChonXuatHangWidget(
+              DanhSachItemDaChonXuatHangWidget(
                 selectedItems: widget.allThongTinItemXuat,
                 blockOnPress: true,
                 reLoadOnDeleteXuatHang: () {},
@@ -197,6 +201,9 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                           ),
                         ),
                         onPressed: () {
+                          setState(() {
+                            _isLoading = true; // Kích hoạt hiệu ứng loading
+                          });
                           final xHcode = generateXHCode();
                           final ngaytao = formatNgayTao();
                           final datetime = formatDatetime();
@@ -217,15 +224,48 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                             billType: 'XuatHang',
                             datetime: datetime,
                           );
+                          _performDataProcessing(context, hoadonxuathang).then(
+                            (value) {
+                              setState(() {
+                                _isLoading = false;
+                                _isDataSubmitted = true;
+                                if (_isDataSubmitted) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChiTietHoaDonScreen(
+                                        donnhaphang: hoadonxuathang,
+                                        allThongTinItemNhap:
+                                            widget.allThongTinItemXuat,
+                                        phanbietNhapXuat: 'XuatHang',
+                                      ), // Thay 'TrangKhac' bằng tên trang bạn muốn chuyển đến
+                                    ),
+                                    // (route) =>
+                                    //     false, // Xóa hết tất cả các trang khỏi ngăn xếp
+                                  );
+                                  SnackBarWidget.showSnackBar(context,
+                                      "Tạo hóa đơn thành công!", successColor);
+                                }
+                              });
+                            },
+                          );
                           controllerXuatHangRepo.createHoaDonXuatHang(
                               hoadonxuathang, widget.allThongTinItemXuat);
                           // controllerAddRepo
                           //     .createExpired(widget.allThongTinItemXuat);
                         },
-                        child: const Text(
-                          'Thanh toán',
-                          style: TextStyle(fontSize: 19),
-                        ),
+                        child: _isLoading
+                            ? const SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: CircularProgressIndicator(
+                                  color: whiteColor,
+                                ),
+                              ) // Hiển thị tiến trình loading
+                            : const Text(
+                                'Thanh toán',
+                                style: TextStyle(fontSize: 19),
+                              ),
                       ),
                     ),
                   ],
@@ -234,5 +274,21 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
             ],
           ),
         ));
+  }
+
+  Future<void> _performDataProcessing(
+      BuildContext context, ThemDonHangModel donnhaphang) async {
+    try {
+      // Perform data processing
+      // await controllerAddRepo.createDonNhapHang(
+      //     donnhaphang, widget.allThongTinItemNhap);
+      // await controllerNhapHangRepo.createExpired(widget.allThongTinItemNhap);
+      // await controllerNhapHangRepo
+      //     .createHangHoaExpired(widget.allThongTinItemNhap);
+      // await controllerNhapHangRepo
+      //     .capNhatGiaTriTonKhoNhapHang(widget.allThongTinItemNhap);
+    } catch (e) {
+      // print("Error: $e");
+    }
   }
 }

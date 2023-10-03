@@ -4,7 +4,7 @@ import '../../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../widget/card_add_widget.dart';
-import 'itemdachon_xuathang_widget.dart';
+import 'danhsach_itemdachon_xuathang_widget.dart';
 
 class DeleteItemXuatHangScreen extends StatefulWidget {
   final Map<String, dynamic> thongTinItemNhapHienTai;
@@ -36,7 +36,7 @@ class _DeleteItemXuatHangScreenState extends State<DeleteItemXuatHangScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          ItemDaChonXuatHangWidget(
+          DanhSachItemDaChonXuatHangWidget(
             selectedItems: list,
             blockOnPress: true,
             reLoadOnDeleteXuatHang: () {},

@@ -7,7 +7,7 @@ import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../../../repository/add_repository/nhaphang/nhaphang_repository.dart';
 import '../../../models/themdonhang_model.dart';
-import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
+import '../nhaphang/widget/danhsachitemdachon/danhsach_itemdachon_nhaphang_widget.dart';
 import 'chitiethoadon_screen.dart';
 import 'widget/choose_khachhang_widget.dart';
 import 'widget/giamgia_widget.dart';
@@ -134,7 +134,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                 phanbietnhapxuat: 'nhaphang',
               ),
               PhanCachWidget.space(),
-              DanhSachSanPhamDaChonWidget(
+              DanhSachItemDaChonNhapHangWidget(
                 selectedItems: widget.allThongTinItemNhap,
               ),
               PhanCachWidget.space(),
@@ -236,6 +236,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                         donnhaphang: donnhaphang,
                                         allThongTinItemNhap:
                                             widget.allThongTinItemNhap,
+                                        phanbietNhapXuat: 'NhapHang',
                                       ), // Thay 'TrangKhac' bằng tên trang bạn muốn chuyển đến
                                     ),
                                     // (route) =>
