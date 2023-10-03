@@ -1,6 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../../repository/goods_repository/good_repository.dart';
 
@@ -13,37 +15,58 @@ class LocationWidget extends StatefulWidget {
 }
 
 class _LocationWidgetState extends State<LocationWidget> {
+  StreamController<List<Map<String, dynamic>>> _locationDataStreamController =
+      StreamController<List<Map<String, dynamic>>>();
   final conntrollerGood = Get.put(GoodRepository());
+  @override
+  void dispose() {
+    _locationDataStreamController.close();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Gọi hàm getLocationData và lắng nghe sự thay đổi của dữ liệu
+    _getLocationData();
+  }
+
+  Future<void> _getLocationData() async {
+    String macode = widget.hanghoa["macode"];
+    List<Map<String, dynamic>> locationData =
+        await conntrollerGood.getLocationData(macode);
+    _locationDataStreamController.sink.add(locationData);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: conntrollerGood.getAllLocation(widget.hanghoa["macode"]),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: _locationDataStreamController.stream,
+      builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Hiển thị một tiêu đề hoặc tiêu đề tải dữ liệu khi đang chờ
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          // Xử lý lỗi nếu có
-          return Center(
-            child: Text("Đã xảy ra lỗi: ${snapshot.error}"),
-          );
-        } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-          // Lấy dữ liệu từ snapshot và cập nhật dataMapList
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Text('No location data available.');
+        } else {
           List<Map<String, dynamic>> dataMapList = [];
-          for (var doc in snapshot.data!.docs) {
-            String location = doc['location'];
-            String expiration = doc['exp'];
+
+          for (var doc in snapshot.data ?? []) {
             Map<String, dynamic> dataMap = {
-              'location': location,
-              'exp': expiration,
-              'soluong': doc["soluong"],
+              'location': doc['location'],
+              'exp': doc['exp'],
+              'soluong': doc['soluong'],
             };
             dataMapList.add(dataMap);
           }
+          final dateFormatter = DateFormat("dd/MM/yyyy");
 
+          dataMapList.sort((a, b) {
+            final aExpDate = dateFormatter.parseStrict(a["exp"]);
+            final bExpDate = dateFormatter.parseStrict(b["exp"]);
+            return aExpDate.compareTo(bExpDate);
+          });
           // Hiển thị bảng Table với dữ liệu mới
           return SizedBox(
             width: 350,
@@ -106,11 +129,6 @@ class _LocationWidgetState extends State<LocationWidget> {
                   ),
               ],
             ),
-          );
-        } else {
-          // Hiển thị thông báo khi không có dữ liệu
-          return const Center(
-            child: Text("Không có vị trí.", style: TextStyle(fontSize: 17)),
           );
         }
       },

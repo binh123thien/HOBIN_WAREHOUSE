@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -311,5 +313,50 @@ class GoodRepository extends GetxController {
         .collection("Location")
         .snapshots();
     return getAllLocation;
+  }
+
+  Future<List<Map<String, dynamic>>> getLocationData(String macode) async {
+    List<Map<String, dynamic>> locationList = [];
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    try {
+      // Truy cập vào collection "Exp" có sẵn từ collection "Users"
+      QuerySnapshot expSnapshot = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(firebaseUser!.uid)
+          .collection("Goods")
+          .doc(firebaseUser.uid)
+          .collection("HangHoa")
+          .doc(macode)
+          .collection("Exp")
+          .get();
+
+      // Duyệt qua các tài liệu trong collection "Exp"
+      for (QueryDocumentSnapshot expDoc in expSnapshot.docs) {
+        // Truy cập vào collection "location" cho từng tài liệu "Exp"
+        QuerySnapshot locationSnapshot = await FirebaseFirestore.instance
+            .collection("Users")
+            .doc(firebaseUser.uid)
+            .collection("Goods")
+            .doc(firebaseUser.uid)
+            .collection("HangHoa")
+            .doc(macode)
+            .collection("Exp")
+            .doc(expDoc.id)
+            .collection("location")
+            .get();
+
+        // Duyệt qua các tài liệu trong collection "location"
+        for (QueryDocumentSnapshot locationDoc in locationSnapshot.docs) {
+          // Lấy dữ liệu của từng tài liệu và thêm vào danh sách
+          Map<String, dynamic> locationData =
+              locationDoc.data() as Map<String, dynamic>;
+          locationList.add(locationData);
+        }
+      }
+    } catch (e) {
+      print("Lỗi khi truy cập cơ sở dữ liệu: $e");
+    }
+
+    return locationList;
   }
 }
