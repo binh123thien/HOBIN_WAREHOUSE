@@ -21,23 +21,25 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // List<dynamic> filteredItems = docsByMonth.expand((month) {
-    //   return month.where((item) {
-    //     final soHDMatch = item["soHD"]
-    //         .toString()
-    //         .toLowerCase()
-    //         .contains(searchHistory.toLowerCase());
-    //     final tenKhachHangMatch = item["khachhang"]
-    //         .toString()
-    //         .toLowerCase()
-    //         .contains(searchHistory.toLowerCase());
-    //     final ngaytaoMatch = item["ngaytao"]
-    //         .toString()
-    //         .toLowerCase()
-    //         .contains(searchHistory.toLowerCase());
-    //     return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
-    //   });
-    // }).toList();
+    //list được chia theo tháng
+    List<List<dynamic>> filteredItemsByMonth = docsByMonth.map((month) {
+      List<dynamic> items = month.where((item) {
+        final soHDMatch = item["soHD"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        final tenKhachHangMatch = item["khachhang"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        final ngaytaoMatch = item["ngaytao"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHistory.toLowerCase());
+        return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
+      }).toList();
+      return items;
+    }).toList();
     return Container(
       color: whiteColor,
       height: size.height - kToolbarHeight - 180,
@@ -55,52 +57,55 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: docsByMonth.length,
                 itemBuilder: ((BuildContext context, int index) {
-                  final docs = docsByMonth[index];
-                  final month = docs.first['ngaytao'].split('/')[1];
-                  final year = docs.first['ngaytao'].split('/')[2];
+                  final docs = filteredItemsByMonth[index];
+                  if (docs.isNotEmpty) {
+                    final month = docs.first['ngaytao'].split('/')[1];
+                    final year = docs.first['ngaytao'].split('/')[2];
 
-                  final tongBanHangMonthly = docs
-                      .where((doc) => doc['billType'] == 'BanHang')
-                      .fold<num>(
-                          0, (prev, curr) => prev + curr['tongthanhtoan']);
-                  final tongNhapHangMonthly = docs
-                      .where((doc) => doc['billType'] == 'NhapHang')
-                      .fold<num>(
-                          0, (prev, curr) => prev + curr['tongthanhtoan']);
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: whiteColor,
-                    child: Column(children: [
-                      Container(
-                        color: whiteColor,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Tháng $month" "/" "$year",
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ],
+                    final tongBanHangMonthly = docs
+                        .where((doc) => doc['billType'] == 'BanHang')
+                        .fold<num>(
+                            0, (prev, curr) => prev + curr['tongthanhtoan']);
+                    final tongNhapHangMonthly = docs
+                        .where((doc) => doc['billType'] == 'NhapHang')
+                        .fold<num>(
+                            0, (prev, curr) => prev + curr['tongthanhtoan']);
+                    return Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: whiteColor,
+                      child: Column(children: [
+                        Container(
+                          color: whiteColor,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8, 18, 8, 0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Tháng $month" "/" "$year",
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            ChitietThangPhanLoai(
-                              tongBanHangMonthly: tongBanHangMonthly,
-                              tongNhapHangMonthly: tongNhapHangMonthly,
-                            ),
-                          ],
+                              ChitietThangPhanLoai(
+                                tongBanHangMonthly: tongBanHangMonthly,
+                                tongNhapHangMonthly: tongNhapHangMonthly,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      CardHistory(
-                        docs: docs,
-                      )
-                    ]),
-                  );
+                        CardHistory(
+                          docs: docs,
+                        )
+                      ]),
+                    );
+                  }
+                  return null;
                 }),
               );
             }

@@ -3,7 +3,6 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/banhang/banhang_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/thanhcong/thanhcong_screen.dart';
 
-import '../../../../constants/icon.dart';
 import '../Widget/appbar/search_widget.dart';
 import 'dangcho/dangcho_screen.dart';
 import 'huy/huy_screen.dart';
@@ -63,14 +62,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             searchHistory = value;
                           });
                         },
-                        width: 320,
+                        width: 350,
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Image(
-                            image: AssetImage(sortbyIcon),
-                            height: 28,
-                          )),
+                      // IconButton(
+                      //     onPressed: () {},
+                      //     icon: const Image(
+                      //       image: AssetImage(sortbyIcon),
+                      //       height: 28,
+                      //     )),
                     ],
                   ),
                   TabBar(
