@@ -33,7 +33,7 @@ class _TabbarSoNoWidgetState extends State<TabbarSoNoWidget>
         mainAxisSize: MainAxisSize.min,
         children: [
           AppBar(
-            elevation: 1,
+            elevation: 4,
             automaticallyImplyLeading: false,
             backgroundColor: whiteColor,
             title: const TabBar(
@@ -54,7 +54,8 @@ class _TabbarSoNoWidgetState extends State<TabbarSoNoWidget>
               isScrollable: false,
             ),
           ),
-          SizedBox(
+          Container(
+            color: whiteColor,
             height: MediaQuery.of(context).size.height - kToolbarHeight - 145,
             child: const TabBarView(
               children: [

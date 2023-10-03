@@ -175,7 +175,7 @@ class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
         });
       });
     } catch (e) {
-      print(e);
+      // print(e);
     }
   }
 }

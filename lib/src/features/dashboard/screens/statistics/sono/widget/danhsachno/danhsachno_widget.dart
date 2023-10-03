@@ -152,10 +152,15 @@ class _DanhSachNoWidgetState extends State<DanhSachNoWidget> {
                                 ? cancel600Color
                                 : darkColor),
                       ),
+                      subtitle: khachno["billType"] == "NhapHang"
+                          ? const Text("Nhà cung cấp",
+                              style: TextStyle(fontSize: 15))
+                          : const Text("Khách hàng",
+                              style: TextStyle(fontSize: 15)),
                       trailing: Text(
                         formatCurrency(khachno["no"]),
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w400),
+                            fontSize: 17, fontWeight: FontWeight.w400),
                       ),
                     ),
                   );

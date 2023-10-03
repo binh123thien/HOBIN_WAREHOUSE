@@ -38,7 +38,7 @@ class _ShowTraNoState extends State<ShowTraNo> {
       // Lấy danh sách các documents trong collection NhapHang hoặc BanHang
 
       final alldonhang = await controllerHistory.loadAllDonXuatHangHoacNhapHang(
-          widget.billType == "BanHang" ? "BanHang" : "NhapHang");
+          widget.billType == "XuatHang" ? "XuatHang" : "NhapHang");
       final listNo = alldonhang.docs
           .where(
             (doc) => doc['khachhang'] == widget.tenkhachhang && doc['no'] > 0,
@@ -59,32 +59,36 @@ class _ShowTraNoState extends State<ShowTraNo> {
             'tongthanhtoan': FieldValue.increment(no),
             'trangthai': 'Thành công'
           });
-          final ngay = doc["datetime"];
-          controllerNoRepo.updateTrangThaiNgaySauKhiTraNo(
-              ngay, no, "traNoLonHonNo");
-          controllerNoRepo.updateTrangThaiTuanSauKhiTraNo(
-              ngay, no, "traNoLonHonNo");
-          controllerNoRepo.updateTrangThaiThangSauKhiTraNo(
-              ngay, no, "traNoLonHonNo");
+          if (widget.billType == "XuatHang") {
+            final ngay = doc["datetime"];
+            controllerNoRepo.updateTrangThaiNgaySauKhiTraNo(
+                ngay, no, "traNoLonHonNo");
+            controllerNoRepo.updateTrangThaiTuanSauKhiTraNo(
+                ngay, no, "traNoLonHonNo");
+            controllerNoRepo.updateTrangThaiThangSauKhiTraNo(
+                ngay, no, "traNoLonHonNo");
+          }
         } else {
           await docRef.update({
             'no': no - tranotam,
             'tongthanhtoan': FieldValue.increment(tranotam),
           });
-          final ngay = doc["datetime"];
-          controllerNoRepo.updateTrangThaiNgaySauKhiTraNo(
-              ngay, tranotam, "traNoNhoHonNo");
-          controllerNoRepo.updateTrangThaiTuanSauKhiTraNo(
-              ngay, tranotam, "traNoNhoHonNo");
-          controllerNoRepo.updateTrangThaiThangSauKhiTraNo(
-              ngay, tranotam, "traNoNhoHonNo");
-          break;
+          if (widget.billType == "XuatHang") {
+            final ngay = doc["datetime"];
+            controllerNoRepo.updateTrangThaiNgaySauKhiTraNo(
+                ngay, tranotam, "traNoNhoHonNo");
+            controllerNoRepo.updateTrangThaiTuanSauKhiTraNo(
+                ngay, tranotam, "traNoNhoHonNo");
+            controllerNoRepo.updateTrangThaiThangSauKhiTraNo(
+                ngay, tranotam, "traNoNhoHonNo");
+            break;
+          }
         }
       }
       final ngaytao = formatNgaytao();
       final soHD = generateLSNCode();
       final lichsutrano = LichSuTraNoModel(
-        billType: widget.billType == "BanHang" ? "BanHang" : "NhapHang",
+        billType: widget.billType == "XuatHang" ? "XuatHang" : "NhapHang",
         khachhang: widget.tenkhachhang,
         ngaytrano: ngaytao,
         soHD: soHD,
@@ -93,19 +97,8 @@ class _ShowTraNoState extends State<ShowTraNo> {
         conno: widget.tongno - trano,
       );
       controllerLSRepo.createLichSuTraNo(lichsutrano, soHD);
-      // ======================== Message=====================//
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Thành công!'),
-      ));
-      // Wait for a short time to let the user see the SnackBar
-      await Future.delayed(const Duration(seconds: 1))
-          .then((value) => setState(() {
-                controllerNo.traNoController.clear();
-                Navigator.of(context).pop(trano);
-              }));
     } catch (e) {
-      print("Error: $e");
-      // Handle errors here
+      //
     }
   }
 
@@ -167,7 +160,14 @@ class _ShowTraNoState extends State<ShowTraNo> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
-                              onPressed: _onSaveButtonPressed,
+                              onPressed: () {
+                                _onSaveButtonPressed().then((value) {
+                                  setState(() {
+                                    controllerNo.traNoController.clear();
+                                    Navigator.of(context).pop(trano);
+                                  });
+                                });
+                              },
                               child: const Text("Xong"))),
                     )
                   ],
