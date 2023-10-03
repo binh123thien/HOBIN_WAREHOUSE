@@ -206,4 +206,165 @@ class XuatHangRepository extends GetxController {
       }
     }
   }
+
+//========================== Tinh Doanh Thu ===================================//
+  String getTuanFromDate(String ngay, String field) {
+    final dateFormat = DateFormat("dd-MM-yyyy");
+    final date = dateFormat.parse(ngay);
+
+    // Tạo ra một DateTime của ngày đầu tiên của năm
+    final startOfYear = DateTime(date.year, 1, 1);
+
+    // Tính toán số ngày kể từ ngày đầu tiên của năm đến ngày cho trước
+    final daysSinceStartOfYear = date.difference(startOfYear).inDays;
+
+    // Tính toán tuần dựa trên số ngày đã trôi qua và tuần đầu tiên của năm
+    final weekNumber = (daysSinceStartOfYear / 7).ceil();
+    final startOfWeek = date.subtract(Duration(days: date.weekday - 1));
+    final endOfWeek = startOfWeek.add(const Duration(days: 6));
+    final tuanNgay =
+        'Tuần $weekNumber (${dateFormat.format(startOfWeek).replaceAll("-", "Th").substring(0, 6)} - ${dateFormat.format(endOfWeek).replaceAll("-", "Th").substring(0, 6)})';
+    final formattedWeek = DateFormat("yyyy-$weekNumber").format(date);
+    final week =
+        "$formattedWeek (${dateFormat.format(startOfWeek)} ${dateFormat.format(endOfWeek)})";
+    final formatday = DateFormat("yyyy-MM-dd").format(date);
+    final formatyear = DateFormat("yyyy-MM").format(date);
+    if (field == "datetime") {
+      return tuanNgay;
+    } else if (field == "week") {
+      return week;
+    } else if (field == "day") {
+      return formatday;
+    } else {
+      return formatyear;
+    }
+  }
+
+  Future<void> createTongDoanhThuNgay(String ngay, num doanhthu, num no) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final docRef = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("TongDoanhThu")
+        .doc(firebaseUser.uid)
+        .collection("HangNgay")
+        .doc(ngay);
+
+    final docSnapshot = await docRef.get();
+
+    if (docSnapshot.exists) {
+      // Nếu tài liệu đã tồn tại, cộng trường doanhthu lại
+      final existingDoanhThu = docSnapshot.data()?['doanhthu'] ?? 0;
+      final newDoanhThu = existingDoanhThu + doanhthu;
+
+      await docRef.update({'doanhthu': newDoanhThu});
+
+      if (no == 0) {
+        await docRef.update({'thanhcong': FieldValue.increment(1)});
+      } else if (no > 0) {
+        await docRef.update({'dangcho': FieldValue.increment(1)});
+      }
+    } else {
+      // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
+      await docRef.set({
+        'datetime': ngay,
+        'doanhthu': doanhthu,
+        'thanhcong': no == 0 ? 1 : 0,
+        'dangcho': no > 0 ? 1 : 0,
+        'huy': 0,
+        'day': getTuanFromDate(ngay, "day"),
+      });
+    }
+  }
+
+  Future<void> createTongDoanhThuTuan(String ngay, num doanhthu, num no) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final docRef = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("TongDoanhThu")
+        .doc(firebaseUser.uid)
+        .collection("HangTuan");
+
+    final tuanNgay = getTuanFromDate(ngay, "datetime");
+
+    final docSnapshot = await docRef.doc(tuanNgay).get();
+
+    if (docSnapshot.exists) {
+      // Nếu tài liệu đã tồn tại, cộng trường doanhthu lại
+      final existingDoanhThu = docSnapshot.data()?['doanhthu'] ?? 0;
+      final newDoanhThu = existingDoanhThu + doanhthu;
+
+      await docRef.doc(tuanNgay).update({'doanhthu': newDoanhThu});
+
+      if (no == 0) {
+        await docRef
+            .doc(tuanNgay)
+            .update({'thanhcong': FieldValue.increment(1)});
+      } else if (no > 0) {
+        await docRef.doc(tuanNgay).update({'dangcho': FieldValue.increment(1)});
+      }
+    } else {
+      // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
+      await docRef.doc(tuanNgay).set({
+        'datetime': tuanNgay,
+        'doanhthu': doanhthu,
+        'thanhcong': no == 0 ? 1 : 0,
+        'dangcho': no > 0 ? 1 : 0,
+        'huy': 0,
+        'week': getTuanFromDate(ngay, "week"),
+      });
+    }
+  }
+
+  Future<void> createTongDoanhThuThang(
+      String ngay, num doanhthu, num no) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final dateFormat = DateFormat("dd-MM-yyyy");
+    final date = dateFormat.parse(ngay);
+
+    // Tạo ra định dạng chuỗi "Tháng MM-yyyy" từ ngày cho trước
+    final monthFormat = DateFormat("'Tháng' MM-yyyy");
+    final monthString = monthFormat.format(date);
+
+    final docRef = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("TongDoanhThu")
+        .doc(firebaseUser.uid)
+        .collection("HangThang")
+        .doc(monthString);
+
+    final docSnapshot = await docRef.get();
+
+    if (docSnapshot.exists) {
+      // Nếu tài liệu đã tồn tại, cộng trường doanhthu lại
+      final existingDoanhThu = docSnapshot.data()?['doanhthu'] ?? 0;
+      final newDoanhThu = existingDoanhThu + doanhthu;
+
+      await docRef.update({'doanhthu': newDoanhThu});
+
+      if (no == 0) {
+        await docRef.update({'thanhcong': FieldValue.increment(1)});
+      } else if (no > 0) {
+        await docRef.update({'dangcho': FieldValue.increment(1)});
+      }
+    } else {
+      // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
+      await docRef.set({
+        'datetime': monthString,
+        'doanhthu': doanhthu,
+        'thanhcong': no == 0 ? 1 : 0,
+        'dangcho': no > 0 ? 1 : 0,
+        'huy': 0,
+        'month': getTuanFromDate(ngay, "month"),
+      });
+    }
+  }
 }

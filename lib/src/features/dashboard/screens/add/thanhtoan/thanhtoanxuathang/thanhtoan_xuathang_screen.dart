@@ -286,6 +286,13 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
       //cap nhat gia tri ton kho
       await controllerXuatHangRepo
           .capNhatGiaTriTonKhoXuatHang(widget.allThongTinItemXuat);
+      //tinh tong doanh thu
+      await controllerXuatHangRepo.createTongDoanhThuNgay(
+          donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);
+      await controllerXuatHangRepo.createTongDoanhThuTuan(
+          donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);
+      await controllerXuatHangRepo.createTongDoanhThuThang(
+          donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);
     } catch (e) {
       //
     }
