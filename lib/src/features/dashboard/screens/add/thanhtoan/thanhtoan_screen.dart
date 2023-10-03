@@ -5,7 +5,7 @@ import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
-import '../../../../../repository/add_repository/add_repository.dart';
+import '../../../../../repository/add_repository/nhaphang/nhaphang_repository.dart';
 import '../../../models/themdonhang_model.dart';
 import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
 import 'chitiethoadon_screen.dart';
@@ -24,7 +24,7 @@ class ThanhToanScreen extends StatefulWidget {
 }
 
 class _ThanhToanScreenState extends State<ThanhToanScreen> {
-  final controllerAddRepo = Get.put(AddRepository());
+  final controllerNhapHangRepo = Get.put(NhapHangRepository());
   Map<String, dynamic> khachhang = {};
   num giamgia = 0;
   num no = 0;
@@ -276,7 +276,9 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
       // Perform data processing
       // await controllerAddRepo.createDonNhapHang(
       //     donnhaphang, widget.allThongTinItemNhap);
-      await controllerAddRepo.createExpired(widget.allThongTinItemNhap);
+      // await controllerNhapHangRepo.createExpired(widget.allThongTinItemNhap);
+      await controllerNhapHangRepo
+          .createHangHoaExpired(widget.allThongTinItemNhap);
     } catch (e) {
       // print("Error: $e");
     }
