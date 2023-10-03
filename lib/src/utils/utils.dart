@@ -41,7 +41,7 @@ String formatNgayTaoString(String dateString) {
   return formattedDate;
 }
 
-String generateBHCode() {
+String generateXHCode() {
   final DateTime now = DateTime.now();
   final formatter = DateFormat('yyMMdd-HHmmss'); // Thêm định dạng giây
 
@@ -49,7 +49,7 @@ String generateBHCode() {
   final formattedDateTime = formatter.format(now);
 
   // Ghép chuỗi BH với ngày giờ định dạng
-  return 'BH$formattedDateTime';
+  return 'XH$formattedDateTime';
 }
 
 String generateNHCode() {

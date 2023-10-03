@@ -5,10 +5,14 @@ import '../../../../../../constants/icon.dart';
 import '../choose_khachhang_thanhtoan_screen.dart';
 
 class ChooseKhachHangWidget extends StatefulWidget {
+  final String phanbietnhapxuat;
   final Map<String, dynamic> khachhang;
   final Function reload;
   const ChooseKhachHangWidget(
-      {super.key, required this.khachhang, required this.reload});
+      {super.key,
+      required this.khachhang,
+      required this.reload,
+      required this.phanbietnhapxuat});
 
   @override
   State<ChooseKhachHangWidget> createState() => _ChooseKhachHangWidgetState();
@@ -44,10 +48,15 @@ class _ChooseKhachHangWidgetState extends State<ChooseKhachHangWidget> {
                 ),
                 const SizedBox(width: 7),
                 widget.khachhang.isEmpty
-                    ? const Text(
-                        "Nhà Cung Cấp",
-                        style: TextStyle(fontSize: 17),
-                      )
+                    ? widget.phanbietnhapxuat == "nhaphang"
+                        ? const Text(
+                            "Nhà Cung Cấp",
+                            style: TextStyle(fontSize: 17),
+                          )
+                        : const Text(
+                            "Khách hàng",
+                            style: TextStyle(fontSize: 17),
+                          )
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

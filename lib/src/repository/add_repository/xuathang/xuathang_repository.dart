@@ -3,7 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../features/dashboard/models/themdonhang_model.dart';
+
 class XuatHangRepository extends GetxController {
+  final _db = FirebaseFirestore.instance;
   Future<List<Map<String, dynamic>>> createListLocation(
       Map<String, dynamic> thongTinItemXuat, num maxQuantity) async {
     bool breakvonglaplon = false;
@@ -66,5 +69,31 @@ class XuatHangRepository extends GetxController {
       }
     }
     return result;
+  }
+
+  createHoaDonXuatHang(ThemDonHangModel hoadonxuathang,
+      List<Map<String, dynamic>> allThongTinItemXuat) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final xuatHangCollectionRef = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("XuatHang")
+        .doc(hoadonxuathang.soHD);
+    await xuatHangCollectionRef.set(hoadonxuathang.toJson());
+    final newDonXuatHangDocSnapshot = await xuatHangCollectionRef.get();
+    final hoaDonCollectionRef =
+        newDonXuatHangDocSnapshot.reference.collection("HoaDon");
+    for (var itemxuat in allThongTinItemXuat) {
+      await hoaDonCollectionRef.add({
+        "tensanpham": itemxuat["tensanpham"],
+        "soluong": itemxuat["soluong"],
+        "gia": itemxuat["gia"],
+        "macode": itemxuat["macode"],
+        "locationAndexp": itemxuat["locationAndexp"],
+      });
+    }
+    print("xong");
   }
 }

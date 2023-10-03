@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
-import '../../../../../common_widgets/dotline/dotline.dart';
-import '../../../../../constants/color.dart';
-import '../../../../../constants/icon.dart';
-import '../../../../../repository/add_repository/add_repository.dart';
-import '../../../models/themdonhang_model.dart';
-import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
-import 'widget/choose_khachhang_widget.dart';
-import 'widget/giamgia_widget.dart';
-import 'widget/giamgiavano_widget.dart';
-import 'widget/phuongthucthanhtoan_widget.dart';
-import 'widget/tomtatyeucau.dart';
+import '../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../constants/color.dart';
+import '../../../../../../constants/icon.dart';
+import '../../../../../../repository/add_repository/xuathang/xuathang_repository.dart';
+import '../../../../models/themdonhang_model.dart';
+import '../../xuathang/widget/itemdachon_xuathang_widget.dart';
+import '../widget/choose_khachhang_widget.dart';
+import '../widget/giamgia_widget.dart';
+import '../widget/giamgiavano_widget.dart';
+import '../widget/phuongthucthanhtoan_widget.dart';
+import '../widget/tomtatyeucau.dart';
 
 class ThanhToanXuatHangScreen extends StatefulWidget {
   final List<Map<String, dynamic>> allThongTinItemXuat;
@@ -23,7 +23,7 @@ class ThanhToanXuatHangScreen extends StatefulWidget {
 }
 
 class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
-  final controllerAddRepo = Get.put(AddRepository());
+  final controllerXuatHangRepo = Get.put(XuatHangRepository());
   Map<String, dynamic> khachhang = {};
   num giamgia = 0;
   num no = 0;
@@ -127,10 +127,13 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
               ChooseKhachHangWidget(
                 khachhang: khachhang,
                 reload: _reload,
+                phanbietnhapxuat: 'xuathang',
               ),
               PhanCachWidget.space(),
-              DanhSachSanPhamDaChonWidget(
+              ItemDaChonXuatHangWidget(
                 selectedItems: widget.allThongTinItemXuat,
+                blockOnPress: true,
+                reLoadOnDeleteXuatHang: () {},
               ),
               PhanCachWidget.space(),
               GiamGiaVaNoWidget(
@@ -186,23 +189,23 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          backgroundColor: blueColor,
-                          side: const BorderSide(color: blueColor),
+                          backgroundColor: mainColor,
+                          side: const BorderSide(color: mainColor),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 10), // giá trị này xác định bán kính bo tròn
                           ),
                         ),
                         onPressed: () {
-                          final nHcode = generateNHCode();
+                          final xHcode = generateXHCode();
                           final ngaytao = formatNgayTao();
                           final datetime = formatDatetime();
 
-                          ThemDonHangModel(
-                            soHD: nHcode,
+                          final hoadonxuathang = ThemDonHangModel(
+                            soHD: xHcode,
                             ngaytao: ngaytao,
                             khachhang: khachhang.isEmpty
-                                ? "Nhà cung cấp"
+                                ? "Khách hàng"
                                 : khachhang["tenkhachhang"],
                             payment: selectedPaymentMethod,
                             tongsl: totalQuantity,
@@ -211,11 +214,11 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                             no: no,
                             trangthai: no == 0 ? "Thành công" : "Đang chờ",
                             tongthanhtoan: tong,
-                            billType: 'NhapHang',
+                            billType: 'XuatHang',
                             datetime: datetime,
                           );
-                          // controllerAddRepo.createDonNhapHang(
-                          //     donnhaphang, widget.allThongTinItemNhap);
+                          controllerXuatHangRepo.createHoaDonXuatHang(
+                              hoadonxuathang, widget.allThongTinItemXuat);
                           // controllerAddRepo
                           //     .createExpired(widget.allThongTinItemXuat);
                         },

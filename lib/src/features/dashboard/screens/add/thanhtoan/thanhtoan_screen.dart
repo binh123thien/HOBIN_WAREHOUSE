@@ -131,6 +131,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
               ChooseKhachHangWidget(
                 khachhang: khachhang,
                 reload: _reload,
+                phanbietnhapxuat: 'nhaphang',
               ),
               PhanCachWidget.space(),
               DanhSachSanPhamDaChonWidget(

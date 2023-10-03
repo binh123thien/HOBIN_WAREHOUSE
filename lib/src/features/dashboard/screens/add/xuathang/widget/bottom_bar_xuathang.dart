@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/add/thanhtoan/thanhtoan_xuathang_screen.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/add/thanhtoan/thanhtoanxuathang/thanhtoan_xuathang_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../../../../repository/add_repository/xuathang/xuathang_repository.dart';
