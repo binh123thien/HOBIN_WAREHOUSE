@@ -7,12 +7,12 @@ import 'itemdachon_xuathang_widget.dart';
 class DanhSachItemDaChonXuatHangScreen extends StatefulWidget {
   final List<Map<String, dynamic>> selectedItems;
   final bool blockOnPress;
-  final Function reLoad;
+  final Function reLoadOnDeleteXuatHang;
   const DanhSachItemDaChonXuatHangScreen(
       {super.key,
       required this.selectedItems,
       required this.blockOnPress,
-      required this.reLoad});
+      required this.reLoadOnDeleteXuatHang});
 
   @override
   State<DanhSachItemDaChonXuatHangScreen> createState() =>
@@ -86,7 +86,7 @@ class _DanhSachItemDaChonXuatHangScreenState
         ItemDaChonXuatHangWidget(
           selectedItems: widget.selectedItems,
           blockOnPress: widget.blockOnPress,
-          reLoad: widget.reLoad,
+          reLoadOnDeleteXuatHang: widget.reLoadOnDeleteXuatHang,
         ),
       ],
     );

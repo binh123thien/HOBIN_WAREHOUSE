@@ -39,7 +39,7 @@ class _DeleteItemXuatHangScreenState extends State<DeleteItemXuatHangScreen> {
           ItemDaChonXuatHangWidget(
             selectedItems: list,
             blockOnPress: true,
-            reLoad: () {},
+            reLoadOnDeleteXuatHang: () {},
           ),
           Container(
             height: 10,

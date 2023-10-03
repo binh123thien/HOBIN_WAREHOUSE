@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/bottom_bar_xuathang.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/xuatthongtin_item.dart';
 
+import '../../../controllers/add/chonhanghoa_controller.dart';
 import 'widget/chonsoluong_xuathang_widget.dart';
 import 'widget/danhsachitemdachon_xuathang_screen.dart';
 
@@ -15,6 +17,7 @@ class XuatHangScreen extends StatefulWidget {
 }
 
 class _XuatHangScreenState extends State<XuatHangScreen> {
+  final controllerAllHangHoa = Get.put(ChonHangHoaController());
   final int phanBietXuat = 0;
   List<Map<String, dynamic>> allThongTinItemXuat = [];
   List<Map<String, dynamic>> listLocation = [];
@@ -88,8 +91,14 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
     });
   }
 
-  void _reload(List<Map<String, dynamic>> selectedItems) {
+  void _reLoadOnDeleteXuatHang(
+      List<Map<String, dynamic>> selectedItems, String macode, num soluong) {
     setState(() {
+      for (var doc in controllerAllHangHoa.allHangHoaFireBase) {
+        if (doc["macode"] == macode) {
+          doc["tonkho"] = doc["tonkho"] + soluong;
+        }
+      }
       allThongTinItemXuat = selectedItems;
     });
   }
@@ -129,7 +138,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
                         DanhSachItemDaChonXuatHangScreen(
                           selectedItems: allThongTinItemXuat,
                           blockOnPress: false,
-                          reLoad: _reload,
+                          reLoadOnDeleteXuatHang: _reLoadOnDeleteXuatHang,
                         ),
                       ],
                     ),

@@ -9,12 +9,12 @@ import 'delete_item_xuathang.dart';
 class ItemDaChonXuatHangWidget extends StatefulWidget {
   final List<Map<String, dynamic>> selectedItems;
   final bool blockOnPress;
-  final Function reLoad;
+  final Function reLoadOnDeleteXuatHang;
   const ItemDaChonXuatHangWidget(
       {super.key,
       required this.selectedItems,
       required this.blockOnPress,
-      required this.reLoad});
+      required this.reLoadOnDeleteXuatHang});
 
   @override
   State<ItemDaChonXuatHangWidget> createState() =>
@@ -36,8 +36,11 @@ class _ItemDaChonXuatHangWidgetState extends State<ItemDaChonXuatHangWidget> {
         return DeleteItemXuatHangScreen(
           thongTinItemNhapHienTai: widget.selectedItems[index],
           onDelete: () {
+            String macode = widget.selectedItems[index]["macode"];
+            num soluong = widget.selectedItems[index]["soluong"];
             widget.selectedItems.removeAt(index);
-            widget.reLoad(widget.selectedItems);
+            widget.reLoadOnDeleteXuatHang(
+                widget.selectedItems, macode, soluong);
           },
         );
       },
