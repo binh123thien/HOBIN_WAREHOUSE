@@ -3,10 +3,9 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:intl/intl.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import 'widget/bottom_bar_nhaphang.dart';
-import 'widget/chonsoluong_widget.dart';
 import 'widget/danhsach_items_dachon.dart';
+import 'widget/formnhapso_nhaphang.dart';
 import 'widget/nhapthongtin_item.dart';
-import 'widget/thaydoigia_widget.dart';
 
 class NhapHangScreen extends StatefulWidget {
   const NhapHangScreen({super.key});
@@ -44,22 +43,26 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
   }
 
   void _thayDoiGia() {
+    final focusNode = FocusNode();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
       builder: (BuildContext context) {
-        return const ThayDoiGiaWidget();
+        // Gọi requestFocus sau khi showModalBottomSheet được mở
+        Future.delayed(const Duration(milliseconds: 100), () {
+          focusNode.requestFocus();
+        });
+        return FormNhapSoNhapHangWidget(
+          focusNode: focusNode,
+          phanbietgianhapHoacSoluong: 'gianhap',
+        );
       },
     ).then((value) {
       if (value != null) {
         setState(() {
-          thongTinItemNhap["gia"] = int.tryParse(value);
+          thongTinItemNhap["gia"] = num.tryParse(value)!;
+          _checkFields();
         });
       }
     });
@@ -83,24 +86,25 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
   }
 
   void _chonSoluong() {
+    final focusNode = FocusNode();
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-      ),
       builder: (BuildContext context) {
-        return ChonSoLuongWidget(
-          phanBietNhapXuat: phanBietNhap,
+        // Gọi requestFocus sau khi showModalBottomSheet được mở
+        Future.delayed(const Duration(milliseconds: 100), () {
+          focusNode.requestFocus();
+        });
+        return FormNhapSoNhapHangWidget(
+          focusNode: focusNode,
+          phanbietgianhapHoacSoluong: 'soluong',
         );
       },
     ).then((value) {
       if (value != null) {
         setState(() {
-          thongTinItemNhap["soluong"] = int.tryParse(value);
+          thongTinItemNhap["soluong"] = num.tryParse(value)!;
           _checkFields();
         });
       }
