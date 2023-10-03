@@ -249,10 +249,6 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                               });
                             },
                           );
-                          controllerXuatHangRepo.createHoaDonXuatHang(
-                              hoadonxuathang, widget.allThongTinItemXuat);
-                          // controllerAddRepo
-                          //     .createExpired(widget.allThongTinItemXuat);
                         },
                         child: _isLoading
                             ? const SizedBox(
@@ -279,16 +275,19 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
   Future<void> _performDataProcessing(
       BuildContext context, ThemDonHangModel donnhaphang) async {
     try {
-      // Perform data processing
-      // await controllerAddRepo.createDonNhapHang(
-      //     donnhaphang, widget.allThongTinItemNhap);
-      // await controllerNhapHangRepo.createExpired(widget.allThongTinItemNhap);
-      // await controllerNhapHangRepo
-      //     .createHangHoaExpired(widget.allThongTinItemNhap);
-      // await controllerNhapHangRepo
-      //     .capNhatGiaTriTonKhoNhapHang(widget.allThongTinItemNhap);
+      //tao don Xuat hang
+      await controllerXuatHangRepo.createHoaDonXuatHang(
+          donnhaphang, widget.allThongTinItemXuat);
+      //cap nhat ngay het han
+      await controllerXuatHangRepo.updateExpired(widget.allThongTinItemXuat);
+      //cap nhat ngay het han trong hang hoa
+      await controllerXuatHangRepo
+          .updateHangHoaExpired(widget.allThongTinItemXuat);
+      //cap nhat gia tri ton kho
+      await controllerXuatHangRepo
+          .capNhatGiaTriTonKhoXuatHang(widget.allThongTinItemXuat);
     } catch (e) {
-      // print("Error: $e");
+      //
     }
   }
 }

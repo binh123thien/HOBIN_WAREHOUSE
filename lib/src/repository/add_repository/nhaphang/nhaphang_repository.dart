@@ -2,8 +2,37 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
+import '../../../features/dashboard/models/themdonhang_model.dart';
+
 class NhapHangRepository extends GetxController {
   final _db = FirebaseFirestore.instance;
+
+  createHoaDonNhapHang(ThemDonHangModel hoadonnhaphang,
+      List<Map<String, dynamic>> allThongTinItemXuat) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final xuatHangCollectionRef = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("NhapHang")
+        .doc(hoadonnhaphang.soHD);
+    await xuatHangCollectionRef.set(hoadonnhaphang.toJson());
+    final newDonXuatHangDocSnapshot = await xuatHangCollectionRef.get();
+    final hoaDonCollectionRef =
+        newDonXuatHangDocSnapshot.reference.collection("HoaDon");
+    for (var itemxuat in allThongTinItemXuat) {
+      await hoaDonCollectionRef.add({
+        "tensanpham": itemxuat["tensanpham"],
+        "soluong": itemxuat["soluong"],
+        "gia": itemxuat["gia"],
+        "macode": itemxuat["macode"],
+        "location": itemxuat["location"],
+        "exp": itemxuat["exp"],
+      });
+    }
+  }
+
   Future<void> createExpired(List<Map<String, dynamic>> dataList) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final collection = _db

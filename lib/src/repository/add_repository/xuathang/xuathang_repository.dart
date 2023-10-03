@@ -71,6 +71,7 @@ class XuatHangRepository extends GetxController {
     return result;
   }
 
+// ====================================== Them đơn xuất hàng ==================//
   createHoaDonXuatHang(ThemDonHangModel hoadonxuathang,
       List<Map<String, dynamic>> allThongTinItemXuat) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
@@ -94,6 +95,115 @@ class XuatHangRepository extends GetxController {
         "locationAndexp": itemxuat["locationAndexp"],
       });
     }
-    print("xong");
+  }
+
+  Future<void> updateExpired(
+      List<Map<String, dynamic>> allThongTinItemXuat) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collectionExpired = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("Expired");
+    for (var doc in allThongTinItemXuat) {
+      final listLocation = doc["locationAndexp"];
+      for (var location in listLocation) {
+        final expValue = location["exp"].replaceAll('/', '-');
+        final queryExp = await collectionExpired
+            .doc(expValue)
+            .collection("masanpham")
+            .doc(doc["macode"])
+            .collection("location")
+            .doc(location["location"])
+            .get();
+
+        if (queryExp.exists) {
+          // Lấy dữ liệu từ tài liệu hiện tại
+          final existingData = queryExp.data() as Map<String, dynamic>;
+          final soLuongFirebase = existingData["soluong"] ?? 0;
+          final soluongtronglist = location["soluong"] ?? 0;
+
+          if (soLuongFirebase == soluongtronglist) {
+            // Xóa tài liệu hiện tại
+            await queryExp.reference.delete();
+          } else if (soLuongFirebase > soluongtronglist) {
+            // Cập nhật trường "soluong" của tài liệu hiện tại
+            await queryExp.reference
+                .update({"soluong": soLuongFirebase - soluongtronglist});
+          }
+        }
+      }
+    }
+  }
+
+  Future<void> updateHangHoaExpired(
+      List<Map<String, dynamic>> allThongTinItemXuat) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collectionHangHoaExpired = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa");
+    for (var doc in allThongTinItemXuat) {
+      final listLocation = doc["locationAndexp"];
+      for (var location in listLocation) {
+        final expValue = location["exp"].replaceAll('/', '-');
+        final queryExp = await collectionHangHoaExpired
+            .doc(doc["macode"])
+            .collection("Exp")
+            .doc(expValue)
+            .collection("location")
+            .doc(location["location"])
+            .get();
+        if (queryExp.exists) {
+          // Lấy dữ liệu từ tài liệu hiện tại
+          final existingData = queryExp.data() as Map<String, dynamic>;
+          final soLuongFirebase = existingData["soluong"] ?? 0;
+          final soluongtronglist = location["soluong"] ?? 0;
+
+          if (soLuongFirebase == soluongtronglist) {
+            // Xóa tài liệu hiện tại
+            await queryExp.reference.delete();
+          } else if (soLuongFirebase > soluongtronglist) {
+            // Cập nhật trường "soluong" của tài liệu hiện tại
+            await queryExp.reference
+                .update({"soluong": soLuongFirebase - soluongtronglist});
+          }
+        }
+      }
+    }
+  }
+
+  Future<void> capNhatGiaTriTonKhoXuatHang(
+      List<Map<String, dynamic>> allThongTinItemNhap) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collection = FirebaseFirestore.instance
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa");
+
+    for (var doc in allThongTinItemNhap) {
+      String macode = doc["macode"];
+      num soluong = doc["soluong"];
+
+      // Lấy tài liệu từ Firestore
+      DocumentSnapshot querySnapshot = await collection.doc(macode).get();
+
+      if (querySnapshot.exists) {
+        final existingData = querySnapshot.data() as Map<String, dynamic>;
+        // Lấy giá trị tồn kho hiện tại từ Firebase
+        num tonkhoHienTai = existingData["tonkho"];
+
+        // Tính giá trị tồn kho mới
+        num tonkhoMoi = tonkhoHienTai - soluong;
+
+        // Cập nhật giá trị tonkho
+        await collection.doc(macode).update({"tonkho": tonkhoMoi});
+      }
+    }
   }
 }

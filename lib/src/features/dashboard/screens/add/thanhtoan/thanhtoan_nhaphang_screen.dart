@@ -274,12 +274,15 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
   Future<void> _performDataProcessing(
       BuildContext context, ThemDonHangModel donnhaphang) async {
     try {
-      // Perform data processing
-      // await controllerAddRepo.createDonNhapHang(
-      //     donnhaphang, widget.allThongTinItemNhap);
-      // await controllerNhapHangRepo.createExpired(widget.allThongTinItemNhap);
+      //tao don nhap hang
+      await controllerNhapHangRepo.createHoaDonNhapHang(
+          donnhaphang, widget.allThongTinItemNhap);
+      //tao ngay het han
+      await controllerNhapHangRepo.createExpired(widget.allThongTinItemNhap);
+      //tao ngay het han trong hang hoa
       await controllerNhapHangRepo
           .createHangHoaExpired(widget.allThongTinItemNhap);
+      //cap nhat gia tri ton kho
       await controllerNhapHangRepo
           .capNhatGiaTriTonKhoNhapHang(widget.allThongTinItemNhap);
     } catch (e) {
