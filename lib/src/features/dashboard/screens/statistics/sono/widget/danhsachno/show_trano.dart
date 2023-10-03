@@ -90,7 +90,7 @@ class _ShowTraNoState extends State<ShowTraNo> {
           }
         }
       }
-      final ngaytao = formatNgaytao();
+      final ngaytao = formatNgayTao();
       final soHD = generateLSNCode();
       final lichsutrano = LichSuTraNoModel(
         billType: widget.billType == "XuatHang" ? "XuatHang" : "NhapHang",
