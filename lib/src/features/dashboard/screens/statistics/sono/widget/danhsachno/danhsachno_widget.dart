@@ -121,47 +121,42 @@ class _DanhSachNoWidgetState extends State<DanhSachNoWidget> {
                 itemBuilder: (context, index) {
                   final khachno = filteredList[index];
 
-                  return Card(
-                    color: whiteColor,
-                    elevation: 1,
-                    child: ListTile(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ListDanhSachNo(
-                                    tenkhachhang:
-                                        khachno["khachhang"].toString(),
-                                    billType: khachno["billType"].toString(),
-                                  )),
-                        ).then((_) {
-                          setState(() {
-                            donbanhang = controller.allDonBanHangFirebase;
-                            donnhaphang = controller.allDonNhapHangFirebase;
-                          });
+                  return ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ListDanhSachNo(
+                                  tenkhachhang: khachno["khachhang"].toString(),
+                                  billType: khachno["billType"].toString(),
+                                )),
+                      ).then((_) {
+                        setState(() {
+                          donbanhang = controller.allDonBanHangFirebase;
+                          donnhaphang = controller.allDonNhapHangFirebase;
                         });
-                      },
-                      leading: const Icon(Icons.account_circle,
-                          size: 30, color: darkColor),
-                      title: Text(
-                        khachno["khachhang"].toString(),
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w900,
-                            color: khachno["billType"] == "NhapHang"
-                                ? cancel600Color
-                                : darkColor),
-                      ),
-                      subtitle: khachno["billType"] == "NhapHang"
-                          ? const Text("Nhà cung cấp",
-                              style: TextStyle(fontSize: 15))
-                          : const Text("Khách hàng",
-                              style: TextStyle(fontSize: 15)),
-                      trailing: Text(
-                        formatCurrency(khachno["no"]),
-                        style: const TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w400),
-                      ),
+                      });
+                    },
+                    leading: const Icon(Icons.account_circle,
+                        size: 40, color: darkColor),
+                    title: Text(
+                      khachno["khachhang"].toString(),
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: khachno["billType"] == "NhapHang"
+                              ? cancel600Color
+                              : darkColor),
+                    ),
+                    subtitle: khachno["billType"] == "NhapHang"
+                        ? const Text("Nhà cung cấp",
+                            style: TextStyle(fontSize: 15))
+                        : const Text("Khách hàng",
+                            style: TextStyle(fontSize: 15)),
+                    trailing: Text(
+                      formatCurrency(khachno["no"]),
+                      style: const TextStyle(
+                          fontSize: 17, fontWeight: FontWeight.w400),
                     ),
                   );
                 }),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../../../../../constants/color.dart';
-import '../../../../../../../constants/icon.dart';
+import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import '../../../../../../../utils/utils.dart';
 
 class CardLichSuTraNo extends StatefulWidget {
@@ -25,96 +23,59 @@ class _CardLichSuTraNoState extends State<CardLichSuTraNo> {
               itemBuilder: (context, index) {
                 final doc = widget.allLichSuTraNo[index];
 
-                return InkWell(
-                  onTap: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 0, 12, 8),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: darkColor.withOpacity(0.3),
-                            width: 1.0,
-                          ),
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              doc["khachhang"],
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text("Nợ cũ: ${formatCurrency(doc["nocu"])}",
+                                style: const TextStyle(fontSize: 15)),
+                          ],
+                        ),
+                        subtitle: Column(
+                          children: [
+                            const SizedBox(height: 2),
+                            Wrap(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("${doc["ngaytrano"]}",
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.black54)),
+                                    Text(
+                                        "Tiền trả: ${formatCurrency(doc["sotientra"])}",
+                                        style: const TextStyle(fontSize: 15))
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                        "Còn nợ: ${formatCurrency(doc["conno"])}",
+                                        style: const TextStyle(fontSize: 15))
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      height: 80,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(
-                            flex: 1,
-                            child: ImageIcon(
-                              AssetImage(refundIcon),
-                              color: processColor,
-                              size: 32,
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            flex: 5,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  doc["khachhang"],
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  doc["ngaytrano"],
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w100),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            flex: 8,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Nợ cũ: ${formatCurrency(doc["nocu"])}",
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w700,
-                                      color: darkColor),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  "Tiền trả: ${formatCurrency(doc["sotientra"])}",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: darkColor),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  "Còn nợ: ${formatCurrency(doc["conno"])}",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: doc["billType"] == "NhapHang"
-                                          ? cancel600Color
-                                          : darkColor),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
+                        child: PhanCachWidget.dotLine(context),
+                      )
+                    ],
                   ),
                 );
               }),

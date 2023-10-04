@@ -30,70 +30,57 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
     final doanhthungay = controllerDoanhThu.docDoanhThuNgay;
     final doanhthutuan = controllerDoanhThu.docDoanhThuTuan;
     final doanhthuthang = controllerDoanhThu.docDoanhThuThang;
-    return Column(
-      children: [
-        const SizedBox(height: 10),
-        Container(
-          width: size.width,
-          decoration: const BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          ),
-          child: DefaultTabController(
-            length: 3,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
-                  child: AppBar(
-                    elevation: 0,
-                    backgroundColor: whiteColor,
-                    title: const TabBar(
-                      tabs: [
-                        Tab(
-                          text: "Hàng ngày",
-                        ),
-                        Tab(
-                          text: "Hàng tuần",
-                        ),
-                        Tab(
-                          text: "Hàng tháng",
-                        ),
-                      ],
-                      indicatorColor: mainColor,
-                      labelColor: darkColor,
-                      // labelPadding: EdgeInsets.symmetric(horizontal: 15),
-                    ),
+    return Container(
+      width: size.width,
+      color: whiteColor,
+      child: DefaultTabController(
+        length: 3,
+        child: Column(
+          children: [
+            AppBar(
+              elevation: 0,
+              backgroundColor: whiteColor,
+              title: const TabBar(
+                tabs: [
+                  Tab(
+                    text: "Hàng ngày",
                   ),
-                ),
-                Container(
-                  height: size.height - kToolbarHeight - 171,
-                  width: size.width - 16,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
+                  Tab(
+                    text: "Hàng tuần",
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    child: TabBarView(
-                      children: [
-                        DoanhThuTheoNgayWidget(doanhthu: doanhthungay),
-                        DoanhThuTheoTuanWidget(doanhthuTheoTuan: doanhthutuan),
-                        DoanhThuTheoThangWidget(
-                          doanhthutheothang: doanhthuthang,
-                        ),
-                      ],
-                    ),
+                  Tab(
+                    text: "Hàng tháng",
                   ),
-                ),
-              ],
+                ],
+                indicatorColor: Colors.black,
+                labelColor: darkColor,
+                // labelPadding: EdgeInsets.symmetric(horizontal: 15),
+              ),
             ),
-          ),
-        )
-      ],
+            Container(
+              height: size.height - kToolbarHeight - 171,
+              width: size.width - 16,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: TabBarView(
+                  children: [
+                    DoanhThuTheoNgayWidget(doanhthu: doanhthungay),
+                    DoanhThuTheoTuanWidget(doanhthuTheoTuan: doanhthutuan),
+                    DoanhThuTheoThangWidget(
+                      doanhthutheothang: doanhthuthang,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

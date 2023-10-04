@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 // List of all color
-const mainColor = Color(0xFFd82d8b);
+const mainColor = Color(0xFFc4544a);
+// const mainColor = Color(0xFFfe2b54);
+// const mainColor = Color(0xFFd82d8b);
 const backGroundColor = Color(0xFFF1F1F1);
 const backGround600Color = Color(0xFF818181);
 const backGroundDefaultFigma = Color(0xFFDDDDDD);
@@ -14,7 +16,8 @@ const greyColor = Color(0xFFF5F5F5);
 
 const successColor = Color(0xFF22C55E);
 const success600Color = Color(0xFF16a34a);
-const blueColor = Color(0xFF06B6D4);
+const blueColor = Color(0xFF13c3c3);
+const blueBackGroundColor = Color(0xFFe9fffd);
 const processColor = Color(0xFFFB9B11);
 const cancelColor = Color(0xFFFF677C);
 const cancel600Color = Color(0xFFE11D3F);

@@ -71,7 +71,7 @@ class _DonNoWidgetState extends State<DonNoWidget> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -94,15 +94,12 @@ class _DonNoWidgetState extends State<DonNoWidget> {
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            color: whiteColor,
-            width: size.width,
-            height: size.height - kToolbarHeight - 233,
-            child: CardListDanhSachNo(
-              docs: locdonnoList,
-            ),
+        Container(
+          color: whiteColor,
+          width: size.width,
+          height: size.height - kToolbarHeight - 233,
+          child: CardListDanhSachNo(
+            docs: locdonnoList,
           ),
         ),
       ],
