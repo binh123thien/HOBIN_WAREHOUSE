@@ -29,7 +29,7 @@ class HistoryController extends GetxController {
         double tongTien = doc['tongthanhtoan'];
         totalTongTien += tongTien;
       }
-      if (loaiNhapHoacBanHang == "BanHang") {
+      if (loaiNhapHoacBanHang == "XuatHang") {
         tongBanHang.value = totalTongTien.toInt();
       } else if (loaiNhapHoacBanHang == "NhapHang") {
         tongNhapHang.value = totalTongTien.toInt();

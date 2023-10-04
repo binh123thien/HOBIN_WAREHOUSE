@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     controller.loadAllHangHoa();
     controllerHistory.loadPhiNhapHangTrongThang("NhapHang");
-    controllerHistory.loadPhiNhapHangTrongThang("BanHang");
+    controllerHistory.loadPhiNhapHangTrongThang("XuatHang");
     controllerDoanhThu.loadDoanhThuTuanChart();
   }
 

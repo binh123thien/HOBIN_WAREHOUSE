@@ -57,7 +57,7 @@ class CardMatHang extends StatelessWidget {
                           Expanded(
                             flex: 3,
                             child: Text(
-                              formatCurrency(doc["giaBan"] * doc.values.first),
+                              formatCurrency(doc["gia"] * doc.values.first),
                               style: const TextStyle(fontSize: 17),
                               textAlign: TextAlign.right,
                             ),
