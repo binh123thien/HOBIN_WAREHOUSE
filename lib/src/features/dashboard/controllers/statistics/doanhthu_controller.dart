@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/repository/statistics_repository/doanhthu_repository.dart';
 import 'package:intl/intl.dart';
-
-import '../../../../repository/add_repository/add_repository.dart';
+import '../../../../repository/add_repository/xuathang/xuathang_repository.dart';
 
 class DoanhThuController extends GetxController {
   static DoanhThuController get instance => Get.find();
@@ -13,7 +12,7 @@ class DoanhThuController extends GetxController {
   List<dynamic> docDoanhThuTuan = [].obs;
   List<dynamic> docDoanhThuThang = [].obs;
   final controllerRepo = Get.put(DoanhThuRepository());
-  final controllerAdd = Get.put(AddRepository());
+  final controllerXuatHangRepo = Get.put(XuatHangRepository());
 
   loadDoanhThuTuanChart() async {
     await controllerRepo.getTongDoanhThuTuan().listen((snapshot) {
@@ -24,8 +23,9 @@ class DoanhThuController extends GetxController {
           "${currentDate.day.toString().padLeft(2, '0')}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.year}";
 
       String tuanNgay =
-          controllerAdd.getTuanFromDate(formattedDate, "datetime");
-      String week = controllerAdd.getTuanFromDate(formattedDate, "week");
+          controllerXuatHangRepo.getTuanFromDate(formattedDate, "datetime");
+      String week =
+          controllerXuatHangRepo.getTuanFromDate(formattedDate, "week");
 
       if (docDoanhThuTuanChart.isEmpty ||
           docDoanhThuTuanChart[0]['datetime'] != tuanNgay) {
@@ -72,8 +72,9 @@ class DoanhThuController extends GetxController {
           "${currentDate.day.toString().padLeft(2, '0')}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.year}";
 
       String tuanNgay =
-          controllerAdd.getTuanFromDate(formattedDate, "datetime");
-      String week = controllerAdd.getTuanFromDate(formattedDate, "week");
+          controllerXuatHangRepo.getTuanFromDate(formattedDate, "datetime");
+      String week =
+          controllerXuatHangRepo.getTuanFromDate(formattedDate, "week");
 
       if (docDoanhThuTuan.isEmpty ||
           docDoanhThuTuan[0]['datetime'] != tuanNgay) {

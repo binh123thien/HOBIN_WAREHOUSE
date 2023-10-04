@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import '../../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
-import 'itemdachon_nhaphang.dart';
+import 'danhsach_itemdachon_xuathang_widget.dart';
 
-class DanhSachItemsDaChonScreen extends StatefulWidget {
+class DanhSachXuatHangWidget extends StatefulWidget {
   final List<Map<String, dynamic>> selectedItems;
   final bool blockOnPress;
-  final Function reLoad;
-  const DanhSachItemsDaChonScreen(
+  final Function reLoadOnDeleteXuatHang;
+  const DanhSachXuatHangWidget(
       {super.key,
       required this.selectedItems,
       required this.blockOnPress,
-      required this.reLoad});
+      required this.reLoadOnDeleteXuatHang});
 
   @override
-  State<DanhSachItemsDaChonScreen> createState() =>
-      _DanhSachItemsDaChonScreenState();
+  State<DanhSachXuatHangWidget> createState() => _DanhSachXuatHangWidgetState();
 }
 
-class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
+class _DanhSachXuatHangWidgetState extends State<DanhSachXuatHangWidget> {
   @override
   Widget build(BuildContext context) {
     num totalPrice = widget.selectedItems
@@ -82,10 +81,10 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
           ),
         ),
         PhanCachWidget.space(),
-        ItemDaChonNhapHangWidget(
+        DanhSachItemDaChonXuatHangWidget(
           selectedItems: widget.selectedItems,
           blockOnPress: widget.blockOnPress,
-          reLoad: widget.reLoad,
+          reLoadOnDeleteXuatHang: widget.reLoadOnDeleteXuatHang,
         ),
       ],
     );

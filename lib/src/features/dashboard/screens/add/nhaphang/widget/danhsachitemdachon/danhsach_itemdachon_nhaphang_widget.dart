@@ -5,17 +5,18 @@ import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
 
-class DanhSachSanPhamDaChonWidget extends StatefulWidget {
+class DanhSachItemDaChonNhapHangWidget extends StatefulWidget {
   final List<Map<String, dynamic>> selectedItems;
-  const DanhSachSanPhamDaChonWidget({super.key, required this.selectedItems});
+  const DanhSachItemDaChonNhapHangWidget(
+      {super.key, required this.selectedItems});
 
   @override
-  State<DanhSachSanPhamDaChonWidget> createState() =>
-      _DanhSachSanPhamDaChonWidgetState();
+  State<DanhSachItemDaChonNhapHangWidget> createState() =>
+      _DanhSachItemDaChonNhapHangWidgetState();
 }
 
-class _DanhSachSanPhamDaChonWidgetState
-    extends State<DanhSachSanPhamDaChonWidget> {
+class _DanhSachItemDaChonNhapHangWidgetState
+    extends State<DanhSachItemDaChonNhapHangWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(

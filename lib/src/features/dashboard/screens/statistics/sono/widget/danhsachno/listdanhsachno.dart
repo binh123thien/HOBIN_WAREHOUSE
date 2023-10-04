@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../controllers/statistics/khachhang_controller.dart';
@@ -43,57 +44,86 @@ class _ListDanhSachNoState extends State<ListDanhSachNo> {
       }
     });
     Future<void> showTraNo() async {
-      num? result = await showModalBottomSheet<num>(
+      final focusNode = FocusNode();
+      showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
         builder: (BuildContext context) {
+          Future.delayed(const Duration(milliseconds: 100), () {
+            focusNode.requestFocus();
+          });
           return ShowTraNo(
             tenkhachhang: widget.tenkhachhang,
             billType: widget.billType,
             tongno: tongno,
+            focusNode: focusNode,
           );
         },
-      );
-      if (result != null) {
-        setState(() {
-          alldonhang = widget.billType == "NhapHang"
-              ? controller.allDonNhapHangFirebase
-              : controller.allDonBanHangFirebase;
-        });
-      }
+      ).then((value) {
+        if (value != null) {
+          setState(() {
+            SnackBarWidget.showSnackBar(
+                context, "Trả nợ thành công!", successColor);
+            alldonhang = widget.billType == "NhapHang"
+                ? controller.allDonNhapHangFirebase
+                : controller.allDonBanHangFirebase;
+          });
+        }
+      });
     }
 
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
-        leading: IconButton(
-            icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
+        elevation: 1,
         title: const Text("Danh sách đơn nợ",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-        backgroundColor: backGroundColor,
+            style: TextStyle(fontSize: 18, color: Colors.black)),
+        backgroundColor: whiteColor,
+        leading: IconButton(
+            icon: const Image(
+              image: AssetImage(backIcon),
+              height: 17,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            }),
         centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: showTraNo,
-              icon: const Image(
-                image: AssetImage(refundIcon),
-                height: 28,
-              ))
-        ],
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.only(top: 10),
         child: CardListDanhSachNo(
           docs: allDonHangCurent,
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            LayoutBuilder(builder: (context, constraints) {
+              return SizedBox(
+                width: MediaQuery.of(context).size.width - 30,
+                height: 45,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    backgroundColor: blueColor,
+                    side: const BorderSide(color: blueColor),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          10), // giá trị này xác định bán kính bo tròn
+                    ),
+                  ),
+                  onPressed: showTraNo,
+                  child: const Text(
+                    'Trả nợ',
+                    style: TextStyle(fontSize: 19),
+                  ),
+                ),
+              );
+            }),
+          ],
         ),
       ),
     );

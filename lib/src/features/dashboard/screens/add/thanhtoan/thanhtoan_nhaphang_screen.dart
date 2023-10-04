@@ -5,9 +5,9 @@ import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
-import '../../../../../repository/add_repository/add_repository.dart';
+import '../../../../../repository/add_repository/nhaphang/nhaphang_repository.dart';
 import '../../../models/themdonhang_model.dart';
-import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
+import '../nhaphang/widget/danhsachitemdachon/danhsach_itemdachon_nhaphang_widget.dart';
 import 'chitiethoadon_screen.dart';
 import 'widget/choose_khachhang_widget.dart';
 import 'widget/giamgia_widget.dart';
@@ -24,7 +24,7 @@ class ThanhToanScreen extends StatefulWidget {
 }
 
 class _ThanhToanScreenState extends State<ThanhToanScreen> {
-  final controllerAddRepo = Get.put(AddRepository());
+  final controllerNhapHangRepo = Get.put(NhapHangRepository());
   Map<String, dynamic> khachhang = {};
   num giamgia = 0;
   num no = 0;
@@ -131,9 +131,10 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
               ChooseKhachHangWidget(
                 khachhang: khachhang,
                 reload: _reload,
+                phanbietnhapxuat: 'nhaphang',
               ),
               PhanCachWidget.space(),
-              DanhSachSanPhamDaChonWidget(
+              DanhSachItemDaChonNhapHangWidget(
                 selectedItems: widget.allThongTinItemNhap,
               ),
               PhanCachWidget.space(),
@@ -235,6 +236,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                         donnhaphang: donnhaphang,
                                         allThongTinItemNhap:
                                             widget.allThongTinItemNhap,
+                                        phanbietNhapXuat: 'NhapHang',
                                       ), // Thay 'TrangKhac' bằng tên trang bạn muốn chuyển đến
                                     ),
                                     // (route) =>
@@ -272,10 +274,17 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
   Future<void> _performDataProcessing(
       BuildContext context, ThemDonHangModel donnhaphang) async {
     try {
-      // Perform data processing
-      // await controllerAddRepo.createDonNhapHang(
-      //     donnhaphang, widget.allThongTinItemNhap);
-      await controllerAddRepo.createExpired(widget.allThongTinItemNhap);
+      //tao don nhap hang
+      await controllerNhapHangRepo.createHoaDonNhapHang(
+          donnhaphang, widget.allThongTinItemNhap);
+      //tao ngay het han
+      await controllerNhapHangRepo.createExpired(widget.allThongTinItemNhap);
+      //tao ngay het han trong hang hoa
+      await controllerNhapHangRepo
+          .createHangHoaExpired(widget.allThongTinItemNhap);
+      //cap nhat gia tri ton kho
+      await controllerNhapHangRepo
+          .capNhatGiaTriTonKhoNhapHang(widget.allThongTinItemNhap);
     } catch (e) {
       // print("Error: $e");
     }

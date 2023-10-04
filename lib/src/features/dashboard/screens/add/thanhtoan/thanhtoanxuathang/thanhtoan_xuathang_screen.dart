@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
-import '../../../../../common_widgets/dotline/dotline.dart';
-import '../../../../../constants/color.dart';
-import '../../../../../constants/icon.dart';
-import '../../../../../repository/add_repository/add_repository.dart';
-import '../../../models/themdonhang_model.dart';
-import '../nhaphang/widget/danhsachitemdachon/danhsachsanpham_dachon.dart';
-import 'widget/choose_khachhang_widget.dart';
-import 'widget/giamgia_widget.dart';
-import 'widget/giamgiavano_widget.dart';
-import 'widget/phuongthucthanhtoan_widget.dart';
-import 'widget/tomtatyeucau.dart';
+import '../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../common_widgets/snackbar/snackbar.dart';
+import '../../../../../../constants/color.dart';
+import '../../../../../../constants/icon.dart';
+import '../../../../../../repository/add_repository/xuathang/xuathang_repository.dart';
+import '../../../../models/themdonhang_model.dart';
+import '../../xuathang/widget/danhsach_itemdachon_xuathang_widget.dart';
+import '../chitiethoadon_screen.dart';
+import '../widget/choose_khachhang_widget.dart';
+import '../widget/giamgia_widget.dart';
+import '../widget/giamgiavano_widget.dart';
+import '../widget/phuongthucthanhtoan_widget.dart';
+import '../widget/tomtatyeucau.dart';
 
 class ThanhToanXuatHangScreen extends StatefulWidget {
   final List<Map<String, dynamic>> allThongTinItemXuat;
@@ -23,10 +25,12 @@ class ThanhToanXuatHangScreen extends StatefulWidget {
 }
 
 class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
-  final controllerAddRepo = Get.put(AddRepository());
+  final controllerXuatHangRepo = Get.put(XuatHangRepository());
   Map<String, dynamic> khachhang = {};
   num giamgia = 0;
   num no = 0;
+  bool _isLoading = false; // Sử dụng biến này để kiểm soát hiển thị loading
+  bool _isDataSubmitted = false;
   String selectedPaymentMethod = "Tiền mặt";
   void _reload(Map<String, dynamic> khachhangPicked) {
     setState(() {
@@ -127,10 +131,13 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
               ChooseKhachHangWidget(
                 khachhang: khachhang,
                 reload: _reload,
+                phanbietnhapxuat: 'xuathang',
               ),
               PhanCachWidget.space(),
-              DanhSachSanPhamDaChonWidget(
+              DanhSachItemDaChonXuatHangWidget(
                 selectedItems: widget.allThongTinItemXuat,
+                blockOnPress: true,
+                reLoadOnDeleteXuatHang: () {},
               ),
               PhanCachWidget.space(),
               GiamGiaVaNoWidget(
@@ -186,23 +193,26 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          backgroundColor: blueColor,
-                          side: const BorderSide(color: blueColor),
+                          backgroundColor: mainColor,
+                          side: const BorderSide(color: mainColor),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 10), // giá trị này xác định bán kính bo tròn
                           ),
                         ),
                         onPressed: () {
-                          final nHcode = generateNHCode();
+                          setState(() {
+                            _isLoading = true; // Kích hoạt hiệu ứng loading
+                          });
+                          final xHcode = generateXHCode();
                           final ngaytao = formatNgayTao();
                           final datetime = formatDatetime();
 
-                          ThemDonHangModel(
-                            soHD: nHcode,
+                          final hoadonxuathang = ThemDonHangModel(
+                            soHD: xHcode,
                             ngaytao: ngaytao,
                             khachhang: khachhang.isEmpty
-                                ? "Nhà cung cấp"
+                                ? "Khách hàng"
                                 : khachhang["tenkhachhang"],
                             payment: selectedPaymentMethod,
                             tongsl: totalQuantity,
@@ -211,18 +221,47 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                             no: no,
                             trangthai: no == 0 ? "Thành công" : "Đang chờ",
                             tongthanhtoan: tong,
-                            billType: 'NhapHang',
+                            billType: 'XuatHang',
                             datetime: datetime,
                           );
-                          // controllerAddRepo.createDonNhapHang(
-                          //     donnhaphang, widget.allThongTinItemNhap);
-                          // controllerAddRepo
-                          //     .createExpired(widget.allThongTinItemXuat);
+                          _performDataProcessing(context, hoadonxuathang).then(
+                            (value) {
+                              setState(() {
+                                _isLoading = false;
+                                _isDataSubmitted = true;
+                                if (_isDataSubmitted) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChiTietHoaDonScreen(
+                                        donnhaphang: hoadonxuathang,
+                                        allThongTinItemNhap:
+                                            widget.allThongTinItemXuat,
+                                        phanbietNhapXuat: 'XuatHang',
+                                      ), // Thay 'TrangKhac' bằng tên trang bạn muốn chuyển đến
+                                    ),
+                                    // (route) =>
+                                    //     false, // Xóa hết tất cả các trang khỏi ngăn xếp
+                                  );
+                                  SnackBarWidget.showSnackBar(context,
+                                      "Tạo hóa đơn thành công!", successColor);
+                                }
+                              });
+                            },
+                          );
                         },
-                        child: const Text(
-                          'Thanh toán',
-                          style: TextStyle(fontSize: 19),
-                        ),
+                        child: _isLoading
+                            ? const SizedBox(
+                                width: 15,
+                                height: 15,
+                                child: CircularProgressIndicator(
+                                  color: whiteColor,
+                                ),
+                              ) // Hiển thị tiến trình loading
+                            : const Text(
+                                'Thanh toán',
+                                style: TextStyle(fontSize: 19),
+                              ),
                       ),
                     ),
                   ],
@@ -231,5 +270,31 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
             ],
           ),
         ));
+  }
+
+  Future<void> _performDataProcessing(
+      BuildContext context, ThemDonHangModel donnhaphang) async {
+    try {
+      //tao don Xuat hang
+      await controllerXuatHangRepo.createHoaDonXuatHang(
+          donnhaphang, widget.allThongTinItemXuat);
+      //cap nhat ngay het han
+      await controllerXuatHangRepo.updateExpired(widget.allThongTinItemXuat);
+      //cap nhat ngay het han trong hang hoa
+      await controllerXuatHangRepo
+          .updateHangHoaExpired(widget.allThongTinItemXuat);
+      //cap nhat gia tri ton kho
+      await controllerXuatHangRepo
+          .capNhatGiaTriTonKhoXuatHang(widget.allThongTinItemXuat);
+      //tinh tong doanh thu
+      await controllerXuatHangRepo.createTongDoanhThuNgay(
+          donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);
+      await controllerXuatHangRepo.createTongDoanhThuTuan(
+          donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);
+      await controllerXuatHangRepo.createTongDoanhThuThang(
+          donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);
+    } catch (e) {
+      //
+    }
   }
 }

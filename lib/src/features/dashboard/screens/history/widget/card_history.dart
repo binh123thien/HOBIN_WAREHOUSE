@@ -63,13 +63,10 @@ class CardHistory extends StatelessWidget {
                   );
                 },
                 child: ListTile(
-                  leading: Padding(
-                    padding: EdgeInsets.zero,
-                    child: SizedBox(
-                        height: 35,
-                        width: 35,
-                        child: Image(image: AssetImage(phanbietIcon()))),
-                  ),
+                  leading: SizedBox(
+                      height: 35,
+                      width: 35,
+                      child: Image(image: AssetImage(phanbietIcon()))),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -3,7 +3,7 @@ import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import 'package:page_transition/page_transition.dart';
 
 import '../../../../../../constants/color.dart';
-import '../../thanhtoan/thanhtoan_screen.dart';
+import '../../thanhtoan/thanhtoan_nhaphang_screen.dart';
 
 class BottomBarNhapHang extends StatefulWidget {
   final bool isButtonEnabled;

@@ -99,9 +99,9 @@ class NoRepository extends GetxController {
     final dateFormat = DateFormat("dd-MM-yyyy");
     final date = dateFormat.parse(ngay);
 
-    // Tạo ra định dạng chuỗi "Tháng MM-yyyy" từ ngày cho trước
+    // Sử dụng đối tượng DateTime để tạo chuỗi "Tháng MM-yyyy"
     final monthFormat = DateFormat("MM-yyyy");
-    final monthString = monthFormat.format(date);
+    final monthString = "Tháng ${monthFormat.format(date)}";
 
     final docRef = db
         .collection("Users")

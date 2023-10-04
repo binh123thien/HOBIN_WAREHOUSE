@@ -39,7 +39,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                 SizedBox(
                   height: 45,
                   child: Image(
-                    image: AssetImage(billType == "BanHang" && no == 0
+                    image: AssetImage(billType == "XuatHang" && no == 0
                         ? xuathangIcon
                         : billType == "NhapHang" && no == 0
                             ? nhaphangIcon
@@ -52,8 +52,8 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        billType == "BanHang"
-                            ? "Bán Hàng thành công"
+                        billType == "XuatHang"
+                            ? "Xuất Hàng thành công"
                             : "Nhập hàng thành công",
                         style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w700)),
@@ -65,7 +65,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                       ).format(tongtien),
                       style: TextStyle(
                           fontSize: 17,
-                          color: billType == "BanHang"
+                          color: billType == "XuatHang"
                               ? success600Color
                               : cancel600Color),
                     ),
@@ -98,7 +98,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                           )
                         : const Text(
                             "Đang chờ",
-                            style: TextStyle(fontSize: 14, color: successColor),
+                            style: TextStyle(fontSize: 14, color: processColor),
                           ),
                   ),
                 )
@@ -135,7 +135,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(billType == "BanHang" ? "Khách hàng:" : "Nhà cùng cấp:",
+                Text(billType == "XuatHang" ? "Khách hàng:" : "Nhà cùng cấp:",
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.w500)),
                 Text(khachhang,

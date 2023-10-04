@@ -116,7 +116,7 @@ class HistoryRepository extends GetxController {
     }
   }
 
-  loadAllDonBanHangHoacNhapHang(String collectionBanHangHoacNhapHang) {
+  loadAllDonXuatHangHoacNhapHang(String collectionBanHangHoacNhapHang) {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final getAllDonBanHang = FirebaseFirestore.instance
         .collection("Users")

@@ -20,7 +20,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   void initState() {
     super.initState();
     controller.loadAllKhachHang();
-    controller.loadAllDonBanHang();
+    controller.loadAllDonXuatHang();
     controller.loadAllDonNhapHang();
     controller.loadAllLichSuTraNo();
   }
