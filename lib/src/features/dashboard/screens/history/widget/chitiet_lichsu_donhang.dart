@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import '../../../../../common_widgets/bottom_sheet_pdf.dart';
 import '../../../../../common_widgets/printting.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../repository/history_repository/history_repository.dart';
-import '../../add/widget/chitietdonhang/table_chitietdonhang_widget.dart';
-import '../../add/widget/chitietdonhang/total_price_chitietdonhang_widget.dart';
+import '../../add/nhaphang/widget/danhsachitemdachon/danhsach_itemdachon_nhaphang_widget.dart';
+import '../../add/thanhtoan/widget/tomtatyeucau.dart';
 import '../../add/widget/chitietdonhang_moi/tieude_chitietdonhang.dart';
+import '../../add/xuathang/widget/danhsach_itemdachon_xuathang_widget.dart';
 
 class ChiTietLichSuDonHang extends StatefulWidget {
   final dynamic doc;
@@ -20,15 +21,12 @@ class ChiTietLichSuDonHang extends StatefulWidget {
 
 class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
   final controllerHistoryRepo = Get.put(HistoryRepository());
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
@@ -38,7 +36,7 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
         title: const Text("Chi tiết đơn hàng",
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-        backgroundColor: backGroundColor,
+        backgroundColor: whiteColor,
         centerTitle: true,
         actions: [
           IconButton(
@@ -77,16 +75,14 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
               khachhang: widget.doc["khachhang"],
               billType: widget.doc["billType"],
             ),
-            const Divider(),
-            const Text("Chi tiết hóa đơn",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+            PhanCachWidget.space(),
             SizedBox(
                 width: size.width,
                 child: StreamBuilder<QuerySnapshot>(
                     stream: controllerHistoryRepo.getAllSanPhamTrongHoaDon(
                         widget.doc["soHD"],
-                        widget.doc["billType"] == "BanHang"
-                            ? "BanHang"
+                        widget.doc["billType"] == "XuatHang"
+                            ? "XuatHang"
                             : "NhapHang"),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -97,22 +93,33 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                             shrinkWrap: true,
                             itemCount: 1,
                             itemBuilder: ((BuildContext context, int index) {
-                              List<dynamic> document = snapshot.data!.docs;
-                              return TableChiTietDonHang(
-                                filteredList: document,
-                                phanbietNhapXuat:
-                                    widget.doc['billType'] == "BanHang" ? 0 : 1,
-                              );
+                              List<Map<String, dynamic>> document = [];
+
+                              for (var doc in snapshot.data!.docs) {
+                                document
+                                    .add(doc.data() as Map<String, dynamic>);
+                              }
+                              if (widget.doc["billType"] == "NhapHang") {
+                                return DanhSachItemDaChonNhapHangWidget(
+                                  selectedItems: document,
+                                );
+                              } else {
+                                return DanhSachItemDaChonXuatHangWidget(
+                                  selectedItems: document,
+                                  blockOnPress: true,
+                                  reLoadOnDeleteXuatHang: () {},
+                                );
+                              }
                             }));
                       }
                     })),
-            const Divider(),
-            TotalPriceChiTietDonHangWidget(
-              billType: widget.doc["billType"],
-              sumItem: widget.doc["tongsl"],
-              sumPrice: widget.doc["tongtien"],
-              disCount: widget.doc["giamgia"],
-              tienno: widget.doc["no"],
+            PhanCachWidget.space(),
+            TomTatYeuCauWidget(
+              totalQuantity: widget.doc["tongsl"],
+              totalPrice: widget.doc["tongtien"],
+              giamgia: widget.doc["giamgia"],
+              no: widget.doc["no"],
+              tong: widget.doc["tongthanhtoan"],
             ),
           ],
         ),

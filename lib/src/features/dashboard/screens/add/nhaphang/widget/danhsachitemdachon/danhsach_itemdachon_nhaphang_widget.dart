@@ -64,7 +64,8 @@ class _DanhSachItemDaChonNhapHangWidgetState
                         const SizedBox(height: 3),
                         Row(
                           children: [
-                            Text("${docdata["exp"]} - ${docdata["location"]}",
+                            Text(
+                                "HSD: ${docdata["exp"]} - ${docdata["location"]}",
                                 style: const TextStyle(fontSize: 14))
                           ],
                         ),
@@ -83,8 +84,6 @@ class _DanhSachItemDaChonNhapHangWidgetState
                             ]),
                       ],
                     )
-                    // Các thuộc tính khác của CheckboxListTile
-                    // ...
                     ),
                 index != widget.selectedItems.length - 1
                     ? PhanCachWidget.dotLine(context)

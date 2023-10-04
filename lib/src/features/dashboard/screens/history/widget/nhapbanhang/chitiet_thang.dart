@@ -28,11 +28,9 @@ class ChitietThang extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Chip(
-                backgroundColor: whiteColor,
+                backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
-                  side: const BorderSide(
-                      color: mainColor, width: 1.5), // Màu và độ dày của viền
                 ),
                 label: Text(
                   phanbietNhapHangBanHang == "BanHang"
@@ -44,11 +42,9 @@ class ChitietThang extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Chip(
-                backgroundColor: whiteColor,
+                backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
-                  side: const BorderSide(
-                      color: mainColor, width: 1.5), // Màu và độ dày của viền
                 ),
                 label: Text(
                   phanbietNhapHangBanHang == "BanHang"
@@ -60,11 +56,9 @@ class ChitietThang extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Chip(
-                backgroundColor: whiteColor,
+                backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
-                  side: const BorderSide(
-                      color: mainColor, width: 1.5), // Màu và độ dày của viền
                 ),
                 label: Text(
                   "Đơn hàng: $soLuongDonHangMonthlyTotal",
