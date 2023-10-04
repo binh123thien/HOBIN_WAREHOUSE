@@ -98,7 +98,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         text: "Hủy",
                       )
                     ],
-                    indicatorColor: Colors.pink,
+                    indicatorColor: Colors.black,
                     labelColor: darkColor,
                     isScrollable: true,
                   ),

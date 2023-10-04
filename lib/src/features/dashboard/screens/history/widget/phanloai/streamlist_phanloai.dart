@@ -63,7 +63,7 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                     final year = docs.first['ngaytao'].split('/')[2];
 
                     final tongBanHangMonthly = docs
-                        .where((doc) => doc['billType'] == 'BanHang')
+                        .where((doc) => doc['billType'] == 'XuatHang')
                         .fold<num>(
                             0, (prev, curr) => prev + curr['tongthanhtoan']);
                     final tongNhapHangMonthly = docs
