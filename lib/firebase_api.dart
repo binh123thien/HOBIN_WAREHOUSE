@@ -180,56 +180,56 @@ class FirebaseAPI {
     final firebaseUser = FirebaseAuth.instance.currentUser;
 
 // Thực hiện truy vấn để lấy dữ liệu sản phẩm từ Firestore
-    final productsQuery = await firestore
-        .collection("Users")
-        .doc(firebaseUser!.uid)
-        .collection("Goods")
-        .doc(firebaseUser.uid)
-        .collection("Expired")
-        .get();
+    // final productsQuery = await firestore
+    //     .collection("Users")
+    //     .doc(firebaseUser!.uid)
+    //     .collection("Goods")
+    //     .doc(firebaseUser.uid)
+    //     .collection("Expired")
+    //     .get();
 
     final now = DateTime.now();
     final formatter = DateFormat('dd-MM-yyyy'); // Định dạng ngày thời hạn
-    if (productsQuery.docs.isNotEmpty) {
-      // Có ít nhất một sản phẩm trong kết quả truy vấn
-      for (var productDoc in productsQuery.docs) {
-        final productData = productDoc.data();
-        final expiryDateStr = productData['exp'] as String;
-        final expiryDate = formatter.parse(expiryDateStr);
+    // if (productsQuery.docs.isNotEmpty) {
+    //   // Có ít nhất một sản phẩm trong kết quả truy vấn
+    //   for (var productDoc in productsQuery.docs) {
+    //     final productData = productDoc.data();
+    //     final expiryDateStr = productData['exp'] as String;
+    //     final expiryDate = formatter.parse(expiryDateStr);
 
-        if (expiryDate.isAfter(now) && expiryDate.difference(now).inDays <= 7) {
-          // Thực hiện truy vấn Firestore để lấy dữ liệu dựa trên thông tin sản phẩm
-          final productInfo = await firestore
-              .collection("Users")
-              .doc(firebaseUser.uid)
-              .collection("Goods")
-              .doc(firebaseUser.uid)
-              .collection("Expired")
-              .doc(expiryDateStr)
-              .collection('masanpham')
-              .doc()
-              .get();
+    //     if (expiryDate.isAfter(now) && expiryDate.difference(now).inDays <= 7) {
+    //       // Thực hiện truy vấn Firestore để lấy dữ liệu dựa trên thông tin sản phẩm
+    //       final productInfo = await firestore
+    //           .collection("Users")
+    //           .doc(firebaseUser.uid)
+    //           .collection("Goods")
+    //           .doc(firebaseUser.uid)
+    //           .collection("Expired")
+    //           .doc(expiryDateStr)
+    //           .collection('masanpham')
+    //           .doc()
+    //           .get();
 
-          // Xử lý dữ liệu sản phẩm nếu cần
-          if (productInfo.exists) {
-            final productInfoData = productInfo.data();
-            // print('rrrrrrrrrrrrrrrrrrrrr $productInfoData');
-            // Xử lý dữ liệu sản phẩm ở đây
-          } else {
-            // print('vao else');
-          }
+    //       // Xử lý dữ liệu sản phẩm nếu cần
+    //       if (productInfo.exists) {
+    //         final productInfoData = productInfo.data();
+    //         // print('rrrrrrrrrrrrrrrrrrrrr $productInfoData');
+    //         // Xử lý dữ liệu sản phẩm ở đây
+    //       } else {
+    //         // print('vao else');
+    //       }
 
-          // Thời hạn còn 7 ngày nữa, xử lý dữ liệu sản phẩm ở đây
-          final productName = productData['name']
-              as String; // Thay 'name' bằng trường dữ liệu sản phẩm thực tế
-          sendNotification('Sản phẩm $productName sắp hết hạn',
-              'Sản phẩm này sắp hết hạn trong vòng 7 ngày.');
-        }
-      }
-    } else {
-      // Không có sản phẩm nào trong Firestore
-      print('Không có sản phẩm trong Firestore');
-    }
+    //       // Thời hạn còn 7 ngày nữa, xử lý dữ liệu sản phẩm ở đây
+    //       final productName = productData['name']
+    //           as String; // Thay 'name' bằng trường dữ liệu sản phẩm thực tế
+    //       sendNotification('Sản phẩm $productName sắp hết hạn',
+    //           'Sản phẩm này sắp hết hạn trong vòng 7 ngày.');
+    //     }
+    //   }
+    // } else {
+    //   // Không có sản phẩm nào trong Firestore
+    //   print('Không có sản phẩm trong Firestore');
+    // }
   }
 
   Future<void> sendNotification(String title, String body) async {
