@@ -147,8 +147,6 @@ class FirebaseAPI {
             channel.id,
             channel.name,
             channelDescription: channel.description,
-            // TODO add a proper drawable resource to android, for now using
-            //      one that already exists in example app.
             icon: '@drawable/ic_launcher',
           ),
         ),
@@ -170,6 +168,14 @@ class FirebaseAPI {
 
 // Hàm này truy vấn dữ liệu từ Firestore và quyết định gửi thông báo hay không
   Future<void> checkProductExpiryAndSendNotification() async {
+    // List<dynamic> allHangHoaFireBase = [];
+    // final controllerGoodRepo = Get.put(GoodRepository());
+    // await controllerGoodRepo.getAllhanghoa().listen((snapshot) {
+    //   allHangHoaFireBase = snapshot.docs.map((doc) => doc.data()).toList();
+    // });
+    // print('eeeeeeeeeeee $allHangHoaFireBase');
+    // final controllerChonHangHoa = Get.put(ChonHangHoaController());
+    // print('tttttttttt ${controllerChonHangHoa.allHangHoaFireBase}');
     final firestore = FirebaseFirestore.instance;
     final firebaseUser = FirebaseAuth.instance.currentUser;
 
@@ -192,7 +198,7 @@ class FirebaseAPI {
         final expiryDate = formatter.parse(expiryDateStr);
 
         if (expiryDate.isAfter(now) && expiryDate.difference(now).inDays <= 7) {
-// Thực hiện truy vấn Firestore để lấy dữ liệu dựa trên thông tin sản phẩm
+          // Thực hiện truy vấn Firestore để lấy dữ liệu dựa trên thông tin sản phẩm
           final productInfo = await firestore
               .collection("Users")
               .doc(firebaseUser.uid)
@@ -207,7 +213,10 @@ class FirebaseAPI {
           // Xử lý dữ liệu sản phẩm nếu cần
           if (productInfo.exists) {
             final productInfoData = productInfo.data();
-// Xử lý dữ liệu sản phẩm ở đây
+            // print('rrrrrrrrrrrrrrrrrrrrr $productInfoData');
+            // Xử lý dữ liệu sản phẩm ở đây
+          } else {
+            // print('vao else');
           }
 
           // Thời hạn còn 7 ngày nữa, xử lý dữ liệu sản phẩm ở đây
@@ -218,7 +227,7 @@ class FirebaseAPI {
         }
       }
     } else {
-// Không có sản phẩm nào trong Firestore
+      // Không có sản phẩm nào trong Firestore
       print('Không có sản phẩm trong Firestore');
     }
   }
