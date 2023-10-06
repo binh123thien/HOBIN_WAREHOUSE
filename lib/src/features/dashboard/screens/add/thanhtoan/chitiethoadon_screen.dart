@@ -40,6 +40,9 @@ class _ChiTietHoaDonScreenState extends State<ChiTietHoaDonScreen> {
               color: Colors.black,
             ),
             onPressed: () {
+              //out ra dashboard
+              Navigator.of(context).pop();
+              Navigator.of(context).pop();
               Navigator.of(context).pop();
             }),
         centerTitle: true,
