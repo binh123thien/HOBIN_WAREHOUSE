@@ -194,7 +194,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                           backgroundColor: blueColor,
                           side: const BorderSide(color: blueColor),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                         onPressed: () async {

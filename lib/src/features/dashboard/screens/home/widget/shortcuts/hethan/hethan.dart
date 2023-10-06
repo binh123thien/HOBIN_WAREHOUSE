@@ -121,9 +121,6 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                   .then((value) {
                                 setState(() {
                                   dataHetHan = value;
-                                  print(startDateFormated);
-                                  print(endDateFormated);
-                                  print(dataHetHan);
                                   if (value.isEmpty) {
                                     checkdataEmpty = true;
                                   } else {
@@ -283,7 +280,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                   : mainColor),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
-                                10), // giá trị này xác định bán kính bo tròn
+                                5), // giá trị này xác định bán kính bo tròn
                           ),
                         ),
                         onPressed: selectedItemsHetHan.isEmpty

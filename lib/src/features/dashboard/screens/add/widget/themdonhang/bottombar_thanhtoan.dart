@@ -85,7 +85,7 @@ class BottomBarThanhToan extends StatelessWidget {
                       color: phanbietNhapXuat == 0 ? mainColor : blueColor),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
-                        25), // giá trị này xác định bán kính bo tròn
+                        5), // giá trị này xác định bán kính bo tròn
                   ),
                 ),
                 onPressed: onPressedThanhToan,
