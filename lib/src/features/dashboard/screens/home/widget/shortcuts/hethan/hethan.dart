@@ -56,7 +56,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
   }
 
   String formatDate(DateTime date) {
-    final formatter = DateFormat('dd-MM-yyyy');
+    final formatter = DateFormat('yyyy-MM-dd');
     return formatter.format(date);
   }
 
@@ -121,6 +121,9 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                   .then((value) {
                                 setState(() {
                                   dataHetHan = value;
+                                  print(startDateFormated);
+                                  print(endDateFormated);
+                                  print(dataHetHan);
                                   if (value.isEmpty) {
                                     checkdataEmpty = true;
                                   } else {
