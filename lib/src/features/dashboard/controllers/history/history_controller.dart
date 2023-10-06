@@ -9,10 +9,10 @@ class HistoryController extends GetxController {
   final controllerHistoryRepo = Get.put(HistoryRepository());
   final controller = Get.put(ChonHangHoaController());
   List<dynamic> docHangThang = [].obs;
-  RxInt tongNhapHang = 0.obs;
-  RxInt tongBanHang = 0.obs;
-  RxInt soluongtonkho = 0.obs;
-  RxInt giatritonkho = 0.obs;
+  RxDouble tongNhapHang = 0.0.obs;
+  RxDouble tongBanHang = 0.0.obs;
+  RxDouble soluongtonkho = 0.0.obs;
+  RxDouble giatritonkho = 0.0.obs;
 
   loadPhiNhapHangTrongThang(String loaiNhapHoacBanHang) async {
     await controllerHistoryRepo
@@ -26,22 +26,22 @@ class HistoryController extends GetxController {
 
       double totalTongTien = 0;
       for (var doc in filteredDocs) {
-        double tongTien = doc['tongthanhtoan'];
-        totalTongTien += tongTien;
+        double? tongTien = double.tryParse(doc['tongthanhtoan'].toString());
+        totalTongTien += tongTien!;
       }
       if (loaiNhapHoacBanHang == "XuatHang") {
-        tongBanHang.value = totalTongTien.toInt();
+        tongBanHang.value = totalTongTien;
       } else if (loaiNhapHoacBanHang == "NhapHang") {
-        tongNhapHang.value = totalTongTien.toInt();
+        tongNhapHang.value = totalTongTien;
       }
       double sltonkho = 0;
       for (var item in controller.allHangHoaFireBase) {
         sltonkho += item["tonkho"];
       }
-      soluongtonkho.value = sltonkho.toInt();
+      soluongtonkho.value = sltonkho;
       final double gtritonkho = controller.allHangHoaFireBase
           .fold(0, (sum, item) => sum + item['gianhap'] * item['tonkho']);
-      giatritonkho.value = gtritonkho.toInt();
+      giatritonkho.value = gtritonkho;
     });
   }
 }

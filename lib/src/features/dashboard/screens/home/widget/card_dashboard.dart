@@ -19,7 +19,7 @@ class CardDashboard extends StatelessWidget {
         {
           "icon": const AssetImage(soluongtonkhoIcon),
           "title": "SL tồn kho",
-          "value": controllerHistoryRepo.soluongtonkho.value,
+          "value": controllerHistoryRepo.soluongtonkho.value.toInt(),
         },
         {
           "icon": const AssetImage(giatritonkhoIcon),

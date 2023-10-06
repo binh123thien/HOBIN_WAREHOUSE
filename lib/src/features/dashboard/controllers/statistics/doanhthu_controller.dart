@@ -130,8 +130,8 @@ class DoanhThuController extends GetxController {
 
       if (snapshot.docs.isNotEmpty) {
         final doc = snapshot.docs[0];
-        final doanhThu = doc.data()['doanhthu'];
-        doanhThuList7DayChart.add(doanhThu);
+        final doanhThu = double.tryParse(doc.data()['doanhthu'].toString());
+        doanhThuList7DayChart.add(doanhThu!);
       } else {
         doanhThuList7DayChart.add(0.0);
       }
