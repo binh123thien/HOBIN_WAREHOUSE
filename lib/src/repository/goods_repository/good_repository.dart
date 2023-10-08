@@ -17,6 +17,7 @@ import '../../features/dashboard/models/themhanghoa_model.dart';
 class GoodRepository extends GetxController {
   static GoodRepository get instance => Get.find();
   List<Map<String, dynamic>> listLocationHangHoaSi = [];
+  List<Map<String, dynamic>> listLocationHangHoaLePicked = [];
   RxBool expandShowMore = false.obs;
   RxList<Map<String, dynamic>> listNhapXuathang = <Map<String, dynamic>>[].obs;
   final _db = FirebaseFirestore.instance;

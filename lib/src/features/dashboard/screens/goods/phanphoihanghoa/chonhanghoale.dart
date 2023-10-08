@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/choose_location.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/choose_location_phanphoi.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/widget/cardphanphoihang_widget.dart';
+import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
@@ -23,14 +24,25 @@ class ChonHangHoaLeScreen extends StatefulWidget {
 class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
     with InputValidationMixin {
   final controllerHangHoa = Get.put(ChonHangHoaLeController());
+  final controllerGoodRepo = Get.put(GoodRepository());
   late dynamic updatehanghoaSi;
   late dynamic updatehanghoaLe;
 
   @override
   void initState() {
+    super.initState();
     updatehanghoaSi = widget.hanghoaSi;
     updatehanghoaLe = widget.hanghoaLe;
-    super.initState();
+    controllerGoodRepo.listLocationHangHoaLePicked.clear();
+    _getLocationData();
+  }
+
+  //load dữ liệu location hàng hóa Lẻ
+  Future<void> _getLocationData() async {
+    String macode = widget.hanghoaLe["macode"];
+    List<Map<String, dynamic>> locationDataLe =
+        await controllerGoodRepo.getLocationData(macode);
+    controllerGoodRepo.listLocationHangHoaLePicked.addAll(locationDataLe);
   }
 
   @override
@@ -120,7 +132,10 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ChooseLocationScreen()),
+                          builder: (context) => ChooseLocationPhanPhoiScreen(
+                                locationUsed: controllerGoodRepo
+                                    .listLocationHangHoaLePicked,
+                              )),
                     );
                   },
                   child: Container(
