@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/choose_location.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/widget/cardphanphoihang_widget.dart';
 
 import '../../../../../constants/color.dart';
@@ -112,6 +113,39 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                       : updatehanghoaLe['photoGood'],
                   donViProduct: updatehanghoaLe['donvi'],
                   updatehanghoa: updatehanghoaLe),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 14, 10, 14),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ChooseLocationScreen()),
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: darkColor)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(9.0),
+                      child: Row(children: [
+                        const SizedBox(
+                          width: 25,
+                          height: 25,
+                          child: Image(image: AssetImage(locationIcon)),
+                        ),
+                        const SizedBox(width: 7),
+                        Text(
+                          'Vị trí của ${updatehanghoaLe['tensanpham']}',
+                          style: const TextStyle(fontSize: 17),
+                        ),
+                      ]),
+                    ),
+                  ),
+                ),
+              ),
               Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(color: Colors.white),
