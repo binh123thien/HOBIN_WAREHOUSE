@@ -23,10 +23,22 @@ class ChiTietHangHoaScreen extends StatefulWidget {
 class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
   final controllerGoodRepo = Get.put(GoodRepository());
   late dynamic hanghoanew;
+
   @override
   void initState() {
     super.initState();
     hanghoanew = widget.hanghoa;
+    //load location data
+    controllerGoodRepo.listLocationHangHoaSi.clear();
+    _getLocationData();
+  }
+
+  //load dữ liệu location hàng hóa Sỉ
+  Future<void> _getLocationData() async {
+    String macode = widget.hanghoa["macode"];
+    List<Map<String, dynamic>> locationData =
+        await controllerGoodRepo.getLocationData(macode);
+    controllerGoodRepo.listLocationHangHoaSi.addAll(locationData);
   }
 
   Future<void> _showOption() async {

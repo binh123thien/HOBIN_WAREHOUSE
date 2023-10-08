@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/widget/location_widget.dart';
 
 import '../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../constants/color.dart';
@@ -9,10 +12,8 @@ import '../../../controllers/add/chonhanghoa_controller.dart';
 import '../../../controllers/goods/chonhanghoale_controller.dart';
 import '../../../controllers/goods/them_hanghoa_controller.dart';
 import '../../Widget/appbar/search_widget.dart';
-import '../../Widget/card_hanghoa_widget.dart';
 import '../widget/sorbyhanghoa/danhsach_sortby.dart';
 import '../widget/them_hang_hoa.dart';
-import 'chonhanghoale.dart';
 import 'lichsuchuyendoi.dart';
 
 class PhanPhoiHangHoaScreen extends StatefulWidget {
@@ -31,8 +32,11 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
   // ========================== sorrt by ======================
   final controllersortby = Get.put(ThemHangHoaController());
   final controllerAllHangHoa = Get.put(ChonHangHoaController());
-  final controllerRepo = Get.put(GoodRepository());
+  final controllerGoodRepo = Get.put(GoodRepository());
   final chonHangHoaLeController = Get.put(ChonHangHoaLeController());
+
+  bool isSelected = false;
+  dynamic selectedDoc;
   Future<void> _showSortbyHangHoa() async {
     final selectedValue = await showModalBottomSheet<String>(
       context: context,
@@ -50,8 +54,9 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
       });
     }
   }
-  //===================== end sort by ==========================================================
 
+  //===================== end sort by ==========================================================
+  List<bool> itemExpandedList = List.generate(200, (index) => false);
   @override
   void initState() {
     //load trước dữ liệu của list lịch sử
@@ -63,6 +68,7 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print('thong tin hang hoa si ${widget.hanghoaSi}');
     // bottom sheet lịch sử
     Future<void> showLichSuChuyenDoi() async {
       await showModalBottomSheet<String>(
@@ -88,7 +94,7 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
             item["phanloai"].toString().toLowerCase().contains('bán lẻ'))
         .toList();
     // Sắp xếp danh sách theo thứ tự tăng dần của "tonkho"
-    controllerRepo.sortby(
+    controllerGoodRepo.sortby(
         allHangHoaLe, controllersortby.sortbyhanghoaController.text);
     // Xác định tất cả các mục chứa từ khóa tìm kiếm trong sỉ
     List<dynamic> filteredItemsLe = allHangHoaLe
@@ -168,32 +174,210 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.red,
                     )),
+                if (controllerGoodRepo.listLocationHangHoaSi.isEmpty)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        'Mời bạn nhập thêm hàng',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: mainColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  )
+                else
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: SizedBox(
+                      width: 350,
+                      child: Table(
+                        border: TableBorder.all(),
+                        columnWidths: const {
+                          0: FlexColumnWidth(1.1), // Cột Vị trí
+                          1: FlexColumnWidth(1.0), // Cột Hết hạn
+                          2: FlexColumnWidth(0.7), // Cột SL
+                        },
+                        children: <TableRow>[
+                          const TableRow(
+                            children: <Widget>[
+                              TableCell(
+                                child: Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text('Vị trí',
+                                      style: TextStyle(fontSize: 17)),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text('Hết hạn',
+                                      style: TextStyle(fontSize: 17)),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text('SL',
+                                      style: TextStyle(fontSize: 17)),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Tạo các hàng dữ liệu
+                          for (var doc
+                              in controllerGoodRepo.listLocationHangHoaSi)
+                            TableRow(
+                              children: <Widget>[
+                                TableCell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(doc['location'],
+                                        style: const TextStyle(fontSize: 17)),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(doc['exp'],
+                                        style: const TextStyle(fontSize: 17)),
+                                  ),
+                                ),
+                                TableCell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(doc['soluong'].toString(),
+                                        style: const TextStyle(fontSize: 17)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
                 const SizedBox(height: 3),
                 const Text('Mặt hàng muốn phân phối:',
-                    style: TextStyle(
-                      fontSize: 17,
-                    )),
+                    style:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
                 SizedBox(
                   width: size.width,
                   height: size.height - 230,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: ListView.builder(
+                      physics: const PageScrollPhysics(),
+                      shrinkWrap: true,
                       itemCount: filteredItemsLe.length,
                       itemBuilder: (context, index) {
-                        var hanghoa = filteredItemsLe[index];
-                        return CardHangHoa(
-                          hanghoa: hanghoa,
-                          onTapChiTietHangHoa: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChonHangHoaLeScreen(
-                                        hanghoaLe: hanghoa,
-                                        hanghoaSi: updatehanghoaSi,
-                                      )),
-                            );
-                          },
+                        var doc = filteredItemsLe[index];
+                        return
+                            // CardHangHoa(
+                            //   hanghoa: hanghoa,
+                            //   onTapChiTietHangHoa: () {
+                            //     Navigator.push(
+                            //       context,
+                            //       MaterialPageRoute(
+                            //           builder: (context) => ChonHangHoaLeScreen(
+                            //                 hanghoaLe: hanghoa,
+                            //                 hanghoaSi: updatehanghoaSi,
+                            //               )),
+                            //     );
+                            //   },
+                            // );
+                            Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                isSelected = true;
+                                selectedDoc = doc;
+                              });
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    width: isSelected && selectedDoc == doc
+                                        ? 2
+                                        : 1,
+                                    color: isSelected && selectedDoc == doc
+                                        ? mainColor // Màu border khi Container được chọn
+                                        : Colors
+                                            .black26, // Màu border khi Container không được chọn
+                                  )),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      leading: doc["photoGood"].isEmpty
+                                          ? const Image(
+                                              image: AssetImage(hanghoaIcon),
+                                              height: 30,
+                                            )
+                                          : ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              child: CachedNetworkImage(
+                                                height: 30,
+                                                width: 30,
+                                                imageUrl:
+                                                    doc["photoGood"].toString(),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                      title: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(doc["tensanpham"]),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                "Kho: ${doc["tonkho"]} ${doc["donvi"]}",
+                                                style: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w100),
+                                                textAlign: TextAlign.start,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      trailing: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            print('bấm vào icon');
+                                            itemExpandedList[index] =
+                                                !itemExpandedList[index];
+                                            print(itemExpandedList[index]);
+                                            print(itemExpandedList);
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.expand_circle_down,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    ),
+                                    itemExpandedList[index] == true
+                                        ? Column(
+                                            children: [
+                                              const SizedBox(height: 7),
+                                              PhanCachWidget.dotLine(context),
+                                              const SizedBox(height: 7),
+                                              LocationWidget(hanghoa: doc)
+                                            ],
+                                          )
+                                        : const SizedBox()
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         );
                       },
                     ),
