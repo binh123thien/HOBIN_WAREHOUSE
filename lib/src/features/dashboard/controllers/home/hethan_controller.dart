@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HetHanController extends GetxController {
   static HetHanController get instance => Get.find();
-
-  TextEditingController giaHetHanController = TextEditingController();
 
   final firebaseUser = FirebaseAuth.instance.currentUser;
 
@@ -39,11 +36,19 @@ class HetHanController extends GetxController {
           Map<String, dynamic>? locationData =
               subDocSnapshot.data() as Map<String, dynamic>?;
           if (locationData != null) {
-            data.add(locationData);
+            data.add({
+              "exp": locationData["exp"],
+              "gia": locationData["gia"],
+              "location": locationData["location"],
+              "macode": locationData["macode"],
+              "soluong": locationData["soluong"],
+              "tensanpham": locationData["tensanpham"],
+            });
           }
         }
       }
     }
+    print(data);
     return data;
   }
 }

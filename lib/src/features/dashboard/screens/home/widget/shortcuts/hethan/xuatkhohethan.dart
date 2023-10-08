@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/utils/utils.dart';
-import '../../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../../../constants/color.dart';
-import '../../../../../../../constants/icon.dart';
+import '../../../../../../../utils/utils.dart';
+import '../../../../../../../utils/validate/formsoluong.dart';
 import '../../../../../../../utils/validate/validate.dart';
-import '../../../../../controllers/home/hethan_controller.dart';
+import '../../../../../models/themdonhang_model.dart';
+import '../../../../add/nhaphang/widget/danhsach_items_dachon.dart';
+import '../../../../add/thanhtoan/chitiethoadon_screen.dart';
 
 class XuatKhoHetHanScreen extends StatefulWidget {
   final List<Map<String, dynamic>> selectedItemsHetHan;
@@ -18,14 +17,13 @@ class XuatKhoHetHanScreen extends StatefulWidget {
 }
 
 class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
-  final controller = Get.put(HetHanController());
+  TextEditingController giaHetHanController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final _formKey1 = GlobalKey<FormState>();
+    final formKey1 = GlobalKey<FormState>();
     num totalPrice = widget.selectedItemsHetHan
         .map<num>((item) => item['soluong'] * item['gia'])
         .reduce((value, element) => value + element);
-
     num totalQuantity = widget.selectedItemsHetHan
         .map<num>((item) => item['soluong'])
         .reduce((value, element) => value + element);
@@ -38,177 +36,39 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
           centerTitle: true,
         ),
         body: SingleChildScrollView(
-          child: Form(
-            key: _formKey1,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.black26)),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 8, 15, 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text("Ước tính doanh thu",
-                              style: TextStyle(fontSize: 17)),
-                          const SizedBox(height: 7),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Row(
-                                children: [
-                                  SizedBox(
-                                    width: 18,
-                                    height: 18,
-                                    child: Image(
-                                        image: AssetImage(tongtienxuatkhoIcon)),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text("Tổng tiền:",
-                                      style: TextStyle(fontSize: 17)),
-                                ],
-                              ),
-                              Text(formatCurrency(totalPrice),
-                                  style: const TextStyle(fontSize: 17)),
-                            ],
-                          ),
-                          const SizedBox(height: 5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Row(
-                                children: [
-                                  SizedBox(
-                                    width: 18,
-                                    height: 18,
-                                    child: Image(
-                                        image:
-                                            AssetImage(tongsoluongxuatkhoIcon)),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Text("Tổng số lượng:",
-                                      style: TextStyle(fontSize: 17)),
-                                ],
-                              ),
-                              Text(totalQuantity.toString(),
-                                  style: const TextStyle(fontSize: 17)),
-                            ],
-                          ),
-                          const SizedBox(height: 7),
-                          PhanCachWidget.dotLine(context),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 13, bottom: 7),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TextFormField(
-                                  validator: (value) {
-                                    return oneCharacter(value!);
-                                  },
-                                  controller: controller.giaHetHanController,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp(r'[0-9]'))
-                                  ],
-                                  onChanged: (value) {
-                                    final newValue = formatNumber(value);
-                                    if (newValue != value) {
-                                      controller.giaHetHanController.value =
-                                          TextEditingValue(
-                                        text: newValue,
-                                        selection: TextSelection.fromPosition(
-                                            TextPosition(
-                                                offset: newValue.length)),
-                                      );
-                                    }
-                                  },
-                                  decoration: const InputDecoration(
-                                      labelText: "Tiền thực tế",
-                                      errorStyle: TextStyle(fontSize: 15),
-                                      border: OutlineInputBorder(),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: mainColor, width: 1)),
-                                      contentPadding:
-                                          EdgeInsets.symmetric(horizontal: 10),
-                                      hintText: 'Nhập số tiền'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    "Danh sách đã chọn",
-                    style: TextStyle(fontSize: 17),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black26)),
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: widget.selectedItemsHetHan.length,
-                      itemBuilder: (context, index) {
-                        final docdata = widget.selectedItemsHetHan[index];
-                        return Column(
-                          children: [
-                            ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: backGroundColor,
-                                  foregroundColor: mainColor,
-                                  child: Text(
-                                    (index + 1).toString(),
-                                    style: const TextStyle(fontSize: 17),
-                                  ),
-                                ),
-                                title: Text(
-                                  "${docdata['tensanpham']} - ${docdata['gia']}",
-                                ),
-                                subtitle: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "${docdata["exp"]} - SL: ${docdata["soluong"]}",
-                                        style: const TextStyle(fontSize: 14),
-                                      ),
-                                      Text(
-                                        "${docdata["location"]}",
-                                        style: const TextStyle(fontSize: 14),
-                                      )
-                                    ])
-                                // Các thuộc tính khác của CheckboxListTile
-                                // ...
-                                ),
-                            index != widget.selectedItemsHetHan.length - 1
-                                ? PhanCachWidget.dotLine(context)
-                                : const SizedBox()
-                          ],
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
+          children: [
+            DanhSachItemsDaChonScreen(
+              selectedItems: widget.selectedItemsHetHan,
+              blockOnPress: true,
+              reLoad: () {},
             ),
-          ),
-        ),
+            PhanCachWidget.space(),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
+              child: Form(
+                  key: formKey1,
+                  child: TextFormField(
+                    controller: giaHetHanController,
+                    validator: (value) {
+                      return nonZeroInput(value!);
+                    },
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [MaxValueTextInputFormatter(totalPrice)],
+                    decoration: const InputDecoration(
+                        suffixText: "VND",
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                        labelText: "Tiền thực tế",
+                        errorStyle: TextStyle(fontSize: 15),
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: mainColor, width: 1)),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                        hintText: 'Nhập số tiền'),
+                  )),
+            )
+          ],
+        )),
         bottomNavigationBar: BottomAppBar(
           height: 70,
           child: Row(
@@ -229,12 +89,42 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                       ),
                     ),
                     onPressed: () {
-                      if (_formKey1.currentState!.validate()) {
-                        print(controller.giaHetHanController.value.text);
+                      if (formKey1.currentState!.validate()) {
+                        final num tongthanhtoan =
+                            num.tryParse(giaHetHanController.value.text) ?? 0;
+                        final hHcode = generateHHCode();
+                        final ngaytao = formatNgayTao();
+                        final datetime = formatDatetime();
+                        final donhethan = ThemDonHangModel(
+                          soHD: hHcode,
+                          ngaytao: ngaytao,
+                          khachhang: "Kho",
+                          payment: "Xuất kho",
+                          tongsl: totalQuantity,
+                          tongtien: totalPrice,
+                          giamgia: totalPrice - tongthanhtoan,
+                          no: 0,
+                          trangthai: "Thành công",
+                          tongthanhtoan: tongthanhtoan,
+                          billType: 'HetHan',
+                          datetime: datetime,
+                        );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChiTietHoaDonScreen(
+                              donnhaphang: donhethan,
+                              allThongTinItemNhap: widget.selectedItemsHetHan,
+                              phanbietNhapXuat: 'HetHan',
+                            ), // Thay 'TrangKhac' bằng tên trang bạn muốn chuyển đến
+                          ),
+                          // (route) =>
+                          //     false, // Xóa hết tất cả các trang khỏi ngăn xếp
+                        );
                       }
                     },
                     child: const Text(
-                      'Xác nhận',
+                      'Xác nhận xuất kho',
                       style: TextStyle(fontSize: 19),
                     ),
                   ),
