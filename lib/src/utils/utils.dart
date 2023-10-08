@@ -63,6 +63,17 @@ String generateNHCode() {
   return 'NH$formattedDateTime';
 }
 
+String generateHHCode() {
+  final DateTime now = DateTime.now();
+  final formatter = DateFormat('yyMMdd-HHmmss'); // Thêm định dạng giây
+
+  // Lấy ngày giờ hiện tại và định dạng theo yyyyMMdd-HHmmss
+  final formattedDateTime = formatter.format(now);
+
+  // Ghép chuỗi BH với ngày giờ định dạng
+  return 'HH$formattedDateTime';
+}
+
 String generateKHCode() {
   final DateTime now = DateTime.now();
   final formatter = DateFormat('yyMMdd-HHmmss'); // Thêm định dạng giây

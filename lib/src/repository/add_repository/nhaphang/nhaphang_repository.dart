@@ -83,7 +83,8 @@ class NhapHangRepository extends GetxController {
         "gia": data["gia"],
         "location": data["location"],
         "tensanpham": data["tensanpham"],
-        "soluong": data["soluong"]
+        "soluong": data["soluong"],
+        "macode": data["macode"],
       };
 
       if (checkData.exists) {

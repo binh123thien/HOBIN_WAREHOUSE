@@ -43,7 +43,9 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                         ? xuathangIcon
                         : billType == "NhapHang" && no == 0
                             ? nhaphangIcon
-                            : dangchoIcon),
+                            : billType == "HetHan"
+                                ? hethanIcon
+                                : dangchoIcon),
                     height: 45,
                   ),
                 ),
@@ -54,7 +56,9 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                     Text(
                         billType == "XuatHang"
                             ? "Xuất Hàng thành công"
-                            : "Nhập hàng thành công",
+                            : billType == "NhapHang"
+                                ? "Nhập hàng thành công"
+                                : "Xuất kho hết hạn thành công",
                         style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w700)),
                     Text(
@@ -67,7 +71,9 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                           fontSize: 17,
                           color: billType == "XuatHang"
                               ? success600Color
-                              : cancel600Color),
+                              : billType == "NhapHang"
+                                  ? cancel600Color
+                                  : mainColor),
                     ),
                   ],
                 )

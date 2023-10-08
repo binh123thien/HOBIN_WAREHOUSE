@@ -55,12 +55,13 @@ class _ChiTietHoaDonScreenState extends State<ChiTietHoaDonScreen> {
               billType: widget.donnhaphang.billType,
               bHcode: widget.donnhaphang.soHD,
               date: widget.donnhaphang.ngaytao,
-              tongtien: widget.donnhaphang.tongtien,
+              tongtien: widget.donnhaphang.tongthanhtoan,
               paymentSelected: widget.donnhaphang.payment,
               khachhang: widget.donnhaphang.khachhang,
             ),
             PhanCachWidget.space(),
-            widget.phanbietNhapXuat == "NhapHang"
+            widget.phanbietNhapXuat == "NhapHang" ||
+                    widget.phanbietNhapXuat == "HetHan"
                 ? DanhSachItemDaChonNhapHangWidget(
                     selectedItems: widget.allThongTinItemNhap,
                   )
