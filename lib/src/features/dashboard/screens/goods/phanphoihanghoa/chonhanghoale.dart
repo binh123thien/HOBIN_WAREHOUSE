@@ -133,6 +133,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                       context,
                       MaterialPageRoute(
                           builder: (context) => ChooseLocationPhanPhoiScreen(
+                                hangHoaLe: widget.hanghoaLe,
                                 locationUsed: controllerGoodRepo
                                     .listLocationHangHoaLePicked,
                               )),

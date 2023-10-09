@@ -7,8 +7,10 @@ import '../../../controllers/add/nhaphang_controller.dart';
 import '../../Widget/appbar/search_widget.dart';
 
 class ChooseLocationPhanPhoiScreen extends StatefulWidget {
+  final dynamic hangHoaLe;
   final List<Map<String, dynamic>> locationUsed;
-  const ChooseLocationPhanPhoiScreen({super.key, required this.locationUsed});
+  const ChooseLocationPhanPhoiScreen(
+      {super.key, required this.locationUsed, this.hangHoaLe});
 
   @override
   State<ChooseLocationPhanPhoiScreen> createState() =>
@@ -22,9 +24,9 @@ class _ChooseLocationPhanPhoiScreenState
   List<dynamic> allLocationName = [];
   //list chưa sử dụng
   List<dynamic> unusedLocations = [];
+  List<dynamic> unusedLocationsSearch = [];
 
-  final TextEditingController _controllerLocation = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  List<dynamic> usedLocations = [];
 
   bool isSelected =
       false; // Biến để theo dõi trạng thái Container đã được chọn hay chưa
@@ -32,10 +34,12 @@ class _ChooseLocationPhanPhoiScreenState
   @override
   void initState() {
     super.initState();
+    //list unusedLocationsSearch tạm để search
+    unusedLocationsSearch = unusedLocations;
+    //load all location
     controllerLocation.loadAllLocationsName();
+    usedLocations = widget.locationUsed;
     allLocationName = controllerLocation.allLocationNameFirebase;
-    print('list all location $allLocationName');
-
     for (var location in allLocationName) {
       bool isUsed = widget.locationUsed
           .any((usedLocation) => usedLocation['location'] == location['id']);
@@ -46,115 +50,45 @@ class _ChooseLocationPhanPhoiScreenState
   }
 
   void runFilter(String enterKeyboard) {
-    final allLocation = controllerLocation.allLocationNameFirebase;
-    List<dynamic> result = [];
+    List<dynamic> resultUnUsedLocations = [];
+    List<dynamic> resultUsedLocations = [];
+
     if (enterKeyboard.isEmpty) {
-      result = allLocation;
+      // Nếu chuỗi tìm kiếm trống, hiển thị tất cả các vị trí chưa sử dụng và đang sử dụng
+      resultUnUsedLocations = (unusedLocationsSearch);
+      resultUsedLocations = (widget.locationUsed);
     } else {
-      result = allLocation
-          .where((locationName) => locationName['id']
-              .toString()
-              .toLowerCase()
-              .contains(enterKeyboard.toLowerCase()))
-          .toList();
+      // Nếu có chuỗi tìm kiếm, lặp qua cả hai danh sách và thêm các phần tử thỏa mãn vào danh sách kết quả
+      for (var location in unusedLocations) {
+        if (location['id']
+            .toString()
+            .toLowerCase()
+            .contains(enterKeyboard.toLowerCase())) {
+          resultUnUsedLocations.add(location);
+        }
+      }
+
+      for (var location in usedLocations) {
+        if (location['location']
+            .toString()
+            .toLowerCase()
+            .contains(enterKeyboard.toLowerCase())) {
+          resultUsedLocations.add(location);
+        }
+      }
     }
+
     setState(() {
-      allLocationName = result;
+      unusedLocations = resultUnUsedLocations;
+      usedLocations = resultUsedLocations;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build location lẻ unpicked $unusedLocations}');
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                  ),
-                  builder: (BuildContext context) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.27,
-                        child: Form(
-                          key: _formKey,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Column(
-                              children: [
-                                const SizedBox(height: 10),
-                                const Text("Nhập vị trí"),
-                                const SizedBox(height: 10),
-                                TextFormField(
-                                  validator: (value) {
-                                    return locationNameCheckForm(
-                                        value!, allLocationName);
-                                  },
-                                  controller: _controllerLocation,
-                                  maxLength: 10,
-                                  decoration: const InputDecoration(
-                                      errorStyle: TextStyle(fontSize: 15),
-                                      border: UnderlineInputBorder(),
-                                      focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: blueColor, width: 2)),
-                                      contentPadding: EdgeInsets.zero,
-                                      hintText: 'Nhập vị trí'),
-                                ),
-                                const SizedBox(height: 20),
-                                SizedBox(
-                                  width: MediaQuery.of(context).size.width - 30,
-                                  height: 45,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      backgroundColor: blueColor,
-                                      side: const BorderSide(color: blueColor),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            10), // giá trị này xác định bán kính bo tròn
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        controllerLocation.createLocationName(
-                                            _controllerLocation.text);
-                                        //thêm vào list local
-                                        allLocationName.add(
-                                            {'id': _controllerLocation.text});
-                                        setState(() {});
-                                        Navigator.of(context)
-                                            .pop(_controllerLocation.text);
-                                      }
-                                    },
-                                    child: const Text(
-                                      'Xác nhận',
-                                      style: TextStyle(fontSize: 19),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-              icon: const Icon(Icons.add))
-        ],
         title: const Text("Chọn vị trí", style: TextStyle(fontSize: 18)),
         backgroundColor: blueColor,
         centerTitle: true,
@@ -176,15 +110,6 @@ class _ChooseLocationPhanPhoiScreenState
                       },
                       width: 320,
                     ),
-                    // IconButton(
-                    //   onPressed: () {
-                    //     _showSortbyHangHoaTaoDon();
-                    //   },
-                    //   icon: const Image(
-                    //     image: AssetImage(sortbyIcon),
-                    //     height: 28,
-                    //   ),
-                    // ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -195,78 +120,86 @@ class _ChooseLocationPhanPhoiScreenState
       ),
       body: Column(
         children: [
-          const Text('Vị trí của đang sử dụng'),
-          ListView.builder(
-            physics: const PageScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: widget.locationUsed.length,
-            itemBuilder: (context, index) {
-              final doc = widget.locationUsed[index];
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = true;
-                      selectedDoc = doc;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        width: isSelected && selectedDoc == doc ? 2 : 1,
-                        color: isSelected && selectedDoc == doc
-                            ? Colors.blue // Màu border khi Container được chọn
-                            : Colors
-                                .black26, // Màu border khi Container không được chọn
+          const SizedBox(height: 15),
+          Text('Vị trí ${widget.hangHoaLe['tensanpham']} đang sử dụng'),
+          usedLocations.isNotEmpty
+              ? ListView.builder(
+                  physics: const PageScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: usedLocations.length,
+                  itemBuilder: (context, index) {
+                    final doc = widget.locationUsed[index];
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isSelected = true;
+                            selectedDoc = doc;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: isSelected && selectedDoc == doc ? 2 : 1,
+                              color: isSelected && selectedDoc == doc
+                                  ? Colors
+                                      .blue // Màu border khi Container được chọn
+                                  : Colors
+                                      .black26, // Màu border khi Container không được chọn
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(9.0),
+                            child: Text(doc["location"]),
+                          ),
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(9.0),
-                      child: Text(doc["location"]),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+                    );
+                  },
+                )
+              : const SizedBox(),
+          const SizedBox(height: 15),
           const Text('Vị trí chưa sử dụng'),
-          ListView.builder(
-            physics: const PageScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: unusedLocations.length,
-            itemBuilder: (context, index) {
-              final doc = unusedLocations[index];
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      isSelected = true;
-                      selectedDoc = doc;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        width: isSelected && selectedDoc == doc ? 2 : 1,
-                        color: isSelected && selectedDoc == doc
-                            ? Colors.blue // Màu border khi Container được chọn
-                            : Colors
-                                .black26, // Màu border khi Container không được chọn
+          unusedLocations.isNotEmpty
+              ? ListView.builder(
+                  physics: const PageScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: unusedLocations.length,
+                  itemBuilder: (context, index) {
+                    final doc = unusedLocations[index];
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isSelected = true;
+                            selectedDoc = doc;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: isSelected && selectedDoc == doc ? 2 : 1,
+                              color: isSelected && selectedDoc == doc
+                                  ? Colors
+                                      .blue // Màu border khi Container được chọn
+                                  : Colors
+                                      .black26, // Màu border khi Container không được chọn
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(9.0),
+                            child: Text(doc["id"]),
+                          ),
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(9.0),
-                      child: Text(doc["id"]),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+                    );
+                  },
+                )
+              : const SizedBox(),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
