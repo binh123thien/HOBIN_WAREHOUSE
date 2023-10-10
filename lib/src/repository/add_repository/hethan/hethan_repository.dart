@@ -15,7 +15,7 @@ class HetHanRepository extends GetxController {
         .doc(firebaseUser!.uid)
         .collection("History")
         .doc(firebaseUser.uid)
-        .collection("HetHan")
+        .collection("XuatHang")
         .doc(hoadonnhaphang.soHD);
     await xuatHangCollectionRef.set(hoadonnhaphang.toJson());
     final newDonXuatHangDocSnapshot = await xuatHangCollectionRef.get();

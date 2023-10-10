@@ -81,7 +81,8 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                 child: StreamBuilder<QuerySnapshot>(
                     stream: controllerHistoryRepo.getAllSanPhamTrongHoaDon(
                         widget.doc["soHD"],
-                        widget.doc["billType"] == "XuatHang"
+                        widget.doc["billType"] == "XuatHang" ||
+                                widget.doc["billType"] == "HetHan"
                             ? "XuatHang"
                             : "NhapHang"),
                     builder: (BuildContext context,
@@ -99,7 +100,8 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                                 document
                                     .add(doc.data() as Map<String, dynamic>);
                               }
-                              if (widget.doc["billType"] == "NhapHang") {
+                              if (widget.doc["billType"] == "NhapHang" ||
+                                  widget.doc["billType"] == "HetHan") {
                                 return DanhSachItemDaChonNhapHangWidget(
                                   selectedItems: document,
                                 );

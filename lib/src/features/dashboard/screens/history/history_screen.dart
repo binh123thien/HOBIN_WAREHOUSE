@@ -5,6 +5,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/history/thanhcong
 
 import '../Widget/appbar/search_widget.dart';
 import 'dangcho/dangcho_screen.dart';
+import 'hethan/hethan_history_screen.dart';
 import 'huy/huy_screen.dart';
 import 'nhaphang/nhaphang_screen.dart';
 
@@ -35,7 +36,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 5,
+      length: 6,
       child: Scaffold(
         backgroundColor: backGroundColor,
         appBar: AppBar(
@@ -96,6 +97,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       ),
                       Tab(
                         text: "Hủy",
+                      ),
+                      Tab(
+                        text: "Hết Hạn",
                       )
                     ],
                     indicatorColor: Colors.black,
@@ -111,7 +115,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
           controller: _pageController,
           physics:
               const NeverScrollableScrollPhysics(), // Ngăn kéo trái/phải trong PageView
-          itemCount: 5,
+          itemCount: 6,
           itemBuilder: (context, index) {
             return ListView(
               shrinkWrap: true,
@@ -125,7 +129,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 else if (index == 3)
                   DangChoHistoryScreen(searchHistory: searchHistory)
                 else if (index == 4)
-                  HuyHistoryScreen(searchHistory: searchHistory),
+                  HuyHistoryScreen(searchHistory: searchHistory)
+                else if (index == 5)
+                  HetHanHistoryScreen(searchHistory: searchHistory),
               ],
             );
           },

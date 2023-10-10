@@ -61,7 +61,37 @@ class HistoryRepository extends GetxController {
       final docsByMonthly = docsByMonth.values.toList();
       return docsByMonthly;
     } catch (e) {
-      print(' catch history repo $e');
+      return [];
+    }
+  }
+
+  Future<List<List<DocumentSnapshot>>> getDocsByMonthlyXuatHangHoacHetHan(
+      String collectionName, String userID, String billType) async {
+    try {
+      final QuerySnapshot snapshot = await firestore
+          .collection("Users")
+          .doc(userID)
+          .collection("History")
+          .doc(userID)
+          .collection(collectionName)
+          .where("billType", isEqualTo: billType)
+          // add this line to sort by 'soHD'
+          .get();
+      final reversedDocs = snapshot.docs.reversed;
+      // Group documents by month
+      final Map<String, List<DocumentSnapshot>> docsByMonth = {};
+      for (final doc in reversedDocs) {
+        final month = doc['ngaytao'].split('/')[1];
+        if (!docsByMonth.containsKey(month)) {
+          docsByMonth[month] = [doc];
+        } else {
+          docsByMonth[month]!.add(doc);
+          // print('map theo tháng 08: list $docsByMonth');
+        }
+      }
+      final docsByMonthly = docsByMonth.values.toList();
+      return docsByMonthly;
+    } catch (e) {
       return [];
     }
   }

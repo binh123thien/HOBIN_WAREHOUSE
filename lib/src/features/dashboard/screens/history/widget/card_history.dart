@@ -35,6 +35,8 @@ class CardHistory extends StatelessWidget {
             //BanHang NhapHang Dang cho
             if (doc["trangthai"] == "Đang chờ") {
               return dangchoIcon;
+            } else if (doc["billType"] == "HetHan") {
+              return hethanIcon;
             } else {
               return huyIcon;
             }
