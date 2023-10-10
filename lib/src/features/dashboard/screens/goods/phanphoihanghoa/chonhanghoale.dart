@@ -28,6 +28,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
   late dynamic updatehanghoaSi;
   late dynamic updatehanghoaLe;
 
+  String hangHoaLeLocation = '';
+
   @override
   void initState() {
     super.initState();
@@ -137,25 +139,44 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                 locationUsed: controllerGoodRepo
                                     .listLocationHangHoaLePicked,
                               )),
-                    );
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          hangHoaLeLocation = value["id"];
+                        });
+                      }
+                    });
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: darkColor)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color:
+                            hangHoaLeLocation.isEmpty ? darkColor : mainColor,
+                        width: hangHoaLeLocation.isEmpty ? 0 : 2,
+                      ),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(9.0),
                       child: Row(children: [
                         const SizedBox(
                           width: 25,
                           height: 25,
-                          child: Image(image: AssetImage(locationIcon)),
+                          child: Image(
+                            image: AssetImage(locationIcon),
+                            color: darkColor,
+                          ),
                         ),
                         const SizedBox(width: 7),
                         Text(
-                          'Vị trí của ${updatehanghoaLe['tensanpham']}',
-                          style: const TextStyle(fontSize: 17),
+                          hangHoaLeLocation.isEmpty
+                              ? 'Vị trí ${updatehanghoaLe['tensanpham']}'
+                              : hangHoaLeLocation,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: darkColor,
+                          ),
                         ),
                       ]),
                     ),

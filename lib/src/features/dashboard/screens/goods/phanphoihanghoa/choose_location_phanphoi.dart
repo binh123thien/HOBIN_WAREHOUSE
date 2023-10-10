@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import 'package:hobin_warehouse/src/utils/validate/validate.dart';
 
 import '../../../../../constants/color.dart';
@@ -160,7 +161,9 @@ class _ChooseLocationPhanPhoiScreenState
                   },
                 )
               : const SizedBox(),
-          const SizedBox(height: 15),
+          const SizedBox(height: 10),
+          PhanCachWidget.dotLine(context),
+          const SizedBox(height: 5),
           const Text('Vị trí chưa sử dụng'),
           unusedLocations.isNotEmpty
               ? ListView.builder(
