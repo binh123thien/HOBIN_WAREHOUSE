@@ -33,7 +33,7 @@ class ChitietThang extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 label: Text(
-                  phanbietNhapHangBanHang == "BanHang"
+                  phanbietNhapHangBanHang == "XuatHang"
                       ? "Tổng thu: ${formatCurrency(doanhThuMonthlyTotal)}"
                       : "Tổng chi: ${formatCurrency(doanhThuMonthlyTotal)}",
                   style: const TextStyle(
@@ -47,7 +47,7 @@ class ChitietThang extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 label: Text(
-                  phanbietNhapHangBanHang == "BanHang"
+                  phanbietNhapHangBanHang == "XuatHang"
                       ? "Đã bán: $soluongMonthlyTotal"
                       : "Đã nhập: $soluongMonthlyTotal",
                   style: const TextStyle(
