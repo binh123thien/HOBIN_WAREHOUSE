@@ -2,17 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../../repository/history_repository/history_repository.dart';
 import '../widget/nhapbanhang/streamlist.dart';
 
-class XuatHangScreen extends StatefulWidget {
+class HetHanHistoryScreen extends StatefulWidget {
   final String searchHistory;
-  const XuatHangScreen({super.key, required this.searchHistory});
+  const HetHanHistoryScreen({super.key, required this.searchHistory});
+
   @override
-  State<XuatHangScreen> createState() => _XuatHangScreenState();
+  State<HetHanHistoryScreen> createState() => _HetHanHistoryScreenState();
 }
 
-class _XuatHangScreenState extends State<XuatHangScreen> {
+class _HetHanHistoryScreenState extends State<HetHanHistoryScreen> {
   final controller = Get.put(HistoryRepository());
   List<List<DocumentSnapshot>> docsByMonthly = [];
   bool _isMounted = false;
@@ -34,7 +36,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     await controller
         .getDocsByMonthlyXuatHangHoacHetHan(
-            'XuatHang', firebaseUser!.uid, "XuatHang")
+            'XuatHang', firebaseUser!.uid, "HetHan")
         .then((value) {
       if (_isMounted) {
         setState(() {
