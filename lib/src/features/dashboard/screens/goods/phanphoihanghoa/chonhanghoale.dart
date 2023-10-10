@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/choose_location_phanphoi.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/widget/cardphanphoihang_widget.dart';
 import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
@@ -57,282 +58,308 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
     final textEditsoLuongSi = TextEditingController();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        title: const Text("Phân phối hàng hóa",
-            style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-        backgroundColor: backGroundColor,
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.done, size: 30, color: darkColor),
-            onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                String dateTao = formatNgaytao();
-                //nhận giá trị chuyendoiLe trả về
-                int giaTriChuyenDoiLe = await controllerHangHoa.calculate(
-                    dateTao,
-                    int.parse(textEditsoLuongLe.text),
-                    int.parse(textEditsoLuongSi.text),
-                    updatehanghoaSi,
-                    updatehanghoaLe);
-                // ignore: use_build_context_synchronously
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DonePhanPhoiScreen(
-                            dateTao: dateTao,
-                            updatehanghoaSi: updatehanghoaSi,
-                            updatehanghoaLe: updatehanghoaLe,
-                            chuyendoiLe: giaTriChuyenDoiLe,
-                            chuyendoiSi:
-                                int.parse(textEditsoLuongSi.text.toString()),
-                          )),
-                );
-              }
-            },
-          )
-        ],
-      ),
-      backgroundColor: backGroundDefaultFigma,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: double.infinity,
-          child: Form(
-            key: formKey,
-            child: Column(children: [
-              CardPhanPhoiHang(
-                  soluong: RxInt(0),
-                  phanBietSiLe: true,
-                  slchuyendoi: 0,
-                  imageProduct: updatehanghoaSi['photoGood'].isEmpty
-                      ? hanghoaIcon
-                      : updatehanghoaSi['photoGood'],
-                  donViProduct: updatehanghoaSi['donvi'],
-                  updatehanghoa: updatehanghoaSi),
-              const Icon(
-                Icons.arrow_downward_outlined,
-              ),
-              CardPhanPhoiHang(
-                  soluong: RxInt(0),
-                  phanBietSiLe: false,
-                  slchuyendoi: 0,
-                  imageProduct: updatehanghoaLe['photoGood'].isEmpty
-                      ? hanghoaIcon
-                      : updatehanghoaLe['photoGood'],
-                  donViProduct: updatehanghoaLe['donvi'],
-                  updatehanghoa: updatehanghoaLe),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 14, 10, 14),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChooseLocationPhanPhoiScreen(
-                                hangHoaLe: widget.hanghoaLe,
-                                locationUsed: controllerGoodRepo
-                                    .listLocationHangHoaLePicked,
-                              )),
-                    ).then((value) {
-                      if (value != null) {
-                        setState(() {
-                          hangHoaLeLocation = value["id"];
-                        });
-                      }
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color:
-                            hangHoaLeLocation.isEmpty ? darkColor : mainColor,
-                        width: hangHoaLeLocation.isEmpty ? 0 : 2,
+        appBar: AppBar(
+          leading: IconButton(
+              icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          title: const Text("Phân phối hàng hóa",
+              style: TextStyle(
+                  fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
+          backgroundColor: backGroundColor,
+          centerTitle: true,
+        ),
+        backgroundColor: backGroundDefaultFigma,
+        body: SingleChildScrollView(
+          child: SizedBox(
+            width: double.infinity,
+            child: Form(
+              key: formKey,
+              child: Column(children: [
+                CardPhanPhoiHang(
+                    soluong: RxInt(0),
+                    phanBietSiLe: true,
+                    slchuyendoi: 0,
+                    imageProduct: updatehanghoaSi['photoGood'].isEmpty
+                        ? hanghoaIcon
+                        : updatehanghoaSi['photoGood'],
+                    donViProduct: updatehanghoaSi['donvi'],
+                    updatehanghoa: updatehanghoaSi),
+                const Icon(
+                  Icons.arrow_downward_outlined,
+                ),
+                CardPhanPhoiHang(
+                    soluong: RxInt(0),
+                    phanBietSiLe: false,
+                    slchuyendoi: 0,
+                    imageProduct: updatehanghoaLe['photoGood'].isEmpty
+                        ? hanghoaIcon
+                        : updatehanghoaLe['photoGood'],
+                    donViProduct: updatehanghoaLe['donvi'],
+                    updatehanghoa: updatehanghoaLe),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 14, 10, 14),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChooseLocationPhanPhoiScreen(
+                                  hangHoaLe: widget.hanghoaLe,
+                                  locationUsed: controllerGoodRepo
+                                      .listLocationHangHoaLePicked,
+                                )),
+                      ).then((value) {
+                        if (value != null) {
+                          setState(() {
+                            hangHoaLeLocation = value["id"];
+                          });
+                        }
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color:
+                              hangHoaLeLocation.isEmpty ? darkColor : mainColor,
+                          width: hangHoaLeLocation.isEmpty ? 0 : 2,
+                        ),
                       ),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(9.0),
-                      child: Row(children: [
-                        const SizedBox(
-                          width: 25,
-                          height: 25,
-                          child: Image(
-                            image: AssetImage(locationIcon),
-                            color: darkColor,
+                      child: Padding(
+                        padding: const EdgeInsets.all(9.0),
+                        child: Row(children: [
+                          const SizedBox(
+                            width: 25,
+                            height: 25,
+                            child: Image(
+                              image: AssetImage(locationIcon),
+                              color: darkColor,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 7),
-                        Text(
-                          hangHoaLeLocation.isEmpty
-                              ? 'Vị trí ${updatehanghoaLe['tensanpham']}'
-                              : hangHoaLeLocation,
-                          style: const TextStyle(
-                            fontSize: 17,
-                            color: darkColor,
+                          const SizedBox(width: 7),
+                          Text(
+                            hangHoaLeLocation.isEmpty
+                                ? 'Vị trí ${updatehanghoaLe['tensanpham']}'
+                                : hangHoaLeLocation,
+                            style: const TextStyle(
+                              fontSize: 17,
+                              color: darkColor,
+                            ),
                           ),
-                        ),
-                      ]),
+                        ]),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(color: Colors.white),
-                child: Column(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Image(
-                            image: AssetImage(warningIcon),
-                            height: 30,
-                          ),
-                          Padding(padding: EdgeInsets.only(right: 10)),
-                          Expanded(
-                            child: Text(
-                              'Nhập chính xác số lượng đơn vị bán lẻ trên 1 đơn vị kiện hàng bán sỉ',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          const Text(
-                            ' = ',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          SizedBox(
-                            width: 135,
-                            height: 35,
-                            child: TextFormField(
-                              autofocus: false,
-                              controller: textEditsoLuongLe,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor:
-                                    backGroundSearch, // where is this color defined?
-                                contentPadding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                prefixIconColor: darkLiteColor,
-                                floatingLabelStyle:
-                                    const TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide.none,
-                                ),
-                                hintText: "Nhập số lượng",
-                              ),
-                              validator: (value) {
-                                return nonZeroOrOneInput(value!);
-                              },
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                    RegExp(r'^\d{0,6}')),
-                              ],
-                              keyboardType: TextInputType.number,
-                            ),
-                          ),
-                          Text(
-                            ' ${updatehanghoaLe['donvi']}',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                width: double.infinity,
-                height: 120,
-                decoration: const BoxDecoration(color: Colors.white),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
+                Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(color: Colors.white),
                   child: Column(
                     children: [
-                      Row(children: [
-                        const Image(
-                          image: AssetImage(warningIcon),
-                          height: 30,
-                        ),
-                        const Padding(padding: EdgeInsets.only(right: 10)),
-                        Expanded(
-                          child: Text(
-                            'Nhập số lượng ${updatehanghoaSi['donvi']} cần chuyển đổi',
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ]),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: 900,
-                        height: 35,
-                        child: TextFormField(
-                          autofocus: false,
-                          controller: textEditsoLuongSi,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor:
-                                backGroundSearch, // where is this color defined?
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 10),
-                            prefixIconColor: darkLiteColor,
-                            floatingLabelStyle:
-                                const TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
+                      const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            Image(
+                              image: AssetImage(warningIcon),
+                              height: 30,
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide.none,
-                            ),
-                            hintText: "Nhập số lượng",
-                          ),
-                          validator: (value) {
-                            return nonBeyondSi(
-                                value!, updatehanghoaSi['tonkho']);
-                          },
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d{0,6}')),
+                            Padding(padding: EdgeInsets.only(right: 10)),
+                            Expanded(
+                              child: Text(
+                                'Nhập chính xác số lượng đơn vị bán lẻ trên 1 đơn vị kiện hàng bán sỉ',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            )
                           ],
-                          keyboardType: TextInputType.number,
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                            const Text(
+                              ' = ',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                            SizedBox(
+                              width: 135,
+                              height: 35,
+                              child: TextFormField(
+                                autofocus: false,
+                                controller: textEditsoLuongLe,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor:
+                                      backGroundSearch, // where is this color defined?
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  prefixIconColor: darkLiteColor,
+                                  floatingLabelStyle:
+                                      const TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  hintText: "Nhập số lượng",
+                                ),
+                                validator: (value) {
+                                  return nonZeroOrOneInput(value!);
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d{0,6}')),
+                                ],
+                                keyboardType: TextInputType.number,
+                              ),
+                            ),
+                            Text(
+                              ' ${updatehanghoaLe['donvi']}',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
-              )
-            ]),
+                const SizedBox(height: 10),
+                Container(
+                  width: double.infinity,
+                  height: 120,
+                  decoration: const BoxDecoration(color: Colors.white),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Row(children: [
+                          const Image(
+                            image: AssetImage(warningIcon),
+                            height: 30,
+                          ),
+                          const Padding(padding: EdgeInsets.only(right: 10)),
+                          Expanded(
+                            child: Text(
+                              'Nhập số lượng ${updatehanghoaSi['donvi']} cần chuyển đổi',
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ]),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: 900,
+                          height: 35,
+                          child: TextFormField(
+                            autofocus: false,
+                            controller: textEditsoLuongSi,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor:
+                                  backGroundSearch, // where is this color defined?
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              prefixIconColor: darkLiteColor,
+                              floatingLabelStyle:
+                                  const TextStyle(color: Colors.grey),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                                borderSide: BorderSide.none,
+                              ),
+                              hintText: "Nhập số lượng",
+                            ),
+                            validator: (value) {
+                              return nonBeyondSi(
+                                  value!, updatehanghoaSi['tonkho']);
+                            },
+                            inputFormatters: [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d{0,6}')),
+                            ],
+                            keyboardType: TextInputType.number,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ]),
+            ),
           ),
         ),
-      ),
-    );
+        bottomNavigationBar: BottomAppBar(
+            height: 70,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width - 30,
+                  height: 45,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      backgroundColor: mainColor,
+                      side: BorderSide(
+                          color: hangHoaLeLocation.isNotEmpty
+                              ? mainColor
+                              : Colors.black12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    onPressed: hangHoaLeLocation.isNotEmpty
+                        ? () async {
+                            if (formKey.currentState!.validate()) {
+                              String dateTao = formatNgaytao();
+                              //nhận giá trị chuyendoiLe trả về
+                              int giaTriChuyenDoiLe =
+                                  await controllerHangHoa.calculate(
+                                      dateTao,
+                                      int.parse(textEditsoLuongLe.text),
+                                      int.parse(textEditsoLuongSi.text),
+                                      updatehanghoaSi,
+                                      updatehanghoaLe);
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: DonePhanPhoiScreen(
+                                    dateTao: dateTao,
+                                    updatehanghoaSi: updatehanghoaSi,
+                                    updatehanghoaLe: updatehanghoaLe,
+                                    chuyendoiLe: giaTriChuyenDoiLe,
+                                    chuyendoiSi: int.parse(
+                                        textEditsoLuongSi.text.toString()),
+                                  ),
+                                ),
+                              );
+                            }
+                          }
+                        : null,
+                    child: const Text(
+                      'Xác nhận',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                );
+              },
+            )));
   }
 }
