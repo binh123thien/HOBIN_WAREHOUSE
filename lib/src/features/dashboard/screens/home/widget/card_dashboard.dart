@@ -12,7 +12,7 @@ class CardDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HistoryController controllerHistoryRepo = Get.find();
+    final controllerHistoryRepo = Get.put(HistoryController());
 
     return Obx(() {
       List<Map<String, dynamic>> expenses = [
