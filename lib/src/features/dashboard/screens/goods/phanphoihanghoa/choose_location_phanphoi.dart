@@ -91,7 +91,7 @@ class _ChooseLocationPhanPhoiScreenState
       backgroundColor: whiteColor,
       appBar: AppBar(
         title: const Text("Chọn vị trí", style: TextStyle(fontSize: 18)),
-        backgroundColor: blueColor,
+        backgroundColor: mainColor,
         centerTitle: true,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -145,8 +145,7 @@ class _ChooseLocationPhanPhoiScreenState
                             border: Border.all(
                               width: isSelected && selectedDoc == doc ? 2 : 1,
                               color: isSelected && selectedDoc == doc
-                                  ? Colors
-                                      .blue // Màu border khi Container được chọn
+                                  ? mainColor // Màu border khi Container được chọn
                                   : Colors
                                       .black26, // Màu border khi Container không được chọn
                             ),
@@ -187,8 +186,7 @@ class _ChooseLocationPhanPhoiScreenState
                             border: Border.all(
                               width: isSelected && selectedDoc == doc ? 2 : 1,
                               color: isSelected && selectedDoc == doc
-                                  ? Colors
-                                      .blue // Màu border khi Container được chọn
+                                  ? mainColor // Màu border khi Container được chọn
                                   : Colors
                                       .black26, // Màu border khi Container không được chọn
                             ),
@@ -217,8 +215,8 @@ class _ChooseLocationPhanPhoiScreenState
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
-                    backgroundColor: blueColor,
-                    side: const BorderSide(color: blueColor),
+                    backgroundColor: mainColor,
+                    side: const BorderSide(color: mainColor),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           5), // giá trị này xác định bán kính bo tròn

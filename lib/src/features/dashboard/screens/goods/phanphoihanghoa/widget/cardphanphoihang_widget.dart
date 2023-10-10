@@ -102,7 +102,7 @@ class CardPhanPhoiHang extends StatelessWidget {
                         ],
                       )
                     ],
-                  )
+                  ),
                 ],
               ),
             ),

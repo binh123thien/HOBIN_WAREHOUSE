@@ -390,7 +390,9 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                             5), // giá trị này xác định bán kính bo tròn
                       ),
                     ),
-                    onPressed: selectedDoc != null
+                    onPressed: (selectedDoc != null) &&
+                            (controllerGoodRepo
+                                .listLocationHangHoaSi.isNotEmpty)
                         ? () {
                             Navigator.push(
                               context,
