@@ -138,7 +138,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                       ),
                     ],
                     labelStyle: TextStyle(fontSize: 16),
-                    indicatorColor: Colors.pink,
+                    indicatorColor: Colors.black,
                     labelColor: darkColor,
                     isScrollable: false,
                   ),

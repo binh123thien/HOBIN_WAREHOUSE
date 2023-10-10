@@ -15,7 +15,8 @@ class LocationWidget extends StatefulWidget {
 }
 
 class _LocationWidgetState extends State<LocationWidget> {
-  StreamController<List<Map<String, dynamic>>> _locationDataStreamController =
+  final StreamController<List<Map<String, dynamic>>>
+      _locationDataStreamController =
       StreamController<List<Map<String, dynamic>>>();
   final conntrollerGood = Get.put(GoodRepository());
   @override
@@ -46,9 +47,9 @@ class _LocationWidgetState extends State<LocationWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
+          return Text('Lỗi: ${snapshot.error}');
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Text('No location data available.');
+          return const Text('Bạn chưa có dữ liệu');
         } else {
           List<Map<String, dynamic>> dataMapList = [];
 

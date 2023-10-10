@@ -85,32 +85,62 @@ class _DashboardScreenState extends State<DashboardScreen> {
             },
             destinations: const [
               NavigationDestination(
-                icon: Image(image: AssetImage(homeIcon), height: 26),
-                selectedIcon:
-                    Image(image: AssetImage(homePinkIcon), height: 28),
+                icon: Image(
+                    image: AssetImage(homeIcon), height: 26, color: mainColor),
+                selectedIcon: Image(
+                    image: AssetImage(homePinkIcon),
+                    height: 28,
+                    color: mainColor),
                 label: 'Trang chủ',
               ),
               NavigationDestination(
-                icon: Image(image: AssetImage(statisticsIcon), height: 26),
-                selectedIcon:
-                    Image(image: AssetImage(statisticsPinkIcon), height: 28),
+                icon: Image(
+                    image: AssetImage(statisticsIcon),
+                    height: 26,
+                    color: mainColor),
+                selectedIcon: Image(
+                    image: AssetImage(statisticsPinkIcon),
+                    height: 28,
+                    color: mainColor),
                 label: 'Thống kê',
               ),
               NavigationDestination(
-                icon: Image(image: AssetImage(addIcon), height: 26),
-                selectedIcon: Image(image: AssetImage(addPinkIcon), height: 28),
+                icon: Image(
+                  image: AssetImage(addIcon),
+                  height: 26,
+                  color: mainColor,
+                ),
+                selectedIcon: Image(
+                  image: AssetImage(addPinkIcon),
+                  height: 28,
+                  color: mainColor,
+                ),
                 label: 'Thêm',
               ),
               NavigationDestination(
-                icon: Image(image: AssetImage(historyIcon), height: 26),
-                selectedIcon:
-                    Image(image: AssetImage(historyPinkIcon), height: 28),
+                icon: Image(
+                  image: AssetImage(historyIcon),
+                  height: 26,
+                  color: mainColor,
+                ),
+                selectedIcon: Image(
+                  image: AssetImage(historyPinkIcon),
+                  height: 28,
+                  color: mainColor,
+                ),
                 label: 'Lịch sử',
               ),
               NavigationDestination(
-                icon: Image(image: AssetImage(goodsIcon), height: 26),
-                selectedIcon:
-                    Image(image: AssetImage(goodsPinkIcon), height: 28),
+                icon: Image(
+                  image: AssetImage(goodsIcon),
+                  height: 26,
+                  color: mainColor,
+                ),
+                selectedIcon: Image(
+                  image: AssetImage(goodsPinkIcon),
+                  height: 28,
+                  color: mainColor,
+                ),
                 label: 'Hàng hóa',
               ),
             ],

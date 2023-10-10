@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/choose_location_phanphoi.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/widget/cardphanphoihang_widget.dart';
+import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
@@ -22,14 +24,27 @@ class ChonHangHoaLeScreen extends StatefulWidget {
 class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
     with InputValidationMixin {
   final controllerHangHoa = Get.put(ChonHangHoaLeController());
+  final controllerGoodRepo = Get.put(GoodRepository());
   late dynamic updatehanghoaSi;
   late dynamic updatehanghoaLe;
 
+  String hangHoaLeLocation = '';
+
   @override
   void initState() {
+    super.initState();
     updatehanghoaSi = widget.hanghoaSi;
     updatehanghoaLe = widget.hanghoaLe;
-    super.initState();
+    controllerGoodRepo.listLocationHangHoaLePicked.clear();
+    _getLocationData();
+  }
+
+  //load dữ liệu location hàng hóa Lẻ
+  Future<void> _getLocationData() async {
+    String macode = widget.hanghoaLe["macode"];
+    List<Map<String, dynamic>> locationDataLe =
+        await controllerGoodRepo.getLocationData(macode);
+    controllerGoodRepo.listLocationHangHoaLePicked.addAll(locationDataLe);
   }
 
   @override
@@ -112,6 +127,62 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                       : updatehanghoaLe['photoGood'],
                   donViProduct: updatehanghoaLe['donvi'],
                   updatehanghoa: updatehanghoaLe),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(10, 14, 10, 14),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChooseLocationPhanPhoiScreen(
+                                hangHoaLe: widget.hanghoaLe,
+                                locationUsed: controllerGoodRepo
+                                    .listLocationHangHoaLePicked,
+                              )),
+                    ).then((value) {
+                      if (value != null) {
+                        setState(() {
+                          hangHoaLeLocation = value["id"];
+                        });
+                      }
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color:
+                            hangHoaLeLocation.isEmpty ? darkColor : mainColor,
+                        width: hangHoaLeLocation.isEmpty ? 0 : 2,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(9.0),
+                      child: Row(children: [
+                        const SizedBox(
+                          width: 25,
+                          height: 25,
+                          child: Image(
+                            image: AssetImage(locationIcon),
+                            color: darkColor,
+                          ),
+                        ),
+                        const SizedBox(width: 7),
+                        Text(
+                          hangHoaLeLocation.isEmpty
+                              ? 'Vị trí ${updatehanghoaLe['tensanpham']}'
+                              : hangHoaLeLocation,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: darkColor,
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ),
+                ),
+              ),
               Container(
                 width: double.infinity,
                 decoration: const BoxDecoration(color: Colors.white),
