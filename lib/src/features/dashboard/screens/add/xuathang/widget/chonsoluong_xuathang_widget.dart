@@ -4,10 +4,15 @@ import '../../../../../../constants/color.dart';
 import '../../../../../../utils/validate/formsoluong.dart';
 
 class ChonSoLuongXuatHangWidget extends StatefulWidget {
+  // 0 là xuat hàng
+  final int phanBietNhapXuat;
   final num tonkho;
   final FocusNode focusNode;
   const ChonSoLuongXuatHangWidget(
-      {super.key, required this.focusNode, required this.tonkho});
+      {super.key,
+      required this.focusNode,
+      required this.tonkho,
+      required this.phanBietNhapXuat});
 
   @override
   State<ChonSoLuongXuatHangWidget> createState() =>
@@ -59,15 +64,19 @@ class _ChonSoLuongXuatHangWidgetState extends State<ChonSoLuongXuatHangWidget> {
                         inputFormatters: [
                           MaxValueTextInputFormatter(widget.tonkho)
                         ],
-                        decoration: const InputDecoration(
-                          errorStyle: TextStyle(fontSize: 15),
-                          contentPadding: EdgeInsets.only(left: 10),
-                          border: OutlineInputBorder(
+                        decoration: InputDecoration(
+                          errorStyle: const TextStyle(fontSize: 15),
+                          contentPadding: const EdgeInsets.only(left: 10),
+                          border: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey),
                             borderRadius: BorderRadius.zero,
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: blueColor, width: 2),
+                            borderSide: BorderSide(
+                                color: widget.phanBietNhapXuat == 1
+                                    ? blueColor
+                                    : mainColor,
+                                width: 2),
                             borderRadius: BorderRadius.zero,
                           ),
                           hintText: 'Nhập số lượng',
@@ -81,10 +90,14 @@ class _ChonSoLuongXuatHangWidgetState extends State<ChonSoLuongXuatHangWidget> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          backgroundColor: blueColor,
+                          backgroundColor: widget.phanBietNhapXuat == 1
+                              ? blueColor
+                              : mainColor,
                           side: BorderSide(
                               color: _controllerSoLuong.text.isNotEmpty
-                                  ? blueColor
+                                  ? widget.phanBietNhapXuat == 1
+                                      ? blueColor
+                                      : mainColor
                                   : Colors.grey[500]!),
                         ),
                         onPressed: _controllerSoLuong.text.isNotEmpty

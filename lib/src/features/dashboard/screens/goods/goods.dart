@@ -211,10 +211,12 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                                                 hanghoa: hanghoa)),
                                   ).then((_) {
                                     //chỉnh lại sau khi sửa chi tiết hàng hóa (pop value)
-                                    setState(() {
-                                      allHangHoa = controllerAllHangHoa
-                                          .allHangHoaFireBase;
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        allHangHoa = controllerAllHangHoa
+                                            .allHangHoaFireBase;
+                                      });
+                                    }
                                   });
                                 },
                               );

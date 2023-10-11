@@ -65,14 +65,7 @@ class _ChinhSuaChiTietHangHoaScreenState
 
   @override
   Widget build(BuildContext context) {
-    genarateCode() {
-      String generatedCode =
-          generateRandomCode(13); // Tạo mã code với độ dài là 13
-      controller.maCodeController.text =
-          generatedCode; // Gán mã code mới vào _maCodeController
-    }
-
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -90,7 +83,7 @@ class _ChinhSuaChiTietHangHoaScreenState
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
@@ -271,7 +264,7 @@ class _ChinhSuaChiTietHangHoaScreenState
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              width: MediaQuery.of(context).size.width - 30,
+              width: 350,
               height: 55,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -283,7 +276,7 @@ class _ChinhSuaChiTietHangHoaScreenState
                   ),
                 ),
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
+                  if (formKey.currentState!.validate()) {
                     //giá trị được return từ updatehanghoa
                     await goodsRepo
                         .updateGood(
