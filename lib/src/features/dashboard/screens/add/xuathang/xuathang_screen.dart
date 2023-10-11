@@ -91,6 +91,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
           focusNode.requestFocus();
         });
         return ChonSoLuongXuatHangWidget(
+          phanBietNhapXuat: 0,
           focusNode: focusNode,
           tonkho: thongTinItemXuat["tonkho"],
         );

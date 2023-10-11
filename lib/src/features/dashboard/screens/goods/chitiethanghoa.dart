@@ -77,6 +77,7 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               icon: editIcon,
               title: "Chỉnh sửa",
               onTap: () {
+                // đóng bottom sheet
                 Navigator.pop(context);
                 Navigator.push(
                   context,
@@ -84,10 +85,14 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                       builder: (context) => ChinhSuaChiTietHangHoaScreen(
                           updateChinhSuaHangHoa: hanghoanew)),
                 ).then((value) {
+                  print(
+                      'value pop từ trang chỉnh sửa HH về trang chi tiết $value ');
+                  //xóa hình ảnh trong list tạm
                   if (value == true) {
                     setState(() {
                       hanghoanew = hanghoanew;
                     });
+                    // else (set State thông tin Hang hoa vừa chỉnh sửa)
                   } else {
                     setState(() {
                       hanghoanew = value;
@@ -140,7 +145,7 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
           leading: IconButton(
               icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               }),
           title: const Text("Chi tiết hàng hóa",
               style: TextStyle(
