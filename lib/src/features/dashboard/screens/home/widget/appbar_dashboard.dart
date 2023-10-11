@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/notification.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/notification/notification.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../../controllers/account/profile_controller.dart';
 import '../../account/account_screen.dart';

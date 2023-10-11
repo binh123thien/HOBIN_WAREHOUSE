@@ -79,6 +79,7 @@ dependencies:
 
   flutter_local_notifications: ^15.1.1
   firebase_messaging: ^14.6.9
+  fluttertoast: ^8.2.2
 
 flutter_launcher_icons:
   android: true

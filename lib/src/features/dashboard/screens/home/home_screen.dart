@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/appbar_dashboard.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuticon.dart';
+import '../../../../repository/notification_repository/notification_repository.dart';
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../../controllers/history/history_controller.dart';
 import '../../controllers/statistics/doanhthu_controller.dart';
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   final controller = Get.put(ChonHangHoaController());
   final controllerHistory = Get.put(HistoryController());
   final controllerDoanhThu = Get.put(DoanhThuController());
+  final controllerNotification = Get.put(NotificationRepository());
   final HistoryController controllerHistoryRepo = Get.find();
   @override
   void initState() {
@@ -29,6 +31,7 @@ class _HomePageState extends State<HomePage> {
     controllerHistory.loadPhiNhapHangTrongThang("NhapHang");
     controllerHistory.loadPhiNhapHangTrongThang("XuatHang");
     controllerDoanhThu.loadDoanhThuTuanChart();
+    controllerNotification.loadSanPhamHetHan();
   }
 
   @override
