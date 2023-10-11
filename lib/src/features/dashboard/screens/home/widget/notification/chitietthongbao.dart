@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 
 import '../../../../../../constants/color.dart';
+import '../../../../../../repository/notification_repository/notification_repository.dart';
+import '../../../../controllers/home/notification_controller.dart';
 
-class ChiTietThongBaoScreen extends StatelessWidget {
+class ChiTietThongBaoScreen extends StatefulWidget {
   final dynamic notification;
   const ChiTietThongBaoScreen({super.key, required this.notification});
+
+  @override
+  State<ChiTietThongBaoScreen> createState() => _ChiTietThongBaoScreenState();
+}
+
+class _ChiTietThongBaoScreenState extends State<ChiTietThongBaoScreen> {
+  final controllerNotiRepo = Get.put(NotificationRepository());
+  final controllerNotification = Get.put(NotificationController());
+  @override
+  void initState() {
+    super.initState();
+    controllerNotiRepo
+        .updateReadNotification(widget.notification["datetime"].split(' ')[0]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +46,9 @@ class ChiTietThongBaoScreen extends StatelessWidget {
               const SizedBox(height: 10),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: notification["detail"].length,
+                itemCount: widget.notification["detail"].length,
                 itemBuilder: (context, index) {
-                  final doc = notification["detail"][index];
+                  final doc = widget.notification["detail"][index];
 
                   final Map<String, dynamic> banghethan = {
                     "Mã sản phẩm:": doc["macode"],

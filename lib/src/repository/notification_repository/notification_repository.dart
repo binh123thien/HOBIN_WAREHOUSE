@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import '../../common_widgets/snackbar/toast.dart';
 
 class NotificationRepository extends GetxController {
   static NotificationRepository get instance => Get.find();
+
   final _db = FirebaseFirestore.instance;
   Future<void> loadSanPhamHetHan() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
@@ -86,6 +86,7 @@ class NotificationRepository extends GetxController {
         .collection("Users")
         .doc(firebaseUser!.uid)
         .collection("Notification")
+        .limit(30) // Giới hạn 30 tài liệu
         .snapshots();
     return getAllLocationName;
   }
@@ -111,5 +112,18 @@ class NotificationRepository extends GetxController {
       diffText = "${difference.inMinutes} phút trước";
     }
     return diffText;
+  }
+
+  updateReadNotification(String formattedcurrentDate) {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+// Đường dẫn đến tài liệu cần cập nhật
+    final documentReference = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Notification")
+        .doc(formattedcurrentDate);
+    // Cập nhật trường "read" thành 1
+    documentReference.update({"read": 1});
   }
 }

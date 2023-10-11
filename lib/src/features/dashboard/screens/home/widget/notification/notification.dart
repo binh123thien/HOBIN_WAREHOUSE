@@ -55,7 +55,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           child: ChiTietThongBaoScreen(
                             notification: doc,
                           )),
-                    );
+                    ).then((_) {
+                      setState(() {
+                        doc["read"] = 1;
+                      });
+                    });
                   },
                   child: Column(
                     children: [
