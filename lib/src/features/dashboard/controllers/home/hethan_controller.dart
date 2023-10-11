@@ -48,7 +48,6 @@ class HetHanController extends GetxController {
         }
       }
     }
-    print(data);
     return data;
   }
 }

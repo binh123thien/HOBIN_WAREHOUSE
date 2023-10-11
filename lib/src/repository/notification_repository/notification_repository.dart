@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../common_widgets/snackbar/toast.dart';
 
@@ -13,6 +14,10 @@ class NotificationRepository extends GetxController {
     final currentDate = DateTime.now();
     final formattedcurrentDate =
         "${currentDate.year}-${currentDate.month.toString().padLeft(2, '0')}-${currentDate.day.toString().padLeft(2, '0')}";
+    //format field datetime
+    final formatter = DateFormat('yyyy-MM-dd HH:mm');
+    final formattedDate = formatter.format(currentDate);
+
     final futureDate = currentDate.add(const Duration(days: 7));
     final formattedfutureDate =
         "${futureDate.year}-${futureDate.month.toString().padLeft(2, '0')}-${futureDate.day.toString().padLeft(2, '0')}";
@@ -67,11 +72,44 @@ class NotificationRepository extends GetxController {
             .doc(formattedcurrentDate)
             .set({
           "read": 0,
-          "datetime": formattedcurrentDate,
+          "datetime": formattedDate,
           "detail": listOfDocsLocation,
           "lengthSanPham": listOfDocsLocation.length,
         }).then((_) => ToastWidget.showToast("Bạn có 1 thông báo mới"));
       }
     }
+  }
+
+  getAllNotification() {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final getAllLocationName = FirebaseFirestore.instance
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Notification")
+        .snapshots();
+    return getAllLocationName;
+  }
+
+  String khoangCachThoiGianThongBao(String datetime) {
+    // Lấy thời gian hiện tại
+    DateTime now = DateTime.now();
+    // Chuỗi định dạng ngày tháng cần so sánh
+    String dateString = "2023-10-11 15:30";
+    // Chuyển chuỗi thành đối tượng DateTime
+    DateTime targetDate = DateTime.parse(dateString);
+    // Tính toán khoảng cách giữa thời gian hiện tại và thời gian cần so sánh
+    Duration difference = now.difference(targetDate);
+    // Kiểm tra nếu khoảng cách khác 0 ngày hoặc 0 giờ, thì hiển thị
+    String diffText = "";
+    if (difference.inDays > 0) {
+      diffText = "${difference.inDays} ngày trước";
+    } else if (difference.inHours > 0) {
+      diffText = "${difference.inHours} giờ trước";
+    } else if (difference.inMinutes > 0 && difference.inMinutes < 1) {
+      diffText = "Bây giờ";
+    } else if (difference.inMinutes > 1) {
+      diffText = "${difference.inMinutes} phút trước";
+    }
+    return diffText;
   }
 }

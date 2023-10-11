@@ -7,6 +7,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/short
 import '../../../../repository/notification_repository/notification_repository.dart';
 import '../../controllers/add/chonhanghoa_controller.dart';
 import '../../controllers/history/history_controller.dart';
+import '../../controllers/home/notification_controller.dart';
 import '../../controllers/statistics/doanhthu_controller.dart';
 import 'widget/card_dashboard.dart';
 import 'widget/expense_graph.dart';
@@ -22,7 +23,8 @@ class _HomePageState extends State<HomePage> {
   final controller = Get.put(ChonHangHoaController());
   final controllerHistory = Get.put(HistoryController());
   final controllerDoanhThu = Get.put(DoanhThuController());
-  final controllerNotification = Get.put(NotificationRepository());
+  final controllerNotificationRepo = Get.put(NotificationRepository());
+  final controllerNotification = Get.put(NotificationController());
   final HistoryController controllerHistoryRepo = Get.find();
   @override
   void initState() {
@@ -31,7 +33,9 @@ class _HomePageState extends State<HomePage> {
     controllerHistory.loadPhiNhapHangTrongThang("NhapHang");
     controllerHistory.loadPhiNhapHangTrongThang("XuatHang");
     controllerDoanhThu.loadDoanhThuTuanChart();
-    controllerNotification.loadSanPhamHetHan();
+    controllerNotificationRepo
+        .loadSanPhamHetHan()
+        .then((value) => controllerNotification.loadAllNotification());
   }
 
   @override
