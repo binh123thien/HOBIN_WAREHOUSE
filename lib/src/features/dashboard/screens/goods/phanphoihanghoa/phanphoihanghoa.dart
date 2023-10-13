@@ -386,8 +386,7 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                       backgroundColor: mainColor,
                       side: const BorderSide(color: mainColor),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            5), // giá trị này xác định bán kính bo tròn
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     onPressed: (selectedDoc != null) &&
@@ -398,6 +397,8 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChonHangHoaLeScreen(
+                                        locationSiGanNhat: controllerGoodRepo
+                                            .listLocationHangHoaSi[0],
                                         hanghoaLe: selectedDoc,
                                         hanghoaSi: updatehanghoaSi,
                                       )),

@@ -14,9 +14,15 @@ import '../../../controllers/goods/chonhanghoale_controller.dart';
 import 'donephanphoi.dart';
 
 class ChonHangHoaLeScreen extends StatefulWidget {
+  final Map<String, dynamic> locationSiGanNhat;
   final dynamic hanghoaLe;
   final dynamic hanghoaSi;
-  const ChonHangHoaLeScreen({super.key, this.hanghoaLe, this.hanghoaSi});
+  const ChonHangHoaLeScreen({
+    super.key,
+    this.hanghoaLe,
+    this.hanghoaSi,
+    required this.locationSiGanNhat,
+  });
 
   @override
   State<ChonHangHoaLeScreen> createState() => _ChonHangHoaLeScreenState();
@@ -28,6 +34,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
   final controllerGoodRepo = Get.put(GoodRepository());
   late dynamic updatehanghoaSi;
   late dynamic updatehanghoaLe;
+  List<Map<String, dynamic>> locationDataLe = [];
+  bool isLocationLeLoaded = false;
 
   String hangHoaLeLocation = '';
 
@@ -78,6 +86,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
               key: formKey,
               child: Column(children: [
                 CardPhanPhoiHang(
+                    locationSiGanNhat: widget.locationSiGanNhat,
                     soluong: RxInt(0),
                     phanBietSiLe: true,
                     slchuyendoi: 0,
@@ -90,6 +99,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   Icons.arrow_downward_outlined,
                 ),
                 CardPhanPhoiHang(
+                    // locationSiGanNhat: const {},
                     soluong: RxInt(0),
                     phanBietSiLe: false,
                     slchuyendoi: 0,
@@ -111,9 +121,13 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                       .listLocationHangHoaLePicked,
                                 )),
                       ).then((value) {
-                        if (value != null) {
+                        if (value["id"] != null) {
                           setState(() {
                             hangHoaLeLocation = value["id"];
+                          });
+                        } else if (value["location"] != null) {
+                          setState(() {
+                            hangHoaLeLocation = value["location"];
                           });
                         }
                       });
