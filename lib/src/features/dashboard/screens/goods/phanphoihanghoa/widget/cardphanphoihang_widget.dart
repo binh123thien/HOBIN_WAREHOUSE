@@ -12,7 +12,9 @@ class CardPhanPhoiHang extends StatelessWidget {
     required this.phanBietSiLe,
     required this.soluong,
     this.locationSiGanNhat,
+    this.listPickedLocationLe,
   });
+  final List<Map<String, dynamic>>? listPickedLocationLe;
   final Map<String, dynamic>? locationSiGanNhat;
   //set màu cho tăng giảm card trang done
   final RxInt soluong;
@@ -23,10 +25,13 @@ class CardPhanPhoiHang extends StatelessWidget {
   final dynamic updatehanghoa;
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> listTableSi = [];
-    List<Map<String, dynamic>> listTableLe = [];
+    print('list le picked $listPickedLocationLe');
+    List<Map<String, dynamic>> listTable = [];
     if (locationSiGanNhat != null) {
-      listTableSi.add(locationSiGanNhat!);
+      listTable.add(locationSiGanNhat!);
+    }
+    if (listPickedLocationLe != null) {
+      listTable.addAll(listPickedLocationLe!);
     }
     return Padding(
       padding: const EdgeInsets.all(6),
@@ -152,8 +157,7 @@ class CardPhanPhoiHang extends StatelessWidget {
                             ],
                           ),
                           // Tạo các hàng dữ liệu
-                          for (var doc
-                              in listTableSi == [] ? listTableLe : listTableSi)
+                          for (var doc in listTable)
                             TableRow(
                               children: <Widget>[
                                 TableCell(

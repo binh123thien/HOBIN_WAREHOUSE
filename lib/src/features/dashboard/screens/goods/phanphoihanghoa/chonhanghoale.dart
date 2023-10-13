@@ -34,7 +34,6 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
   final controllerGoodRepo = Get.put(GoodRepository());
   late dynamic updatehanghoaSi;
   late dynamic updatehanghoaLe;
-  List<Map<String, dynamic>> locationDataLe = [];
   bool isLocationLeLoaded = false;
 
   String hangHoaLeLocation = '';
@@ -44,16 +43,6 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
     super.initState();
     updatehanghoaSi = widget.hanghoaSi;
     updatehanghoaLe = widget.hanghoaLe;
-    controllerGoodRepo.listLocationHangHoaLePicked.clear();
-    _getLocationData();
-  }
-
-  //load dữ liệu location hàng hóa Lẻ
-  Future<void> _getLocationData() async {
-    String macode = widget.hanghoaLe["macode"];
-    List<Map<String, dynamic>> locationDataLe =
-        await controllerGoodRepo.getLocationData(macode);
-    controllerGoodRepo.listLocationHangHoaLePicked.addAll(locationDataLe);
   }
 
   @override
@@ -99,7 +88,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   Icons.arrow_downward_outlined,
                 ),
                 CardPhanPhoiHang(
-                    // locationSiGanNhat: const {},
+                    listPickedLocationLe:
+                        controllerGoodRepo.listLocationHangHoaLePicked,
                     soluong: RxInt(0),
                     phanBietSiLe: false,
                     slchuyendoi: 0,
