@@ -8,7 +8,7 @@ import '../../../../../constants/color.dart';
 import '../../../../../repository/history_repository/history_repository.dart';
 import '../../add/nhaphang/widget/danhsachitemdachon/danhsach_itemdachon_nhaphang_widget.dart';
 import '../../add/thanhtoan/widget/tomtatyeucau.dart';
-import '../../add/widget/chitietdonhang_moi/tieude_chitietdonhang.dart';
+import '../../add/thanhtoan/widget/tieude_chitietdonhang.dart';
 import '../../add/xuathang/widget/danhsach_itemdachon_xuathang_widget.dart';
 
 class ChiTietLichSuDonHang extends StatefulWidget {
