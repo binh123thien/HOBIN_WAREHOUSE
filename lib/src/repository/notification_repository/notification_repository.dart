@@ -86,6 +86,7 @@ class NotificationRepository extends GetxController {
         .collection("Users")
         .doc(firebaseUser!.uid)
         .collection("Notification")
+        .orderBy("datetime", descending: true)
         .limit(30) // Giới hạn 30 tài liệu
         .snapshots();
     return getAllLocationName;
@@ -95,7 +96,7 @@ class NotificationRepository extends GetxController {
     // Lấy thời gian hiện tại
     DateTime now = DateTime.now();
     // Chuỗi định dạng ngày tháng cần so sánh
-    String dateString = "2023-10-11 15:30";
+    String dateString = datetime;
     // Chuyển chuỗi thành đối tượng DateTime
     DateTime targetDate = DateTime.parse(dateString);
     // Tính toán khoảng cách giữa thời gian hiện tại và thời gian cần so sánh
@@ -125,5 +126,33 @@ class NotificationRepository extends GetxController {
         .doc(formattedcurrentDate);
     // Cập nhật trường "read" thành 1
     documentReference.update({"read": 1});
+  }
+
+  List<Map<String, int>> demSanPhamHetHanVaSapHetHan(
+      List<dynamic> allNotification) {
+    List<Map<String, int>> countSpHetHan = [];
+    // Lấy thời gian hiện tại
+    DateTime currentDate = DateTime.now();
+    // Chuỗi định dạng ngày tháng cần so sánh
+    DateFormat format = DateFormat('dd/MM/yyyy');
+    for (var maps in allNotification) {
+      Map<String, int> count = {
+        "spHetHan": 0,
+        "spChuaHetHan": 0,
+      };
+      for (var map in maps["detail"]) {
+        String dateString = map["exp"];
+        DateTime inputDate = format.parse(dateString);
+        // So sánh
+        if (inputDate.isBefore(currentDate) ||
+            inputDate.isAtSameMomentAs(currentDate)) {
+          count["spHetHan"] = count["spHetHan"]! + 1;
+        } else {
+          count["spChuaHetHan"] = count["spChuaHetHan"]! + 1;
+        }
+      }
+      countSpHetHan.add(count);
+    }
+    return countSpHetHan;
   }
 }

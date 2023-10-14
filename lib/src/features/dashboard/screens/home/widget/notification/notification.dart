@@ -18,11 +18,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
   final controllerNotification = Get.put(NotificationController());
   final controllerNotificationRepo = Get.put(NotificationRepository());
   List<dynamic> allNotification = [];
+  List<dynamic> countSpHetHan = [];
   @override
   void initState() {
     super.initState();
     controllerNotification.loadAllNotification();
     allNotification = controllerNotification.allNotification;
+    countSpHetHan =
+        controllerNotificationRepo.demSanPhamHetHanVaSapHetHan(allNotification);
   }
 
   @override
@@ -88,8 +91,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         subtitle: Wrap(
                           children: [
                             Text(
-                              'Bạn có ${doc["lengthSanPham"]} sản phẩm sắp hết hạn trong 7 ngày tới',
+                              "Bạn có ${countSpHetHan[index]["spHetHan"] > 0 ? "${countSpHetHan[index]["spHetHan"]} sản phẩm đã hết hạn," : ""} ${countSpHetHan[index]["spChuaHetHan"] > 0 ? "${countSpHetHan[index]["spChuaHetHan"]} sản phẩm sẽ hết hạn trong 7 ngày tới," : ""}",
                               style: const TextStyle(fontSize: 15),
+                              softWrap: true, // Tự động xuống dòng
                             ),
                             const Row(
                               mainAxisAlignment: MainAxisAlignment.end,
