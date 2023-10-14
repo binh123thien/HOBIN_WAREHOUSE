@@ -4,9 +4,9 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 class ThongKeHangHoaWidget extends StatelessWidget {
   const ThongKeHangHoaWidget({
     super.key,
-    required this.hanghoanew,
+    required this.hanghoa,
   });
-  final dynamic hanghoanew;
+  final dynamic hanghoa;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -49,7 +49,7 @@ class ThongKeHangHoaWidget extends StatelessWidget {
                         children: [
                           Text("Tồn kho",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text("${hanghoanew["tonkho"]} ${hanghoanew["donvi"]}",
+                          Text("${hanghoa["tonkho"]} ${hanghoa["donvi"]}",
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
@@ -59,7 +59,7 @@ class ThongKeHangHoaWidget extends StatelessWidget {
                         children: [
                           Text("Đã bán",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text("${hanghoanew["daban"]} ${hanghoanew["donvi"]}",
+                          Text("${hanghoa["daban"]} ${hanghoa["donvi"]}",
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),

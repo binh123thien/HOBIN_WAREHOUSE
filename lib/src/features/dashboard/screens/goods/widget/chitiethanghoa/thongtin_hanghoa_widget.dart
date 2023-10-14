@@ -6,9 +6,9 @@ import '../../../../../../utils/utils.dart';
 class ThongTinHangHoaWidget extends StatelessWidget {
   const ThongTinHangHoaWidget({
     super.key,
-    required this.hanghoanew,
+    required this.hanghoa,
   });
-  final dynamic hanghoanew;
+  final dynamic hanghoa;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -51,7 +51,7 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         children: [
                           Text("Mã SP",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text(hanghoanew["macode"],
+                          Text(hanghoa["macode"],
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
@@ -61,7 +61,7 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         children: [
                           Text("Giá nhập",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text(formatCurrency(hanghoanew["gianhap"]),
+                          Text(formatCurrency(hanghoa["gianhap"]),
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
@@ -71,7 +71,7 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         children: [
                           Text("Giá bán",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text(formatCurrency(hanghoanew["giaban"]),
+                          Text(formatCurrency(hanghoa["giaban"]),
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
@@ -81,7 +81,7 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         children: [
                           Text("Phân loại",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text(hanghoanew["phanloai"],
+                          Text(hanghoa["phanloai"],
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
@@ -91,7 +91,7 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         children: [
                           Text("Đơn vị",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text(hanghoanew["donvi"],
+                          Text(hanghoa["donvi"],
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
@@ -104,8 +104,8 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                           // if (danhmuc.length == 0)
                           //   Text(danhmuc)
                           // else
-                          for (int i = 0; i < hanghoanew["danhmuc"].length; i++)
-                            Text(hanghoanew["danhmuc"][i],
+                          for (int i = 0; i < hanghoa["danhmuc"].length; i++)
+                            Text(hanghoa["danhmuc"][i],
                                 style: Theme.of(context).textTheme.titleLarge)
                         ],
                       )
