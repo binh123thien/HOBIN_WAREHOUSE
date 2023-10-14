@@ -160,7 +160,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                   ),
                 ),
                 Container(
-                  width: double.infinity,
+                  width: 370,
                   decoration: const BoxDecoration(color: Colors.white),
                   child: Column(
                     children: [
@@ -244,7 +244,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                 ),
                 const SizedBox(height: 10),
                 Container(
-                  width: double.infinity,
+                  width: 370,
                   height: 120,
                   decoration: const BoxDecoration(color: Colors.white),
                   child: Padding(
@@ -289,10 +289,11 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                 borderSide: BorderSide.none,
                               ),
                               hintText: "Nhập số lượng",
+                              errorStyle: const TextStyle(fontSize: 14),
                             ),
                             validator: (value) {
                               return nonBeyondSi(
-                                  value!, updatehanghoaSi['tonkho']);
+                                  value!, widget.locationSiGanNhat['soluong']);
                             },
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
@@ -352,7 +353,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                 'soluong': 0,
                               };
                               print(
-                                  'else Không tìm thấy location có giá trị "$hangHoaLeLocation"');
+                                  'else Không tìm thấy location "$hangHoaLeLocation"');
                             }
                             if (formKey.currentState!.validate()) {
                               String dateTao = formatNgaytao();

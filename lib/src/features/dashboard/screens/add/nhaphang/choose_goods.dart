@@ -38,7 +38,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(allHangHoa);
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
