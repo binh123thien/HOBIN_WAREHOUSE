@@ -32,6 +32,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
     controllerHangHoa.loadAllHangHoa();
     controllerKhachHang.loadAllKhachHang();
+    controllerKhachHang.loadAllDonXuatHang();
+    controllerKhachHang.loadAllDonNhapHang();
     controllerDoanhThu.loadDoanhThuNgay();
     controllerDoanhThu.loadDoanhThuTuan();
     controllerDoanhThu.loadDoanhThuThang();
