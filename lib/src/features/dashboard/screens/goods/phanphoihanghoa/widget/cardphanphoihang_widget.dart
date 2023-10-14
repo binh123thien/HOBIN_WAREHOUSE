@@ -13,7 +13,9 @@ class CardPhanPhoiHang extends StatelessWidget {
     required this.soluong,
     this.locationSiGanNhat,
     this.listPickedLocationLe,
+    this.cardDone,
   });
+  final bool? cardDone;
   final List<Map<String, dynamic>>? listPickedLocationLe;
   final Map<String, dynamic>? locationSiGanNhat;
   //set màu cho tăng giảm card trang done
@@ -32,6 +34,7 @@ class CardPhanPhoiHang extends StatelessWidget {
     if (listPickedLocationLe != null) {
       listTable.addAll(listPickedLocationLe!);
     }
+
     return Padding(
       padding: const EdgeInsets.all(6),
       child: Obx(
@@ -176,8 +179,58 @@ class CardPhanPhoiHang extends StatelessWidget {
                                 TableCell(
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
-                                    child: Text(doc['soluong'].toString(),
-                                        style: const TextStyle(fontSize: 17)),
+                                    child: cardDone == true
+                                        ? Row(
+                                            children: [
+                                              Text(
+                                                (doc['soluong'] + slchuyendoi)
+                                                    .toString(),
+                                                style: const TextStyle(
+                                                    fontSize: 17),
+                                              ),
+                                              (slchuyendoi != 0)
+                                                  ? Row(
+                                                      children: [
+                                                        phanBietSiLe
+                                                            ? const Icon(
+                                                                Icons
+                                                                    .south_outlined,
+                                                                color:
+                                                                    Colors.red,
+                                                                size: 17,
+                                                              )
+                                                            : const Icon(
+                                                                Icons
+                                                                    .arrow_upward_outlined,
+                                                                color: Colors
+                                                                    .green,
+                                                                size: 17,
+                                                              ),
+                                                        phanBietSiLe
+                                                            ? Text(
+                                                                '$slchuyendoi',
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        17,
+                                                                    color: Colors
+                                                                        .red),
+                                                              )
+                                                            : Text(
+                                                                '$slchuyendoi',
+                                                                style: const TextStyle(
+                                                                    fontSize:
+                                                                        17,
+                                                                    color: Colors
+                                                                        .green),
+                                                              ),
+                                                      ],
+                                                    )
+                                                  : const Text('')
+                                            ],
+                                          )
+                                        : Text(doc['soluong'].toString(),
+                                            style:
+                                                const TextStyle(fontSize: 17)),
                                   ),
                                 ),
                               ],

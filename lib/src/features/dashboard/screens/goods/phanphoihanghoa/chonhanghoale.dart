@@ -372,6 +372,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                 PageTransition(
                                   type: PageTransitionType.rightToLeft,
                                   child: DonePhanPhoiScreen(
+                                    locationSi: widget.locationSiGanNhat,
+                                    locationLe: foundLocationLe,
                                     dateTao: dateTao,
                                     updatehanghoaSi: updatehanghoaSi,
                                     updatehanghoaLe: updatehanghoaLe,
