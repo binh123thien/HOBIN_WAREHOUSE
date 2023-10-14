@@ -207,6 +207,37 @@ class XuatHangRepository extends GetxController {
     }
   }
 
+  Future<void> capNhatGiaTriDaBanXuatHang(
+      List<Map<String, dynamic>> allThongTinItemNhap) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collection = FirebaseFirestore.instance
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa");
+
+    for (var doc in allThongTinItemNhap) {
+      String macode = doc["macode"];
+      num soluong = doc["soluong"];
+
+      // Lấy tài liệu từ Firestore
+      DocumentSnapshot querySnapshot = await collection.doc(macode).get();
+
+      if (querySnapshot.exists) {
+        final existingData = querySnapshot.data() as Map<String, dynamic>;
+        // Lấy giá trị tồn kho hiện tại từ Firebase
+        num dabanHienTai = existingData["daban"];
+
+        // Tính giá trị tồn kho mới
+        num dabanMoi = dabanHienTai + soluong;
+
+        // Cập nhật giá trị tonkho
+        await collection.doc(macode).update({"daban": dabanMoi});
+      }
+    }
+  }
+
 //========================== Tinh Doanh Thu ===================================//
   String getTuanFromDate(String ngay, String field) {
     final dateFormat = DateFormat("dd-MM-yyyy");

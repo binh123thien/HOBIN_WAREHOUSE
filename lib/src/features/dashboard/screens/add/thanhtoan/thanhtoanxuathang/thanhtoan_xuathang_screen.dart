@@ -286,6 +286,9 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
       //cap nhat gia tri ton kho
       await controllerXuatHangRepo
           .capNhatGiaTriTonKhoXuatHang(widget.allThongTinItemXuat);
+      //cap nhat gia tri da ban
+      await controllerXuatHangRepo
+          .capNhatGiaTriDaBanXuatHang(widget.allThongTinItemXuat);
       //tinh tong doanh thu
       await controllerXuatHangRepo.createTongDoanhThuNgay(
           donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);
