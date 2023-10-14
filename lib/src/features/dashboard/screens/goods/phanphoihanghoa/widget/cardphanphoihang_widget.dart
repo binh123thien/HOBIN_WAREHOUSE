@@ -25,7 +25,6 @@ class CardPhanPhoiHang extends StatelessWidget {
   final dynamic updatehanghoa;
   @override
   Widget build(BuildContext context) {
-    print('list le picked $listPickedLocationLe');
     List<Map<String, dynamic>> listTable = [];
     if (locationSiGanNhat != null) {
       listTable.add(locationSiGanNhat!);

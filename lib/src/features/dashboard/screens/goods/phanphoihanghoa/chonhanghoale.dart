@@ -111,7 +111,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                       .listLocationHangHoaLePicked,
                                 )),
                       ).then((value) {
-                        if (value["id"] != null) {
+                        if (value == null) {
+                        } else if (value["id"] != null) {
                           setState(() {
                             hangHoaLeLocation = value["id"];
                           });
@@ -329,6 +330,30 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                     ),
                     onPressed: hangHoaLeLocation.isNotEmpty
                         ? () async {
+                            Map<String, dynamic> foundLocationLe = {};
+                            // Sử dụng phương thức where để lọc danh sách
+                            List<Map<String, dynamic>> filteredLocationsLe =
+                                controllerGoodRepo.listLocationHangHoaLePicked
+                                    .where((locationMap) =>
+                                        locationMap['location'] ==
+                                        hangHoaLeLocation)
+                                    .toList();
+
+                            if (filteredLocationsLe.isNotEmpty) {
+                              // Đã tìm thấy phần tử
+                              foundLocationLe = filteredLocationsLe.first;
+                              print(
+                                  'if Đã tìm thấy location: $foundLocationLe');
+                            } else {
+                              // Không tìm thấy
+                              foundLocationLe = {
+                                'exp': widget.locationSiGanNhat['exp'],
+                                'location': hangHoaLeLocation,
+                                'soluong': 0,
+                              };
+                              print(
+                                  'else Không tìm thấy location có giá trị "$hangHoaLeLocation"');
+                            }
                             if (formKey.currentState!.validate()) {
                               String dateTao = formatNgaytao();
                               //nhận giá trị chuyendoiLe trả về
@@ -338,7 +363,9 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                       int.parse(textEditsoLuongLe.text),
                                       int.parse(textEditsoLuongSi.text),
                                       updatehanghoaSi,
-                                      updatehanghoaLe);
+                                      updatehanghoaLe,
+                                      widget.locationSiGanNhat,
+                                      foundLocationLe);
                               // ignore: use_build_context_synchronously
                               Navigator.push(
                                 context,
