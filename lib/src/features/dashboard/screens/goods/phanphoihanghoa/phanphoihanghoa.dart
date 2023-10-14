@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -386,21 +388,33 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                       backgroundColor: mainColor,
                       side: const BorderSide(color: mainColor),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            5), // giá trị này xác định bán kính bo tròn
+                        borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     onPressed: (selectedDoc != null) &&
                             (controllerGoodRepo
                                 .listLocationHangHoaSi.isNotEmpty)
-                        ? () {
+                        ? () async {
+                            //load dữ liệu location hàng hóa Lẻ
+                            String macode = selectedDoc["macode"];
+                            controllerGoodRepo.listLocationHangHoaLePicked
+                                .clear();
+                            List<Map<String, dynamic>> locationData =
+                                await controllerGoodRepo
+                                    .getLocationData(macode);
+                            controllerGoodRepo.listLocationHangHoaLePicked
+                                .addAll(locationData);
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ChonHangHoaLeScreen(
-                                        hanghoaLe: selectedDoc,
-                                        hanghoaSi: updatehanghoaSi,
-                                      )),
+                                builder: (context) => ChonHangHoaLeScreen(
+                                  locationSiGanNhat: controllerGoodRepo
+                                      .listLocationHangHoaSi[0],
+                                  hanghoaLe: selectedDoc,
+                                  hanghoaSi: updatehanghoaSi,
+                                ),
+                              ),
                             );
                           }
                         : null,
