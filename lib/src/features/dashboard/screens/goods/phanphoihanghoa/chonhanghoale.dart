@@ -384,6 +384,17 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                   ),
                                 ),
                               );
+
+                              if (widget.locationSiGanNhat['soluong'] -
+                                      int.parse(
+                                          textEditsoLuongSi.text.toString()) ==
+                                  0) {
+                                Future.delayed(const Duration(seconds: 5), () {
+                                  controllerHangHoa.deleteSlLocation(
+                                      widget.locationSiGanNhat,
+                                      updatehanghoaSi);
+                                });
+                              }
                             }
                           }
                         : null,

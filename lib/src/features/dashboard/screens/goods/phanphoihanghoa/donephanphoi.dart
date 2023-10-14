@@ -65,10 +65,6 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
             onPressed: () {
-              if (widget.locationSi['soluong'] - chuyendoiSiGiam == 0) {
-                controller.deleteSlLocation(
-                    widget.locationSi, widget.updatehanghoaSi);
-              }
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.pop(context);
