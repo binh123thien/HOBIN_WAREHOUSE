@@ -5,7 +5,7 @@ import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../models/themdonhang_model.dart';
 import '../nhaphang/widget/danhsachitemdachon/danhsach_itemdachon_nhaphang_widget.dart';
-import '../widget/chitietdonhang_moi/tieude_chitietdonhang.dart';
+import 'widget/tieude_chitietdonhang.dart';
 import '../xuathang/widget/danhsach_itemdachon_xuathang_widget.dart';
 import 'widget/tomtatyeucau.dart';
 
