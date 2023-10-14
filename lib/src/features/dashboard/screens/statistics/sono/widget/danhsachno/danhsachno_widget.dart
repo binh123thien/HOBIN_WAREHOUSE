@@ -26,9 +26,9 @@ class _DanhSachNoWidgetState extends State<DanhSachNoWidget> {
   late List<dynamic> donnhaphang;
   @override
   void initState() {
+    super.initState();
     donbanhang = controller.allDonBanHangFirebase;
     donnhaphang = controller.allDonNhapHangFirebase;
-    super.initState();
   }
 
   Future<void> _showSortbyKhachHang() async {

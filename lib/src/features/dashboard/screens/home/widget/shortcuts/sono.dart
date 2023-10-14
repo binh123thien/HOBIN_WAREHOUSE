@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-
 import '../../../../../../constants/color.dart';
 import '../../../statistics/sono/widget/card_sono_widget.dart';
 import '../../../statistics/sono/widget/tabbar_sono_widget.dart';
 
-class SoNoShortCutScreen extends StatelessWidget {
+class SoNoShortCutScreen extends StatefulWidget {
   const SoNoShortCutScreen({super.key});
 
+  @override
+  State<SoNoShortCutScreen> createState() => _SoNoShortCutScreenState();
+}
+
+class _SoNoShortCutScreenState extends State<SoNoShortCutScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
