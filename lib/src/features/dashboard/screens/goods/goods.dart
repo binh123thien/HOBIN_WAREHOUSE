@@ -173,10 +173,12 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                                             ChiTietHangHoaScreen(
                                                 hanghoa: hanghoa)),
                                   ).then((_) {
-                                    setState(() {
-                                      allHangHoa = controllerAllHangHoa
-                                          .allHangHoaFireBase;
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        allHangHoa = controllerAllHangHoa
+                                            .allHangHoaFireBase;
+                                      });
+                                    }
                                   });
                                 },
                               );

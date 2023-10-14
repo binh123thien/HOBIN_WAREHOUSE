@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
-class ThongKeHangHoa extends StatelessWidget {
-  const ThongKeHangHoa({
+class ThongKeHangHoaWidget extends StatelessWidget {
+  const ThongKeHangHoaWidget({
     super.key,
-    required this.tonkho,
-    required this.daban,
-    required this.donvi,
+    required this.hanghoanew,
   });
-  final num tonkho;
-  final num daban;
-  final String donvi;
+  final dynamic hanghoanew;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -20,16 +16,16 @@ class ThongKeHangHoa extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: backGround600Color,
+              borderRadius: BorderRadius.circular(5),
+              color: mainColor,
             ),
-            height: 100,
+            height: 105,
             width: size.width,
             child: const Padding(
-              padding: EdgeInsets.fromLTRB(12, 5, 12, 5),
+              padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
               child: Text(
                 "Thống kê",
-                style: TextStyle(fontSize: 16, color: whiteColor),
+                style: TextStyle(fontSize: 17, color: whiteColor),
               ),
             ),
           ),
@@ -41,7 +37,7 @@ class ThongKeHangHoa extends StatelessWidget {
                 width: size.width - 10,
                 height: 70,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(5),
                   color: whiteColor,
                 ),
                 child: Padding(
@@ -53,7 +49,7 @@ class ThongKeHangHoa extends StatelessWidget {
                         children: [
                           Text("Tồn kho",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text("$tonkho $donvi",
+                          Text("${hanghoanew["tonkho"]} ${hanghoanew["donvi"]}",
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
@@ -63,7 +59,7 @@ class ThongKeHangHoa extends StatelessWidget {
                         children: [
                           Text("Đã bán",
                               style: Theme.of(context).textTheme.titleLarge),
-                          Text("$daban $donvi",
+                          Text("${hanghoanew["daban"]} ${hanghoanew["donvi"]}",
                               style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
