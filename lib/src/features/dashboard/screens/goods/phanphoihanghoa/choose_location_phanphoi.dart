@@ -23,26 +23,40 @@ class _ChooseLocationPhanPhoiScreenState
   String searchLocation = "";
   final controllerLocation = Get.put(NhapHangController());
   List<dynamic> allLocationName = [];
-  //list chưa sử dụng
   List<dynamic> unusedLocations = [];
-  List<dynamic> unusedLocationsSearch = [];
+  List<dynamic> unusedLocationsCopy = [];
 
   List<dynamic> usedLocations = [];
+  List<dynamic> usedLocationsCopy = [];
+  List<Map<String, dynamic>> uniqueLocationList = [];
+  Set<String> uniqueLocations = {};
 
-  bool isSelected =
-      false; // Biến để theo dõi trạng thái Container đã được chọn hay chưa
-  dynamic selectedDoc; // Biến để lưu trữ giá trị doc được chọn
+  bool isSelected = false;
+  dynamic selectedDoc;
   @override
   void initState() {
     super.initState();
-    //list unusedLocationsSearch tạm để search
-    unusedLocationsSearch = unusedLocations;
     //load all location
     controllerLocation.loadAllLocationsName();
-    usedLocations = widget.locationUsed;
+    for (var locationData in widget.locationUsed) {
+      String location = locationData['location'];
+
+      // Kiểm tra xem vị trí đã xuất hiện trước đó hay chưa
+      if (!uniqueLocations.contains(location)) {
+        // Nếu chưa xuất hiện, thêm vào danh sách và đánh dấu là đã xuất hiện
+        uniqueLocationList.add(locationData);
+        uniqueLocations.add(location);
+      }
+    }
+
+    usedLocations = uniqueLocationList;
+    //list unusedLocationsSearch tạm để search
+    unusedLocationsCopy = unusedLocations;
+    usedLocationsCopy = usedLocations;
+
     allLocationName = controllerLocation.allLocationNameFirebase;
     for (var location in allLocationName) {
-      bool isUsed = widget.locationUsed
+      bool isUsed = uniqueLocationList
           .any((usedLocation) => usedLocation['location'] == location['id']);
       if (!isUsed) {
         unusedLocations.add(location);
@@ -56,11 +70,11 @@ class _ChooseLocationPhanPhoiScreenState
 
     if (enterKeyboard.isEmpty) {
       // Nếu chuỗi tìm kiếm trống, hiển thị tất cả các vị trí chưa sử dụng và đang sử dụng
-      resultUnUsedLocations = (unusedLocationsSearch);
-      resultUsedLocations = (widget.locationUsed);
+      resultUnUsedLocations = (unusedLocationsCopy);
+      resultUsedLocations = (usedLocationsCopy);
     } else {
       // Nếu có chuỗi tìm kiếm, lặp qua cả hai danh sách và thêm các phần tử thỏa mãn vào danh sách kết quả
-      for (var location in unusedLocations) {
+      for (var location in unusedLocationsCopy) {
         if (location['id']
             .toString()
             .toLowerCase()
@@ -69,7 +83,7 @@ class _ChooseLocationPhanPhoiScreenState
         }
       }
 
-      for (var location in usedLocations) {
+      for (var location in usedLocationsCopy) {
         if (location['location']
             .toString()
             .toLowerCase()
@@ -129,7 +143,7 @@ class _ChooseLocationPhanPhoiScreenState
                   shrinkWrap: true,
                   itemCount: usedLocations.length,
                   itemBuilder: (context, index) {
-                    final doc = widget.locationUsed[index];
+                    final doc = usedLocations[index];
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 14, 10, 0),
                       child: InkWell(
