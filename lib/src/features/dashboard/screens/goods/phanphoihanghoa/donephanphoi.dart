@@ -13,13 +13,17 @@ class DonePhanPhoiScreen extends StatefulWidget {
   final int chuyendoiLe;
   final int chuyendoiSi;
   final String dateTao;
+  final Map<String, dynamic> locationSi;
+  final Map<String, dynamic> locationLe;
   const DonePhanPhoiScreen(
       {super.key,
       this.updatehanghoaSi,
       this.updatehanghoaLe,
       required this.chuyendoiLe,
       required this.chuyendoiSi,
-      required this.dateTao});
+      required this.dateTao,
+      required this.locationSi,
+      required this.locationLe});
 
   @override
   State<DonePhanPhoiScreen> createState() => _DonePhanPhoiScreenState();
@@ -101,6 +105,8 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
             Column(
               children: [
                 CardPhanPhoiHang(
+                    cardDone: true,
+                    locationSiGanNhat: widget.locationSi,
                     soluong: soluongSi,
                     phanBietSiLe: true,
                     slchuyendoi: chuyendoiSiGiam,
@@ -113,6 +119,8 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
                   Icons.arrow_downward_outlined,
                 ),
                 CardPhanPhoiHang(
+                    cardDone: true,
+                    listPickedLocationLe: [widget.locationLe],
                     soluong: soluongLe,
                     phanBietSiLe: false,
                     slchuyendoi: chuyendoiLeTang,
