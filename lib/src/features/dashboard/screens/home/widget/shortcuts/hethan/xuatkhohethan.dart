@@ -180,6 +180,10 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
       //cap nhat gia tri ton kho het han
       await controllerHetHanRepo
           .capNhatGiaTriTonKhoHetHan(widget.selectedItemsHetHan);
+      //cap nhat gia tri da ban
+      await controllerXuatHangRepo
+          .capNhatGiaTriDaBanXuatHang(widget.selectedItemsHetHan);
+
       //tinh tong doanh thu
       await controllerXuatHangRepo.createTongDoanhThuNgay(
           donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);

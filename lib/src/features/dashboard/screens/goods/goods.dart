@@ -91,8 +91,9 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: backGroundColor,
+        backgroundColor: whiteColor,
         appBar: AppBar(
+          elevation: 2,
           title: const Text("Hàng Hóa",
               style: TextStyle(
                   fontSize: 18,
@@ -173,10 +174,12 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                                             ChiTietHangHoaScreen(
                                                 hanghoa: hanghoa)),
                                   ).then((_) {
-                                    setState(() {
-                                      allHangHoa = controllerAllHangHoa
-                                          .allHangHoaFireBase;
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        allHangHoa = controllerAllHangHoa
+                                            .allHangHoaFireBase;
+                                      });
+                                    }
                                   });
                                 },
                               );
