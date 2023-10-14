@@ -67,6 +67,12 @@ class ChonHangHoaLeController extends GetxController {
     // Kiểm tra xem có phải là location cuối cùng không
     if (numberOfDocuments == 1) {
       // Đây là location cuối cùng
+      // Lặp qua từng tài liệu và xóa chúng  //xóa colection location
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      //xóa doc exp
       final expDocRef = _db
           .collection('Users')
           .doc(firebaseUser.uid)
@@ -76,7 +82,6 @@ class ChonHangHoaLeController extends GetxController {
           .doc(hangHoa['macode'])
           .collection('Exp')
           .doc(formatExpDate);
-
       // Xóa tài liệu `formatExpDate`
       await expDocRef.delete();
     } else {
