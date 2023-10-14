@@ -42,6 +42,25 @@ class ChonHangHoaLeController extends GetxController {
     return snapshot;
   }
 
+  deleteSlLocation(hangHoaLocation, hangHoa) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    String formatExpDate = formatDate(hangHoaLocation);
+
+    final locationSnapShot = await _db
+        .collection('Users')
+        .doc(firebaseUser!.uid)
+        .collection('Goods')
+        .doc(firebaseUser.uid)
+        .collection('HangHoa')
+        .doc(hangHoa['macode'])
+        .collection('Exp')
+        .doc(formatExpDate)
+        .collection('location')
+        .doc(hangHoaLocation['location'])
+        .get();
+    await locationSnapShot.reference.delete();
+  }
+
   //format date Ex: 10/10/2023 thành 10-10-2023
   formatDate(hangHoaLocation) {
     String formatExpDate = hangHoaLocation['exp'].replaceAll("/", "-");

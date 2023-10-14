@@ -182,12 +182,21 @@ class CardPhanPhoiHang extends StatelessWidget {
                                     child: cardDone == true
                                         ? Row(
                                             children: [
-                                              Text(
-                                                (doc['soluong'] + slchuyendoi)
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 17),
-                                              ),
+                                              phanBietSiLe
+                                                  ? Text(
+                                                      (doc['soluong'] -
+                                                              slchuyendoi)
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                          fontSize: 17),
+                                                    )
+                                                  : Text(
+                                                      (doc['soluong'] +
+                                                              slchuyendoi)
+                                                          .toString(),
+                                                      style: const TextStyle(
+                                                          fontSize: 17),
+                                                    ),
                                               (slchuyendoi != 0)
                                                   ? Row(
                                                       children: [

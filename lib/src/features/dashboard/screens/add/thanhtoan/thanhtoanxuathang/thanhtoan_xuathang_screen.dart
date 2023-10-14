@@ -196,8 +196,7 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                           backgroundColor: mainColor,
                           side: const BorderSide(color: mainColor),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                5), // giá trị này xác định bán kính bo tròn
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                         onPressed: () {
