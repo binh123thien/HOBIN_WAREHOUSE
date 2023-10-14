@@ -339,12 +339,34 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                         locationMap['location'] ==
                                         hangHoaLeLocation)
                                     .toList();
-
                             if (filteredLocationsLe.isNotEmpty) {
-                              // Đã tìm thấy phần tử
-                              foundLocationLe = filteredLocationsLe.first;
-                              print(
-                                  'if Đã tìm thấy location: $foundLocationLe');
+                              bool isExpMatched = false;
+
+                              for (int i = 0;
+                                  i < filteredLocationsLe.length;
+                                  i++) {
+                                // print('==============');
+                                // print(widget.locationSiGanNhat['exp']);
+                                // print(filteredLocationsLe[i]['exp']);
+                                // print('*************************');
+                                if (filteredLocationsLe[i]['exp'] ==
+                                    widget.locationSiGanNhat['exp']) {
+                                  // Đã tìm thấy phần tử
+                                  foundLocationLe = filteredLocationsLe[i];
+                                  if (!isExpMatched) {
+                                    // Chỉ gán một lần nếu 'exp' trùng
+                                    // print('Trùng exp: $foundLocationLe');
+                                    isExpMatched = true;
+                                  }
+                                } else {
+                                  foundLocationLe = {
+                                    'exp': widget.locationSiGanNhat['exp'],
+                                    'location': hangHoaLeLocation,
+                                    'soluong': 0,
+                                  };
+                                  // print('Trùng exp (else): $foundLocationLe');
+                                }
+                              }
                             } else {
                               // Không tìm thấy
                               foundLocationLe = {
@@ -352,9 +374,10 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                 'location': hangHoaLeLocation,
                                 'soluong': 0,
                               };
-                              print(
-                                  'else Không tìm thấy location "$hangHoaLeLocation"');
+                              // print(
+                              //     'Không tìm thấy location "$hangHoaLeLocation"');
                             }
+
                             if (formKey.currentState!.validate()) {
                               String dateTao = formatNgaytao();
                               //nhận giá trị chuyendoiLe trả về
