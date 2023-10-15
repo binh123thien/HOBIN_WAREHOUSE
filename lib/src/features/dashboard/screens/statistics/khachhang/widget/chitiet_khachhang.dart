@@ -80,8 +80,9 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
                 height: 100,
                 child: Card(
                   shape: RoundedRectangleBorder(
+                      side: BorderSide(color: mainColor),
                       borderRadius: BorderRadius.circular(50)),
-                  color: backGroundColor,
+                  color: whiteColor,
                   child: Center(
                       child: Text(
                     widget.khachhang["tenkhachhang"]

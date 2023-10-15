@@ -18,59 +18,75 @@ class ThongTinCaNhan extends StatelessWidget {
           khachhang["tenkhachhang"].toString(),
           style: const TextStyle(fontSize: 22),
         ),
-        const SizedBox(height: 18),
-        Card(
-          color: whiteColor,
-          elevation: 2,
-          child: SizedBox(
-            width: size.width - 30,
-            height: 150,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const Text(
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: mainColor,
+                ),
+                height: 130,
+                width: size.width,
+                child: const Padding(
+                  padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
+                  child: Text(
                     "Thông tin cá nhân",
-                    style: TextStyle(fontSize: 17),
+                    style: TextStyle(fontSize: 17, color: whiteColor),
                   ),
-                  const Divider(),
-                  Column(
-                    children: [
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Mã KH", style: TextStyle(fontSize: 17)),
-                          Text(khachhang["maKH"],
-                              style: const TextStyle(fontSize: 17)),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Số điện thoại",
-                              style: TextStyle(fontSize: 17)),
-                          Text(khachhang["sdt"],
-                              style: const TextStyle(fontSize: 17)),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Địa chỉ", style: TextStyle(fontSize: 17)),
-                          Text(khachhang["diachi"],
-                              style: const TextStyle(fontSize: 17)),
-                        ],
-                      )
-                    ],
-                  )
-                ],
+                ),
               ),
-            ),
+              Positioned(
+                bottom: 1,
+                left: 1,
+                right: 1,
+                child: Container(
+                  width: size.width - 10,
+                  height: 95,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: whiteColor,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Mã KH",
+                                style: Theme.of(context).textTheme.titleLarge),
+                            Text(khachhang["maKH"],
+                                style: Theme.of(context).textTheme.titleLarge)
+                          ],
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Số điện thoại",
+                                style: Theme.of(context).textTheme.titleLarge),
+                            Text(khachhang["sdt"],
+                                style: Theme.of(context).textTheme.titleLarge)
+                          ],
+                        ),
+                        const SizedBox(height: 2),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Địa chỉ",
+                                style: Theme.of(context).textTheme.titleLarge),
+                            Text(khachhang["diachi"],
+                                style: Theme.of(context).textTheme.titleLarge)
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ],
