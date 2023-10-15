@@ -1,4 +1,4 @@
-// ignore_for_file: unrelated_type_equality_checks, use_build_context_synchronously
+// ignore_for_file: unrelated_type_equality_checks, use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +19,15 @@ List<dynamic> chitietTThoaDonPDF =
 Future<pw.Page> createPDFPage(BuildContext context) async {
   final utf8 =
       pw.Font.ttf(await rootBundle.load('assets/fonts/arial_unicode_ms.ttf'));
+
+  String timePrint = formatNgayTao();
+
+  final item = chitietTThoaDonPDF[0];
+  final tongtien = formatCurrency(item['tongtien']);
+  final giamgia = formatCurrency((item['giamgia']));
+  final no = formatCurrency((item['no']));
+  final tongthanhtoan = formatCurrency((item['tongthanhtoan']));
+
   return pw.Page(
     pageFormat: PdfPageFormat.letter,
     build: (pw.Context context) {
@@ -27,9 +36,90 @@ Future<pw.Page> createPDFPage(BuildContext context) async {
           pw.Text('CHI TIÊT HÓA ĐƠN',
               style: pw.TextStyle(
                   font: utf8, fontSize: 20, fontWeight: pw.FontWeight.bold)),
-          pw.Padding(padding: const pw.EdgeInsets.only(bottom: 30)),
-
-          // ignore: deprecated_member_use
+          pw.Padding(padding: const pw.EdgeInsets.only(bottom: 15)),
+          pw.Row(
+            mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+            children: [
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Row(
+                    children: [
+                      pw.Text("Thời gian: ",
+                          style: pw.TextStyle(
+                            fontSize: 14,
+                            font: utf8,
+                          )),
+                      pw.Text(
+                        item['ngaytao'].toString(),
+                        style: pw.TextStyle(
+                          fontSize: 14,
+                          font: utf8,
+                        ),
+                      ),
+                    ],
+                  ),
+                  pw.Padding(padding: const pw.EdgeInsets.only(bottom: 5)),
+                  pw.Row(
+                    children: [
+                      pw.Text("In lúc: ",
+                          style: pw.TextStyle(
+                            fontSize: 14,
+                            font: utf8,
+                          )),
+                      pw.Text(
+                        timePrint,
+                        style: pw.TextStyle(
+                          fontSize: 14,
+                          font: utf8,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Row(
+                    children: [
+                      pw.Text("Số HĐ: ",
+                          style: pw.TextStyle(
+                            fontSize: 14,
+                            font: utf8,
+                          )),
+                      pw.Text(
+                        item['soHD'].toString(),
+                        style: pw.TextStyle(
+                          fontSize: 14,
+                          font: utf8,
+                        ),
+                      ),
+                    ],
+                  ),
+                  pw.Padding(padding: const pw.EdgeInsets.only(bottom: 5)),
+                  pw.Row(
+                    children: [
+                      pw.Text(
+                          item['billType'] == "BanHang"
+                              ? "Người mua: "
+                              : "Người bán: ",
+                          style: pw.TextStyle(
+                            fontSize: 14,
+                            font: utf8,
+                          )),
+                      pw.Text(item['khachhang'],
+                          style: pw.TextStyle(
+                            fontSize: 14,
+                            font: utf8,
+                          )),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+          pw.Padding(padding: const pw.EdgeInsets.only(bottom: 20)),
           pw.Table.fromTextArray(
             data: [
               [],
@@ -43,248 +133,123 @@ Future<pw.Page> createPDFPage(BuildContext context) async {
             ],
             headerCount: 1,
             columnWidths: {
-              0: const pw.FlexColumnWidth(2),
+              0: const pw.FlexColumnWidth(1),
               1: const pw.FlexColumnWidth(1),
               2: const pw.FlexColumnWidth(1),
               3: const pw.FlexColumnWidth(1),
             },
-            cellAlignment: pw.Alignment.center,
-            cellStyle: pw.TextStyle(font: utf8),
+            cellAlignment: pw.Alignment.centerLeft,
+            cellStyle: pw.TextStyle(font: utf8, fontSize: 16),
           ),
+          pw.Padding(padding: const pw.EdgeInsets.only(bottom: 20)),
           // chi tiết thanh toán
-          pw.ListView.builder(
-              itemCount: chitietTThoaDonPDF.length,
-              itemBuilder: (pw.Context context, int index) {
-                final item = chitietTThoaDonPDF[index];
-                final tongtien = formatCurrency(item['tongtien']);
-                final giamgia = formatCurrency((item['giamgia']));
-                final no = formatCurrency((item['no']));
-                final tongthanhtoan = formatCurrency((item['tongthanhtoan']));
-                return pw.Row(children: [
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.all(18.0),
-                    child: pw.Column(
-                      crossAxisAlignment: pw.CrossAxisAlignment.start,
-                      children: [
-                        pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.center,
-                          children: [
-                            pw.Text("Chi tiết thanh toán",
-                                style: pw.TextStyle(
-                                    fontSize: 18,
-                                    font: utf8,
-                                    fontWeight: pw.FontWeight.bold)),
-                          ],
-                        ),
-                        pw.SizedBox(height: 10),
-                        pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                          children: [
-                            pw.Text("Tổng số lượng: ",
-                                style: pw.TextStyle(
-                                    fontSize: 17,
-                                    font: utf8,
-                                    fontWeight: pw.FontWeight.bold)),
-                            pw.Text((item['tongsl'].toString()),
-                                style: const pw.TextStyle(
-                                  fontSize: 17,
-                                )),
-                          ],
-                        ),
-                        pw.SizedBox(height: 10),
-                        pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                          children: [
-                            pw.Text("Tổng tiền: ",
-                                style: pw.TextStyle(
-                                  fontSize: 17,
-                                  font: utf8,
-                                )),
-                            pw.Text(
-                              (tongtien.toString()),
-                              style: pw.TextStyle(
-                                fontSize: 17,
-                                font: utf8,
-                              ),
-                            )
-                          ],
-                        ),
-                        pw.SizedBox(height: 10),
-                        pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                          children: [
-                            pw.Text("Giảm giá: ",
-                                style: pw.TextStyle(
-                                  fontSize: 17,
-                                  font: utf8,
-                                )),
-                            pw.Text(giamgia.toString(),
-                                style: pw.TextStyle(
-                                  fontSize: 17,
-                                  font: utf8,
-                                ))
-                          ],
-                        ),
-                        pw.SizedBox(height: 10),
-                        pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                          children: [
-                            pw.Text("Tổng thanh toán: ",
-                                style: pw.TextStyle(
-                                  fontSize: 17,
-                                  font: utf8,
-                                )),
-                            pw.Text(
-                              tongthanhtoan.toString(),
-                              style: pw.TextStyle(
-                                fontSize: 17,
-                                font: utf8,
-                              ),
-                            )
-                          ],
-                        ),
-                        pw.SizedBox(height: 10),
-                        pw.Row(
-                          mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                          children: [
-                            pw.Text(
-                                item['billType'] == "BanHang"
-                                    ? "Khách nợ: "
-                                    : "Nợ nhà cung cấp: ",
-                                style: pw.TextStyle(
-                                  fontSize: 17,
-                                  font: utf8,
-                                )),
-                            pw.Text(
-                              no.toString(),
-                              style: pw.TextStyle(
-                                fontSize: 17,
-                                font: utf8,
-                              ),
-                            )
-                          ],
-                        ),
-                        pw.Padding(
-                          padding: const pw.EdgeInsets.only(top: 10),
-                          child: pw.Container(
-                            decoration: pw.BoxDecoration(
-                                borderRadius: pw.BorderRadius.circular(15)),
-                            width: double.infinity,
-                            height: 260,
-                            child: pw.Padding(
-                              padding: const pw.EdgeInsets.only(top: 12.0),
-                              child: pw.Column(
-                                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                children: [
-                                  pw.SizedBox(height: 20),
-                                  pw.Row(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      pw.Text("Trạng thái: ",
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                      pw.Container(
-                                        width: 95,
-                                        height: 30,
-                                        child: pw.Align(
-                                          alignment: pw.Alignment.center,
-                                          child: pw.Text(
-                                            item['no'] == 0
-                                                ? "Thành công"
-                                                : "Đang chờ",
-                                            style: pw.TextStyle(
-                                              fontSize: 16,
-                                              font: utf8,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  pw.SizedBox(height: 10),
-                                  pw.Row(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      pw.Text("Thời gian: ",
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                      pw.Text(item['ngaytao'].toString(),
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                    ],
-                                  ),
-                                  pw.SizedBox(height: 10),
-                                  pw.Row(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      pw.Text("Số HD: ",
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                      pw.Text(item['soHD'].toString(),
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                    ],
-                                  ),
-                                  pw.SizedBox(height: 10),
-                                  pw.Row(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      pw.Text(
-                                          item['billType'] == "BanHang"
-                                              ? "Khách hàng: "
-                                              : "Nhà cùng cấp: ",
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                      pw.Text(item['khachhang'],
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                    ],
-                                  ),
-                                  pw.SizedBox(height: 10),
-                                  pw.Row(
-                                    mainAxisAlignment:
-                                        pw.MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      pw.Text("Hình thức thanh toán: ",
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                      pw.Text(item['payment'],
-                                          style: pw.TextStyle(
-                                            fontSize: 17,
-                                            font: utf8,
-                                          )),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+          pw.Column(
+            children: [
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text("Tổng tiền:",
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        font: utf8,
+                      )),
+                  pw.Text(item['tongsl'].toString(),
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        font: utf8,
+                      )),
+                  pw.SizedBox(width: 145),
+                  pw.Text(tongtien,
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        font: utf8,
+                      )),
+                ],
+              ),
+              pw.Padding(padding: const pw.EdgeInsets.only(bottom: 5)),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text("Giảm giá:",
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        font: utf8,
+                      )),
+                  pw.Text(
+                    giamgia,
+                    style: pw.TextStyle(
+                      fontSize: 14,
+                      font: utf8,
                     ),
                   ),
-                ]);
-              }),
+                ],
+              ),
+              pw.Padding(padding: const pw.EdgeInsets.only(bottom: 5)),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text("Nợ:",
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        font: utf8,
+                      )),
+                  pw.Text(
+                    no,
+                    style: pw.TextStyle(
+                      fontSize: 14,
+                      font: utf8,
+                    ),
+                  ),
+                ],
+              ),
+              pw.Padding(padding: const pw.EdgeInsets.only(bottom: 5)),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text("Thành tiền:",
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        font: utf8,
+                      )),
+                  pw.Text(
+                    tongthanhtoan,
+                    style: pw.TextStyle(
+                      fontSize: 14,
+                      font: utf8,
+                    ),
+                  ),
+                ],
+              ),
+              pw.Padding(padding: const pw.EdgeInsets.only(bottom: 5)),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text("Hình thức thanh toán:",
+                      style: pw.TextStyle(
+                        fontSize: 14,
+                        font: utf8,
+                      )),
+                  pw.Text(
+                    item['payment'].toString(),
+                    style: pw.TextStyle(
+                      fontSize: 14,
+                      font: utf8,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          pw.Padding(padding: const pw.EdgeInsets.only(bottom: 25)),
+          pw.Center(
+            child: pw.Text(
+              "Cảm ơn rất hân hạnh được phục vụ quý khách!",
+              style: pw.TextStyle(
+                fontSize: 18,
+                font: utf8,
+              ),
+            ),
+          )
         ],
       );
     },
