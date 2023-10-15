@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks, use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,8 +11,8 @@ import '../repository/history_repository/history_repository.dart';
 import '../utils/utils.dart';
 
 final controllerHistoryRepo = Get.put(HistoryRepository());
-late List<dynamic> hoadonPDF = controllerHistoryRepo.hoaDonPDFControler;
-late List<dynamic> chitietTThoaDonPDF =
+List<dynamic> hoadonPDF = controllerHistoryRepo.hoaDonPDFControler;
+List<dynamic> chitietTThoaDonPDF =
     controllerHistoryRepo.chitietTThoaDonPDFControler;
 
 // Function to create PDF page
@@ -25,7 +27,7 @@ Future<pw.Page> createPDFPage(BuildContext context) async {
           pw.Text('CHI TIÊT HÓA ĐƠN',
               style: pw.TextStyle(
                   font: utf8, fontSize: 20, fontWeight: pw.FontWeight.bold)),
-          pw.Padding(padding: pw.EdgeInsets.only(bottom: 30)),
+          pw.Padding(padding: const pw.EdgeInsets.only(bottom: 30)),
 
           // ignore: deprecated_member_use
           pw.Table.fromTextArray(
@@ -33,18 +35,18 @@ Future<pw.Page> createPDFPage(BuildContext context) async {
               [],
               ['Mặt hàng', 'Số lượng', 'Đơn giá', 'Tổng tiền'],
               ...hoadonPDF.map((item) => [
-                    item['tenSanPham'],
-                    item['soLuong'].toString(),
-                    formatCurrencWithoutD(item['donGia']),
-                    formatCurrencWithoutD(item['donGia'] * item['soLuong'])
+                    item['tensanpham'],
+                    item['soluong'].toString(),
+                    formatCurrencWithoutD(item['gia']),
+                    formatCurrencWithoutD(item['gia'] * item['soluong'])
                   ])
             ],
             headerCount: 1,
             columnWidths: {
-              0: pw.FlexColumnWidth(3),
-              1: pw.FlexColumnWidth(1),
-              2: pw.FlexColumnWidth(1),
-              3: pw.FlexColumnWidth(1),
+              0: const pw.FlexColumnWidth(2),
+              1: const pw.FlexColumnWidth(1),
+              2: const pw.FlexColumnWidth(1),
+              3: const pw.FlexColumnWidth(1),
             },
             cellAlignment: pw.Alignment.center,
             cellStyle: pw.TextStyle(font: utf8),
@@ -60,7 +62,7 @@ Future<pw.Page> createPDFPage(BuildContext context) async {
                 final tongthanhtoan = formatCurrency((item['tongthanhtoan']));
                 return pw.Row(children: [
                   pw.Padding(
-                    padding: pw.EdgeInsets.all(18.0),
+                    padding: const pw.EdgeInsets.all(18.0),
                     child: pw.Column(
                       crossAxisAlignment: pw.CrossAxisAlignment.start,
                       children: [
@@ -163,14 +165,14 @@ Future<pw.Page> createPDFPage(BuildContext context) async {
                           ],
                         ),
                         pw.Padding(
-                          padding: pw.EdgeInsets.only(top: 10),
+                          padding: const pw.EdgeInsets.only(top: 10),
                           child: pw.Container(
                             decoration: pw.BoxDecoration(
                                 borderRadius: pw.BorderRadius.circular(15)),
                             width: double.infinity,
                             height: 260,
                             child: pw.Padding(
-                              padding: pw.EdgeInsets.only(top: 12.0),
+                              padding: const pw.EdgeInsets.only(top: 12.0),
                               child: pw.Column(
                                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                                 children: [
@@ -190,7 +192,9 @@ Future<pw.Page> createPDFPage(BuildContext context) async {
                                         child: pw.Align(
                                           alignment: pw.Alignment.center,
                                           child: pw.Text(
-                                            no == 0 ? "Thành công" : "Đang chờ",
+                                            item['no'] == 0
+                                                ? "Thành công"
+                                                : "Đang chờ",
                                             style: pw.TextStyle(
                                               fontSize: 16,
                                               font: utf8,
@@ -259,7 +263,7 @@ Future<pw.Page> createPDFPage(BuildContext context) async {
                                     mainAxisAlignment:
                                         pw.MainAxisAlignment.spaceBetween,
                                     children: [
-                                      pw.Text("Hình thức thanh toán:",
+                                      pw.Text("Hình thức thanh toán: ",
                                           style: pw.TextStyle(
                                             fontSize: 17,
                                             font: utf8,

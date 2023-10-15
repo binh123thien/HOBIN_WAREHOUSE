@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/common_widgets/bottom_sheet_pdf.dart';
 import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
+import 'package:hobin_warehouse/src/common_widgets/printting.dart';
 
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
@@ -53,6 +55,31 @@ class _ChiTietHoaDonScreenState extends State<ChiTietHoaDonScreen> {
                 Navigator.of(context).pop();
               }),
           centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0)),
+                    builder: (context) => BottomSheetPDF(
+                      textOneofTwo: 'in hóa đơn',
+                      onTapGallery: () {
+                        //truyền widget.doc để có thể hiển thị list chi tiết thanh toán
+                        printPDF(widget.donnhaphang.toJson(), context);
+                      },
+                      onTapCamera: () {
+                        sharePDF(widget.donnhaphang.toJson(), context);
+                      },
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.print,
+                  size: 35,
+                  color: Colors.black,
+                ))
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
