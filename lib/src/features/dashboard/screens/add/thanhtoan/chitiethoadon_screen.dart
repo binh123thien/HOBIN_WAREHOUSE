@@ -26,59 +26,67 @@ class ChiTietHoaDonScreen extends StatefulWidget {
 class _ChiTietHoaDonScreenState extends State<ChiTietHoaDonScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: whiteColor,
-      appBar: AppBar(
-        elevation: 1,
-        title: const Text("Chi tiết hóa đơn",
-            style: TextStyle(fontSize: 18, color: Colors.black)),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+        return true;
+      },
+      child: Scaffold(
         backgroundColor: whiteColor,
-        leading: IconButton(
-            icon: const Image(
-              image: AssetImage(backIcon),
-              height: 17,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              //out ra dashboard
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-              Navigator.of(context).pop();
-            }),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            TieuDeChiTietDonHang(
-              no: widget.donnhaphang.no,
-              billType: widget.donnhaphang.billType,
-              bHcode: widget.donnhaphang.soHD,
-              date: widget.donnhaphang.ngaytao,
-              tongtien: widget.donnhaphang.tongthanhtoan,
-              paymentSelected: widget.donnhaphang.payment,
-              khachhang: widget.donnhaphang.khachhang,
-            ),
-            PhanCachWidget.space(),
-            widget.phanbietNhapXuat == "NhapHang" ||
-                    widget.phanbietNhapXuat == "HetHan"
-                ? DanhSachItemDaChonNhapHangWidget(
-                    selectedItems: widget.allThongTinItemNhap,
-                  )
-                : DanhSachItemDaChonXuatHangWidget(
-                    selectedItems: widget.allThongTinItemNhap,
-                    blockOnPress: true,
-                    reLoadOnDeleteXuatHang: () {},
-                  ),
-            PhanCachWidget.space(),
-            TomTatYeuCauWidget(
-              totalQuantity: widget.donnhaphang.tongsl,
-              totalPrice: widget.donnhaphang.tongtien,
-              giamgia: widget.donnhaphang.giamgia,
-              no: widget.donnhaphang.no,
-              tong: widget.donnhaphang.tongthanhtoan,
-            ),
-          ],
+        appBar: AppBar(
+          elevation: 1,
+          title: const Text("Chi tiết hóa đơn",
+              style: TextStyle(fontSize: 18, color: Colors.black)),
+          backgroundColor: whiteColor,
+          leading: IconButton(
+              icon: const Image(
+                image: AssetImage(backIcon),
+                height: 17,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                //out ra dashboard
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              }),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              TieuDeChiTietDonHang(
+                no: widget.donnhaphang.no,
+                billType: widget.donnhaphang.billType,
+                bHcode: widget.donnhaphang.soHD,
+                date: widget.donnhaphang.ngaytao,
+                tongtien: widget.donnhaphang.tongthanhtoan,
+                paymentSelected: widget.donnhaphang.payment,
+                khachhang: widget.donnhaphang.khachhang,
+              ),
+              PhanCachWidget.space(),
+              widget.phanbietNhapXuat == "NhapHang" ||
+                      widget.phanbietNhapXuat == "HetHan"
+                  ? DanhSachItemDaChonNhapHangWidget(
+                      selectedItems: widget.allThongTinItemNhap,
+                    )
+                  : DanhSachItemDaChonXuatHangWidget(
+                      selectedItems: widget.allThongTinItemNhap,
+                      blockOnPress: true,
+                      reLoadOnDeleteXuatHang: () {},
+                    ),
+              PhanCachWidget.space(),
+              TomTatYeuCauWidget(
+                totalQuantity: widget.donnhaphang.tongsl,
+                totalPrice: widget.donnhaphang.tongtien,
+                giamgia: widget.donnhaphang.giamgia,
+                no: widget.donnhaphang.no,
+                tong: widget.donnhaphang.tongthanhtoan,
+              ),
+            ],
+          ),
         ),
       ),
     );
