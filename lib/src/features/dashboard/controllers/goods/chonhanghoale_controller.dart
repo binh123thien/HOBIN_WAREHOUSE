@@ -46,7 +46,7 @@ class ChonHangHoaLeController extends GetxController {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     String formatExpDate = formatDate(hangHoaLocation);
 
-    final locationSnapShot = await _db
+    final locationCollectionRef = _db
         .collection('Users')
         .doc(firebaseUser!.uid)
         .collection('Goods')
@@ -55,10 +55,39 @@ class ChonHangHoaLeController extends GetxController {
         .doc(hangHoa['macode'])
         .collection('Exp')
         .doc(formatExpDate)
-        .collection('location')
-        .doc(hangHoaLocation['location'])
-        .get();
-    await locationSnapShot.reference.delete();
+        .collection('location');
+
+    final locationSnapShot =
+        await locationCollectionRef.doc(hangHoaLocation['location']).get();
+
+    // Kiểm tra số lượng tài liệu trong collection
+    final querySnapshot = await locationCollectionRef.get();
+    final numberOfDocuments = querySnapshot.docs.length;
+
+    // Kiểm tra xem có phải là location cuối cùng không
+    if (numberOfDocuments == 1) {
+      // Đây là location cuối cùng
+      // Lặp qua từng tài liệu và xóa chúng  //xóa colection location
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      //xóa doc exp
+      final expDocRef = _db
+          .collection('Users')
+          .doc(firebaseUser.uid)
+          .collection('Goods')
+          .doc(firebaseUser.uid)
+          .collection('HangHoa')
+          .doc(hangHoa['macode'])
+          .collection('Exp')
+          .doc(formatExpDate);
+      // Xóa tài liệu `formatExpDate`
+      await expDocRef.delete();
+    } else {
+      // Thực hiện xóa
+      await locationSnapShot.reference.delete();
+    }
   }
 
   //format date Ex: 10/10/2023 thành 10-10-2023

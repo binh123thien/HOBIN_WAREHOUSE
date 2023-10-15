@@ -297,7 +297,6 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                         locationMap['location'] ==
                                         hangHoaLeLocation)
                                     .toList();
-
                             if (filteredLocationsLe.isNotEmpty) {
                               // Đã tìm thấy phần tử
                               foundLocationLe = filteredLocationsLe.first;
@@ -313,6 +312,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                               // print(
                               //     'else Không tìm thấy location "$hangHoaLeLocation"');
                             }
+
                             if (formKey.currentState!.validate()) {
                               setState(() {
                                 _isLoading = true; // Kích hoạt hiệu ứng loading
