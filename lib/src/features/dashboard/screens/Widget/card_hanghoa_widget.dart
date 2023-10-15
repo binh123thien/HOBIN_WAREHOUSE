@@ -21,7 +21,7 @@ class CardHangHoa extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: darkColor.withOpacity(0.3)),
             color: whiteColor),
         child: ListTile(
           onTap: onTapChiTietHangHoa,
