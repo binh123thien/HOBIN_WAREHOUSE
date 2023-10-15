@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/choose_location_phanphoi.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/widget/cardphanphoihang_widget.dart';
 import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../../../utils/utils.dart';
+import '../../../../../utils/validate/formsoluong.dart';
 import '../../../../../utils/validate/validate.dart';
 import '../../../controllers/goods/chonhanghoale_controller.dart';
 import 'donephanphoi.dart';
@@ -37,7 +38,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
   bool isLocationLeLoaded = false;
 
   String hangHoaLeLocation = '';
-
+  bool _isLoading = false; // Sử dụng biến này để kiểm soát hiển thị loading
   @override
   void initState() {
     super.initState();
@@ -55,26 +56,29 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
     final textEditsoLuongSi = TextEditingController();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-              icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          title: const Text("Phân phối hàng hóa",
-              style: TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-          backgroundColor: backGroundColor,
-          centerTitle: true,
-        ),
-        backgroundColor: backGroundDefaultFigma,
-        body: SingleChildScrollView(
-          child: SizedBox(
-            width: double.infinity,
-            child: Form(
-              key: formKey,
-              child: Column(children: [
-                CardPhanPhoiHang(
+      appBar: AppBar(
+        elevation: 2,
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        title: const Text("Phân phối hàng hóa",
+            style: TextStyle(
+                fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
+        backgroundColor: whiteColor,
+        centerTitle: true,
+      ),
+      backgroundColor: whiteColor,
+      body: SingleChildScrollView(
+        child: SizedBox(
+          width: double.infinity,
+          child: Form(
+            key: formKey,
+            child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 12, 12, 5),
+                child: CardPhanPhoiHang(
                     locationSiGanNhat: widget.locationSiGanNhat,
                     soluong: RxInt(0),
                     phanBietSiLe: true,
@@ -84,10 +88,13 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                         : updatehanghoaSi['photoGood'],
                     donViProduct: updatehanghoaSi['donvi'],
                     updatehanghoa: updatehanghoaSi),
-                const Icon(
-                  Icons.arrow_downward_outlined,
-                ),
-                CardPhanPhoiHang(
+              ),
+              const Icon(
+                Icons.arrow_downward_outlined,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 5, 12, 0),
+                child: CardPhanPhoiHang(
                     listPickedLocationLe:
                         controllerGoodRepo.listLocationHangHoaLePicked,
                     soluong: RxInt(0),
@@ -98,221 +105,172 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                         : updatehanghoaLe['photoGood'],
                     donViProduct: updatehanghoaLe['donvi'],
                     updatehanghoa: updatehanghoaLe),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 14, 10, 14),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ChooseLocationPhanPhoiScreen(
-                                  hangHoaLe: widget.hanghoaLe,
-                                  locationUsed: controllerGoodRepo
-                                      .listLocationHangHoaLePicked,
-                                )),
-                      ).then((value) {
-                        if (value == null) {
-                        } else if (value["id"] != null) {
-                          setState(() {
-                            hangHoaLeLocation = value["id"];
-                          });
-                        } else if (value["location"] != null) {
-                          setState(() {
-                            hangHoaLeLocation = value["location"];
-                          });
-                        }
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          color:
-                              hangHoaLeLocation.isEmpty ? darkColor : mainColor,
-                          width: hangHoaLeLocation.isEmpty ? 0 : 2,
+              ),
+              PhanCachWidget.space(),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 14, 12, 14),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChooseLocationPhanPhoiScreen(
+                                hangHoaLe: widget.hanghoaLe,
+                                locationUsed: controllerGoodRepo
+                                    .listLocationHangHoaLePicked,
+                              )),
+                    ).then((value) {
+                      if (value == null) {
+                      } else if (value["id"] != null) {
+                        setState(() {
+                          hangHoaLeLocation = value["id"];
+                        });
+                      } else if (value["location"] != null) {
+                        setState(() {
+                          hangHoaLeLocation = value["location"];
+                        });
+                      }
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        color:
+                            hangHoaLeLocation.isEmpty ? darkColor : mainColor,
+                        width: hangHoaLeLocation.isEmpty ? 0 : 2,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(9.0),
+                      child: Row(children: [
+                        const SizedBox(
+                          width: 25,
+                          height: 25,
+                          child: Image(
+                            image: AssetImage(locationIcon),
+                            color: darkColor,
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(9.0),
-                        child: Row(children: [
-                          const SizedBox(
-                            width: 25,
-                            height: 25,
-                            child: Image(
-                              image: AssetImage(locationIcon),
-                              color: darkColor,
-                            ),
+                        const SizedBox(width: 7),
+                        Text(
+                          hangHoaLeLocation.isEmpty
+                              ? 'Chọn vị trí cho ${updatehanghoaLe['tensanpham']}'
+                              : hangHoaLeLocation,
+                          style: const TextStyle(
+                            fontSize: 17,
+                            color: darkColor,
                           ),
-                          const SizedBox(width: 7),
-                          Text(
-                            hangHoaLeLocation.isEmpty
-                                ? 'Vị trí ${updatehanghoaLe['tensanpham']}'
-                                : hangHoaLeLocation,
-                            style: const TextStyle(
-                              fontSize: 17,
-                              color: darkColor,
-                            ),
-                          ),
-                        ]),
-                      ),
+                        ),
+                      ]),
                     ),
                   ),
                 ),
-                Container(
-                  width: 370,
-                  decoration: const BoxDecoration(color: Colors.white),
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          children: [
-                            Image(
-                              image: AssetImage(warningIcon),
-                              height: 30,
-                            ),
-                            Padding(padding: EdgeInsets.only(right: 10)),
-                            Expanded(
-                              child: Text(
-                                'Nhập chính xác số lượng đơn vị bán lẻ trên 1 đơn vị kiện hàng bán sỉ',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              '1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)}',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                            const Text(
-                              ' = ',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(
-                              width: 135,
-                              height: 35,
-                              child: TextFormField(
-                                autofocus: false,
-                                controller: textEditsoLuongLe,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor:
-                                      backGroundSearch, // where is this color defined?
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  prefixIconColor: darkLiteColor,
-                                  floatingLabelStyle:
-                                      const TextStyle(color: Colors.grey),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: BorderSide.none,
-                                  ),
-                                  hintText: "Nhập số lượng",
-                                ),
-                                validator: (value) {
-                                  return nonZeroOrOneInput(value!);
-                                },
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^\d{0,6}')),
-                                ],
-                                keyboardType: TextInputType.number,
-                              ),
-                            ),
-                            Text(
-                              ' ${updatehanghoaLe['donvi']}',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  width: 370,
-                  height: 120,
-                  decoration: const BoxDecoration(color: Colors.white),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
+              ),
+              Column(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(children: [
-                          const Image(
-                            image: AssetImage(warningIcon),
-                            height: 30,
-                          ),
-                          const Padding(padding: EdgeInsets.only(right: 10)),
-                          Expanded(
-                            child: Text(
-                              'Nhập số lượng ${updatehanghoaSi['donvi']} cần chuyển đổi',
-                              style: const TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ]),
-                        const SizedBox(height: 20),
-                        SizedBox(
-                          width: 900,
-                          height: 35,
-                          child: TextFormField(
-                            autofocus: false,
-                            controller: textEditsoLuongSi,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor:
-                                  backGroundSearch, // where is this color defined?
-                              contentPadding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              prefixIconColor: darkLiteColor,
-                              floatingLabelStyle:
-                                  const TextStyle(color: Colors.grey),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide.none,
-                              ),
-                              hintText: "Nhập số lượng",
-                              errorStyle: const TextStyle(fontSize: 14),
-                            ),
-                            validator: (value) {
-                              return nonBeyondSi(
-                                  value!, widget.locationSiGanNhat['soluong']);
-                            },
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d{0,6}')),
-                            ],
-                            keyboardType: TextInputType.number,
-                          ),
+                        Image(
+                          image: AssetImage(warningIcon),
+                          height: 22,
                         ),
+                        SizedBox(width: 5),
+                        Expanded(
+                          child: Text(
+                            'Nhập chính xác số lượng đơn vị bán lẻ trên 1 đơn vị kiện hàng bán sỉ',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        )
                       ],
                     ),
                   ),
-                )
-              ]),
-            ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
+                    child: TextFormField(
+                      controller: textEditsoLuongLe,
+                      validator: (value) {
+                        return nonZeroInput(value!);
+                      },
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                          suffixText: "${updatehanghoaLe['donvi']}",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          labelStyle: const TextStyle(fontSize: 17),
+                          labelText:
+                              "1 ${updatehanghoaSi['donvi'].substring(0, 1).toUpperCase()}${updatehanghoaSi['donvi'].substring(1)} = ? ${updatehanghoaLe['donvi']}",
+                          errorStyle: const TextStyle(fontSize: 15),
+                          border: const OutlineInputBorder(),
+                          focusedBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: mainColor, width: 1)),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 10),
+                          hintText: 'Nhập số lượng'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Image(
+                          image: AssetImage(warningIcon),
+                          height: 22,
+                        ),
+                        const SizedBox(width: 5),
+                        Expanded(
+                          child: Text(
+                            'Nhập số lượng ${updatehanghoaSi['donvi']} cần chuyển đổi',
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
+                    child: TextFormField(
+                      controller: textEditsoLuongSi,
+                      validator: (value) {
+                        return nonZeroInput(value!);
+                      },
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        MaxValueTextInputFormatter(
+                            widget.locationSiGanNhat["soluong"])
+                      ],
+                      decoration: InputDecoration(
+                          suffixText: "${updatehanghoaSi['donvi']}",
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                          labelStyle: const TextStyle(fontSize: 17),
+                          labelText: "Nhập số ${updatehanghoaSi['donvi']}",
+                          errorStyle: const TextStyle(fontSize: 15),
+                          border: const OutlineInputBorder(),
+                          focusedBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: mainColor, width: 1)),
+                          contentPadding:
+                              const EdgeInsets.symmetric(horizontal: 10),
+                          hintText: 'Nhập số lượng'),
+                    ),
+                  ),
+                ],
+              ),
+            ]),
           ),
         ),
-        bottomNavigationBar: BottomAppBar(
-            height: 70,
-            child: LayoutBuilder(
+      ),
+      bottomNavigationBar: BottomAppBar(
+        height: 70,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LayoutBuilder(
               builder: (context, constraints) {
                 return SizedBox(
                   width: MediaQuery.of(context).size.width - 30,
@@ -343,8 +301,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                             if (filteredLocationsLe.isNotEmpty) {
                               // Đã tìm thấy phần tử
                               foundLocationLe = filteredLocationsLe.first;
-                              print(
-                                  'if Đã tìm thấy location: $foundLocationLe');
+                              // print(
+                              //     'if Đã tìm thấy location: $foundLocationLe');
                             } else {
                               // Không tìm thấy
                               foundLocationLe = {
@@ -352,48 +310,78 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                 'location': hangHoaLeLocation,
                                 'soluong': 0,
                               };
-                              print(
-                                  'else Không tìm thấy location "$hangHoaLeLocation"');
+                              // print(
+                              //     'else Không tìm thấy location "$hangHoaLeLocation"');
                             }
                             if (formKey.currentState!.validate()) {
-                              String dateTao = formatNgaytao();
-                              //nhận giá trị chuyendoiLe trả về
-                              int giaTriChuyenDoiLe =
-                                  await controllerHangHoa.calculate(
-                                      dateTao,
-                                      int.parse(textEditsoLuongLe.text),
-                                      int.parse(textEditsoLuongSi.text),
-                                      updatehanghoaSi,
-                                      updatehanghoaLe,
-                                      widget.locationSiGanNhat,
-                                      foundLocationLe);
-                              // ignore: use_build_context_synchronously
-                              Navigator.push(
-                                context,
-                                PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: DonePhanPhoiScreen(
-                                    locationSi: widget.locationSiGanNhat,
-                                    locationLe: foundLocationLe,
-                                    dateTao: dateTao,
-                                    updatehanghoaSi: updatehanghoaSi,
-                                    updatehanghoaLe: updatehanghoaLe,
-                                    chuyendoiLe: giaTriChuyenDoiLe,
-                                    chuyendoiSi: int.parse(
-                                        textEditsoLuongSi.text.toString()),
-                                  ),
-                                ),
-                              );
+                              setState(() {
+                                _isLoading = true; // Kích hoạt hiệu ứng loading
+                              });
+                              _performDataProcessing(textEditsoLuongLe,
+                                      textEditsoLuongSi, foundLocationLe)
+                                  .then((value) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              });
                             }
                           }
                         : null,
-                    child: const Text(
-                      'Xác nhận',
-                      style: TextStyle(fontSize: 18),
-                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            width: 15,
+                            height: 15,
+                            child: CircularProgressIndicator(
+                              color: whiteColor,
+                            ),
+                          )
+                        : const Text(
+                            'Xác nhận',
+                            style: TextStyle(fontSize: 18),
+                          ),
                   ),
                 );
               },
-            )));
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _performDataProcessing(
+    TextEditingController textEditsoLuongLe,
+    TextEditingController textEditsoLuongSi,
+    Map<String, dynamic> foundLocationLe,
+  ) async {
+    String dateTao = formatNgaytao();
+    // nhận giá trị chuyendoiLe trả về
+    await controllerHangHoa
+        .calculate(
+      dateTao,
+      int.parse(textEditsoLuongLe.text),
+      int.parse(textEditsoLuongSi.text),
+      updatehanghoaSi,
+      updatehanghoaLe,
+      widget.locationSiGanNhat,
+      foundLocationLe,
+    )
+        .then((giaTriChuyenDoiLe) {
+      Navigator.push(
+        context,
+        PageTransition(
+          type: PageTransitionType.rightToLeft,
+          child: DonePhanPhoiScreen(
+            locationSi: widget.locationSiGanNhat,
+            locationLe: foundLocationLe,
+            dateTao: dateTao,
+            updatehanghoaSi: updatehanghoaSi,
+            updatehanghoaLe: updatehanghoaLe,
+            chuyendoiLe: giaTriChuyenDoiLe,
+            chuyendoiSi: int.parse(textEditsoLuongSi.text.toString()),
+          ),
+        ),
+      );
+    });
   }
 }

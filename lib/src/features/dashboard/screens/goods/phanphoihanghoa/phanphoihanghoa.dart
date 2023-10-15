@@ -108,7 +108,9 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
 
     final size = MediaQuery.of(context).size;
     return Scaffold(
+        backgroundColor: whiteColor,
         appBar: AppBar(
+          elevation: 2,
           leading: IconButton(
               icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
               onPressed: () {
@@ -117,7 +119,7 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
           title: const Text("Phân phối hàng hóa",
               style: TextStyle(
                   fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-          backgroundColor: backGroundColor,
+          backgroundColor: whiteColor,
           centerTitle: true,
           actions: [
             IconButton(
@@ -146,12 +148,12 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
         body: SingleChildScrollView(
           child: SizedBox(
             width: size.width,
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SearchWidget(
@@ -169,207 +171,207 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                           icon: const Image(image: AssetImage(sortbyIcon))),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  Text('Đang chọn: ${updatehanghoaSi['tensanpham']}',
+                ),
+                const SizedBox(height: 5),
+                PhanCachWidget.space(),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text('Đang chọn: ${updatehanghoaSi['tensanpham']}',
                       style: const TextStyle(
-                        fontSize: 17,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.red,
                       )),
-                  if (controllerGoodRepo.listLocationHangHoaSi.isEmpty)
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        child: Text(
-                          'Mời bạn nhập thêm hàng',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: mainColor,
-                              fontWeight: FontWeight.bold),
-                        ),
+                ),
+                if (controllerGoodRepo.listLocationHangHoaSi.isEmpty)
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        'Mời bạn nhập thêm hàng',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: mainColor,
+                            fontWeight: FontWeight.bold),
                       ),
-                    )
-                  else
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0),
-                      child: SizedBox(
-                        width: 350,
-                        child: Table(
-                          border: TableBorder.all(),
-                          columnWidths: const {
-                            0: FlexColumnWidth(1.1), // Cột Vị trí
-                            1: FlexColumnWidth(1.0), // Cột Hết hạn
-                            2: FlexColumnWidth(0.7), // Cột SL
-                          },
-                          children: <TableRow>[
-                            const TableRow(
+                    ),
+                  )
+                else
+                  Center(
+                    child: SizedBox(
+                      width: 350,
+                      child: Table(
+                        border: TableBorder.all(),
+                        columnWidths: const {
+                          0: FlexColumnWidth(1.1), // Cột Vị trí
+                          1: FlexColumnWidth(1.0), // Cột Hết hạn
+                          2: FlexColumnWidth(0.7), // Cột SL
+                        },
+                        children: <TableRow>[
+                          const TableRow(
+                            children: <Widget>[
+                              TableCell(
+                                child: Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text('Vị trí',
+                                      style: TextStyle(fontSize: 17)),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text('Hết hạn',
+                                      style: TextStyle(fontSize: 17)),
+                                ),
+                              ),
+                              TableCell(
+                                child: Padding(
+                                  padding: EdgeInsets.all(5.0),
+                                  child: Text('SL',
+                                      style: TextStyle(fontSize: 17)),
+                                ),
+                              ),
+                            ],
+                          ),
+                          // Tạo các hàng dữ liệu
+                          for (var doc
+                              in controllerGoodRepo.listLocationHangHoaSi)
+                            TableRow(
                               children: <Widget>[
                                 TableCell(
                                   child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Text('Vị trí',
-                                        style: TextStyle(fontSize: 17)),
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(doc['location'],
+                                        style: const TextStyle(fontSize: 17)),
                                   ),
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Text('Hết hạn',
-                                        style: TextStyle(fontSize: 17)),
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(doc['exp'],
+                                        style: const TextStyle(fontSize: 17)),
                                   ),
                                 ),
                                 TableCell(
                                   child: Padding(
-                                    padding: EdgeInsets.all(5.0),
-                                    child: Text('SL',
-                                        style: TextStyle(fontSize: 17)),
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(doc['soluong'].toString(),
+                                        style: const TextStyle(fontSize: 17)),
                                   ),
                                 ),
                               ],
                             ),
-                            // Tạo các hàng dữ liệu
-                            for (var doc
-                                in controllerGoodRepo.listLocationHangHoaSi)
-                              TableRow(
-                                children: <Widget>[
-                                  TableCell(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(doc['location'],
-                                          style: const TextStyle(fontSize: 17)),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(doc['exp'],
-                                          style: const TextStyle(fontSize: 17)),
-                                    ),
-                                  ),
-                                  TableCell(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Text(doc['soluong'].toString(),
-                                          style: const TextStyle(fontSize: 17)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  const SizedBox(height: 3),
-                  const Text('Mặt hàng muốn phân phối:',
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                  SizedBox(
-                    width: size.width,
-                    height: size.height - 230,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: ListView.builder(
-                        physics: const PageScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: filteredItemsLe.length,
-                        itemBuilder: (context, index) {
-                          var doc = filteredItemsLe[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  isSelected = true;
-                                  selectedDoc = doc;
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      width: isSelected && selectedDoc == doc
-                                          ? 2
-                                          : 1,
-                                      color: isSelected && selectedDoc == doc
-                                          ? mainColor // Màu border khi Container được chọn
-                                          : Colors
-                                              .black26, // Màu border khi Container không được chọn
-                                    )),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      ListTile(
-                                        leading: doc["photoGood"].isEmpty
-                                            ? const Image(
-                                                image: AssetImage(hanghoaIcon),
-                                                height: 30,
-                                              )
-                                            : ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                child: CachedNetworkImage(
-                                                  height: 30,
-                                                  width: 30,
-                                                  imageUrl: doc["photoGood"]
-                                                      .toString(),
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                        title: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(doc["tensanpham"]),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "Kho: ${doc["tonkho"]} ${doc["donvi"]}",
-                                                  style: const TextStyle(
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w100),
-                                                  textAlign: TextAlign.start,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        trailing: InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              itemExpandedList[index] =
-                                                  !itemExpandedList[index];
-                                            });
-                                          },
-                                          child: const Icon(
-                                            Icons.expand_circle_down,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      ),
-                                      itemExpandedList[index] == true
-                                          ? Column(
-                                              children: [
-                                                const SizedBox(height: 7),
-                                                PhanCachWidget.dotLine(context),
-                                                const SizedBox(height: 7),
-                                                LocationWidget(hanghoa: doc)
-                                              ],
-                                            )
-                                          : const SizedBox()
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        },
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                const SizedBox(height: 10),
+                PhanCachWidget.space(),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                  child: Text('Mặt hàng muốn phân phối',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                ),
+                ListView.builder(
+                  physics: const PageScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: filteredItemsLe.length,
+                  itemBuilder: (context, index) {
+                    var doc = filteredItemsLe[index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isSelected = true;
+                            selectedDoc = doc;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                width: isSelected && selectedDoc == doc ? 2 : 1,
+                                color: isSelected && selectedDoc == doc
+                                    ? mainColor // Màu border khi Container được chọn
+                                    : Colors
+                                        .black26, // Màu border khi Container không được chọn
+                              ),
+                              color: isSelected && selectedDoc == doc
+                                  ? mainColor.withOpacity(0.03)
+                                  : whiteColor),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  leading: doc["photoGood"].isEmpty
+                                      ? const Image(
+                                          image: AssetImage(hanghoaIcon),
+                                          height: 30,
+                                        )
+                                      : ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          child: CachedNetworkImage(
+                                            height: 30,
+                                            width: 30,
+                                            imageUrl:
+                                                doc["photoGood"].toString(),
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(doc["tensanpham"]),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Kho: ${doc["tonkho"]} ${doc["donvi"]}",
+                                            style: const TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w100),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  trailing: InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        itemExpandedList[index] =
+                                            !itemExpandedList[index];
+                                      });
+                                    },
+                                    child: const Icon(
+                                      Icons.expand_circle_down,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                ),
+                                itemExpandedList[index] == true
+                                    ? Column(
+                                        children: [
+                                          const SizedBox(height: 7),
+                                          PhanCachWidget.dotLine(context),
+                                          const SizedBox(height: 7),
+                                          LocationWidget(hanghoa: doc)
+                                        ],
+                                      )
+                                    : const SizedBox()
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -386,7 +388,12 @@ class _PhanPhoiHangHoaScreenState extends State<PhanPhoiHangHoaScreen> {
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
                       backgroundColor: mainColor,
-                      side: const BorderSide(color: mainColor),
+                      side: BorderSide(
+                          color: (selectedDoc != null) &&
+                                  (controllerGoodRepo
+                                      .listLocationHangHoaSi.isNotEmpty)
+                              ? mainColor
+                              : greyColor),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),

@@ -107,10 +107,12 @@ class NotificationRepository extends GetxController {
       diffText = "${difference.inDays} ngày trước";
     } else if (difference.inHours > 0) {
       diffText = "${difference.inHours} giờ trước";
-    } else if (difference.inMinutes > 0 && difference.inMinutes < 1) {
-      diffText = "Bây giờ";
-    } else if (difference.inMinutes > 1) {
+    } else if (difference.inMinutes > 0) {
       diffText = "${difference.inMinutes} phút trước";
+    } else if (difference.inSeconds > 0) {
+      diffText = "${difference.inSeconds} giây trước";
+    } else {
+      diffText = "bây giờ";
     }
     return diffText;
   }

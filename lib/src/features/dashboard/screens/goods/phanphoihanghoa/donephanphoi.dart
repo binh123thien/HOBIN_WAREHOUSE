@@ -62,6 +62,7 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
     //=============
     return Scaffold(
       appBar: AppBar(
+        elevation: 2,
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
             onPressed: () {
@@ -78,10 +79,10 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
         title: const Text("Phân phối hàng hóa",
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-        backgroundColor: backGroundColor,
+        backgroundColor: whiteColor,
         centerTitle: true,
       ),
-      backgroundColor: backGroundDefaultFigma,
+      backgroundColor: whiteColor,
       body: SizedBox(
         child: Column(
           children: [
@@ -95,7 +96,7 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
                   children: [
                     Image(
                       image: AssetImage(successIcon),
-                      height: 35,
+                      height: 25,
                     ),
                     Padding(padding: EdgeInsets.only(right: 10)),
                     Text(
@@ -108,31 +109,37 @@ class _DonePhanPhoiScreenState extends State<DonePhanPhoiScreen> {
             ),
             Column(
               children: [
-                CardPhanPhoiHang(
-                    cardDone: true,
-                    locationSiGanNhat: widget.locationSi,
-                    soluong: soluongSi,
-                    phanBietSiLe: true,
-                    slchuyendoi: chuyendoiSiGiam,
-                    imageProduct: doneUpdatehanghoaSi['photoGood'].isEmpty
-                        ? distributeGoodIcon
-                        : doneUpdatehanghoaSi['photoGood'],
-                    donViProduct: doneUpdatehanghoaSi['donvi'],
-                    updatehanghoa: doneUpdatehanghoaSi),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 5),
+                  child: CardPhanPhoiHang(
+                      cardDone: true,
+                      locationSiGanNhat: widget.locationSi,
+                      soluong: soluongSi,
+                      phanBietSiLe: true,
+                      slchuyendoi: chuyendoiSiGiam,
+                      imageProduct: doneUpdatehanghoaSi['photoGood'].isEmpty
+                          ? hanghoaIcon
+                          : doneUpdatehanghoaSi['photoGood'],
+                      donViProduct: doneUpdatehanghoaSi['donvi'],
+                      updatehanghoa: doneUpdatehanghoaSi),
+                ),
                 const Icon(
                   Icons.arrow_downward_outlined,
                 ),
-                CardPhanPhoiHang(
-                    cardDone: true,
-                    listPickedLocationLe: [widget.locationLe],
-                    soluong: soluongLe,
-                    phanBietSiLe: false,
-                    slchuyendoi: chuyendoiLeTang,
-                    imageProduct: doneUpdatehanghoaLe['photoGood'].isEmpty
-                        ? distributeGoodIcon
-                        : doneUpdatehanghoaLe['photoGood'],
-                    donViProduct: doneUpdatehanghoaLe['donvi'],
-                    updatehanghoa: doneUpdatehanghoaLe),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 5, 12, 0),
+                  child: CardPhanPhoiHang(
+                      cardDone: true,
+                      listPickedLocationLe: [widget.locationLe],
+                      soluong: soluongLe,
+                      phanBietSiLe: false,
+                      slchuyendoi: chuyendoiLeTang,
+                      imageProduct: doneUpdatehanghoaLe['photoGood'].isEmpty
+                          ? distributeGoodIcon
+                          : doneUpdatehanghoaLe['photoGood'],
+                      donViProduct: doneUpdatehanghoaLe['donvi'],
+                      updatehanghoa: doneUpdatehanghoaLe),
+                ),
               ],
             )
           ],
