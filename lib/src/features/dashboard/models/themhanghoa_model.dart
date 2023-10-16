@@ -12,7 +12,7 @@ class HangHoaModel {
   int chuyendoi;
   String phanloai;
   String donvi;
-  List danhmuc;
+  List<String> danhmuc;
   String photoGood;
 
   HangHoaModel({
@@ -61,10 +61,10 @@ class HangHoaModel {
         phanloai: data["phanloai"],
         donvi: data["donvi"],
         danhmuc: data["danhmuc"],
-        daban: 0,
-        tonkho: 0,
-        soluong: 0,
-        chuyendoi: 0,
+        daban: data["daban"] ?? 0,
+        tonkho: data["tonkho"] ?? 0,
+        soluong: data["soluong"] ?? 0,
+        chuyendoi: data["chuyendoi"] ?? 0,
         photoGood: data['photoGood']);
   }
 }

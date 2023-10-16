@@ -23,7 +23,7 @@ class CardHistory extends StatelessWidget {
           final doc = docs[index];
           phanbietIcon() {
             //BanHang thanh cong
-            if (doc["billType"] == "BanHang" &&
+            if (doc["billType"] == "XuatHang" &&
                 doc["trangthai"] == "Thành công") {
               return xuathangIcon;
             } else
@@ -35,6 +35,8 @@ class CardHistory extends StatelessWidget {
             //BanHang NhapHang Dang cho
             if (doc["trangthai"] == "Đang chờ") {
               return dangchoIcon;
+            } else if (doc["billType"] == "HetHan") {
+              return hethanIcon;
             } else {
               return huyIcon;
             }

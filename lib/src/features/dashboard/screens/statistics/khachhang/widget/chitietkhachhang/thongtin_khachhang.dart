@@ -51,51 +51,77 @@ class _ThongTinKhachHangState extends State<ThongTinKhachHang> {
             .map((doc) => doc["no"])
             .reduce((value, element) => value + element)
         : 0;
+    final size = MediaQuery.of(context).size;
     return Column(
       children: [
         ThongTinCaNhan(khachhang: widget.khachhang),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return CardThongKeDonHang(
-                countThanhCong: countThanhCong.toString(),
-                countDangCho: countDangCho.toString(),
-                countHuy: countHuy.toString(),
-                daThanhToan: formatCurrency(daThanhToan),
-                no: formatCurrency(no),
-              );
-            },
-          ),
-        ),
-        const Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(15),
-              child: Text("Đơn đã bán", style: TextStyle(fontSize: 17)),
-            ),
-          ],
-        ),
         ListView.builder(
-          physics: const BouncingScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: 1,
-          itemBuilder: ((BuildContext context, int index) {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              color: whiteColor,
-              child: Column(
-                children: [
-                  CardHistory(
-                    docs: allDonHangCurent,
-                  )
-                ],
-              ),
+          itemBuilder: (context, index) {
+            return CardThongKeDonHang(
+              countThanhCong: countThanhCong.toString(),
+              countDangCho: countDangCho.toString(),
+              countHuy: countHuy.toString(),
+              daThanhToan: formatCurrency(daThanhToan),
+              no: formatCurrency(no),
             );
-          }),
+          },
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: mainColor,
+            ),
+            height: 35,
+            width: size.width,
+            child: const Padding(
+              padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
+              child: Text(
+                "Đơn đã bán",
+                style: TextStyle(fontSize: 17, color: whiteColor),
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Container(
+            decoration: BoxDecoration(
+                border: Border.all(color: mainColor),
+                borderRadius: BorderRadius.circular(5)),
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: 1,
+              itemBuilder: ((BuildContext context, int index) {
+                return allDonHangCurent.isNotEmpty
+                    ? Container(
+                        width: MediaQuery.of(context).size.width,
+                        color: whiteColor,
+                        child: Column(
+                          children: [
+                            CardHistory(
+                              docs: allDonHangCurent,
+                            )
+                          ],
+                        ),
+                      )
+                    : const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Chưa có đơn hàng nào!",
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                      );
+              }),
+            ),
+          ),
         )
       ],
     );

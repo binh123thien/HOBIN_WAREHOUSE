@@ -160,14 +160,17 @@ class _KhachHangScreenState extends State<KhachHangScreen> {
                               style: const TextStyle(
                                   fontSize: 17, fontWeight: FontWeight.w900),
                             ),
-                            Text(
-                              khachhang["sdt"],
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: khachhang["loai"] == "Nhà cung cấp"
-                                      ? cancelColor
-                                      : darkColor),
-                            ),
+                            khachhang["sdt"] != ""
+                                ? Text(
+                                    khachhang["sdt"],
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color:
+                                            khachhang["loai"] == "Nhà cung cấp"
+                                                ? cancelColor
+                                                : darkColor),
+                                  )
+                                : const SizedBox(),
                           ],
                         )
                       ],

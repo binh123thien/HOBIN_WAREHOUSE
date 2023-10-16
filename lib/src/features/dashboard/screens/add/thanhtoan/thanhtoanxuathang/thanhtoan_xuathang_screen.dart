@@ -196,8 +196,7 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                           backgroundColor: mainColor,
                           side: const BorderSide(color: mainColor),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                10), // giá trị này xác định bán kính bo tròn
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                         onPressed: () {
@@ -286,6 +285,9 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
       //cap nhat gia tri ton kho
       await controllerXuatHangRepo
           .capNhatGiaTriTonKhoXuatHang(widget.allThongTinItemXuat);
+      //cap nhat gia tri da ban
+      await controllerXuatHangRepo
+          .capNhatGiaTriDaBanXuatHang(widget.allThongTinItemXuat);
       //tinh tong doanh thu
       await controllerXuatHangRepo.createTongDoanhThuNgay(
           donnhaphang.datetime, donnhaphang.tongthanhtoan, donnhaphang.no);

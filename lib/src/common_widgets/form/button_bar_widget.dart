@@ -47,7 +47,7 @@ class Button2nutBar extends StatelessWidget {
                     side: const BorderSide(color: mainColor),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          10), // giá trị này xác định bán kính bo tròn
+                          5), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
                   onPressed: onPressed2,

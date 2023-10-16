@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuts/hethan/xuatkhohethan.dart';
+import 'package:hobin_warehouse/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -28,6 +29,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
   DateTime? endDate;
   String startDateFormated = "";
   String endDateFormated = "";
+  bool isloading = false;
   void _onTap() async {
     final pickedDateRange = await showDateRangePicker(
       context: context,
@@ -56,7 +58,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
   }
 
   String formatDate(DateTime date) {
-    final formatter = DateFormat('dd-MM-yyyy');
+    final formatter = DateFormat('yyyy-MM-dd');
     return formatter.format(date);
   }
 
@@ -115,12 +117,16 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                           height: 40,
                           child: ElevatedButton(
                             onPressed: () {
+                              setState(() {
+                                isloading = true;
+                              });
                               controllerHetHan
                                   .getFilteredData(
                                       startDateFormated, endDateFormated)
                                   .then((value) {
                                 setState(() {
                                   dataHetHan = value;
+                                  isloading = false;
                                   if (value.isEmpty) {
                                     checkdataEmpty = true;
                                   } else {
@@ -152,115 +158,125 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
             ),
           ),
         ),
-        body: Padding(
-            padding: const EdgeInsets.only(top: 7),
-            child: checkdataEmpty == true
-                ? const Center(child: Text("Không có dữ liệu"))
-                : Column(
-                    children: [
-                      dataHetHan.isNotEmpty
-                          ? CheckboxListTile(
-                              title: const Text("Chọn tất cả"),
-                              value: selectAll,
-                              activeColor: mainColor,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  selectAll = newValue!;
-                                  if (selectAll) {
-                                    selectedItemsHetHan.clear();
-                                    selectedItemsHetHan.addAll(dataHetHan);
-                                  } else {
-                                    selectedItemsHetHan.clear();
-                                  }
-                                });
-                              },
-                            )
-                          : const SizedBox(),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: dataHetHan.length,
-                          itemBuilder: (context, index) {
-                            final docdata = dataHetHan[index];
-                            String dateString = docdata["exp"];
-                            DateTime expirationDate =
-                                DateFormat('dd/MM/yyyy').parse(dateString);
-                            DateTime currentDate = DateTime.now();
-                            int daysRemaining =
-                                expirationDate.difference(currentDate).inDays;
-                            return Column(
-                              children: [
-                                CheckboxListTile(
-                                  title: Text(
-                                    "${docdata['tensanpham']} - ${docdata['gia']}",
-                                  ),
-                                  value: selectedItemsHetHan.contains(docdata),
-                                  onChanged: (bool? newValue) {
+        body: isloading == false
+            ? Padding(
+                padding: const EdgeInsets.only(top: 7),
+                child: checkdataEmpty == true
+                    ? const Center(child: Text("Không có dữ liệu"))
+                    : Column(
+                        children: [
+                          dataHetHan.isNotEmpty
+                              ? CheckboxListTile(
+                                  title: const Text("Chọn tất cả"),
+                                  value: selectAll,
+                                  activeColor: mainColor,
+                                  onChanged: (newValue) {
                                     setState(() {
-                                      if (newValue != null && newValue) {
-                                        selectedItemsHetHan.add(docdata);
+                                      selectAll = newValue!;
+                                      if (selectAll) {
+                                        selectedItemsHetHan.clear();
+                                        selectedItemsHetHan.addAll(dataHetHan);
                                       } else {
-                                        selectedItemsHetHan.remove(docdata);
-                                      }
-                                      if (selectedItemsHetHan.length ==
-                                          dataHetHan.length) {
-                                        selectAll = true;
-                                      } else {
-                                        selectAll = false;
+                                        selectedItemsHetHan.clear();
                                       }
                                     });
                                   },
-                                  activeColor: mainColor,
-                                  subtitle: Wrap(
-                                    crossAxisAlignment:
-                                        WrapCrossAlignment.center,
-                                    runSpacing: 5,
-                                    children: [
-                                      Text(
-                                        "${docdata["exp"]} - SL: ${docdata["soluong"]} - ${docdata["location"]}",
-                                        style: const TextStyle(fontSize: 14),
+                                )
+                              : const SizedBox(),
+                          Expanded(
+                            child: ListView.builder(
+                              itemCount: dataHetHan.length,
+                              itemBuilder: (context, index) {
+                                final docdata = dataHetHan[index];
+                                String dateString = docdata["exp"];
+                                DateTime expirationDate =
+                                    DateFormat('dd/MM/yyyy').parse(dateString);
+                                DateTime currentDate = DateTime.now();
+                                int daysRemaining = expirationDate
+                                        .difference(currentDate)
+                                        .inDays +
+                                    1;
+                                return Column(
+                                  children: [
+                                    CheckboxListTile(
+                                      title: Text(
+                                        "${docdata['tensanpham']} - ${formatCurrency(docdata['gia'])}",
                                       ),
-                                      const SizedBox(width: 5),
-                                      Container(
-                                        width: daysRemaining > 1000 ? 80 : 70,
-                                        height: 24,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            border: Border.all(
-                                                color: daysRemaining < 10
-                                                    ? mainColor
-                                                    : successColor),
-                                            color: whiteColor),
-                                        child: Center(
-                                          child: currentDate
-                                                  .isAfter(expirationDate)
-                                              ? const Text(
-                                                  "Hết hạn",
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: mainColor),
-                                                )
-                                              : Text(
-                                                  "$daysRemaining ngày",
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: daysRemaining < 10
-                                                          ? mainColor
-                                                          : successColor),
-                                                ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                PhanCachWidget.dotLine(context),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  )),
+                                      value:
+                                          selectedItemsHetHan.contains(docdata),
+                                      onChanged: (bool? newValue) {
+                                        setState(() {
+                                          if (newValue != null && newValue) {
+                                            selectedItemsHetHan.add(docdata);
+                                          } else {
+                                            selectedItemsHetHan.remove(docdata);
+                                          }
+                                          if (selectedItemsHetHan.length ==
+                                              dataHetHan.length) {
+                                            selectAll = true;
+                                          } else {
+                                            selectAll = false;
+                                          }
+                                        });
+                                      },
+                                      activeColor: mainColor,
+                                      subtitle: Wrap(
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
+                                        runSpacing: 5,
+                                        children: [
+                                          Text(
+                                            "${docdata["exp"]} - SL: ${docdata["soluong"]} - ${docdata["location"]}",
+                                            style:
+                                                const TextStyle(fontSize: 14),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          Container(
+                                            width:
+                                                daysRemaining > 1000 ? 80 : 70,
+                                            height: 24,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                border: Border.all(
+                                                    color: daysRemaining < 10
+                                                        ? mainColor
+                                                        : successColor),
+                                                color: whiteColor),
+                                            child: Center(
+                                              child: currentDate
+                                                      .isAfter(expirationDate)
+                                                  ? const Text(
+                                                      "Hết hạn",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: mainColor),
+                                                    )
+                                                  : Text(
+                                                      "$daysRemaining ngày",
+                                                      style: TextStyle(
+                                                          fontSize: 14,
+                                                          color: daysRemaining <
+                                                                  10
+                                                              ? mainColor
+                                                              : successColor),
+                                                    ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    PhanCachWidget.dotLine(context),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ))
+            : const Center(
+                child: CircularProgressIndicator(),
+              ),
         bottomNavigationBar: dataHetHan.isNotEmpty
             ? BottomAppBar(
                 height: 70,
@@ -280,7 +296,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                   : mainColor),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
-                                10), // giá trị này xác định bán kính bo tròn
+                                5), // giá trị này xác định bán kính bo tròn
                           ),
                         ),
                         onPressed: selectedItemsHetHan.isEmpty

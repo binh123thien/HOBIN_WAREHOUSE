@@ -59,7 +59,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
           generatedCode; // Gán mã code mới vào _maCodeController
     }
 
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
@@ -82,7 +82,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
@@ -298,7 +298,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
         title1: 'Thêm hàng hóa',
         title2: 'Lưu & thoát',
         onPressed1: () {
-          if (_formKey.currentState!.validate()) {
+          if (formKey.currentState!.validate()) {
             createHangHoa();
             controller.maCodeController.clear();
             controller.tenSanPhamController.clear();
@@ -317,7 +317,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
           }
         },
         onPressed2: () {
-          if (_formKey.currentState!.validate()) {
+          if (formKey.currentState!.validate()) {
             createHangHoa();
 
             //================xóa hình ảnh=====================
@@ -341,6 +341,8 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
 
 //tạo hàng hóa theo ma code
   createHangHoa() {
+    //đổi Rx thành List = .toList()
+    List<String> listDanhMuc = controllerDanhMuc.selectedDanhMuc.toList();
     var hanghoa = HangHoaModel(
         chuyendoi: 0,
         daban: 0,
@@ -356,7 +358,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
             0,
         phanloai: controller.phanloaiController.text,
         donvi: controller.donviController.text,
-        danhmuc: controllerDanhMuc.selectedDanhMuc,
+        danhmuc: listDanhMuc,
         photoGood: controllerImage.ImagePickedURLController.isNotEmpty
             ? controllerImage.ImagePickedURLController.last
             : "");

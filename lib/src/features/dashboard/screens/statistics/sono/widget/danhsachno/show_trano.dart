@@ -8,7 +8,6 @@ import '../../../../../../../repository/statistics_repository/no_repository.dart
 import '../../../../../../../utils/utils.dart';
 import '../../../../../../../utils/validate/formsoluong.dart';
 import '../../../../../../../utils/validate/validate.dart';
-import '../../../../../controllers/statistics/no_controlller.dart';
 import '../../../../../models/statistics/lichsutrano_model.dart';
 
 class ShowTraNo extends StatefulWidget {
@@ -29,7 +28,6 @@ class ShowTraNo extends StatefulWidget {
 
 class _ShowTraNoState extends State<ShowTraNo> {
   final controllerLSRepo = Get.put(LichSuTraNoRepository());
-  final controllerNo = Get.put(NoController());
   final controllerHistory = Get.put(HistoryRepository());
   final controllerNoRepo = Get.put(NoRepository());
   num trano = 0;
@@ -39,9 +37,8 @@ class _ShowTraNoState extends State<ShowTraNo> {
 
   Future<void> _onSaveButtonPressed() async {
     try {
-      trano = num.tryParse(controllerNo.traNoController.text) ?? 0;
+      trano = num.tryParse(_controller.value.text) ?? 0;
       // Lấy danh sách các documents trong collection NhapHang hoặc BanHang
-
       final alldonhang = await controllerHistory.loadAllDonXuatHangHoacNhapHang(
           widget.billType == "XuatHang" ? "XuatHang" : "NhapHang");
       final listNo = alldonhang.docs

@@ -38,7 +38,6 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(allHangHoa);
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
@@ -219,7 +218,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                               : mainColor),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
-                            10), // giá trị này xác định bán kính bo tròn
+                            5), // giá trị này xác định bán kính bo tròn
                       ),
                     ),
                     onPressed: selectedDoc != null

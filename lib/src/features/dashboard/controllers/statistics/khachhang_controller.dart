@@ -61,7 +61,7 @@ class KhachHangController extends GetxController {
           .doc(firebaseUser!.uid)
           .collection("History")
           .doc(firebaseUser.uid)
-          .collection("BanHang")
+          .collection("XuatHang")
           .doc(soHD)
           .collection("HoaDon")
           .get();
@@ -70,23 +70,23 @@ class KhachHangController extends GetxController {
       for (var item in querySnapshot.docs) {
         String? tenSanPham = item["tensanpham"];
         num soLuong = item["soluong"];
-        num giaBan = item["giaban"];
+        num giaBan = item["gia"];
 
         if (tenSanPham != null) {
           // Kiểm tra xem sản phẩm đã được thêm vào từ trước hay chưa.
           if (!sanPhamVaSoLuongVaGiaBan.containsKey(tenSanPham)) {
-            sanPhamVaSoLuongVaGiaBan[tenSanPham] = {"soLuong": 0, "giaBan": 0};
+            sanPhamVaSoLuongVaGiaBan[tenSanPham] = {"soLuong": 0, "gia": 0};
           }
           // Cập nhật giá trị cho sản phẩm.
           sanPhamVaSoLuongVaGiaBan[tenSanPham]!["soLuong"] += soLuong;
-          sanPhamVaSoLuongVaGiaBan[tenSanPham]!["giaBan"] = giaBan;
+          sanPhamVaSoLuongVaGiaBan[tenSanPham]!["gia"] = giaBan;
         }
       }
     }
 
     // Chuyển đổi Map thành List<dynamic> với dạng [{pepsitt: 3, giaBan: 90000.0}].
     List<dynamic> ketQua = sanPhamVaSoLuongVaGiaBan.entries
-        .map((e) => {e.key: e.value["soLuong"], "giaBan": e.value["giaBan"]})
+        .map((e) => {e.key: e.value["soLuong"], "gia": e.value["gia"]})
         .toList();
     // Sắp xếp kết quả theo giá trị "soLuong" giảm dần.
     ketQua.sort((a, b) => b.values.first.compareTo(a.values.first));

@@ -12,14 +12,14 @@ class CardDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final HistoryController controllerHistoryRepo = Get.find();
+    final controllerHistoryRepo = Get.put(HistoryController());
 
     return Obx(() {
       List<Map<String, dynamic>> expenses = [
         {
           "icon": const AssetImage(soluongtonkhoIcon),
           "title": "SL tồn kho",
-          "value": controllerHistoryRepo.soluongtonkho.value,
+          "value": controllerHistoryRepo.soluongtonkho.value.toInt(),
         },
         {
           "icon": const AssetImage(giatritonkhoIcon),

@@ -9,8 +9,9 @@ import '../../../../common_widgets/dialog/dialog.dart';
 import '../../../../constants/color.dart';
 import '../../../../repository/goods_repository/good_repository.dart';
 import '../add/widget/card_add_widget.dart';
-import 'widget/chitiethanghoa/card_chitiethanghoa.dart';
-import 'widget/chitiethanghoa/thongke_hanghoa.dart';
+import 'widget/chitiethanghoa/location_hanghoa_widget.dart';
+import 'widget/chitiethanghoa/thongtin_hanghoa_widget.dart';
+import 'widget/chitiethanghoa/thongke_hanghoa_widget.dart';
 
 class ChiTietHangHoaScreen extends StatefulWidget {
   final dynamic hanghoa;
@@ -22,11 +23,23 @@ class ChiTietHangHoaScreen extends StatefulWidget {
 
 class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
   final controllerGoodRepo = Get.put(GoodRepository());
-  late dynamic hanghoanew;
+  late dynamic hanghoa;
+
   @override
   void initState() {
     super.initState();
-    hanghoanew = widget.hanghoa;
+    hanghoa = widget.hanghoa;
+    //load location data
+    controllerGoodRepo.listLocationHangHoaSi.clear();
+    _getLocationData();
+  }
+
+  //load dữ liệu location hàng hóa Sỉ
+  Future<void> _getLocationData() async {
+    String macode = widget.hanghoa["macode"];
+    List<Map<String, dynamic>> locationData =
+        await controllerGoodRepo.getLocationData(macode);
+    controllerGoodRepo.listLocationHangHoaSi.addAll(locationData);
   }
 
   Future<void> _showOption() async {
@@ -37,7 +50,7 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
       builder: (BuildContext context) {
         final size = MediaQuery.of(context).size;
         return SizedBox(
-          height: hanghoanew["phanloai"] == "bán lẻ"
+          height: hanghoa["phanloai"] == "bán lẻ"
               ? size.height * 0.23
               : size.height * 0.3,
           child: Column(children: [
@@ -45,7 +58,7 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               padding: EdgeInsets.all(15.0),
               child: Text("Tùy chọn"),
             ),
-            hanghoanew["phanloai"] == "bán sỉ"
+            hanghoa["phanloai"] == "bán sỉ"
                 ? CardAdd(
                     icon: shareIcon,
                     title: "Phân phối",
@@ -65,20 +78,25 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               icon: editIcon,
               title: "Chỉnh sửa",
               onTap: () {
+                // đóng bottom sheet
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => ChinhSuaChiTietHangHoaScreen(
-                          updateChinhSuaHangHoa: hanghoanew)),
+                          updateChinhSuaHangHoa: hanghoa)),
                 ).then((value) {
+                  print(
+                      'value pop từ trang chỉnh sửa HH về trang chi tiết $value ');
+                  //xóa hình ảnh trong list tạm
                   if (value == true) {
                     setState(() {
-                      hanghoanew = hanghoanew;
+                      hanghoa = hanghoa;
                     });
+                    // else (set State thông tin Hang hoa vừa chỉnh sửa)
                   } else {
                     setState(() {
-                      hanghoanew = value;
+                      hanghoa = value;
                     });
                   }
                 });
@@ -90,13 +108,12 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               onTap: () {
                 MyDialog.showAlertDialog(
                     context, 'Xác nhận', 'Bạn muốn xóa hàng hóa này?', 0, () {
-                  controllerGoodRepo
-                      .deleteHangHoaByTen(hanghoanew["tensanpham"]);
+                  controllerGoodRepo.deleteHangHoaByTen(hanghoa["tensanpham"]);
 
                   //xóa hình ảnh của hàng hóa đó
-                  if (hanghoanew['photoGood'] != '') {
+                  if (hanghoa['photoGood'] != '') {
                     final imageRef = FirebaseStorage.instance
-                        .refFromURL(hanghoanew['photoGood']);
+                        .refFromURL(hanghoa['photoGood']);
                     //xóa hình ảnh qua path imageRef
                     FirebaseStorage.instance
                         .ref()
@@ -124,16 +141,18 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: whiteColor,
       appBar: AppBar(
+          elevation: 2,
           leading: IconButton(
               icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               }),
           title: const Text("Chi tiết hàng hóa",
               style: TextStyle(
                   fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
-          backgroundColor: backGroundColor,
+          backgroundColor: whiteColor,
           centerTitle: true,
           actions: [
             IconButton(
@@ -159,42 +178,31 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                   height: 100,
                   child: Card(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(15)),
                     elevation: 1,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: (hanghoanew is Map &&
-                              hanghoanew.containsKey("photoGood"))
-                          ? (hanghoanew["photoGood"].length == 0
-                              ? Image.asset(cameraIcon)
-                              : CachedNetworkImage(
-                                  imageUrl: hanghoanew["photoGood"].toString(),
-                                  width: 300,
-                                  height: 300,
-                                  fit: BoxFit.fill,
-                                ))
-                          : Container(), // Handle the case if the condition isn't met
-                    ),
+                    child: (hanghoa is Map && hanghoa.containsKey("photoGood"))
+                        ? (hanghoa["photoGood"].length == 0
+                            ? const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Image(image: AssetImage(hanghoaIcon)),
+                              )
+                            : CachedNetworkImage(
+                                imageUrl: hanghoa["photoGood"].toString(),
+                                width: 300,
+                                height: 300,
+                                fit: BoxFit.fill,
+                              ))
+                        : Container(),
                   ),
                 ),
               ),
               Text(
-                hanghoanew["tensanpham"],
+                hanghoa["tensanpham"],
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
-              ChiTietHangHoa(
-                macode: hanghoanew["macode"],
-                gianhap: hanghoanew["gianhap"],
-                giaban: hanghoanew["giaban"],
-                phanloai: hanghoanew["phanloai"],
-                donvi: hanghoanew["donvi"],
-                danhmuc: hanghoanew["danhmuc"],
-              ),
-              ThongKeHangHoa(
-                tonkho: hanghoanew["tonkho"],
-                daban: hanghoanew["daban"],
-                donvi: hanghoanew["donvi"],
-              )
+              ThongTinHangHoaWidget(hanghoa: hanghoa),
+              ThongKeHangHoaWidget(hanghoa: hanghoa),
+              LocationHangHoaWidget(hanghoa: hanghoa)
             ],
           ),
         ),

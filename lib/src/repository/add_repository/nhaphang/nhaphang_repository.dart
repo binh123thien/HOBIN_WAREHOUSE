@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../features/dashboard/models/themdonhang_model.dart';
 
@@ -35,6 +36,8 @@ class NhapHangRepository extends GetxController {
 
   Future<void> createExpired(List<Map<String, dynamic>> dataList) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
+    DateFormat inputFormat = DateFormat("dd-MM-yyyy");
+    DateFormat outputFormat = DateFormat("yyyy-MM-dd");
     final collection = _db
         .collection("Users")
         .doc(firebaseUser!.uid)
@@ -43,12 +46,16 @@ class NhapHangRepository extends GetxController {
         .collection("Expired");
     for (final data in dataList) {
       final expValue = data["exp"].replaceAll('/', '-');
+      // Chuyển đổi chuỗi thành đối tượng DateTime
+      DateTime date = inputFormat.parse(expValue);
+      // Chuyển đổi đối tượng DateTime thành chuỗi mới
+      String expNew = outputFormat.format(date);
 
       // Kiểm tra xem có tài liệu trên Firestore có trường 'exp' tương tự không
-      final queryExp = await collection.where("exp", isEqualTo: expValue).get();
+      final queryExp = await collection.where("exp", isEqualTo: expNew).get();
 
       if (queryExp.docs.isEmpty) {
-        await collection.doc(expValue).set({"exp": expValue});
+        await collection.doc(expValue).set({"exp": expNew});
       }
       final queryMacode = await collection
           .doc(expValue)
@@ -76,7 +83,8 @@ class NhapHangRepository extends GetxController {
         "gia": data["gia"],
         "location": data["location"],
         "tensanpham": data["tensanpham"],
-        "soluong": data["soluong"]
+        "soluong": data["soluong"],
+        "macode": data["macode"],
       };
 
       if (checkData.exists) {

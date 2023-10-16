@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/printting.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../common_widgets/snackbar/snackbar.dart';
@@ -194,7 +195,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                           backgroundColor: blueColor,
                           side: const BorderSide(color: blueColor),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
                         onPressed: () async {
@@ -229,6 +230,10 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                                 _isLoading = false;
                                 _isDataSubmitted = true;
                                 if (_isDataSubmitted) {
+                                  controllerHistoryRepo.hoaDonPDFControler
+                                      .clear();
+                                  controllerHistoryRepo.hoaDonPDFControler
+                                      .addAll(widget.allThongTinItemNhap);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

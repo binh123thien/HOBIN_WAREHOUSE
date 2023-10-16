@@ -19,7 +19,10 @@ class CardHangHoa extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Container(
-        color: whiteColor,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: darkColor.withOpacity(0.3)),
+            color: whiteColor),
         child: ListTile(
           onTap: onTapChiTietHangHoa,
           leading: hanghoa["photoGood"].isEmpty

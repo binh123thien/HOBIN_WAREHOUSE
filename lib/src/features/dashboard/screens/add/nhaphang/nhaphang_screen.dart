@@ -71,6 +71,17 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
   void _selectDate() {
     DateTime now = DateTime.now();
     showDatePicker(
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: blueColor,
+            colorScheme: const ColorScheme.light(primary: blueColor),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
       context: context,
       initialDate: now,
       firstDate: now,

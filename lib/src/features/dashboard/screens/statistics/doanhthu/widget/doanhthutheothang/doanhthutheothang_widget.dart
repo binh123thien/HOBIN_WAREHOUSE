@@ -25,7 +25,7 @@ class DoanhThuTheoThangWidget extends StatelessWidget {
           ngay: doanhthutheothang[0]["datetime"],
           tongdoanhthu: doanhthutheothang[0]["doanhthu"],
           thanhcong: doanhthutheothang[0]["thanhcong"],
-          title: 'Thâng này',
+          title: 'Tháng này',
           dangcho: doanhthutheothang[0]["dangcho"],
           huy: doanhthutheothang[0]["huy"],
           week: '',

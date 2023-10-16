@@ -30,7 +30,7 @@ class _TabbarSoNoWidgetState extends State<TabbarSoNoWidget>
     return DefaultTabController(
       length: 3,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppBar(
             elevation: 4,
@@ -48,7 +48,7 @@ class _TabbarSoNoWidgetState extends State<TabbarSoNoWidget>
                   text: "Lịch sử trả nợ",
                 ),
               ],
-              indicatorColor: mainColor,
+              indicatorColor: Colors.black,
               labelColor: darkColor,
               indicatorSize: TabBarIndicatorSize.tab,
               isScrollable: false,

@@ -71,7 +71,7 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
           AppBar(
             elevation: 0,
             automaticallyImplyLeading: false,
-            backgroundColor: backGroundColor,
+            backgroundColor: whiteColor,
             title: const TabBar(
               tabs: [
                 Tab(
@@ -81,7 +81,7 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
                   text: "Phân loại",
                 ),
               ],
-              indicatorColor: mainColor,
+              indicatorColor: Colors.black,
               labelColor: darkColor,
               indicatorSize: TabBarIndicatorSize.tab,
               isScrollable: false,

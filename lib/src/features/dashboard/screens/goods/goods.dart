@@ -91,8 +91,9 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: backGroundColor,
+        backgroundColor: whiteColor,
         appBar: AppBar(
+          elevation: 2,
           title: const Text("Hàng Hóa",
               style: TextStyle(
                   fontSize: 18,
@@ -138,7 +139,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                       ),
                     ],
                     labelStyle: TextStyle(fontSize: 16),
-                    indicatorColor: Colors.pink,
+                    indicatorColor: Colors.black,
                     labelColor: darkColor,
                     isScrollable: false,
                   ),
@@ -173,10 +174,12 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                                             ChiTietHangHoaScreen(
                                                 hanghoa: hanghoa)),
                                   ).then((_) {
-                                    setState(() {
-                                      allHangHoa = controllerAllHangHoa
-                                          .allHangHoaFireBase;
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        allHangHoa = controllerAllHangHoa
+                                            .allHangHoaFireBase;
+                                      });
+                                    }
                                   });
                                 },
                               );
@@ -210,10 +213,13 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                                             ChiTietHangHoaScreen(
                                                 hanghoa: hanghoa)),
                                   ).then((_) {
-                                    setState(() {
-                                      allHangHoa = controllerAllHangHoa
-                                          .allHangHoaFireBase;
-                                    });
+                                    //chỉnh lại sau khi sửa chi tiết hàng hóa (pop value)
+                                    if (mounted) {
+                                      setState(() {
+                                        allHangHoa = controllerAllHangHoa
+                                            .allHangHoaFireBase;
+                                      });
+                                    }
                                   });
                                 },
                               );

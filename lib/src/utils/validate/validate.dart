@@ -108,7 +108,7 @@ String? nonBeyondSi(String? value, int amountSi) {
   } else if (value.startsWith('0')) {
     return 'Số đầu tiên không thể là 0';
   } else if (int.tryParse(value)! > amountSi) {
-    return 'Số lượng hàng cần chuyển đổi lớn hơn tồn kho';
+    return 'Số lượng chuyển đổi > số lượng của vị trí';
   }
   return null;
 }

@@ -61,7 +61,37 @@ class HistoryRepository extends GetxController {
       final docsByMonthly = docsByMonth.values.toList();
       return docsByMonthly;
     } catch (e) {
-      print(' catch history repo $e');
+      return [];
+    }
+  }
+
+  Future<List<List<DocumentSnapshot>>> getDocsByMonthlyXuatHangHoacHetHan(
+      String collectionName, String userID, String billType) async {
+    try {
+      final QuerySnapshot snapshot = await firestore
+          .collection("Users")
+          .doc(userID)
+          .collection("History")
+          .doc(userID)
+          .collection(collectionName)
+          .where("billType", isEqualTo: billType)
+          // add this line to sort by 'soHD'
+          .get();
+      final reversedDocs = snapshot.docs.reversed;
+      // Group documents by month
+      final Map<String, List<DocumentSnapshot>> docsByMonth = {};
+      for (final doc in reversedDocs) {
+        final month = doc['ngaytao'].split('/')[1];
+        if (!docsByMonth.containsKey(month)) {
+          docsByMonth[month] = [doc];
+        } else {
+          docsByMonth[month]!.add(doc);
+          // print('map theo tháng 08: list $docsByMonth');
+        }
+      }
+      final docsByMonthly = docsByMonth.values.toList();
+      return docsByMonthly;
+    } catch (e) {
       return [];
     }
   }
@@ -74,7 +104,7 @@ class HistoryRepository extends GetxController {
           .doc(userID)
           .collection("History")
           .doc(userID)
-          .collection("BanHang")
+          .collection("XuatHang")
           .where('trangthai', isEqualTo: phanloai)
           .get();
       final QuerySnapshot snapshot2 = await firestore
@@ -99,17 +129,7 @@ class HistoryRepository extends GetxController {
           docsByMonth[month]!.add(doc);
         }
       }
-
-      // // Sort document groups by month
-      // DateTime parseDateTime(String dateTimeStr) {
-      //   final dateFormat = DateFormat('yyMMdd-hhMMss');
-      //   return dateFormat.parse(dateTimeStr);
-      // }
-
       final docsByMonthly = docsByMonth.values.toList();
-      // docsByMonthly.sort((a, b) => parseDateTime(b.first['soHD'])
-      //     .compareTo(parseDateTime(a.first['soHD'])));
-
       return docsByMonthly;
     } catch (e) {
       return [];

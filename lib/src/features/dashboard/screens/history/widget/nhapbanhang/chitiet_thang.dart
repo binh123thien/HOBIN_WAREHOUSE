@@ -28,14 +28,12 @@ class ChitietThang extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Chip(
-                backgroundColor: whiteColor,
+                backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
-                  side: const BorderSide(
-                      color: mainColor, width: 1.5), // Màu và độ dày của viền
                 ),
                 label: Text(
-                  phanbietNhapHangBanHang == "BanHang"
+                  phanbietNhapHangBanHang == "XuatHang"
                       ? "Tổng thu: ${formatCurrency(doanhThuMonthlyTotal)}"
                       : "Tổng chi: ${formatCurrency(doanhThuMonthlyTotal)}",
                   style: const TextStyle(
@@ -44,14 +42,12 @@ class ChitietThang extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Chip(
-                backgroundColor: whiteColor,
+                backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
-                  side: const BorderSide(
-                      color: mainColor, width: 1.5), // Màu và độ dày của viền
                 ),
                 label: Text(
-                  phanbietNhapHangBanHang == "BanHang"
+                  phanbietNhapHangBanHang == "XuatHang"
                       ? "Đã bán: $soluongMonthlyTotal"
                       : "Đã nhập: $soluongMonthlyTotal",
                   style: const TextStyle(
@@ -60,11 +56,9 @@ class ChitietThang extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Chip(
-                backgroundColor: whiteColor,
+                backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
-                  side: const BorderSide(
-                      color: mainColor, width: 1.5), // Màu và độ dày của viền
                 ),
                 label: Text(
                   "Đơn hàng: $soLuongDonHangMonthlyTotal",

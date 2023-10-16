@@ -33,7 +33,8 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
   Future<void> _fetchData() async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     await controller
-        .getDocsByMonthly('BanHang', firebaseUser!.uid)
+        .getDocsByMonthlyXuatHangHoacHetHan(
+            'XuatHang', firebaseUser!.uid, "XuatHang")
         .then((value) {
       if (_isMounted) {
         setState(() {
@@ -49,7 +50,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
       searchHistory: widget.searchHistory,
       controller: controller,
       docsByMonth: docsByMonthly,
-      snapshotCollection: 'BanHang',
+      snapshotCollection: 'XuatHang',
     );
   }
 }

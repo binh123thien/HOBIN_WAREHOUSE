@@ -1,17 +1,19 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/firebase_api.dart';
 import 'package:hobin_warehouse/firebase_options.dart';
 import 'package:hobin_warehouse/splash_screen.dart';
 import 'package:hobin_warehouse/src/repository/authentication_repository/authentication_repository.dart';
 import 'package:hobin_warehouse/src/utils/theme/theme.dart';
 
-void main() {
+Future<void> main() async {
   // Future.delayed(const Duration(seconds: 2), () {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
   // });
+  await FirebaseAPI().initNotification();
   runApp(const MyApp());
 }
 
