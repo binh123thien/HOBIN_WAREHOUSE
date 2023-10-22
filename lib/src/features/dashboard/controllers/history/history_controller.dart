@@ -1,14 +1,21 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
+import '../../../../common_widgets/snackbar/toast.dart';
+import '../../../../repository/add_repository/nhaphang/nhaphang_repository.dart';
+import '../../../../repository/add_repository/xuathang/xuathang_repository.dart';
+import '../../../../repository/history_repository/hethan_history_repository.dart';
 import '../../../../repository/history_repository/history_repository.dart';
 import '../add/chonhanghoa_controller.dart';
 
 class HistoryController extends GetxController {
   static HistoryController get instance => Get.find();
   final controllerHistoryRepo = Get.put(HistoryRepository());
+  final controllerNhapHangRepo = Get.put(NhapHangRepository());
+  final controllerXuatHangRepo = Get.put(XuatHangRepository());
+  final controllerHetHanHistoryRepo = Get.put(HetHanHistoryRepository());
   final controller = Get.put(ChonHangHoaController());
   List<dynamic> docHangThang = [].obs;
+  List<dynamic> sanPhamTrongHoaDon = [].obs;
   RxDouble tongNhapHang = 0.0.obs;
   RxDouble tongBanHang = 0.0.obs;
   RxDouble soluongtonkho = 0.0.obs;
@@ -42,6 +49,43 @@ class HistoryController extends GetxController {
       final double gtritonkho = controller.allHangHoaFireBase
           .fold(0, (sum, item) => sum + item['gianhap'] * item['tonkho']);
       giatritonkho.value = gtritonkho;
+    });
+  }
+
+  findHoaDon(String soHD, String billType, num doanhthu, String datetime,
+      String trangthai) async {
+    await controllerHistoryRepo
+        .getAllSanPhamTrongHoaDon(
+            soHD,
+            billType == "HetHan" || billType == "XuatHang"
+                ? "XuatHang"
+                : "NhapHang")
+        .listen((snapshot) async {
+      List<dynamic> sanPhamTrongHoaDon =
+          snapshot.docs.map((doc) => doc.data()).toList();
+      if (sanPhamTrongHoaDon.isEmpty) {
+        ToastWidget.showToast("Lỗi sản phẩm không có trong kho");
+      }
+      if (billType == "HetHan") {
+        //tra hang lai kho
+        await controllerNhapHangRepo.createHangHoaExpired(sanPhamTrongHoaDon);
+        //tăng giá trị tồn kho
+        await controllerNhapHangRepo
+            .capNhatGiaTriTonKhoNhapHang(sanPhamTrongHoaDon);
+        //giam gia tri đã bán
+        await controllerXuatHangRepo.giamGiaTriDaBan(sanPhamTrongHoaDon);
+        // cập nhật ngày hết hạn
+        await controllerNhapHangRepo.createExpired(sanPhamTrongHoaDon);
+        //tinh tong doanh thu
+        await controllerXuatHangRepo.truTongDoanhThuNgay(
+            datetime, doanhthu, trangthai);
+        await controllerXuatHangRepo.truTongDoanhThuTuan(
+            datetime, doanhthu, trangthai);
+        await controllerXuatHangRepo.truTongDoanhThuThang(
+            datetime, doanhthu, trangthai);
+        //cap nhat trang thai don hang
+        await controllerHetHanHistoryRepo.updateTrangThaiHuy(billType, soHD);
+      }
     });
   }
 }

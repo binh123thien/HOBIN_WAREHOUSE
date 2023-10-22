@@ -92,6 +92,7 @@ class _ChiTietHoaDonScreenState extends State<ChiTietHoaDonScreen> {
                 tongtien: widget.donnhaphang.tongthanhtoan,
                 paymentSelected: widget.donnhaphang.payment,
                 khachhang: widget.donnhaphang.khachhang,
+                trangthai: widget.donnhaphang.trangthai,
               ),
               PhanCachWidget.space(),
               widget.phanbietNhapXuat == "NhapHang" ||

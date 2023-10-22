@@ -14,7 +14,9 @@ class TieuDeChiTietDonHang extends StatelessWidget {
     required this.no,
     required this.khachhang,
     required this.billType,
+    required this.trangthai,
   });
+  final String trangthai;
   final String khachhang;
   final num no;
   final num tongtien;
@@ -54,11 +56,13 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        billType == "XuatHang"
+                        billType == "XuatHang" && trangthai != "Hủy"
                             ? "Xuất Hàng thành công"
-                            : billType == "NhapHang"
+                            : billType == "NhapHang" && trangthai != "Hủy"
                                 ? "Nhập hàng thành công"
-                                : "Xuất kho hết hạn thành công",
+                                : trangthai == "Hủy"
+                                    ? "Đơn hàng đã bị hủy"
+                                    : "Xuất kho hết hạn thành công",
                         style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w700)),
                     Text(
@@ -87,27 +91,38 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                        color: no == 0 ? successColor : processColor),
-                    color: whiteColor,
-                  ),
-                  width: 95,
-                  height: 28,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: no == 0
-                        ? const Text(
-                            "Thành công",
-                            style: TextStyle(fontSize: 14, color: successColor),
-                          )
-                        : const Text(
-                            "Đang chờ",
-                            style: TextStyle(fontSize: 14, color: processColor),
-                          ),
-                  ),
-                )
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                          color: trangthai == "Thành công"
+                              ? successColor
+                              : trangthai == "Đang chờ"
+                                  ? processColor
+                                  : cancel600Color),
+                      color: whiteColor,
+                    ),
+                    width: 95,
+                    height: 28,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: trangthai == "Thành công"
+                          ? const Text(
+                              "Thành công",
+                              style:
+                                  TextStyle(fontSize: 14, color: successColor),
+                            )
+                          : trangthai == "Đang chờ"
+                              ? const Text(
+                                  "Đang chờ",
+                                  style: TextStyle(
+                                      fontSize: 14, color: processColor),
+                                )
+                              : const Text(
+                                  "Hủy",
+                                  style: TextStyle(
+                                      fontSize: 14, color: cancel600Color),
+                                ),
+                    ))
               ],
             ),
             const SizedBox(height: 10),

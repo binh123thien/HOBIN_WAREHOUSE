@@ -118,7 +118,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                         billType: 'HetHan',
                         datetime: datetime,
                       );
-                      _performDataProcessing(context, donhethan).then(
+                      handleXuatKho(context, donhethan).then(
                         (value) {
                           setState(() {
                             _isLoading = false;
@@ -166,7 +166,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
     );
   }
 
-  Future<void> _performDataProcessing(
+  Future<void> handleXuatKho(
       BuildContext context, ThemDonHangModel donnhaphang) async {
     try {
       //tao don het han

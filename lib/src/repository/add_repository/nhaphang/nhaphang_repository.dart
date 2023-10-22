@@ -34,7 +34,7 @@ class NhapHangRepository extends GetxController {
     }
   }
 
-  Future<void> createExpired(List<Map<String, dynamic>> dataList) async {
+  Future<void> createExpired(List<dynamic> dataList) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     DateFormat inputFormat = DateFormat("dd-MM-yyyy");
     DateFormat outputFormat = DateFormat("yyyy-MM-dd");
@@ -106,8 +106,7 @@ class NhapHangRepository extends GetxController {
     }
   }
 
-  Future<void> createHangHoaExpired(
-      List<Map<String, dynamic>> allThongTinItemNhap) async {
+  Future<void> createHangHoaExpired(List<dynamic> allThongTinItemNhap) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final collection = _db
         .collection("Users")
@@ -163,7 +162,7 @@ class NhapHangRepository extends GetxController {
   }
 
   Future<void> capNhatGiaTriTonKhoNhapHang(
-      List<Map<String, dynamic>> allThongTinItemNhap) async {
+      List<dynamic> allThongTinItemNhap) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final collection = _db
         .collection("Users")
