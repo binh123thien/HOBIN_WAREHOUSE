@@ -315,5 +315,6 @@ Future<void> sharePDF(chitietTT, BuildContext context) async {
     await createPDFPage(context),
   );
   final bytes = await pdf.save();
-  await Printing.sharePdf(bytes: bytes, filename: 'bill.pdf');
+  await Printing.sharePdf(
+      bytes: bytes, filename: 'Bill_${chitietTT['soHD']}.pdf');
 }

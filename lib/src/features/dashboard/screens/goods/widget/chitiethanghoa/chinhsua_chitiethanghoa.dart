@@ -163,6 +163,7 @@ class _ChinhSuaChiTietHangHoaScreenState
                       },
                       controller: controller.tenSanPhamController,
                       decoration: const InputDecoration(
+                          enabled: false,
                           errorStyle: TextStyle(fontSize: 15),
                           border: UnderlineInputBorder(),
                           focusedBorder: UnderlineInputBorder(

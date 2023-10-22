@@ -298,10 +298,20 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                         hangHoaLeLocation)
                                     .toList();
                             if (filteredLocationsLe.isNotEmpty) {
-                              // Đã tìm thấy phần tử
-                              foundLocationLe = filteredLocationsLe.first;
-                              // print(
-                              //     'if Đã tìm thấy location: $foundLocationLe');
+                              filteredLocationsLe = filteredLocationsLe
+                                  .where((expMap) =>
+                                      expMap['exp'] ==
+                                      widget.locationSiGanNhat['exp'])
+                                  .toList();
+                              if (filteredLocationsLe.isNotEmpty) {
+                                foundLocationLe = filteredLocationsLe.first;
+                              } else {
+                                foundLocationLe = {
+                                  'exp': widget.locationSiGanNhat['exp'],
+                                  'location': hangHoaLeLocation,
+                                  'soluong': 0,
+                                };
+                              }
                             } else {
                               // Không tìm thấy
                               foundLocationLe = {
@@ -309,8 +319,6 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                 'location': hangHoaLeLocation,
                                 'soluong': 0,
                               };
-                              // print(
-                              //     'else Không tìm thấy location "$hangHoaLeLocation"');
                             }
 
                             if (formKey.currentState!.validate()) {
