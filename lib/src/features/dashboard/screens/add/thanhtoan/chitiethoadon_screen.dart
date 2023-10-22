@@ -27,6 +27,13 @@ class ChiTietHoaDonScreen extends StatefulWidget {
 
 class _ChiTietHoaDonScreenState extends State<ChiTietHoaDonScreen> {
   @override
+  void initState() {
+    super.initState();
+    controllerHistoryRepo.hoaDonPDFControler.clear();
+    controllerHistoryRepo.fetchSanPhamTrongTable(widget.donnhaphang.toJson());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {

@@ -9,6 +9,21 @@ class HistoryRepository extends GetxController {
   //chi tiet thanh toan
   List<dynamic> chitietTThoaDonPDFControler = [];
 
+  Future<void> fetchSanPhamTrongTable(mapBill) async {
+    final Stream<QuerySnapshot<Map<String, dynamic>>> sanPhamTable;
+    sanPhamTable =
+        getAllSanPhamTrongHoaDon(mapBill['soHD'], mapBill['billType']);
+    sanPhamTable.listen((QuerySnapshot querySnapshot) {
+      for (var document in querySnapshot.docs) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        hoaDonPDFControler.add(data);
+        print('list table trong fetchSanPhamTrongTable $hoaDonPDFControler');
+      }
+    }, onError: (error) {
+      print('Error: $error');
+    });
+  }
+
   getAllDonBanHangHoacNhapHang(String collectionBanHangHoacNhapHang) {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final getAllDonBanHang = FirebaseFirestore.instance

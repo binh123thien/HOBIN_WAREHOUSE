@@ -23,6 +23,13 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
   final controllerHistoryRepo = Get.put(HistoryRepository());
 
   @override
+  void initState() {
+    super.initState();
+    controllerHistoryRepo.hoaDonPDFControler.clear();
+    controllerHistoryRepo.fetchSanPhamTrongTable(widget.doc);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
