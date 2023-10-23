@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/snackbar/toast.dart';
 import 'package:intl/intl.dart';
 
 import '../../../features/dashboard/models/themdonhang_model.dart';
+import '../../history_repository/hethan_history_repository.dart';
+import '../xuathang/xuathang_repository.dart';
 
 class NhapHangRepository extends GetxController {
   final _db = FirebaseFirestore.instance;
+  final controllerXuatHangRepo = Get.put(XuatHangRepository());
+  final controllerHetHanHistoryRepo = Get.put(HetHanHistoryRepository());
 
   createHoaDonNhapHang(ThemDonHangModel hoadonnhaphang,
       List<Map<String, dynamic>> allThongTinItemXuat) async {
@@ -95,7 +100,7 @@ class NhapHangRepository extends GetxController {
         dataToUpdate["soluong"] = existingSoluong + additionalSoluong;
       }
 
-// Sử dụng `set` hoặc `update` để cập nhật dữ liệu
+      // Sử dụng `set` hoặc `update` để cập nhật dữ liệu
       await collection
           .doc(expValue)
           .collection("masanpham")
@@ -188,6 +193,102 @@ class NhapHangRepository extends GetxController {
         // Cập nhật giá trị tonkho
         await collection.doc(docSnapshot.id).update({"tonkho": tonkhoMoi});
       }
+    }
+  }
+
+  //======================Huy Don=========================
+//tra hang lai kho
+  Future<void> xuatkhoNhapHangHangHoaExpired(
+      List<dynamic> allThongTinItemNhap, String soHD, String billType) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collection = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa");
+    for (var doc in allThongTinItemNhap) {
+      final expValue = doc["exp"].replaceAll('/', '-');
+      final checkLocation = await collection
+          .doc(doc["macode"])
+          .collection("Exp")
+          .doc(expValue)
+          .collection("location")
+          .where("location", isEqualTo: doc["location"])
+          .get();
+      if (checkLocation.docs.isEmpty) {
+        ToastWidget.showToast("Lỗi! Sản phẩm không còn trong kho!");
+        break;
+      } else //neu trong kho không đủ số
+      if (checkLocation.docs.first.data()["soluong"] < doc["soluong"]) {
+        ToastWidget.showToast("Lỗi! Sản phẩm trong kho không đủ để xuất!");
+        break;
+      } else //neu trong kho bằng với đơn hàng cần hủy thì delete
+      if (checkLocation.docs.first.data()["soluong"] == doc["soluong"]) {
+        // Xóa tài liệu hiện tại
+        await collection
+            .doc(doc["macode"])
+            .collection("Exp")
+            .doc(expValue)
+            .collection("location")
+            .doc(checkLocation.docs.first.id)
+            .delete()
+            .then((_) async {
+          //check length doc Exp, leng empty thi xoa doc Exp
+          final checkExpLength =
+              collection.doc(doc["macode"]).collection("Exp");
+          final expDocs = await checkExpLength.get();
+          if (expDocs.docs.isEmpty) {
+            // Nếu danh sách tài liệu trong collection "location" rỗng, thì xóa "doc["macode"]"
+            await checkExpLength
+                .doc(doc["macode"])
+                .collection("Exp")
+                .doc(expValue)
+                .delete();
+          }
+        }).then((_) {
+          handleXuatKhoNhapHang(allThongTinItemNhap, soHD, billType).then((_) {
+            ToastWidget.showToast("Hủy đơn thành công!");
+          });
+        });
+      } else {
+        // Nếu dữ liệu đã tồn tại, thực hiện giảm giá trị "soluong"
+        await FirebaseFirestore.instance.runTransaction((transaction) async {
+          final existingDoc = checkLocation.docs.first;
+          final existingSoluong = existingDoc.data()["soluong"];
+          final newSoluong = existingSoluong - doc["soluong"];
+          // Cập nhật giá trị mới của "soluong" trong tài liệu
+          transaction.update(existingDoc.reference, {"soluong": newSoluong});
+        }).then((_) {
+          handleXuatKhoNhapHang(allThongTinItemNhap, soHD, billType).then((_) {
+            ToastWidget.showToast("Hủy đơn thành công!");
+          });
+        });
+      }
+    }
+  }
+
+  Future<void> handleXuatKhoNhapHang(
+      List<dynamic> allThongTinItemNhap, String soHD, String billType) async {
+    //giảm giá trị tồn kho
+    await controllerXuatHangRepo
+        .capNhatGiaTriTonKhoXuatHang(allThongTinItemNhap);
+    //cap nhat trang thai don hang
+    await controllerHetHanHistoryRepo.updateTrangThaiHuy(billType, soHD);
+    await controllerXuatHangRepo.updateExpired(allThongTinItemNhap);
+  }
+
+  Future<void> nhapkhoXuatHangHangHoaExpired(
+      List<dynamic> allThongTinItemNhap, String soHD, String billType) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collection = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa");
+    for (var doc in allThongTinItemNhap) {
+      final expValue = doc["exp"].replaceAll('/', '-');
     }
   }
 }

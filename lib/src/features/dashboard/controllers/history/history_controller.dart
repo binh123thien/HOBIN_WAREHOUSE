@@ -67,6 +67,8 @@ class HistoryController extends GetxController {
         ToastWidget.showToast("Lỗi sản phẩm không có trong kho");
       }
       if (billType == "HetHan") {
+        // cập nhật ngày hết hạn
+        await controllerNhapHangRepo.createExpired(sanPhamTrongHoaDon);
         //tra hang lai kho
         await controllerNhapHangRepo.createHangHoaExpired(sanPhamTrongHoaDon);
         //tăng giá trị tồn kho
@@ -74,8 +76,7 @@ class HistoryController extends GetxController {
             .capNhatGiaTriTonKhoNhapHang(sanPhamTrongHoaDon);
         //giam gia tri đã bán
         await controllerXuatHangRepo.giamGiaTriDaBan(sanPhamTrongHoaDon);
-        // cập nhật ngày hết hạn
-        await controllerNhapHangRepo.createExpired(sanPhamTrongHoaDon);
+
         //tinh tong doanh thu
         await controllerXuatHangRepo.truTongDoanhThuNgay(
             datetime, doanhthu, trangthai);
@@ -85,6 +86,16 @@ class HistoryController extends GetxController {
             datetime, doanhthu, trangthai);
         //cap nhat trang thai don hang
         await controllerHetHanHistoryRepo.updateTrangThaiHuy(billType, soHD);
+      } else if (billType == "NhapHang") {
+        //xuat kho và tính lại tồn kho & update trạng thái hủy
+        await controllerNhapHangRepo.xuatkhoNhapHangHangHoaExpired(
+            sanPhamTrongHoaDon, soHD, billType);
+      } else if (billType == "XuatHang") {
+        print(sanPhamTrongHoaDon);
+        // cập nhật ngày hết hạn
+        await controllerHetHanHistoryRepo
+            .createHuyDonExpired(sanPhamTrongHoaDon);
+        //
       }
     });
   }

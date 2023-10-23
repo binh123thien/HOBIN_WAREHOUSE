@@ -97,8 +97,7 @@ class XuatHangRepository extends GetxController {
     }
   }
 
-  Future<void> updateExpired(
-      List<Map<String, dynamic>> allThongTinItemXuat) async {
+  Future<void> updateExpired(List<dynamic> allThongTinItemXuat) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final collectionExpired = _db
         .collection("Users")
@@ -177,7 +176,7 @@ class XuatHangRepository extends GetxController {
   }
 
   Future<void> capNhatGiaTriTonKhoXuatHang(
-      List<Map<String, dynamic>> allThongTinItemNhap) async {
+      List<dynamic> allThongTinItemNhap) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final collection = FirebaseFirestore.instance
         .collection("Users")
