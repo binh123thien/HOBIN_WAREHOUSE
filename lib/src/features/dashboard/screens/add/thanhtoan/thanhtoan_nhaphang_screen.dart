@@ -115,14 +115,16 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
               style: const TextStyle(fontSize: 18, color: Colors.black)),
           backgroundColor: whiteColor,
           leading: IconButton(
-              icon: const Image(
-                image: AssetImage(backIcon),
-                height: 17,
-                color: Colors.black,
+              icon: Image(
+                image: const AssetImage(backIcon),
+                height: 15,
+                color: _isLoading == false ? Colors.black : greyColor,
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
+              onPressed: _isLoading == false
+                  ? () {
+                      Navigator.of(context).pop();
+                    }
+                  : null),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
