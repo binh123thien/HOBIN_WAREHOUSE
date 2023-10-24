@@ -8,7 +8,9 @@ import '../../../controllers/statistics/khachhang_controller.dart';
 import '../../Widget/appbar/search_widget.dart';
 
 class ChooseKhachHangThanhToanScreen extends StatefulWidget {
-  const ChooseKhachHangThanhToanScreen({super.key});
+  final String phanbietnhapxuat;
+  const ChooseKhachHangThanhToanScreen(
+      {super.key, required this.phanbietnhapxuat});
 
   @override
   State<ChooseKhachHangThanhToanScreen> createState() =>
@@ -19,11 +21,23 @@ class _ChooseKhachHangThanhToanScreenState
     extends State<ChooseKhachHangThanhToanScreen> {
   String searchKhachHang = "";
   final controllerKhachHang = Get.put(KhachHangController());
+  List<dynamic> allKhachHangtam = [];
   List<dynamic> allKhachHang = [];
   @override
   void initState() {
     controllerKhachHang.loadAllKhachHang();
-    allKhachHang = controllerKhachHang.allKhachHangFirebase;
+    allKhachHangtam = controllerKhachHang.allKhachHangFirebase;
+    if (widget.phanbietnhapxuat == "nhaphang") {
+      allKhachHang = allKhachHangtam
+          .where((element) => element["loai"] == "Nhà cung cấp")
+          .toList();
+    } else if (widget.phanbietnhapxuat == "xuathang") {
+      allKhachHang = allKhachHangtam
+          .where((element) => element["loai"] == "Khách hàng")
+          .toList();
+    } else {
+      allKhachHang = allKhachHangtam.toList();
+    }
     super.initState();
   }
 
@@ -33,8 +47,11 @@ class _ChooseKhachHangThanhToanScreenState
       backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 1,
-        title: const Text("Nhà Cung Cấp",
-            style: TextStyle(fontSize: 18, color: Colors.black)),
+        title: Text(
+            widget.phanbietnhapxuat == "nhaphang"
+                ? "Chọn nhà Cung Cấp"
+                : "Chọn khách hàng",
+            style: const TextStyle(fontSize: 18, color: Colors.black)),
         backgroundColor: whiteColor,
         leading: IconButton(
             icon: const Image(

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
@@ -36,6 +38,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
   late dynamic updatehanghoaSi;
   late dynamic updatehanghoaLe;
   bool isLocationLeLoaded = false;
+  late TextEditingController textEditsoLuongLe;
+  late TextEditingController textEditsoLuongSi;
 
   String hangHoaLeLocation = '';
   bool _isLoading = false; // Sử dụng biến này để kiểm soát hiển thị loading
@@ -44,16 +48,16 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
     super.initState();
     updatehanghoaSi = widget.hanghoaSi;
     updatehanghoaLe = widget.hanghoaLe;
+    // TextFeild Controller lấy dữ liệu từ TextForm
+    textEditsoLuongLe = TextEditingController(
+        text: widget.hanghoaSi['chuyendoi'] != 0
+            ? widget.hanghoaSi['chuyendoi'].toString()
+            : '');
+    textEditsoLuongSi = TextEditingController();
   }
 
   @override
   Widget build(BuildContext context) {
-    // TextFeild Controller lấy dữ liệu từ TextForm
-    final textEditsoLuongLe = TextEditingController(
-        text: updatehanghoaSi['chuyendoi'] != 0
-            ? updatehanghoaSi['chuyendoi'].toString()
-            : '');
-    final textEditsoLuongSi = TextEditingController();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
@@ -297,11 +301,28 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                         locationMap['location'] ==
                                         hangHoaLeLocation)
                                     .toList();
+
                             if (filteredLocationsLe.isNotEmpty) {
-                              // Đã tìm thấy phần tử
-                              foundLocationLe = filteredLocationsLe.first;
-                              // print(
-                              //     'if Đã tìm thấy location: $foundLocationLe');
+                              bool isExpMatched = false;
+
+                              for (int i = 0;
+                                  i < filteredLocationsLe.length;
+                                  i++) {
+                                if (filteredLocationsLe[i]['exp'] ==
+                                    widget.locationSiGanNhat['exp']) {
+                                  // Đã tìm thấy phần tử
+                                  foundLocationLe = filteredLocationsLe[i];
+                                  if (!isExpMatched) {
+                                    isExpMatched = true;
+                                  }
+                                } else {
+                                  foundLocationLe = {
+                                    'exp': widget.locationSiGanNhat['exp'],
+                                    'location': hangHoaLeLocation,
+                                    'soluong': 0,
+                                  };
+                                }
+                              }
                             } else {
                               // Không tìm thấy
                               foundLocationLe = {
@@ -309,8 +330,8 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
                                 'location': hangHoaLeLocation,
                                 'soluong': 0,
                               };
-                              // print(
-                              //     'else Không tìm thấy location "$hangHoaLeLocation"');
+                              print(
+                                  'else Không tìm thấy location "$hangHoaLeLocation"');
                             }
 
                             if (formKey.currentState!.validate()) {
@@ -356,8 +377,7 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
   ) async {
     String dateTao = formatNgaytao();
     // nhận giá trị chuyendoiLe trả về
-    await controllerHangHoa
-        .calculate(
+    int giaTriChuyenDoiLe = await controllerHangHoa.calculate(
       dateTao,
       int.parse(textEditsoLuongLe.text),
       int.parse(textEditsoLuongSi.text),
@@ -365,23 +385,31 @@ class _ChonHangHoaLeScreenState extends State<ChonHangHoaLeScreen>
       updatehanghoaLe,
       widget.locationSiGanNhat,
       foundLocationLe,
-    )
-        .then((giaTriChuyenDoiLe) {
-      Navigator.push(
-        context,
-        PageTransition(
-          type: PageTransitionType.rightToLeft,
-          child: DonePhanPhoiScreen(
-            locationSi: widget.locationSiGanNhat,
-            locationLe: foundLocationLe,
-            dateTao: dateTao,
-            updatehanghoaSi: updatehanghoaSi,
-            updatehanghoaLe: updatehanghoaLe,
-            chuyendoiLe: giaTriChuyenDoiLe,
-            chuyendoiSi: int.parse(textEditsoLuongSi.text.toString()),
-          ),
+    );
+
+    Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.rightToLeft,
+        child: DonePhanPhoiScreen(
+          locationSi: widget.locationSiGanNhat,
+          locationLe: foundLocationLe,
+          dateTao: dateTao,
+          updatehanghoaSi: updatehanghoaSi,
+          updatehanghoaLe: updatehanghoaLe,
+          chuyendoiLe: giaTriChuyenDoiLe,
+          chuyendoiSi: int.parse(textEditsoLuongSi.text.toString()),
         ),
-      );
-    });
+      ),
+    );
+
+    if (widget.locationSiGanNhat['soluong'] -
+            int.parse(textEditsoLuongSi.text.toString()) ==
+        0) {
+      Future.delayed(const Duration(seconds: 5), () {
+        controllerHangHoa.deleteSlLocation(
+            widget.locationSiGanNhat, updatehanghoaSi);
+      });
+    }
   }
 }

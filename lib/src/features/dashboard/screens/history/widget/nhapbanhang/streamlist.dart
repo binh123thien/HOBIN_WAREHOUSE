@@ -5,7 +5,7 @@ import '../../../../../../repository/history_repository/history_repository.dart'
 import '../card_history.dart';
 import 'chitiet_thang.dart';
 
-class StreamList extends StatelessWidget {
+class StreamList extends StatefulWidget {
   final String searchHistory;
   const StreamList({
     super.key,
@@ -19,22 +19,27 @@ class StreamList extends StatelessWidget {
   final List<List<DocumentSnapshot<Object?>>> _docsByMonth;
 
   @override
+  State<StreamList> createState() => _StreamListState();
+}
+
+class _StreamListState extends State<StreamList> {
+  @override
   Widget build(BuildContext context) {
     //list được chia theo tháng
-    List<List<dynamic>> filteredItemsByMonth = _docsByMonth.map((month) {
+    List<List<dynamic>> filteredItemsByMonth = widget._docsByMonth.map((month) {
       List<dynamic> items = month.where((item) {
         final soHDMatch = item["soHD"]
             .toString()
             .toLowerCase()
-            .contains(searchHistory.toLowerCase());
+            .contains(widget.searchHistory.toLowerCase());
         final tenKhachHangMatch = item["khachhang"]
             .toString()
             .toLowerCase()
-            .contains(searchHistory.toLowerCase());
+            .contains(widget.searchHistory.toLowerCase());
         final ngaytaoMatch = item["ngaytao"]
             .toString()
             .toLowerCase()
-            .contains(searchHistory.toLowerCase());
+            .contains(widget.searchHistory.toLowerCase());
         return soHDMatch || tenKhachHangMatch || ngaytaoMatch;
       }).toList();
       return items;
@@ -44,7 +49,8 @@ class StreamList extends StatelessWidget {
       color: whiteColor,
       height: size.height - kToolbarHeight - 180,
       child: StreamBuilder<QuerySnapshot>(
-          stream: controller.getAllDonBanHangHoacNhapHang(snapshotCollection),
+          stream: widget.controller
+              .getAllDonBanHangHoacNhapHang(widget.snapshotCollection),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -55,18 +61,22 @@ class StreamList extends StatelessWidget {
               return ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: _docsByMonth.length,
+                itemCount: widget._docsByMonth.length,
                 itemBuilder: ((BuildContext context, int index) {
                   final docs = filteredItemsByMonth[index];
                   if (docs.isNotEmpty) {
                     final month = docs.first['ngaytao'].split('/')[1];
                     final year = docs.first['ngaytao'].split('/')[2];
                     // Tính tổng tongthanhtoan theo tháng
-                    final doanhThuMonthlyTotal = docs.fold<num>(
-                        0, (prev, curr) => prev + curr['tongthanhtoan']);
-                    final soluongMonthlyTotal = docs.fold<num>(
-                        0, (prev, curr) => prev + curr['tongsl']);
-                    final soLuongDonHangMonthlyTotal = docs.length;
+                    final doanhThuMonthlyTotal = docs
+                        .where((doc) => doc['trangthai'] != "Hủy")
+                        .fold<num>(
+                            0, (prev, curr) => prev + curr['tongthanhtoan']);
+                    final soluongMonthlyTotal = docs
+                        .where((doc) => doc['trangthai'] != "Hủy")
+                        .fold<num>(0, (prev, curr) => prev + curr['tongsl']);
+                    final soLuongDonHangMonthlyTotal =
+                        docs.where((doc) => doc['trangthai'] != "Hủy").length;
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       color: whiteColor,
@@ -96,7 +106,8 @@ class StreamList extends StatelessWidget {
                                   soluongMonthlyTotal: soluongMonthlyTotal,
                                   soLuongDonHangMonthlyTotal:
                                       soLuongDonHangMonthlyTotal,
-                                  phanbietNhapHangBanHang: snapshotCollection,
+                                  phanbietNhapHangBanHang:
+                                      widget.snapshotCollection,
                                 ),
                               ],
                             ),

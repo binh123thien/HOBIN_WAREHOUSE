@@ -115,14 +115,16 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
               style: const TextStyle(fontSize: 18, color: Colors.black)),
           backgroundColor: whiteColor,
           leading: IconButton(
-              icon: const Image(
-                image: AssetImage(backIcon),
-                height: 17,
-                color: Colors.black,
+              icon: Image(
+                image: const AssetImage(backIcon),
+                height: 15,
+                color: _isLoading == false ? Colors.black : greyColor,
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
+              onPressed: _isLoading == false
+                  ? () {
+                      Navigator.of(context).pop();
+                    }
+                  : null),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
@@ -224,7 +226,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                             datetime: datetime,
                           );
 
-                          _performDataProcessing(context, donnhaphang).then(
+                          handleThanhToanNhapHang(donnhaphang).then(
                             (value) {
                               setState(() {
                                 _isLoading = false;
@@ -276,8 +278,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
         ));
   }
 
-  Future<void> _performDataProcessing(
-      BuildContext context, ThemDonHangModel donnhaphang) async {
+  Future<void> handleThanhToanNhapHang(ThemDonHangModel donnhaphang) async {
     try {
       //tao don nhap hang
       await controllerNhapHangRepo.createHoaDonNhapHang(

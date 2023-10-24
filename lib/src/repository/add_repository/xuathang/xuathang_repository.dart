@@ -97,8 +97,7 @@ class XuatHangRepository extends GetxController {
     }
   }
 
-  Future<void> updateExpired(
-      List<Map<String, dynamic>> allThongTinItemXuat) async {
+  Future<void> updateExpired(List<dynamic> allThongTinItemXuat) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final collectionExpired = _db
         .collection("Users")
@@ -132,6 +131,43 @@ class XuatHangRepository extends GetxController {
             await queryExp.reference
                 .update({"soluong": soLuongFirebase - soluongtronglist});
           }
+        }
+      }
+    }
+  }
+
+  Future<void> updateExpiredXuatKhoNhapHang(
+      List<dynamic> allThongTinItemXuat) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collectionExpired = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("Expired");
+    for (var doc in allThongTinItemXuat) {
+      final expValue = doc["exp"].replaceAll('/', '-');
+      final queryExp = await collectionExpired
+          .doc(expValue)
+          .collection("masanpham")
+          .doc(doc["macode"])
+          .collection("location")
+          .doc(doc["location"])
+          .get();
+
+      if (queryExp.exists) {
+        // Lấy dữ liệu từ tài liệu hiện tại
+        final existingData = queryExp.data() as Map<String, dynamic>;
+        final soLuongFirebase = existingData["soluong"] ?? 0;
+        final soluongtronglist = doc["soluong"] ?? 0;
+
+        if (soLuongFirebase == soluongtronglist) {
+          // Xóa tài liệu hiện tại
+          await queryExp.reference.delete();
+        } else if (soLuongFirebase > soluongtronglist) {
+          // Cập nhật trường "soluong" của tài liệu hiện tại
+          await queryExp.reference
+              .update({"soluong": soLuongFirebase - soluongtronglist});
         }
       }
     }
@@ -177,7 +213,7 @@ class XuatHangRepository extends GetxController {
   }
 
   Future<void> capNhatGiaTriTonKhoXuatHang(
-      List<Map<String, dynamic>> allThongTinItemNhap) async {
+      List<dynamic> allThongTinItemNhap) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final collection = FirebaseFirestore.instance
         .collection("Users")
@@ -231,6 +267,36 @@ class XuatHangRepository extends GetxController {
 
         // Tính giá trị tồn kho mới
         num dabanMoi = dabanHienTai + soluong;
+
+        // Cập nhật giá trị tonkho
+        await collection.doc(macode).update({"daban": dabanMoi});
+      }
+    }
+  }
+
+  Future<void> giamGiaTriDaBan(List<dynamic> allThongTinItemNhap) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collection = FirebaseFirestore.instance
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("HangHoa");
+
+    for (var doc in allThongTinItemNhap) {
+      String macode = doc["macode"];
+      num soluong = doc["soluong"];
+
+      // Lấy tài liệu từ Firestore
+      DocumentSnapshot querySnapshot = await collection.doc(macode).get();
+
+      if (querySnapshot.exists) {
+        final existingData = querySnapshot.data() as Map<String, dynamic>;
+        // Lấy giá trị tồn kho hiện tại từ Firebase
+        num dabanHienTai = existingData["daban"];
+
+        // Tính giá trị tồn kho mới
+        num dabanMoi = dabanHienTai - soluong;
 
         // Cập nhật giá trị tonkho
         await collection.doc(macode).update({"daban": dabanMoi});
@@ -394,6 +460,153 @@ class XuatHangRepository extends GetxController {
         'thanhcong': no == 0 ? 1 : 0,
         'dangcho': no > 0 ? 1 : 0,
         'huy': 0,
+        'month': getTuanFromDate(ngay, "month"),
+      });
+    }
+  }
+
+  //============================trừ doanh thu===========================
+  Future<void> truTongDoanhThuNgay(
+      String ngay, num doanhthu, String trangthai) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final docRef = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("TongDoanhThu")
+        .doc(firebaseUser.uid)
+        .collection("HangNgay")
+        .doc(ngay);
+
+    final docSnapshot = await docRef.get();
+
+    if (docSnapshot.exists) {
+      // Nếu tài liệu đã tồn tại, cộng trường doanhthu lại
+      final existingDoanhThu = docSnapshot.data()?['doanhthu'] ?? 0;
+      final newDoanhThu = existingDoanhThu - doanhthu;
+
+      await docRef.update({'doanhthu': newDoanhThu});
+
+      if (trangthai == "Thành công") {
+        await docRef.update({
+          'thanhcong': FieldValue.increment(-1),
+          'huy': FieldValue.increment(1)
+        });
+      } else if (trangthai == "Đang chờ") {
+        await docRef.update({
+          'dangcho': FieldValue.increment(-1),
+          'huy': FieldValue.increment(1)
+        });
+      }
+    } else {
+      // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
+      await docRef.set({
+        'datetime': ngay,
+        'doanhthu': -doanhthu,
+        'thanhcong': 0,
+        'dangcho': 0,
+        'huy': 1,
+        'day': getTuanFromDate(ngay, "day"),
+      });
+    }
+  }
+
+  Future<void> truTongDoanhThuTuan(
+      String ngay, num doanhthu, String trangthai) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final docRef = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("TongDoanhThu")
+        .doc(firebaseUser.uid)
+        .collection("HangTuan");
+
+    final tuanNgay = getTuanFromDate(ngay, "datetime");
+
+    final docSnapshot = await docRef.doc(tuanNgay).get();
+
+    if (docSnapshot.exists) {
+      // Nếu tài liệu đã tồn tại, cộng trường doanhthu lại
+      final existingDoanhThu = docSnapshot.data()?['doanhthu'] ?? 0;
+      final newDoanhThu = existingDoanhThu - doanhthu;
+
+      await docRef.doc(tuanNgay).update({'doanhthu': newDoanhThu});
+
+      if (trangthai == "Thành công") {
+        await docRef.doc(tuanNgay).update({
+          'thanhcong': FieldValue.increment(-1),
+          'huy': FieldValue.increment(1)
+        });
+      } else if (trangthai == "Đang chờ") {
+        await docRef.doc(tuanNgay).update({
+          'dangcho': FieldValue.increment(-1),
+          'huy': FieldValue.increment(1)
+        });
+      }
+    } else {
+      // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
+      await docRef.doc(tuanNgay).set({
+        'datetime': tuanNgay,
+        'doanhthu': -doanhthu,
+        'thanhcong': 0,
+        'dangcho': 0,
+        'huy': 1,
+        'week': getTuanFromDate(ngay, "week"),
+      });
+    }
+  }
+
+  Future<void> truTongDoanhThuThang(
+      String ngay, num doanhthu, String trangthai) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final dateFormat = DateFormat("dd-MM-yyyy");
+    final date = dateFormat.parse(ngay);
+
+    // Tạo ra định dạng chuỗi "Tháng MM-yyyy" từ ngày cho trước
+    final monthFormat = DateFormat("'Tháng' MM-yyyy");
+    final monthString = monthFormat.format(date);
+
+    final docRef = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("History")
+        .doc(firebaseUser.uid)
+        .collection("TongDoanhThu")
+        .doc(firebaseUser.uid)
+        .collection("HangThang")
+        .doc(monthString);
+
+    final docSnapshot = await docRef.get();
+
+    if (docSnapshot.exists) {
+      // Nếu tài liệu đã tồn tại, cộng trường doanhthu lại
+      final existingDoanhThu = docSnapshot.data()?['doanhthu'] ?? 0;
+      final newDoanhThu = existingDoanhThu - doanhthu;
+
+      await docRef.update({'doanhthu': newDoanhThu});
+
+      if (trangthai == "Thành công") {
+        await docRef.update({
+          'thanhcong': FieldValue.increment(-1),
+          'huy': FieldValue.increment(1)
+        });
+      } else if (trangthai == "Đang chờ") {
+        await docRef.update({
+          'dangcho': FieldValue.increment(-1),
+          'huy': FieldValue.increment(1)
+        });
+      }
+    } else {
+      // Nếu tài liệu chưa tồn tại, tạo mới tài liệu với trường doanhthu và các trường khác
+      await docRef.set({
+        'datetime': monthString,
+        'doanhthu': -doanhthu,
+        'thanhcong': 0,
+        'dangcho': 0,
+        'huy': 1,
         'month': getTuanFromDate(ngay, "month"),
       });
     }

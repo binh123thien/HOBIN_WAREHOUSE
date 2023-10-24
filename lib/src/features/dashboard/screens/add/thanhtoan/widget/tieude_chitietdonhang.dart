@@ -14,7 +14,9 @@ class TieuDeChiTietDonHang extends StatelessWidget {
     required this.no,
     required this.khachhang,
     required this.billType,
+    required this.trangthai,
   });
+  final String trangthai;
   final String khachhang;
   final num no;
   final num tongtien;
@@ -24,6 +26,54 @@ class TieuDeChiTietDonHang extends StatelessWidget {
   final String paymentSelected;
   @override
   Widget build(BuildContext context) {
+    handleIconTieuDe() {
+      //success
+      if (billType == "XuatHang" && trangthai == "Thành công") {
+        return xuathangIcon;
+      }
+      if (billType == "NhapHang" && trangthai == "Thành công") {
+        return nhaphangIcon;
+      }
+      if (billType == "HetHan" && trangthai == "Thành công") {
+        return hethanIcon;
+      }
+      //pending
+      if (trangthai == "Đang chờ") {
+        return dangchoIcon;
+      }
+      //cancel
+      if (trangthai == "Hủy") {
+        return huyIcon;
+      } else {
+        return xuathangIcon;
+      }
+    }
+
+    handleTextTieuDe() {
+      if (billType == "XuatHang" && trangthai != "Hủy") {
+        return "Xuất Hàng thành công";
+      }
+      if (billType == "NhapHang" && trangthai != "Hủy") {
+        return "Nhập hàng thành công";
+      }
+      if (trangthai == "Hủy") {
+        return "Đơn hàng đã bị hủy";
+      } else {
+        return "Đơn hàng không xác định";
+      }
+    }
+
+    handleColorPriceTieuDe() {
+      if (billType == "XuatHang" && trangthai != "Hủy") {
+        return success600Color;
+      }
+      if (billType == "NhapHang" && trangthai != "Hủy") {
+        return cancel600Color;
+      } else {
+        return mainColor;
+      }
+    }
+
     final size = MediaQuery.of(context).size;
     return Container(
       color: whiteColor,
@@ -39,13 +89,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                 SizedBox(
                   height: 45,
                   child: Image(
-                    image: AssetImage(billType == "XuatHang" && no == 0
-                        ? xuathangIcon
-                        : billType == "NhapHang" && no == 0
-                            ? nhaphangIcon
-                            : billType == "HetHan"
-                                ? hethanIcon
-                                : dangchoIcon),
+                    image: AssetImage(handleIconTieuDe()),
                     height: 45,
                   ),
                 ),
@@ -53,12 +97,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        billType == "XuatHang"
-                            ? "Xuất Hàng thành công"
-                            : billType == "NhapHang"
-                                ? "Nhập hàng thành công"
-                                : "Xuất kho hết hạn thành công",
+                    Text(handleTextTieuDe(),
                         style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w700)),
                     Text(
@@ -68,12 +107,7 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                         decimalDigits: 0,
                       ).format(tongtien),
                       style: TextStyle(
-                          fontSize: 17,
-                          color: billType == "XuatHang"
-                              ? success600Color
-                              : billType == "NhapHang"
-                                  ? cancel600Color
-                                  : mainColor),
+                          fontSize: 17, color: handleColorPriceTieuDe()),
                     ),
                   ],
                 )
@@ -87,27 +121,38 @@ class TieuDeChiTietDonHang extends StatelessWidget {
                     style:
                         TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
                 Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    border: Border.all(
-                        color: no == 0 ? successColor : processColor),
-                    color: whiteColor,
-                  ),
-                  width: 95,
-                  height: 28,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: no == 0
-                        ? const Text(
-                            "Thành công",
-                            style: TextStyle(fontSize: 14, color: successColor),
-                          )
-                        : const Text(
-                            "Đang chờ",
-                            style: TextStyle(fontSize: 14, color: processColor),
-                          ),
-                  ),
-                )
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                          color: trangthai == "Thành công"
+                              ? successColor
+                              : trangthai == "Đang chờ"
+                                  ? processColor
+                                  : cancel600Color),
+                      color: whiteColor,
+                    ),
+                    width: 95,
+                    height: 28,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: trangthai == "Thành công"
+                          ? const Text(
+                              "Thành công",
+                              style:
+                                  TextStyle(fontSize: 14, color: successColor),
+                            )
+                          : trangthai == "Đang chờ"
+                              ? const Text(
+                                  "Đang chờ",
+                                  style: TextStyle(
+                                      fontSize: 14, color: processColor),
+                                )
+                              : const Text(
+                                  "Hủy",
+                                  style: TextStyle(
+                                      fontSize: 14, color: cancel600Color),
+                                ),
+                    ))
               ],
             ),
             const SizedBox(height: 10),

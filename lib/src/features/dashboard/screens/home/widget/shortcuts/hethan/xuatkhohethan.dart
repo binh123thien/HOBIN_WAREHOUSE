@@ -40,6 +40,14 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
         title: const Text("Xuất kho hết hạn",
             style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700)),
         backgroundColor: mainColor,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back,
+                size: 30, color: _isLoading == false ? darkColor : greyColor),
+            onPressed: _isLoading == false
+                ? () {
+                    Navigator.of(context).pop();
+                  }
+                : null),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -118,7 +126,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                         billType: 'HetHan',
                         datetime: datetime,
                       );
-                      _performDataProcessing(context, donhethan).then(
+                      handleXuatKho(context, donhethan).then(
                         (value) {
                           setState(() {
                             _isLoading = false;
@@ -166,7 +174,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
     );
   }
 
-  Future<void> _performDataProcessing(
+  Future<void> handleXuatKho(
       BuildContext context, ThemDonHangModel donnhaphang) async {
     try {
       //tao don het han

@@ -46,8 +46,9 @@ class _HuyHistoryScreenState extends State<HuyHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamListHistoryPhanLoai(
-        searchHistory: widget.searchHistory,
-        controller: controller,
-        docsByMonth: docsByMonthly);
+      searchHistory: widget.searchHistory,
+      controller: controller,
+      docsByMonth: docsByMonthly,
+    );
   }
 }

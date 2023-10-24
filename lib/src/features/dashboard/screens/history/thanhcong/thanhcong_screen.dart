@@ -43,11 +43,16 @@ class _ThanhCongHistoryScreenState extends State<ThanhCongHistoryScreen> {
     });
   }
 
+  onReload() {
+    _fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamListHistoryPhanLoai(
-        searchHistory: widget.searchHistory,
-        controller: controller,
-        docsByMonth: docsByMonthly);
+      searchHistory: widget.searchHistory,
+      controller: controller,
+      docsByMonth: docsByMonthly,
+    );
   }
 }

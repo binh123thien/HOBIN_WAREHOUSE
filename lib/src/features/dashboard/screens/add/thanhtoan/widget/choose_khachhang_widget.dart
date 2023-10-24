@@ -27,7 +27,8 @@ class _ChooseKhachHangWidgetState extends State<ChooseKhachHangWidget> {
           context,
           PageTransition(
               type: PageTransitionType.rightToLeft,
-              child: const ChooseKhachHangThanhToanScreen()),
+              child: ChooseKhachHangThanhToanScreen(
+                  phanbietnhapxuat: widget.phanbietnhapxuat)),
         ).then((value) {
           if (value != null) {
             widget.reload(value);

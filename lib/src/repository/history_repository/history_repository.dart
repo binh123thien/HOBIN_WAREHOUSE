@@ -9,6 +9,21 @@ class HistoryRepository extends GetxController {
   //chi tiet thanh toan
   List<dynamic> chitietTThoaDonPDFControler = [];
 
+  Future<void> fetchSanPhamTrongTable(mapBill) async {
+    final Stream<QuerySnapshot<Map<String, dynamic>>> sanPhamTable;
+    sanPhamTable =
+        getAllSanPhamTrongHoaDon(mapBill['soHD'], mapBill['billType']);
+    sanPhamTable.listen((QuerySnapshot querySnapshot) {
+      for (var document in querySnapshot.docs) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+        hoaDonPDFControler.add(data);
+        print('list table trong fetchSanPhamTrongTable $hoaDonPDFControler');
+      }
+    }, onError: (error) {
+      print('Error: $error');
+    });
+  }
+
   getAllDonBanHangHoacNhapHang(String collectionBanHangHoacNhapHang) {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final getAllDonBanHang = FirebaseFirestore.instance
@@ -33,6 +48,27 @@ class HistoryRepository extends GetxController {
         .collection("HoaDon")
         .snapshots();
     return getAllSanPhamTrongHoaDon;
+  }
+
+  Future<QuerySnapshot> getHoaDonCollection(
+      String collectionBanHangHoacNhapHang, String docID) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(firebaseUser!.uid)
+          .collection("History")
+          .doc(firebaseUser.uid)
+          .collection(collectionBanHangHoacNhapHang)
+          .doc(docID)
+          .collection("HoaDon")
+          .get();
+
+      return querySnapshot;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
