@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
+import '../../../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../../../common_widgets/network/network.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../controllers/statistics/khachhang_controller.dart';
@@ -115,7 +117,18 @@ class _ListDanhSachNoState extends State<ListDanhSachNo> {
                           5), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
-                  onPressed: showTraNo,
+                  onPressed: () {
+                    NetWork.checkConnection().then((value) {
+                      if (value == "Not Connected") {
+                        MyDialog.showAlertDialogOneBtn(
+                            context,
+                            "Không có Internet",
+                            "Vui lòng kết nối internet và thử lại sau");
+                      } else {
+                        showTraNo;
+                      }
+                    });
+                  },
                   child: const Text(
                     'Trả nợ',
                     style: TextStyle(fontSize: 19),

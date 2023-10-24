@@ -6,7 +6,9 @@ import 'package:hobin_warehouse/src/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../../common_widgets/network/network.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../controllers/home/hethan_controller.dart';
 
@@ -302,13 +304,23 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                         onPressed: selectedItemsHetHan.isEmpty
                             ? null
                             : () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: XuatKhoHetHanScreen(
-                                            selectedItemsHetHan:
-                                                selectedItemsHetHan)));
+                                NetWork.checkConnection().then((value) {
+                                  if (value == "Not Connected") {
+                                    MyDialog.showAlertDialogOneBtn(
+                                        context,
+                                        "Không có Internet",
+                                        "Vui lòng kết nối internet và thử lại sau");
+                                  } else {
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: XuatKhoHetHanScreen(
+                                                selectedItemsHetHan:
+                                                    selectedItemsHetHan)));
+                                  }
+                                });
                               },
                         child: const Text(
                           'Xuất kho',

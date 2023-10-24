@@ -6,6 +6,8 @@ import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_ha
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/search_widget.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/card_hanghoa_widget.dart';
 import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
+import '../../../../common_widgets/dialog/dialog.dart';
+import '../../../../common_widgets/network/network.dart';
 import '../../controllers/add/chonhanghoa_controller.dart';
 import 'chitiethanghoa.dart';
 import 'widget/sorbyhanghoa/danhsach_sortby.dart';
@@ -232,14 +234,22 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(
-          onPressed: () async {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ThemGoodsScreen()),
-            ).then((_) {
-              setState(() {
-                allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
-              });
+          onPressed: () {
+            NetWork.checkConnection().then((value) {
+              if (value == "Not Connected") {
+                MyDialog.showAlertDialogOneBtn(context, "Không có Internet",
+                    "Vui lòng kết nối internet và thử lại sau");
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ThemGoodsScreen()),
+                ).then((_) {
+                  setState(() {
+                    allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
+                  });
+                });
+              }
             });
           },
           backgroundColor: mainColor,

@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/repository/history_repository/history_repository.dart';
+import '../../../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../../../common_widgets/network/network.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../repository/history_repository/lichsutrano_repository.dart';
 import '../../../../../../../repository/statistics_repository/no_repository.dart';
@@ -172,15 +174,25 @@ class _ShowTraNoState extends State<ShowTraNo> {
                         ),
                         onPressed: _controller.text.isNotEmpty
                             ? () {
-                                if (_formKey.currentState!.validate()) {
-                                  _onSaveButtonPressed().then((value) {
-                                    Navigator.of(context).pop(_controller.text);
-                                  });
-                                } else {
-                                  setState(() {
-                                    hasError = true; // Đặt trạng thái lỗi
-                                  });
-                                }
+                                NetWork.checkConnection().then((value) {
+                                  if (value == "Not Connected") {
+                                    MyDialog.showAlertDialogOneBtn(
+                                        context,
+                                        "Không có Internet",
+                                        "Vui lòng kết nối internet và thử lại sau");
+                                  } else {
+                                    if (_formKey.currentState!.validate()) {
+                                      _onSaveButtonPressed().then((value) {
+                                        Navigator.of(context)
+                                            .pop(_controller.text);
+                                      });
+                                    } else {
+                                      setState(() {
+                                        hasError = true; // Đặt trạng thái lỗi
+                                      });
+                                    }
+                                  }
+                                });
                               }
                             : null,
                         child: const Text(

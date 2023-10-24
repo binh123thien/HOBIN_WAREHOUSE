@@ -4,6 +4,7 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/khachhang/widget/chitietkhachhang/thongtin_khachhang.dart';
 
 import '../../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../../common_widgets/network/network.dart';
 import '../../../../../../repository/statistics_repository/khachhang_repository.dart';
 import 'chitietkhachhang/chinhsua_thongtinkhachhang.dart';
 
@@ -40,15 +41,22 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ChinhSuaThongTinKhachHangScreen(
-                          khachhang: khachhangCurrent)),
-                ).then((value) {
-                  setState(() {
-                    khachhangCurrent = value;
-                  });
+                NetWork.checkConnection().then((value) {
+                  if (value == "Not Connected") {
+                    MyDialog.showAlertDialogOneBtn(context, "Không có Internet",
+                        "Vui lòng kết nối internet và thử lại sau");
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChinhSuaThongTinKhachHangScreen(
+                              khachhang: khachhangCurrent)),
+                    ).then((value) {
+                      setState(() {
+                        khachhangCurrent = value;
+                      });
+                    });
+                  }
                 });
               },
               icon: const Icon(Icons.edit, color: darkColor)),
@@ -59,11 +67,20 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
                     'Xóa khách hàng!',
                     'Bạn có chắc chắn muốn xóa khách hàng?\n\nLưu ý: Khi xóa khách hàng tất cả dữ liệu của khách hàng sẽ mất.',
                     0, () {
-                  controller
-                      .deleteKhachHang(khachhangCurrent["maKH"])
-                      .then((value) {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                  NetWork.checkConnection().then((value) {
+                    if (value == "Not Connected") {
+                      MyDialog.showAlertDialogOneBtn(
+                          context,
+                          "Không có Internet",
+                          "Vui lòng kết nối internet và thử lại sau");
+                    } else {
+                      controller
+                          .deleteKhachHang(khachhangCurrent["maKH"])
+                          .then((value) {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      });
+                    }
                   });
                 });
               },
@@ -80,7 +97,7 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
                 height: 100,
                 child: Card(
                   shape: RoundedRectangleBorder(
-                      side: BorderSide(color: mainColor),
+                      side: const BorderSide(color: mainColor),
                       borderRadius: BorderRadius.circular(50)),
                   color: whiteColor,
                   child: Center(

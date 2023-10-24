@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import '../../../../../common_widgets/bottom_sheet_pdf.dart';
+import '../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../common_widgets/network/network.dart';
 import '../../../../../common_widgets/printting.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../repository/history_repository/history_repository.dart';
@@ -167,26 +169,35 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                   ),
                   onPressed: trangthai == "Hủy"
                       ? null
-                      : () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          await controllerHistory
-                              .handleHuyDon(
-                                  widget.doc["soHD"],
-                                  widget.doc["billType"],
-                                  widget.doc["tongthanhtoan"],
-                                  widget.doc["datetime"],
-                                  widget.doc["trangthai"])
-                              .then(
-                            (value) {
+                      : () {
+                          NetWork.checkConnection().then((value) async {
+                            if (value == "Not Connected") {
+                              MyDialog.showAlertDialogOneBtn(
+                                  context,
+                                  "Không có Internet",
+                                  "Vui lòng kết nối internet và thử lại sau");
+                            } else {
                               setState(() {
-                                isLoading = false;
-                                isHuy = true;
-                                trangthai = "Hủy";
+                                isLoading = true;
                               });
-                            },
-                          );
+                              await controllerHistory
+                                  .handleHuyDon(
+                                      widget.doc["soHD"],
+                                      widget.doc["billType"],
+                                      widget.doc["tongthanhtoan"],
+                                      widget.doc["datetime"],
+                                      widget.doc["trangthai"])
+                                  .then(
+                                (value) {
+                                  setState(() {
+                                    isLoading = false;
+                                    isHuy = true;
+                                    trangthai = "Hủy";
+                                  });
+                                },
+                              );
+                            }
+                          });
                         },
                   child: isLoading
                       ? const SizedBox(

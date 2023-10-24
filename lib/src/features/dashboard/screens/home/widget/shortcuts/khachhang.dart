@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
+import '../../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../../common_widgets/network/network.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../repository/statistics_repository/khachhang_repository.dart';
 import '../../../../controllers/statistics/khachhang_controller.dart';
@@ -105,12 +107,22 @@ class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
                     )),
                 IconButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ThemKhachHangScreen()),
-                      ).then((value) {
-                        setState(() {});
+                      NetWork.checkConnection().then((value) {
+                        if (value == "Not Connected") {
+                          MyDialog.showAlertDialogOneBtn(
+                              context,
+                              "Không có Internet",
+                              "Vui lòng kết nối internet và thử lại sau");
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ThemKhachHangScreen()),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        }
                       });
                     },
                     icon: const Image(

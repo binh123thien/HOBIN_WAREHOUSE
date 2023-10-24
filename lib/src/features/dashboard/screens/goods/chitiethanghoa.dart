@@ -6,6 +6,7 @@ import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/phanphoihanghoa.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/widget/chitiethanghoa/chinhsua_chitiethanghoa.dart';
 import '../../../../common_widgets/dialog/dialog.dart';
+import '../../../../common_widgets/network/network.dart';
 import '../../../../constants/color.dart';
 import '../../../../repository/goods_repository/good_repository.dart';
 import '../add/widget/card_add_widget.dart';
@@ -63,13 +64,22 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                     icon: shareIcon,
                     title: "Phân phối",
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PhanPhoiHangHoaScreen(
-                                hanghoaSi: widget.hanghoa)),
-                      ).then((_) {
-                        Navigator.pop(context); // Tắt showModalBottomSheet
+                      NetWork.checkConnection().then((value) {
+                        if (value == "Not Connected") {
+                          MyDialog.showAlertDialogOneBtn(
+                              context,
+                              "Không có Internet",
+                              "Vui lòng kết nối internet và thử lại sau");
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PhanPhoiHangHoaScreen(
+                                    hanghoaSi: widget.hanghoa)),
+                          ).then((_) {
+                            Navigator.pop(context); // Tắt showModalBottomSheet
+                          });
+                        }
                       });
                     },
                   )
@@ -78,25 +88,30 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               icon: editIcon,
               title: "Chỉnh sửa",
               onTap: () {
-                // đóng bottom sheet
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ChinhSuaChiTietHangHoaScreen(
-                          updateChinhSuaHangHoa: hanghoa)),
-                ).then((value) {
-                  print(
-                      'value pop từ trang chỉnh sửa HH về trang chi tiết $value ');
-                  //xóa hình ảnh trong list tạm
-                  if (value == true) {
-                    setState(() {
-                      hanghoa = hanghoa;
-                    });
-                    // else (set State thông tin Hang hoa vừa chỉnh sửa)
+                NetWork.checkConnection().then((value) {
+                  if (value == "Not Connected") {
+                    MyDialog.showAlertDialogOneBtn(context, "Không có Internet",
+                        "Vui lòng kết nối internet và thử lại sau");
                   } else {
-                    setState(() {
-                      hanghoa = value;
+                    // đóng bottom sheet
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChinhSuaChiTietHangHoaScreen(
+                              updateChinhSuaHangHoa: hanghoa)),
+                    ).then((value) {
+                      //xóa hình ảnh trong list tạm
+                      if (value == true) {
+                        setState(() {
+                          hanghoa = hanghoa;
+                        });
+                        // else (set State thông tin Hang hoa vừa chỉnh sửa)
+                      } else {
+                        setState(() {
+                          hanghoa = value;
+                        });
+                      }
                     });
                   }
                 });
@@ -106,28 +121,37 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               icon: deleteIcon,
               title: "Xóa",
               onTap: () {
-                MyDialog.showAlertDialog(
-                    context, 'Xác nhận', 'Bạn muốn xóa hàng hóa này?', 0, () {
-                  controllerGoodRepo.deleteHangHoaByTen(hanghoa["tensanpham"]);
+                NetWork.checkConnection().then((value) {
+                  if (value == "Not Connected") {
+                    MyDialog.showAlertDialogOneBtn(context, "Không có Internet",
+                        "Vui lòng kết nối internet và thử lại sau");
+                  } else {
+                    MyDialog.showAlertDialog(
+                        context, 'Xác nhận', 'Bạn muốn xóa hàng hóa này?', 0,
+                        () {
+                      controllerGoodRepo
+                          .deleteHangHoaByTen(hanghoa["tensanpham"]);
 
-                  //xóa hình ảnh của hàng hóa đó
-                  if (hanghoa['photoGood'] != '') {
-                    final imageRef = FirebaseStorage.instance
-                        .refFromURL(hanghoa['photoGood']);
-                    //xóa hình ảnh qua path imageRef
-                    FirebaseStorage.instance
-                        .ref()
-                        .child(imageRef.fullPath)
-                        .delete();
+                      //xóa hình ảnh của hàng hóa đó
+                      if (hanghoa['photoGood'] != '') {
+                        final imageRef = FirebaseStorage.instance
+                            .refFromURL(hanghoa['photoGood']);
+                        //xóa hình ảnh qua path imageRef
+                        FirebaseStorage.instance
+                            .ref()
+                            .child(imageRef.fullPath)
+                            .delete();
+                      }
+                      //===============end xóa hình=================
+                      //pop dialog
+                      Navigator.of(context).pop();
+                      //Chờ 1s để cập nhật dữ liệu trên db, sau đó pop trang chi tiết hàng hóa
+                      Future.delayed(const Duration(seconds: 1), () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      });
+                    });
                   }
-                  //===============end xóa hình=================
-                  //pop dialog
-                  Navigator.of(context).pop();
-                  //Chờ 1s để cập nhật dữ liệu trên db, sau đó pop trang chi tiết hàng hóa
-                  Future.delayed(const Duration(seconds: 1), () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  });
                 });
               },
             )

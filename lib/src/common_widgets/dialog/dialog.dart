@@ -14,16 +14,15 @@ class MyDialog {
           textTitle,
           style: TextStyle(
             color: phanBietNhapXuat == 0 ? mainColor : blueColor,
-            fontSize: 20,
+            fontSize: 17,
             fontWeight: FontWeight.w800,
           ),
         ),
         content: Container(
           width: MediaQuery.of(context).size.width, // set custom width
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Text(
             textContent,
-            style: const TextStyle(fontSize: 18),
+            style: const TextStyle(fontSize: 15),
           ),
         ),
         actions: [
