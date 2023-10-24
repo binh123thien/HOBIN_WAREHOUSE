@@ -25,6 +25,7 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
   final controllerHistory = Get.put(HistoryController());
   String trangthai = "";
   bool isLoading = false;
+  bool isHuy = false;
   @override
   void initState() {
     super.initState();
@@ -35,7 +36,6 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
 
   @override
   Widget build(BuildContext context) {
-    print(trangthai);
     final size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: whiteColor,
@@ -46,7 +46,7 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                   size: 30, color: isLoading == false ? darkColor : greyColor),
               onPressed: isLoading == false
                   ? () {
-                      Navigator.of(context).pop(trangthai);
+                      Navigator.of(context).pop(isHuy);
                     }
                   : null),
           title: const Text("Chi tiết đơn hàng",
@@ -182,6 +182,7 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                             (value) {
                               setState(() {
                                 isLoading = false;
+                                isHuy = true;
                                 trangthai = "Hủy";
                               });
                             },

@@ -28,7 +28,8 @@ class HistoryController extends GetxController {
       docHangThang = snapshot.docs.map((doc) => doc.data()).toList();
       List filteredDocs = docHangThang.where((doc) {
         DateTime datetime = DateFormat('dd-MM-yyyy').parse(doc['datetime']);
-        return datetime.month == DateTime.now().month;
+        return datetime.month == DateTime.now().month &&
+            doc['trangthai'] != "Hủy";
       }).toList();
 
       double totalTongTien = 0;

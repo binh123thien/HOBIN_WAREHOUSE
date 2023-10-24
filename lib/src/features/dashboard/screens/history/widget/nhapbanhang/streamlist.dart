@@ -68,11 +68,15 @@ class _StreamListState extends State<StreamList> {
                     final month = docs.first['ngaytao'].split('/')[1];
                     final year = docs.first['ngaytao'].split('/')[2];
                     // Tính tổng tongthanhtoan theo tháng
-                    final doanhThuMonthlyTotal = docs.fold<num>(
-                        0, (prev, curr) => prev + curr['tongthanhtoan']);
-                    final soluongMonthlyTotal = docs.fold<num>(
-                        0, (prev, curr) => prev + curr['tongsl']);
-                    final soLuongDonHangMonthlyTotal = docs.length;
+                    final doanhThuMonthlyTotal = docs
+                        .where((doc) => doc['trangthai'] != "Hủy")
+                        .fold<num>(
+                            0, (prev, curr) => prev + curr['tongthanhtoan']);
+                    final soluongMonthlyTotal = docs
+                        .where((doc) => doc['trangthai'] != "Hủy")
+                        .fold<num>(0, (prev, curr) => prev + curr['tongsl']);
+                    final soLuongDonHangMonthlyTotal =
+                        docs.where((doc) => doc['trangthai'] != "Hủy").length;
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       color: whiteColor,

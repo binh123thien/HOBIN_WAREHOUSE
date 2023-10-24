@@ -3,6 +3,7 @@ import 'package:hobin_warehouse/src/constants/icon.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../utils/utils.dart';
+import '../history_screen.dart';
 import 'chitiet_lichsu_donhang.dart';
 
 class CardHistory extends StatefulWidget {
@@ -74,8 +75,15 @@ class _CardHistoryState extends State<CardHistory> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ChiTietLichSuDonHang(doc: doc)),
-                  ).then((trangthai) {
-                    if (trangthai == "Hủy") {}
+                  ).then((isHuy) {
+                    if (isHuy) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HistoryScreen(),
+                        ),
+                      );
+                    }
                   });
                 },
                 child: ListTile(
