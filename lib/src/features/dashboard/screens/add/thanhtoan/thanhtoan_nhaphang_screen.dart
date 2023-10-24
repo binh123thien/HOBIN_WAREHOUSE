@@ -224,7 +224,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
                             datetime: datetime,
                           );
 
-                          _performDataProcessing(context, donnhaphang).then(
+                          handleThanhToanNhapHang(donnhaphang).then(
                             (value) {
                               setState(() {
                                 _isLoading = false;
@@ -276,8 +276,7 @@ class _ThanhToanScreenState extends State<ThanhToanScreen> {
         ));
   }
 
-  Future<void> _performDataProcessing(
-      BuildContext context, ThemDonHangModel donnhaphang) async {
+  Future<void> handleThanhToanNhapHang(ThemDonHangModel donnhaphang) async {
     try {
       //tao don nhap hang
       await controllerNhapHangRepo.createHoaDonNhapHang(

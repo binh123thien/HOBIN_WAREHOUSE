@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class HetHanHistoryRepository extends GetxController {
   static HetHanHistoryRepository get instance => Get.find();
   final _db = FirebaseFirestore.instance;
-  updateTrangThaiHuy(String billType, String soHD) async {
+  Future<void> updateTrangThaiHuy(String billType, String soHD) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
     final docRef = _db
         .collection("Users")

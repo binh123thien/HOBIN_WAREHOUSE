@@ -23,26 +23,32 @@ class ChiTietLichSuDonHang extends StatefulWidget {
 class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
   final controllerHistoryRepo = Get.put(HistoryRepository());
   final controllerHistory = Get.put(HistoryController());
-
+  String trangthai = "";
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
+    trangthai = widget.doc["trangthai"];
     controllerHistoryRepo.hoaDonPDFControler.clear();
     controllerHistoryRepo.fetchSanPhamTrongTable(widget.doc);
   }
 
   @override
   Widget build(BuildContext context) {
+    print(trangthai);
     final size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
           elevation: 2,
           leading: IconButton(
-              icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
+              icon: Icon(Icons.arrow_back,
+                  size: 30, color: isLoading == false ? darkColor : greyColor),
+              onPressed: isLoading == false
+                  ? () {
+                      Navigator.of(context).pop(trangthai);
+                    }
+                  : null),
           title: const Text("Chi tiết đơn hàng",
               style: TextStyle(
                   fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
@@ -84,7 +90,7 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                 paymentSelected: widget.doc["payment"],
                 khachhang: widget.doc["khachhang"],
                 billType: widget.doc["billType"],
-                trangthai: widget.doc["trangthai"],
+                trangthai: trangthai,
               ),
               PhanCachWidget.space(),
               SizedBox(
@@ -151,40 +157,52 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
                     backgroundColor: Colors.red,
-                    side: const BorderSide(color: Colors.red),
+                    side: BorderSide(
+                        color:
+                            trangthai == "Hủy" ? backGroundColor : Colors.red),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           5), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
-                  onPressed: () {
-                    handleHuyDon(
-                        context,
-                        widget.doc["soHD"],
-                        widget.doc["billType"],
-                        widget.doc["tongthanhtoan"],
-                        widget.doc["datetime"],
-                        widget.doc["trangthai"]);
-                  },
-                  child: const Text(
-                    'Hủy đơn',
-                    style: TextStyle(fontSize: 19),
-                  ),
+                  onPressed: trangthai == "Hủy"
+                      ? null
+                      : () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await controllerHistory
+                              .handleHuyDon(
+                                  widget.doc["soHD"],
+                                  widget.doc["billType"],
+                                  widget.doc["tongthanhtoan"],
+                                  widget.doc["datetime"],
+                                  widget.doc["trangthai"])
+                              .then(
+                            (value) {
+                              setState(() {
+                                isLoading = false;
+                                trangthai = "Hủy";
+                              });
+                            },
+                          );
+                        },
+                  child: isLoading
+                      ? const SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: CircularProgressIndicator(
+                            color: whiteColor,
+                          ),
+                        ) // Hiển thị tiến trình loading
+                      : const Text(
+                          'Hủy đơn',
+                          style: TextStyle(fontSize: 19),
+                        ),
                 ),
               ),
             ],
           ),
         ));
-  }
-
-  Future<void> handleHuyDon(BuildContext context, String soHD, String billType,
-      num doanhthu, String datetime, String trangthai) async {
-    try {
-      //tim document nhap hang hoac xuat hang dua vao billtype de lay doc
-      await controllerHistory.findHoaDon(
-          soHD, billType, doanhthu, datetime, trangthai);
-    } catch (e) {
-      // print("Error: $e");
-    }
   }
 }

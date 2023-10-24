@@ -46,6 +46,10 @@ class _HetHanHistoryScreenState extends State<HetHanHistoryScreen> {
     });
   }
 
+  onReload() {
+    _fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamList(

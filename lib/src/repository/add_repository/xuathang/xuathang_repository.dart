@@ -136,6 +136,43 @@ class XuatHangRepository extends GetxController {
     }
   }
 
+  Future<void> updateExpiredXuatKhoNhapHang(
+      List<dynamic> allThongTinItemXuat) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    final collectionExpired = _db
+        .collection("Users")
+        .doc(firebaseUser!.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("Expired");
+    for (var doc in allThongTinItemXuat) {
+      final expValue = doc["exp"].replaceAll('/', '-');
+      final queryExp = await collectionExpired
+          .doc(expValue)
+          .collection("masanpham")
+          .doc(doc["macode"])
+          .collection("location")
+          .doc(doc["location"])
+          .get();
+
+      if (queryExp.exists) {
+        // Lấy dữ liệu từ tài liệu hiện tại
+        final existingData = queryExp.data() as Map<String, dynamic>;
+        final soLuongFirebase = existingData["soluong"] ?? 0;
+        final soluongtronglist = doc["soluong"] ?? 0;
+
+        if (soLuongFirebase == soluongtronglist) {
+          // Xóa tài liệu hiện tại
+          await queryExp.reference.delete();
+        } else if (soLuongFirebase > soluongtronglist) {
+          // Cập nhật trường "soluong" của tài liệu hiện tại
+          await queryExp.reference
+              .update({"soluong": soLuongFirebase - soluongtronglist});
+        }
+      }
+    }
+  }
+
   Future<void> updateHangHoaExpired(
       List<Map<String, dynamic>> allThongTinItemXuat) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;

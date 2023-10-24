@@ -46,8 +46,9 @@ class _DangChoHistoryScreenState extends State<DangChoHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamListHistoryPhanLoai(
-        searchHistory: widget.searchHistory,
-        controller: controller,
-        docsByMonth: docsByMonthly);
+      searchHistory: widget.searchHistory,
+      controller: controller,
+      docsByMonth: docsByMonthly,
+    );
   }
 }

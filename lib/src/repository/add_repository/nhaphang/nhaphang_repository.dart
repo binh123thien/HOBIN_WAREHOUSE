@@ -275,7 +275,8 @@ class NhapHangRepository extends GetxController {
         .capNhatGiaTriTonKhoXuatHang(allThongTinItemNhap);
     //cap nhat trang thai don hang
     await controllerHetHanHistoryRepo.updateTrangThaiHuy(billType, soHD);
-    await controllerXuatHangRepo.updateExpired(allThongTinItemNhap);
+    await controllerXuatHangRepo
+        .updateExpiredXuatKhoNhapHang(allThongTinItemNhap);
   }
 
   Future<void> nhapkhoXuatHangHangHoaExpired(
@@ -288,7 +289,51 @@ class NhapHangRepository extends GetxController {
         .doc(firebaseUser.uid)
         .collection("HangHoa");
     for (var doc in allThongTinItemNhap) {
-      final expValue = doc["exp"].replaceAll('/', '-');
+      for (var locationAndexp in doc["locationAndexp"]) {
+        final expValue = locationAndexp["exp"].replaceAll('/', '-');
+        final queryExp = await collection
+            .doc(doc["macode"])
+            .collection("Exp")
+            .where("exp", isEqualTo: expValue)
+            .get();
+        if (queryExp.docs.isEmpty) {
+          await collection
+              .doc(doc["macode"])
+              .collection("Exp")
+              .doc(expValue)
+              .set({"exp": expValue});
+        }
+        final checkData = await collection
+            .doc(doc["macode"])
+            .collection("Exp")
+            .doc(expValue)
+            .collection("location")
+            .where("location", isEqualTo: locationAndexp["location"])
+            .get();
+        if (checkData.docs.isEmpty) {
+          await collection
+              .doc(doc["macode"])
+              .collection("Exp")
+              .doc(expValue)
+              .collection("location")
+              .doc(locationAndexp["location"])
+              .set({
+            "exp": locationAndexp["exp"],
+            "location": locationAndexp["location"],
+            "soluong": locationAndexp["soluong"]
+          });
+        } else {
+          // Nếu dữ liệu đã tồn tại, thực hiện tăng giá trị "soluong"
+          await FirebaseFirestore.instance.runTransaction((transaction) async {
+            final existingDoc = checkData.docs.first;
+            final existingSoluong = existingDoc.data()["soluong"];
+            final newSoluong = existingSoluong + locationAndexp["soluong"];
+
+            // Cập nhật giá trị mới của "soluong" trong tài liệu
+            transaction.update(existingDoc.reference, {"soluong": newSoluong});
+          });
+        }
+      }
     }
   }
 }

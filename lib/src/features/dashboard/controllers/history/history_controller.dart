@@ -52,51 +52,82 @@ class HistoryController extends GetxController {
     });
   }
 
-  findHoaDon(String soHD, String billType, num doanhthu, String datetime,
-      String trangthai) async {
-    await controllerHistoryRepo
-        .getAllSanPhamTrongHoaDon(
-            soHD,
-            billType == "HetHan" || billType == "XuatHang"
-                ? "XuatHang"
-                : "NhapHang")
-        .listen((snapshot) async {
-      List<dynamic> sanPhamTrongHoaDon =
-          snapshot.docs.map((doc) => doc.data()).toList();
-      if (sanPhamTrongHoaDon.isEmpty) {
-        ToastWidget.showToast("Lỗi sản phẩm không có trong kho");
-      }
-      if (billType == "HetHan") {
-        // cập nhật ngày hết hạn
-        await controllerNhapHangRepo.createExpired(sanPhamTrongHoaDon);
-        //tra hang lai kho
-        await controllerNhapHangRepo.createHangHoaExpired(sanPhamTrongHoaDon);
-        //tăng giá trị tồn kho
-        await controllerNhapHangRepo
-            .capNhatGiaTriTonKhoNhapHang(sanPhamTrongHoaDon);
-        //giam gia tri đã bán
-        await controllerXuatHangRepo.giamGiaTriDaBan(sanPhamTrongHoaDon);
+  Future<void> handleHuyDon(String soHD, String billType, num doanhthu,
+      String datetime, String trangthai) async {
+    final snapshot = await controllerHistoryRepo.getHoaDonCollection(
+        (billType == "HetHan" || billType == "XuatHang")
+            ? "XuatHang"
+            : "NhapHang",
+        soHD);
 
-        //tinh tong doanh thu
-        await controllerXuatHangRepo.truTongDoanhThuNgay(
-            datetime, doanhthu, trangthai);
-        await controllerXuatHangRepo.truTongDoanhThuTuan(
-            datetime, doanhthu, trangthai);
-        await controllerXuatHangRepo.truTongDoanhThuThang(
-            datetime, doanhthu, trangthai);
-        //cap nhat trang thai don hang
-        await controllerHetHanHistoryRepo.updateTrangThaiHuy(billType, soHD);
-      } else if (billType == "NhapHang") {
-        //xuat kho và tính lại tồn kho & update trạng thái hủy
-        await controllerNhapHangRepo.xuatkhoNhapHangHangHoaExpired(
-            sanPhamTrongHoaDon, soHD, billType);
-      } else if (billType == "XuatHang") {
-        print(sanPhamTrongHoaDon);
-        // cập nhật ngày hết hạn
-        await controllerHetHanHistoryRepo
-            .createHuyDonExpired(sanPhamTrongHoaDon);
-        //
-      }
-    });
+    final sanPhamTrongHoaDon = snapshot.docs.map((doc) => doc.data()).toList();
+    if (sanPhamTrongHoaDon.isEmpty) {
+      ToastWidget.showToast("Lỗi sản phẩm không có trong kho");
+      return;
+    }
+
+    if (billType == "HetHan") {
+      handleHuyDonHangHetHan(
+              sanPhamTrongHoaDon, doanhthu, datetime, trangthai, soHD, billType)
+          .then((value) {
+        ToastWidget.showToast("Hủy đơn thành công!");
+      });
+    } else if (billType == "NhapHang") {
+      await controllerNhapHangRepo.xuatkhoNhapHangHangHoaExpired(
+          sanPhamTrongHoaDon, soHD, billType);
+    } else if (billType == "XuatHang") {
+      handleHuyDonHangXuatHang(
+              sanPhamTrongHoaDon, doanhthu, datetime, trangthai, soHD, billType)
+          .then((value) {
+        ToastWidget.showToast("Hủy đơn thành công!");
+      });
+    }
+  }
+
+  Future<void> handleHuyDonHangHetHan(
+      List<dynamic> sanPhamTrongHoaDon,
+      num doanhthu,
+      String datetime,
+      String trangthai,
+      String soHD,
+      String billType) async {
+    await controllerNhapHangRepo.createExpired(sanPhamTrongHoaDon);
+    await controllerNhapHangRepo.createHangHoaExpired(sanPhamTrongHoaDon);
+    await controllerNhapHangRepo
+        .capNhatGiaTriTonKhoNhapHang(sanPhamTrongHoaDon);
+    await controllerXuatHangRepo.giamGiaTriDaBan(sanPhamTrongHoaDon);
+
+    await controllerXuatHangRepo.truTongDoanhThuNgay(
+        datetime, doanhthu, trangthai);
+    await controllerXuatHangRepo.truTongDoanhThuTuan(
+        datetime, doanhthu, trangthai);
+    await controllerXuatHangRepo.truTongDoanhThuThang(
+        datetime, doanhthu, trangthai);
+
+    await controllerHetHanHistoryRepo.updateTrangThaiHuy(billType, soHD);
+  }
+
+  Future<void> handleHuyDonHangXuatHang(
+      List<dynamic> sanPhamTrongHoaDon,
+      num doanhthu,
+      String datetime,
+      String trangthai,
+      String soHD,
+      String billType) async {
+    await controllerHetHanHistoryRepo.createHuyDonExpired(sanPhamTrongHoaDon);
+    await controllerNhapHangRepo.nhapkhoXuatHangHangHoaExpired(
+        sanPhamTrongHoaDon, soHD, billType);
+    await controllerNhapHangRepo
+        .capNhatGiaTriTonKhoNhapHang(sanPhamTrongHoaDon);
+    await controllerXuatHangRepo.giamGiaTriDaBan(sanPhamTrongHoaDon);
+
+    await controllerXuatHangRepo.truTongDoanhThuNgay(
+        datetime, doanhthu, trangthai);
+    await controllerXuatHangRepo.truTongDoanhThuTuan(
+        datetime, doanhthu, trangthai);
+    await controllerXuatHangRepo.truTongDoanhThuThang(
+        datetime, doanhthu, trangthai);
+
+    await controllerHetHanHistoryRepo.updateTrangThaiHuy(billType, soHD);
   }
 }

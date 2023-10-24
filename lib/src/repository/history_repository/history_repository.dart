@@ -50,6 +50,27 @@ class HistoryRepository extends GetxController {
     return getAllSanPhamTrongHoaDon;
   }
 
+  Future<QuerySnapshot> getHoaDonCollection(
+      String collectionBanHangHoacNhapHang, String docID) async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(firebaseUser!.uid)
+          .collection("History")
+          .doc(firebaseUser.uid)
+          .collection(collectionBanHangHoacNhapHang)
+          .doc(docID)
+          .collection("HoaDon")
+          .get();
+
+      return querySnapshot;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   Future<List<List<DocumentSnapshot>>> getDocsByMonthly(
       String collectionName, String userID) async {

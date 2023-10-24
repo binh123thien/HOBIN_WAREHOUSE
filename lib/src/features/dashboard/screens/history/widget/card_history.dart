@@ -5,7 +5,7 @@ import '../../../../../constants/color.dart';
 import '../../../../../utils/utils.dart';
 import 'chitiet_lichsu_donhang.dart';
 
-class CardHistory extends StatelessWidget {
+class CardHistory extends StatefulWidget {
   const CardHistory({
     super.key,
     required this.docs,
@@ -14,13 +14,25 @@ class CardHistory extends StatelessWidget {
   final List<dynamic> docs;
 
   @override
+  State<CardHistory> createState() => _CardHistoryState();
+}
+
+class _CardHistoryState extends State<CardHistory> {
+  List<dynamic> documents = [];
+  @override
+  void initState() {
+    super.initState();
+    documents = widget.docs;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
-        itemCount: docs.length,
+        itemCount: documents.length,
         itemBuilder: (context, index) {
-          final doc = docs[index];
+          var doc = documents[index];
           phanbietIcon() {
             //BanHang thanh cong
             if (doc["billType"] == "XuatHang" &&
@@ -62,7 +74,9 @@ class CardHistory extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => ChiTietLichSuDonHang(doc: doc)),
-                  );
+                  ).then((trangthai) {
+                    if (trangthai == "Hủy") {}
+                  });
                 },
                 child: ListTile(
                   leading: SizedBox(
