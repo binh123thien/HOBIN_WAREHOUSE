@@ -1,8 +1,12 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/xuathang_screen.dart';
-
+import '../../../../common_widgets/dialog/dialog.dart';
+import '../../../../common_widgets/network/network.dart';
+import '../../../../common_widgets/snackbar/snackbar.dart';
+import '../../../../common_widgets/snackbar/toast.dart';
 import '../goods/widget/them_hang_hoa.dart';
 import '../statistics/khachhang/widget/them_khachhang.dart';
 import 'nhaphang/nhaphang_screen.dart';
@@ -38,26 +42,45 @@ class ChooseAddScreen {
           ),
           const SizedBox(height: 20),
           CardAdd(
-            icon: adddonhangIcon,
-            title: tXuatHangHoa,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const XuatHangScreen()),
-              ).then((_) {
-                Navigator.pop(context); // Tắt showModalBottomSheet
-              });
-            },
-          ),
+              icon: adddonhangIcon,
+              title: tXuatHangHoa,
+              onTap: () async {
+                NetWork.checkConnection().then((value) {
+                  if (value == "Not Connected") {
+                    MyDialog.showAlertDialogOneBtn(context, "Không có Internet",
+                        "Vui lòng kết nối internet và thử lại sau");
+                  } else {
+                    () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const XuatHangScreen()),
+                      ).then((_) {
+                        Navigator.pop(context); // Tắt showModalBottomSheet
+                      });
+                    };
+                  }
+                });
+              }),
           CardAdd(
             icon: importIcon,
             title: tNhapHangHoa,
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const NhapHangScreen()),
-              ).then((_) {
-                Navigator.pop(context); // Tắt showModalBottomSheet
+              NetWork.checkConnection().then((value) {
+                if (value == "Not Connected") {
+                  MyDialog.showAlertDialogOneBtn(context, "Không có Internet",
+                      "Vui lòng kết nối internet và thử lại sau");
+                } else {
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NhapHangScreen()),
+                    ).then((_) {
+                      Navigator.pop(context); // Tắt showModalBottomSheet
+                    });
+                  };
+                }
               });
             },
           ),
@@ -65,12 +88,21 @@ class ChooseAddScreen {
             icon: addhanghoaIcon,
             title: "Thêm hàng hóa",
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ThemGoodsScreen()),
-              ).then((_) {
-                Navigator.pop(context); // Tắt showModalBottomSheet
+              NetWork.checkConnection().then((value) {
+                if (value == "Not Connected") {
+                  MyDialog.showAlertDialogOneBtn(context, "Không có Internet",
+                      "Vui lòng kết nối internet và thử lại sau");
+                } else {
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ThemGoodsScreen()),
+                    ).then((_) {
+                      Navigator.pop(context); // Tắt showModalBottomSheet
+                    });
+                  };
+                }
               });
             },
           ),
@@ -78,12 +110,21 @@ class ChooseAddScreen {
             icon: addkhachhangIcon,
             title: "Thêm khách hàng",
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const ThemKhachHangScreen()),
-              ).then((_) {
-                Navigator.pop(context); // Tắt showModalBottomSheet
+              NetWork.checkConnection().then((value) {
+                if (value == "Not Connected") {
+                  MyDialog.showAlertDialogOneBtn(context, "Không có Internet",
+                      "Vui lòng kết nối internet và thử lại sau");
+                } else {
+                  () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ThemKhachHangScreen()),
+                    ).then((_) {
+                      Navigator.pop(context); // Tắt showModalBottomSheet
+                    });
+                  };
+                }
               });
             },
           ),
