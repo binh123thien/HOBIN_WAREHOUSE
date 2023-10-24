@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
@@ -28,6 +30,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
       false; // Biến để theo dõi trạng thái Container đã được chọn hay chưa
   dynamic selectedDoc; // Biến để lưu trữ giá trị doc được chọn
   List<bool> itemExpandedList = List.generate(200, (index) => false);
+  String scannedCode = '';
 
   @override
   void initState() {
@@ -63,15 +66,31 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                         },
                         width: 320,
                       ),
-                      // IconButton(
-                      //   onPressed: () {
-                      //     _showSortbyHangHoaTaoDon();
-                      //   },
-                      //   icon: const Image(
-                      //     image: AssetImage(sortbyIcon),
-                      //     height: 28,
-                      //   ),
-                      // ),
+                      IconButton(
+                        onPressed: () async {
+                          scannedCode = await FlutterBarcodeScanner.scanBarcode(
+                            "#ff6666", // Màu hiển thị của app
+                            "Hủy bỏ", // Chữ hiển thị cho nút hủy bỏ
+                            true, // Cho phép Async? (có hay không)
+                            ScanMode.BARCODE, // Hình thức quét
+                          );
+                          if (!mounted) return;
+                          if (scannedCode == "-1") {
+                            print('if hùy nè');
+                          } else {
+                            for (var item in filteredItems) {
+                              if (item['macode'] == scannedCode) {
+                                setState(() {});
+                              } else {
+                                SnackBarWidget.showSnackBar(context,
+                                    "Không tìm thấy sản phẩm", cancel600Color);
+                              }
+                            }
+                          }
+                        },
+                        icon: const ImageIcon(AssetImage(qRIcon)),
+                        iconSize: 30,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 10),
@@ -89,7 +108,10 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                 itemCount: filteredItems.length,
                 itemBuilder: (context, index) {
                   final doc = filteredItems[index];
-
+                  if (doc['macode'] == scannedCode) {
+                    isSelected = true;
+                    selectedDoc = doc;
+                  }
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: InkWell(
@@ -97,6 +119,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                         setState(() {
                           isSelected = true;
                           selectedDoc = doc;
+                          scannedCode = '';
                         });
                       },
                       child: Container(
