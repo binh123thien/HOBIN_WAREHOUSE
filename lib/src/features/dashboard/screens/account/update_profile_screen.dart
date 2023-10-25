@@ -209,7 +209,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                       },
                       style: ElevatedButton.styleFrom(
                           minimumSize: const Size(250, 0),
-                          backgroundColor: pink500Color,
+                          backgroundColor: mainColor,
                           side: BorderSide.none,
                           shape: const StadiumBorder()),
                       child: const Text(

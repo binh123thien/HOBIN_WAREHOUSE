@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
@@ -7,6 +9,7 @@ import '../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../common_widgets/network/network.dart';
 import '../../../../../../repository/statistics_repository/khachhang_repository.dart';
 import 'chitietkhachhang/chinhsua_thongtinkhachhang.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class KhachHangDetailScreen extends StatefulWidget {
   final dynamic khachhang;
@@ -25,6 +28,18 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
     super.initState();
   }
 
+  void _launchCaller() async {
+    final url = Uri(
+      scheme: 'tel',
+      path: khachhangCurrent["sdt"],
+    );
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Không thể gọi số điện thoại: $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +54,10 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
         backgroundColor: whiteColor,
         centerTitle: true,
         actions: [
+          IconButton(
+              onPressed: _launchCaller,
+              icon: const Icon(Icons.call, color: darkColor)),
+          const SizedBox(width: 10),
           IconButton(
               onPressed: () {
                 NetWork.checkConnection().then((value) {
