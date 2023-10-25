@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../controllers/statistics/khachhang_controller.dart';
 
@@ -31,14 +32,17 @@ class _DanhSachSortByKhachHangState extends State<DanhSachSortByKhachHang> {
     final controllerSortby = Get.put(KhachHangController());
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height * 0.38,
+      height: size.height * 0.365,
       child: Column(children: [
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Phân loại"),
+              Text(
+                "Phân loại",
+                style: TextStyle(fontSize: Font.sizes(context)[2]),
+              ),
               IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.cancel_rounded))
@@ -67,7 +71,7 @@ class _DanhSachSortByKhachHangState extends State<DanhSachSortByKhachHang> {
               },
               child: Container(
                 width: size.width,
-                height: 45,
+                height: size.height * 0.055,
                 color: isSelected ? mainColor : Colors.transparent,
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -77,7 +81,7 @@ class _DanhSachSortByKhachHangState extends State<DanhSachSortByKhachHang> {
                       sortType,
                       style: TextStyle(
                           color: isSelected ? Colors.white : Colors.black,
-                          fontSize: 19),
+                          fontSize: Font.sizes(context)[2]),
                     ),
                   ),
                 ),

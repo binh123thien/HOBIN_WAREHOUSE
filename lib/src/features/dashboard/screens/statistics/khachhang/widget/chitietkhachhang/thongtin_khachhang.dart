@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../utils/utils.dart';
 import '../../../../../controllers/statistics/khachhang_controller.dart';
 import '../../../../history/widget/card_history.dart';
@@ -76,13 +77,14 @@ class _ThongTinKhachHangState extends State<ThongTinKhachHang> {
               borderRadius: BorderRadius.circular(5),
               color: mainColor,
             ),
-            height: 35,
+            height: size.height * 0.04,
             width: size.width,
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 7, 12, 5),
               child: Text(
                 "Đơn đã bán",
-                style: TextStyle(fontSize: 17, color: whiteColor),
+                style: TextStyle(
+                    fontSize: Font.sizes(context)[1], color: whiteColor),
               ),
             ),
           ),
@@ -100,7 +102,7 @@ class _ThongTinKhachHangState extends State<ThongTinKhachHang> {
               itemBuilder: ((BuildContext context, int index) {
                 return allDonHangCurent.isNotEmpty
                     ? Container(
-                        width: MediaQuery.of(context).size.width,
+                        width: size.width,
                         color: whiteColor,
                         child: Column(
                           children: [
@@ -110,12 +112,12 @@ class _ThongTinKhachHangState extends State<ThongTinKhachHang> {
                           ],
                         ),
                       )
-                    : const Center(
+                    : Center(
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
                             "Chưa có đơn hàng nào!",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: Font.sizes(context)[1]),
                           ),
                         ),
                       );

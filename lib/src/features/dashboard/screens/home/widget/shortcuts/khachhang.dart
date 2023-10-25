@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import '../../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../common_widgets/network/network.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../repository/statistics_repository/khachhang_repository.dart';
@@ -41,8 +42,8 @@ class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
         ),
       ),
       builder: (BuildContext context) {
@@ -74,10 +75,15 @@ class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
                 .toLowerCase()
                 .contains(searchKhachHang.toLowerCase()))
         .toList();
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Khách Hàng",
-            style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700)),
+        elevation: 2,
+        title: Text("Khách Hàng",
+            style: TextStyle(
+                color: whiteColor,
+                fontWeight: FontWeight.w700,
+                fontSize: Font.sizes(context)[2])),
         backgroundColor: mainColor,
         centerTitle: true,
       ),
@@ -95,15 +101,15 @@ class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
                       searchKhachHang = value;
                     });
                   },
-                  width: 275,
+                  width: size.width * 0.68,
                 ),
                 IconButton(
                     onPressed: () {
                       _showSortbyKhachHang();
                     },
-                    icon: const Image(
-                      image: AssetImage(sortbyIcon),
-                      height: 28,
+                    icon: Image(
+                      image: const AssetImage(sortbyIcon),
+                      height: size.width * 0.07,
                     )),
                 IconButton(
                     onPressed: () {
@@ -125,9 +131,9 @@ class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
                         }
                       });
                     },
-                    icon: const Image(
-                      image: AssetImage(themkhachhangIcon),
-                      height: 28,
+                    icon: Image(
+                      image: const AssetImage(themkhachhangIcon),
+                      height: size.width * 0.07,
                     )),
               ],
             ),
@@ -156,8 +162,8 @@ class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
                     child: Row(
                       children: [
                         Container(
-                            height: 45,
-                            width: 45,
+                            height: size.width * 0.1,
+                            width: size.width * 0.1,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(50),
                                 color: backGroundColor),
@@ -166,7 +172,9 @@ class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
                               khachhang["tenkhachhang"]
                                   .substring(0, 1)
                                   .toUpperCase(),
-                              style: const TextStyle(fontSize: 20),
+                              style: TextStyle(
+                                fontSize: Font.sizes(context)[4],
+                              ),
                             ))),
                         const SizedBox(width: 15),
                         Column(
@@ -174,13 +182,14 @@ class _KhachHangShortCutScreenState extends State<KhachHangShortCutScreen> {
                           children: [
                             Text(
                               khachhang["tenkhachhang"],
-                              style: const TextStyle(
-                                  fontSize: 17, fontWeight: FontWeight.w900),
+                              style: TextStyle(
+                                  fontSize: Font.sizes(context)[1],
+                                  fontWeight: FontWeight.w900),
                             ),
                             Text(
                               khachhang["sdt"],
                               style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: Font.sizes(context)[0],
                                   color: khachhang["loai"] == "Nhà cung cấp"
                                       ? cancelColor
                                       : darkColor),

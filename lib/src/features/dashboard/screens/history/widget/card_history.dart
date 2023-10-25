@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/dashboard.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../utils/utils.dart';
 import 'chitiet_lichsu_donhang.dart';
@@ -28,6 +29,7 @@ class _CardHistoryState extends State<CardHistory> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return ListView.builder(
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
@@ -90,8 +92,8 @@ class _CardHistoryState extends State<CardHistory> {
                 },
                 child: ListTile(
                   leading: SizedBox(
-                      height: 35,
-                      width: 35,
+                      height: size.width * 0.08,
+                      width: size.width * 0.08,
                       child: Image(image: AssetImage(phanbietIcon()))),
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,6 +101,9 @@ class _CardHistoryState extends State<CardHistory> {
                       Flexible(
                         child: Text(
                           doc["khachhang"],
+                          style: TextStyle(
+                            fontSize: Font.sizes(context)[0],
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -109,7 +114,7 @@ class _CardHistoryState extends State<CardHistory> {
                             ? "-${formatCurrency(doc["tongthanhtoan"])}"
                             : "+${formatCurrency(doc["tongthanhtoan"])}",
                         style: TextStyle(
-                            fontSize: 16,
+                            fontSize: Font.sizes(context)[1],
                             fontWeight: FontWeight.w700,
                             color: doc["billType"] == "NhapHang" &&
                                     doc["tongthanhtoan"] > 0
@@ -125,26 +130,26 @@ class _CardHistoryState extends State<CardHistory> {
                       children: [
                         Text(
                           "${doc["ngaytao"]} - SL: ${doc["tongsl"]}",
-                          style: const TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w100),
+                          style:
+                              TextStyle(fontSize: Font.sizes(context)[0] * 0.9),
                         ),
                         Row(
                           children: [
                             doc["giamgia"] != 0
-                                ? const Padding(
-                                    padding: EdgeInsets.only(right: 3),
+                                ? Padding(
+                                    padding: const EdgeInsets.only(right: 3),
                                     child: SizedBox(
                                       child: ImageIcon(
-                                        AssetImage(disCountIcon),
-                                        size: 20,
+                                        const AssetImage(disCountIcon),
+                                        size: size.width * 0.055,
                                         color: cancel600Color,
                                       ),
                                     ),
                                   )
                                 : const SizedBox.shrink(),
                             Container(
-                              width: 78,
-                              height: 20,
+                              width: size.width * 0.2,
+                              height: size.width * 0.055,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   border: Border.all(color: phanbietmau()),
@@ -153,7 +158,8 @@ class _CardHistoryState extends State<CardHistory> {
                                   child: Text(
                                 doc["trangthai"],
                                 style: TextStyle(
-                                    fontSize: 12, color: phanbietmau()),
+                                    fontSize: Font.sizes(context)[0] * 0.9,
+                                    color: phanbietmau()),
                               )),
                             ),
                           ],

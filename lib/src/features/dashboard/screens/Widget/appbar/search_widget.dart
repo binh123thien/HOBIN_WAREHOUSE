@@ -11,9 +11,10 @@ class SearchWidget extends StatelessWidget {
   final Function(String) onChanged;
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SizedBox(
       width: width,
-      height: 38,
+      height: size.height * 0.045,
       child: TextField(
         onChanged: onChanged,
         // focusNode: FocusNode(), // unnecessary

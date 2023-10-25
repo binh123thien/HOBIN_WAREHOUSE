@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
 
 class ThongTinCaNhan extends StatelessWidget {
@@ -16,7 +17,7 @@ class ThongTinCaNhan extends StatelessWidget {
       children: [
         Text(
           khachhang["tenkhachhang"].toString(),
-          style: const TextStyle(fontSize: 22),
+          style: TextStyle(fontSize: Font.sizes(context)[4]),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(8, 20, 8, 10),
@@ -27,13 +28,14 @@ class ThongTinCaNhan extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                   color: mainColor,
                 ),
-                height: 130,
+                height: size.height * 0.15,
                 width: size.width,
-                child: const Padding(
-                  padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 7, 12, 5),
                   child: Text(
                     "Thông tin cá nhân",
-                    style: TextStyle(fontSize: 17, color: whiteColor),
+                    style: TextStyle(
+                        fontSize: Font.sizes(context)[1], color: whiteColor),
                   ),
                 ),
               ),
@@ -42,8 +44,8 @@ class ThongTinCaNhan extends StatelessWidget {
                 left: 1,
                 right: 1,
                 child: Container(
-                  width: size.width - 10,
-                  height: 95,
+                  width: size.width,
+                  height: size.height * 0.11,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: whiteColor,
@@ -56,9 +58,11 @@ class ThongTinCaNhan extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Mã KH",
-                                style: Theme.of(context).textTheme.titleLarge),
+                                style: TextStyle(
+                                    fontSize: Font.sizes(context)[1])),
                             Text(khachhang["maKH"],
-                                style: Theme.of(context).textTheme.titleLarge)
+                                style:
+                                    TextStyle(fontSize: Font.sizes(context)[1]))
                           ],
                         ),
                         const SizedBox(height: 2),
@@ -66,9 +70,11 @@ class ThongTinCaNhan extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Số điện thoại",
-                                style: Theme.of(context).textTheme.titleLarge),
+                                style: TextStyle(
+                                    fontSize: Font.sizes(context)[1])),
                             Text(khachhang["sdt"],
-                                style: Theme.of(context).textTheme.titleLarge)
+                                style:
+                                    TextStyle(fontSize: Font.sizes(context)[1]))
                           ],
                         ),
                         const SizedBox(height: 2),
@@ -76,9 +82,11 @@ class ThongTinCaNhan extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text("Địa chỉ",
-                                style: Theme.of(context).textTheme.titleLarge),
+                                style: TextStyle(
+                                    fontSize: Font.sizes(context)[1])),
                             Text(khachhang["diachi"],
-                                style: Theme.of(context).textTheme.titleLarge)
+                                style:
+                                    TextStyle(fontSize: Font.sizes(context)[1]))
                           ],
                         ),
                       ],

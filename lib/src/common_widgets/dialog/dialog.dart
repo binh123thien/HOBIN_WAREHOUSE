@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
+import '../fontSize/font_size.dart';
+
 class MyDialog {
   static void showAlertDialog(BuildContext context, String textTitle,
       String textContent, int phanBietNhapXuat, VoidCallback onYES) {
@@ -14,7 +16,7 @@ class MyDialog {
           textTitle,
           style: TextStyle(
             color: phanBietNhapXuat == 0 ? mainColor : blueColor,
-            fontSize: 17,
+            fontSize: Font.sizes(context)[1],
             fontWeight: FontWeight.w800,
           ),
         ),
@@ -22,7 +24,7 @@ class MyDialog {
           width: MediaQuery.of(context).size.width, // set custom width
           child: Text(
             textContent,
-            style: const TextStyle(fontSize: 15),
+            style: TextStyle(fontSize: Font.sizes(context)[1]),
           ),
         ),
         actions: [
@@ -31,9 +33,10 @@ class MyDialog {
               Navigator.of(context)
                   .pop(false); // Đóng dialog và trả về giá trị false
             },
-            child: const Text(
+            child: Text(
               'KHÔNG',
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(
+                  color: Colors.black, fontSize: Font.sizes(context)[1]),
             ),
           ),
           TextButton(
@@ -44,6 +47,7 @@ class MyDialog {
               'CÓ',
               style: TextStyle(
                   color: phanBietNhapXuat == 0 ? mainColor : blueColor,
+                  fontSize: Font.sizes(context)[1],
                   fontWeight: FontWeight.w800),
             ),
           ),
@@ -62,18 +66,18 @@ class MyDialog {
         ),
         title: Text(
           textTitle,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.red,
-            fontSize: 17,
+            fontSize: Font.sizes(context)[1],
             fontWeight: FontWeight.w800,
           ),
         ),
         content: Container(
           width: MediaQuery.of(context).size.width, // set custom width
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 10),
           child: Text(
             textContent,
-            style: const TextStyle(fontSize: 15),
+            style: TextStyle(fontSize: Font.sizes(context)[1]),
           ),
         ),
         contentPadding: EdgeInsets.zero, // remove default content padding
@@ -83,9 +87,10 @@ class MyDialog {
               Navigator.of(context)
                   .pop(false); // Đóng dialog và trả về giá trị false
             },
-            child: const Text(
+            child: Text(
               'QUAY LẠI',
-              style: TextStyle(color: Colors.black, fontSize: 15),
+              style: TextStyle(
+                  color: Colors.black, fontSize: Font.sizes(context)[1]),
             ),
           ),
         ],

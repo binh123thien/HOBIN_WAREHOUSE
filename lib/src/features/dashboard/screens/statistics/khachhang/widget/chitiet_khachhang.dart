@@ -6,6 +6,7 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/khachhang/widget/chitietkhachhang/thongtin_khachhang.dart';
 
 import '../../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../common_widgets/network/network.dart';
 import '../../../../../../repository/statistics_repository/khachhang_repository.dart';
 import 'chitietkhachhang/chinhsua_thongtinkhachhang.dart';
@@ -42,12 +43,14 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
+            icon: Icon(Icons.arrow_back,
+                size: size.width * 0.08, color: darkColor),
             onPressed: () {
               Navigator.pop(context);
             }),
@@ -112,8 +115,8 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: SizedBox(
-                width: 100,
-                height: 100,
+                width: size.width * 0.25,
+                height: size.width * 0.25,
                 child: Card(
                   shape: RoundedRectangleBorder(
                       side: const BorderSide(color: mainColor),
@@ -124,7 +127,7 @@ class _KhachHangDetailScreenState extends State<KhachHangDetailScreen> {
                     widget.khachhang["tenkhachhang"]
                         .substring(0, 1)
                         .toUpperCase(),
-                    style: const TextStyle(fontSize: 50),
+                    style: TextStyle(fontSize: Font.sizes(context)[4] * 1.75),
                   )),
                 ),
               ),

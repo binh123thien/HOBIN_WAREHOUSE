@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
 
 class CardThongKeDonHang extends StatelessWidget {
@@ -28,13 +29,14 @@ class CardThongKeDonHang extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: mainColor,
             ),
-            height: 175,
+            height: size.height * 0.2,
             width: size.width,
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 7, 12, 5),
               child: Text(
                 "Thống kê đơn hàng",
-                style: TextStyle(fontSize: 17, color: whiteColor),
+                style: TextStyle(
+                    fontSize: Font.sizes(context)[1], color: whiteColor),
               ),
             ),
           ),
@@ -43,8 +45,8 @@ class CardThongKeDonHang extends StatelessWidget {
             left: 1,
             right: 1,
             child: Container(
-              width: size.width - 10,
-              height: 140,
+              width: size.width,
+              height: size.height * 0.16,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: whiteColor,
@@ -57,9 +59,9 @@ class CardThongKeDonHang extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Hoàn thành",
-                            style: Theme.of(context).textTheme.titleLarge),
+                            style: TextStyle(fontSize: Font.sizes(context)[1])),
                         Text(countThanhCong,
-                            style: Theme.of(context).textTheme.titleLarge)
+                            style: TextStyle(fontSize: Font.sizes(context)[1]))
                       ],
                     ),
                     const SizedBox(height: 2),
@@ -67,9 +69,9 @@ class CardThongKeDonHang extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Đang sử lý",
-                            style: Theme.of(context).textTheme.titleLarge),
+                            style: TextStyle(fontSize: Font.sizes(context)[1])),
                         Text(countDangCho,
-                            style: Theme.of(context).textTheme.titleLarge)
+                            style: TextStyle(fontSize: Font.sizes(context)[1]))
                       ],
                     ),
                     const SizedBox(height: 2),
@@ -77,9 +79,9 @@ class CardThongKeDonHang extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Đã hủy",
-                            style: Theme.of(context).textTheme.titleLarge),
+                            style: TextStyle(fontSize: Font.sizes(context)[1])),
                         Text(countHuy,
-                            style: Theme.of(context).textTheme.titleLarge)
+                            style: TextStyle(fontSize: Font.sizes(context)[1]))
                       ],
                     ),
                     const SizedBox(height: 2),
@@ -87,9 +89,9 @@ class CardThongKeDonHang extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Đã thanh toán",
-                            style: Theme.of(context).textTheme.titleLarge),
+                            style: TextStyle(fontSize: Font.sizes(context)[1])),
                         Text(daThanhToan,
-                            style: Theme.of(context).textTheme.titleLarge)
+                            style: TextStyle(fontSize: Font.sizes(context)[1]))
                       ],
                     ),
                     const SizedBox(height: 2),
@@ -97,10 +99,11 @@ class CardThongKeDonHang extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text("Tổng còn nợ",
-                            style: Theme.of(context).textTheme.titleLarge),
+                            style: TextStyle(fontSize: Font.sizes(context)[1])),
                         Text(no,
-                            style: const TextStyle(
-                                color: Colors.red, fontSize: 16))
+                            style: TextStyle(
+                                fontSize: Font.sizes(context)[1],
+                                color: Colors.red))
                       ],
                     ),
                   ],

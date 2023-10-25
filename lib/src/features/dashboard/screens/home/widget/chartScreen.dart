@@ -38,7 +38,7 @@ class _ChartScreenState extends State<ChartScreen> {
             maxElement = 100;
           }
           return SizedBox(
-            height: size.height * 0.21,
+            height: size.height * 0.23,
             child: BarGraph(
               maxElement: maxElement,
               weeklySummary: document,

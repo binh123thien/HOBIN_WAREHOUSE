@@ -63,7 +63,7 @@ class _BarGraphState extends State<BarGraph> {
                       toY: data.y,
                       color: mainColor,
                       width: 25,
-                      borderRadius: BorderRadius.circular(4),
+                      borderRadius: BorderRadius.circular(5),
                       backDrawRodData: BackgroundBarChartRodData(
                           show: true,
                           toY: widget.maxElement,
