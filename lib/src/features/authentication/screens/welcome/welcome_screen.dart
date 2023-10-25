@@ -5,6 +5,8 @@ import 'package:hobin_warehouse/src/constants/sizes.dart';
 import 'package:hobin_warehouse/src/features/authentication/screens/auth/signin/signin.dart';
 import 'package:hobin_warehouse/src/features/authentication/screens/auth/signup/signup.dart';
 
+import '../../../../common_widgets/fontSize/font_size.dart';
+
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
@@ -25,11 +27,11 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     tWelcomeTitle,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: TextStyle(fontSize: Font.sizes(context)[2]),
                   ),
                   Text(
                     tWelcomeSubTitle,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: TextStyle(fontSize: Font.sizes(context)[2]),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -47,7 +49,7 @@ class WelcomeScreen extends StatelessWidget {
                           },
                           child: Text(
                             tLogin.toUpperCase(),
-                            style: const TextStyle(fontSize: 22),
+                            style: TextStyle(fontSize: Font.sizes(context)[4]),
                           ))),
                   const SizedBox(width: 10),
                   Expanded(
@@ -60,7 +62,8 @@ class WelcomeScreen extends StatelessWidget {
                             );
                           },
                           child: Text(tSignup.toUpperCase(),
-                              style: const TextStyle(fontSize: 22)))),
+                              style: TextStyle(
+                                  fontSize: Font.sizes(context)[4])))),
                 ],
               )
             ],

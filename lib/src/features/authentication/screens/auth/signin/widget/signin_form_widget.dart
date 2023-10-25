@@ -7,6 +7,8 @@ import 'package:hobin_warehouse/src/features/authentication/controllers/signin_c
 import 'package:hobin_warehouse/src/features/authentication/screens/auth/forget_password/forget_password_options/forget_password_model_bottom_sheet.dart';
 import 'package:hobin_warehouse/src/utils/validate/validate.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
+
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
 
@@ -19,9 +21,9 @@ class _SignInFormState extends State<SignInForm> with InputValidationMixin {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignInController());
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: tFormHeight),
         child: Column(
@@ -30,12 +32,12 @@ class _SignInFormState extends State<SignInForm> with InputValidationMixin {
             // Email
             TextFormField(
               controller: controller.email,
-              decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.mail_outline),
+              decoration: InputDecoration(
+                  prefixIcon: const Icon(Icons.mail_outline),
                   labelText: tEmail,
                   hintText: tEmail,
-                  errorStyle: TextStyle(fontSize: 15),
-                  border: OutlineInputBorder()),
+                  errorStyle: TextStyle(fontSize: Font.sizes(context)[1]),
+                  border: const OutlineInputBorder()),
               validator: (value) {
                 return emailCheckForm(value!);
               },
@@ -50,7 +52,7 @@ class _SignInFormState extends State<SignInForm> with InputValidationMixin {
                 prefixIcon: const Icon(Icons.lock_outlined),
                 labelText: tPassword,
                 hintText: tPassword,
-                errorStyle: const TextStyle(fontSize: 15),
+                errorStyle: TextStyle(fontSize: Font.sizes(context)[1]),
                 // errorText: tErrorPassword,
                 border: const OutlineInputBorder(),
                 suffixIcon: IconButton(
@@ -77,8 +79,9 @@ class _SignInFormState extends State<SignInForm> with InputValidationMixin {
                   onPressed: () {
                     ForgetPasswordScreen.buildShowModalBottomSheet(context);
                   },
-                  child: const Text(tForgorPassword,
-                      style: TextStyle(color: mainColor))),
+                  child: Text(tForgorPassword,
+                      style: TextStyle(
+                          fontSize: Font.sizes(context)[1], color: mainColor))),
             ),
             // ===================== end btn =========================
 
@@ -87,7 +90,7 @@ class _SignInFormState extends State<SignInForm> with InputValidationMixin {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
                       SignInController.instance.signinWithEmailAndPassword(
                           controller.email.text.trim(),
                           controller.password.text.trim());
@@ -95,7 +98,7 @@ class _SignInFormState extends State<SignInForm> with InputValidationMixin {
                   },
                   child: Text(
                     tLogin.toUpperCase(),
-                    style: const TextStyle(fontSize: 22),
+                    style: TextStyle(fontSize: Font.sizes(context)[4]),
                   )),
             ),
             // ===================== end btn login =====================

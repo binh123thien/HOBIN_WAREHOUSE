@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hobin_warehouse/src/constants/sizes.dart';
+import 'package:hobin_warehouse/src/constants/color.dart';
+import '../fontSize/font_size.dart';
 
 class FormHeaderWidget extends StatelessWidget {
   const FormHeaderWidget({
@@ -17,21 +18,26 @@ class FormHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Image(
-          image: AssetImage(image),
-          width: size.width * iWidth,
-          height: size.height * iHeight,
-        ),
-        Text(title, style: Theme.of(context).textTheme.bodyMedium),
-        const SizedBox(height: tDefaultSize - 15),
-        Text(
-          subtitle,
-          style: Theme.of(context).textTheme.titleLarge,
-          textAlign: TextAlign.center,
-        ),
-      ],
+    return Container(
+      color: whiteColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image(
+            image: AssetImage(image),
+            width: size.width * iWidth,
+            height: size.height * iHeight,
+          ),
+          Text(title, style: TextStyle(fontSize: Font.sizes(context)[2])),
+          const SizedBox(height: 5),
+          Text(
+            subtitle,
+            style: TextStyle(fontSize: Font.sizes(context)[2]),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }
