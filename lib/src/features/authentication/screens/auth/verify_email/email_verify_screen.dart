@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -114,21 +113,23 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   @override
   Widget build(BuildContext context) => isEmailVerified
       ? DashboardScreen(currentPage: 0)
-      : SafeArea(
-          child: Scaffold(
-            body: SingleChildScrollView(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: tDefaultSize + 10),
+      : Scaffold(
+          body: SingleChildScrollView(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const FormHeaderWidget(
                         image: tOTPImage,
                         title: tEmailVerifyTitle,
                         subtitle: tEmailVerifySubTitle,
-                        iHeight: 0.5,
-                        iWidth: 1),
+                        iHeight: 0.31,
+                        iWidth: 0.7),
                     const SizedBox(height: tDefaultSize),
                     //Email
                     SizedBox(
@@ -143,26 +144,10 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
                     ),
                     const SizedBox(height: tDefaultSize),
                     SizedBox(
-                        width: double.infinity,
+                        width: MediaQuery.of(context).size.width,
+                        height: 55,
                         child: ElevatedButton(
                             onPressed: () => FirebaseAuth.instance.signOut(),
-                            // {
-                            // EmailVerifiyController.instance.verifyEmail(otp);
-                            // final user = UserModel(
-                            //     fullName: "1",
-                            //     phoneNo: controller.phoneNo.text.trim(),
-                            //     password: controller.password.text.trim());
-
-                            // SignUpController.instance.createUser(user);
-                            // Get.to(() => const EmailVerifyScreen());
-
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) =>
-                            //           const ConfirmPassScreen()),
-                            // );
-                            // },
                             child: Text(tBack.toUpperCase(),
                                 style: const TextStyle(fontSize: 20))))
                   ],

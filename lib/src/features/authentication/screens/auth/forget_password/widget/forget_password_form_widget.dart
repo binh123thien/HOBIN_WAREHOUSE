@@ -6,7 +6,9 @@ import 'package:hobin_warehouse/src/constants/text_strings.dart';
 import 'package:hobin_warehouse/src/features/authentication/controllers/forget_pass_controller.dart';
 import 'package:hobin_warehouse/src/features/authentication/screens/auth/forget_password/forget_password_mail/check_reset_password.dart';
 
-class ForgetPassFormWidget extends StatelessWidget {
+import '../../../../../../utils/validate/validate.dart';
+
+class ForgetPassFormWidget extends StatefulWidget {
   const ForgetPassFormWidget({
     super.key,
     required this.tHint,
@@ -18,6 +20,12 @@ class ForgetPassFormWidget extends StatelessWidget {
   final dynamic tPrefixIcon;
 
   @override
+  State<ForgetPassFormWidget> createState() => _ForgetPassFormWidgetState();
+}
+
+class _ForgetPassFormWidgetState extends State<ForgetPassFormWidget>
+    with InputValidationMixin {
+  @override
   Widget build(BuildContext context) {
     final controller = Get.put(ForgetPassController());
     final _formKey = GlobalKey<FormState>();
@@ -27,13 +35,16 @@ class ForgetPassFormWidget extends StatelessWidget {
         children: [
           TextFormField(
             controller: controller.password,
+            validator: (value) {
+              return emailCheckForm(value!);
+            },
             decoration: InputDecoration(
-              label: Text(tLabel),
-              hintText: tHint,
-              prefixIcon: tPrefixIcon,
+              label: Text(widget.tLabel),
+              hintText: widget.tHint,
+              prefixIcon: widget.tPrefixIcon,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(

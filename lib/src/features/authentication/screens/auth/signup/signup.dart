@@ -29,8 +29,7 @@ class SignUpScreen extends StatelessWidget {
                 iWidth: 0.7,
               ),
             ),
-            Container(
-                color: Colors.amber,
+            SizedBox(
                 width: size.width,
                 height: size.height * 0.65,
                 child: const Padding(
