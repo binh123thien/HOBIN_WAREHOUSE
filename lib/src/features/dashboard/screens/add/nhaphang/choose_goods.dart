@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
+import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/goods/widget/sorbyhanghoa/danhsach_sortby.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
@@ -21,7 +23,8 @@ class ChooseGoodsScreen extends StatefulWidget {
 
 class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   final controllerAllHangHoa = Get.put(ChonHangHoaController());
-  final controllerLocation = Get.put(GoodRepository());
+  final controllerGood = Get.put(GoodRepository());
+  final controllersortby = Get.put(ThemHangHoaController());
   String searchHangHoa = "";
   List<dynamic> allHangHoa = [];
   List<dynamic> filteredItems = [];
@@ -30,16 +33,83 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   dynamic selectedDoc; // Biến để lưu trữ giá trị doc được chọn
   List<bool> itemExpandedList = List.generate(200, (index) => false);
   String scannedCode = '';
+  String selectedValue = 'Lẻ';
+  List<dynamic> allHangHoaLe = [];
+  List<dynamic> allHangHoaSi = [];
+  List<dynamic> filteredItemsLe = [];
+  List<dynamic> filteredItemsSi = [];
+
+  Future<void> _showSortbyHangHoa() async {
+    final selectedValue = await showModalBottomSheet<String>(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      builder: (BuildContext context) {
+        return DanhSachSortByHangHoa(
+          phanBietNhapXuat: widget.phanBietNhapXuat,
+          sortbyhanghoaController: controllersortby.sortbyhanghoaController,
+        ); // Gọi Widget BottomSheetContent để hiển thị bottom sheet
+      },
+    );
+    if (selectedValue != null) {
+      setState(() {
+        controllersortby.sortbyhanghoaController.text = selectedValue;
+      });
+    }
+  }
 
   @override
   void initState() {
     allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
-    filteredItems = allHangHoa;
+    allHangHoaLe = allHangHoa
+        .where((item) =>
+            item["phanloai"].toString().toLowerCase().contains('bán lẻ'))
+        .toList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Xác định hàng hóa bán lẻ
+    allHangHoaLe = allHangHoa
+        .where((item) =>
+            item["phanloai"].toString().toLowerCase().contains('bán lẻ'))
+        .toList();
+
+    // Xác định hàng hóa bán sỉ
+    allHangHoaSi = allHangHoa
+        .where((item) =>
+            item["phanloai"].toString().toLowerCase().contains('bán sỉ'))
+        .toList();
+
+    // Sắp xếp danh sách theo thứ tự tăng dần của "tonkho"
+    controllerGood.sortby(
+        allHangHoaLe, controllersortby.sortbyhanghoaController.text);
+    controllerGood.sortby(
+        allHangHoaSi, controllersortby.sortbyhanghoaController.text);
+
+    // Xác định tất cả các mục chứa từ khóa tìm kiếm trong lẻ
+    filteredItemsLe = allHangHoaLe
+        .where((item) => item["tensanpham"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHangHoa.toLowerCase()))
+        .toList();
+
+    // Xác định tất cả các mục chứa từ khóa tìm kiếm trong sỉ
+    filteredItemsSi = allHangHoaSi
+        .where((item) => item["tensanpham"]
+            .toString()
+            .toLowerCase()
+            .contains(searchHangHoa.toLowerCase()))
+        .toList();
+
+    if (selectedValue == 'Lẻ') {
+      filteredItems = filteredItemsLe;
+    } else {
+      filteredItems = filteredItemsSi;
+    }
+
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
@@ -63,8 +133,16 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             searchHangHoa = value;
                           });
                         },
-                        width: 320,
+                        width: 260,
                       ),
+                      IconButton(
+                          onPressed: () {
+                            _showSortbyHangHoa();
+                          },
+                          icon: const Image(
+                            image: AssetImage(sortbyIcon),
+                            height: 28,
+                          )),
                       IconButton(
                         onPressed: () async {
                           scannedCode = await FlutterBarcodeScanner.scanBarcode(
@@ -108,6 +186,36 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 15, right: 15), // Đặt left padding
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Phân loại: '),
+                    DropdownButton<String>(
+                      value: selectedValue,
+                      items: <String>['Lẻ', 'Sỉ']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedValue = newValue!;
+                          if (selectedValue == 'Lẻ') {
+                            filteredItems = filteredItemsLe;
+                          } else {
+                            filteredItems = filteredItemsSi;
+                          }
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
               ListView.builder(
                 physics: const PageScrollPhysics(),
                 shrinkWrap: true,

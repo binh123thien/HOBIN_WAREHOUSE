@@ -35,6 +35,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       builder: (BuildContext context) {
         return DanhSachSortByHangHoa(
+          phanBietNhapXuat: 0,
           sortbyhanghoaController: controllersortby.sortbyhanghoaController,
         ); // Gọi Widget BottomSheetContent để hiển thị bottom sheet
       },
