@@ -143,7 +143,9 @@ class _KhachHangScreenState extends State<KhachHangScreen> {
                           builder: (context) =>
                               KhachHangDetailScreen(khachhang: khachhang)),
                     ).then((value) {
-                      setState(() {});
+                      if (mounted) {
+                        setState(() {});
+                      }
                     });
                   },
                   child: Padding(

@@ -25,8 +25,19 @@ class _ThemKhachHangScreenState extends State<ThemKhachHangScreen>
   final controllerCreate = Get.put(KhachHangRepository());
 
   @override
+  void initState() {
+    controllerForm.tenKhachHangController.clear();
+    controllerForm.sDTKhachHangController.clear();
+    controllerForm.diaChiKhachHangController.clear();
+    controllerForm.sortbyKhachHangController.clear();
+    controllerForm.sortbyKhachNoController.clear();
+    controllerForm.sortbyDonNoController.clear();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: const SystemUiOverlayStyle(
@@ -51,7 +62,7 @@ class _ThemKhachHangScreenState extends State<ThemKhachHangScreen>
           child: Padding(
             padding: const EdgeInsets.all(35.0),
             child: Form(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -141,7 +152,7 @@ class _ThemKhachHangScreenState extends State<ThemKhachHangScreen>
                     width: double.infinity,
                     child: ElevatedButton(
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
+                          if (formKey.currentState!.validate()) {
                             final maKH = generateKHCode();
                             final khachhang = ThemKhachHangModel(
                                 tenkhachhang:
