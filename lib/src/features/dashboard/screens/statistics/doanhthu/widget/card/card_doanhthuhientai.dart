@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
@@ -44,7 +45,7 @@ class CardDoanThuHienTai extends StatelessWidget {
                     image: AssetImage(doanhthuThanhCongIcon), height: 15),
                 Text(
                   " $thanhcong đơn thành công",
-                  style: const TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: Font.sizes(context)[1]),
                 ),
               ],
             ),
