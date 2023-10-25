@@ -2,6 +2,7 @@
 
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/card_danhsach_2cot_widget.dart';
 
@@ -25,11 +26,10 @@ class _PhanLoaiKhoWidgetState extends State<PhanLoaiKhoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // print(alldanhmuc);
-    // print(controllerHangHoa.categoryCountList);
+    final size = MediaQuery.of(context).size;
     return CardDanhSach2cotWidget(
       nameArr: alldanhmuc,
-      height: 345,
+      height: size.height * 0.59,
     );
   }
 }

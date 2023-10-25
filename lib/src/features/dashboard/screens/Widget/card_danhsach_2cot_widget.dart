@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../common_widgets/fontSize/font_size.dart';
+
 class CardDanhSach2cotWidget extends StatelessWidget {
   const CardDanhSach2cotWidget({
     super.key,
@@ -25,7 +27,7 @@ class CardDanhSach2cotWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
@@ -33,7 +35,8 @@ class CardDanhSach2cotWidget extends StatelessWidget {
                       child: Text(
                         "Loại Danh Mục",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700),
+                            fontSize: Font.sizes(context)[0],
+                            fontWeight: FontWeight.w700),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -42,7 +45,8 @@ class CardDanhSach2cotWidget extends StatelessWidget {
                       child: Text(
                         "Tồn kho",
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700),
+                            fontSize: Font.sizes(context)[0],
+                            fontWeight: FontWeight.w700),
                         textAlign: TextAlign.right,
                       ),
                     ),
@@ -68,7 +72,8 @@ class CardDanhSach2cotWidget extends StatelessWidget {
                                 flex: 4,
                                 child: Text(
                                   name,
-                                  style: const TextStyle(fontSize: 16),
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[0]),
                                   textAlign: TextAlign.left,
                                 ),
                               ),
@@ -76,7 +81,8 @@ class CardDanhSach2cotWidget extends StatelessWidget {
                                 flex: 3,
                                 child: Text(
                                   count.toString(),
-                                  style: const TextStyle(fontSize: 16),
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[0]),
                                   textAlign: TextAlign.right,
                                 ),
                               ),
