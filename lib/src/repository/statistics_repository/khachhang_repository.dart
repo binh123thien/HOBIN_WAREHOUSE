@@ -89,7 +89,7 @@ class KhachHangRepository extends GetxController {
           .doc(firebaseUser.uid)
           .collection("History")
           .doc(firebaseUser.uid)
-          .collection(loai == "Khách hàng" ? "BanHang" : "NhapHang")
+          .collection(loai == "Khách hàng" ? "XuatHang" : "NhapHang")
           .get();
       for (QueryDocumentSnapshot doc in querySnapshot.docs) {
         if (doc.get('khachhang') == tenkhachhang) {
