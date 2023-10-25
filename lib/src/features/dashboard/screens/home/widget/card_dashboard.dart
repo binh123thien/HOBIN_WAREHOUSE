@@ -40,6 +40,7 @@ class CardDashboard extends StatelessWidget {
 
       return CardWidget(
         arrayList: expenses,
+        height: MediaQuery.of(context).size.height * 0.225,
       );
     });
   }

@@ -36,8 +36,8 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
         ),
       ),
       builder: (BuildContext context) {
@@ -63,6 +63,7 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
             .toLowerCase()
             .contains(searchKhachHang.toLowerCase()))
         .toList();
+    final size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 2,
       child: Column(
@@ -87,8 +88,8 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
               isScrollable: false,
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height - kToolbarHeight - 145,
+          Container(
+            height: size.height * 0.69,
             child: TabBarView(
               children: [
                 Column(
@@ -104,15 +105,15 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
                                 searchKhachHang = value;
                               });
                             },
-                            width: 320,
+                            width: size.width * 0.8,
                           ),
                           IconButton(
                               onPressed: () {
                                 _showSortbyKhachHang();
                               },
-                              icon: const Image(
-                                image: AssetImage(sortbyIcon),
-                                height: 30,
+                              icon: Image(
+                                image: const AssetImage(sortbyIcon),
+                                height: size.width * 0.15,
                               ))
                         ],
                       ),
@@ -125,6 +126,7 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
                       nameArrTitle1: 'tensanpham',
                       nameArrTitle2: 'tonkho',
                       nameArrTitle3: 'daban',
+                      height: size.height * 0.59,
                     ),
                   ],
                 ),

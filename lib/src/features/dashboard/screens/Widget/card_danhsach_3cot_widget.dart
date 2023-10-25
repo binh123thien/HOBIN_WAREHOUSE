@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../common_widgets/fontSize/font_size.dart';
+
 class CardDanhSach3cotWidget extends StatelessWidget {
   const CardDanhSach3cotWidget({
     super.key,
@@ -10,6 +12,7 @@ class CardDanhSach3cotWidget extends StatelessWidget {
     required this.nameArrTitle2,
     required this.nameArrTitle3,
     required this.hangTonKho,
+    required this.height,
   });
   final String title1;
   final String nameArrTitle1;
@@ -18,6 +21,7 @@ class CardDanhSach3cotWidget extends StatelessWidget {
   final String title3;
   final String nameArrTitle3;
   final List<dynamic> hangTonKho;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,7 @@ class CardDanhSach3cotWidget extends StatelessWidget {
       child: SizedBox(
         // color: Colors.yellow,
         width: size.width,
-        height: size.height - kToolbarHeight - 225,
+        height: height,
         child: Card(
           color: Colors.white,
           elevation: 1,
@@ -42,8 +46,9 @@ class CardDanhSach3cotWidget extends StatelessWidget {
                       flex: 2,
                       child: Text(
                         title1,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            fontSize: Font.sizes(context)[0],
+                            fontWeight: FontWeight.w700),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -51,8 +56,9 @@ class CardDanhSach3cotWidget extends StatelessWidget {
                       flex: 1,
                       child: Text(
                         title2,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            fontSize: Font.sizes(context)[0],
+                            fontWeight: FontWeight.w700),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -60,8 +66,9 @@ class CardDanhSach3cotWidget extends StatelessWidget {
                       flex: 1,
                       child: Text(
                         title3,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                            fontSize: Font.sizes(context)[0],
+                            fontWeight: FontWeight.w700),
                         textAlign: TextAlign.left,
                       ),
                     ),
@@ -84,7 +91,8 @@ class CardDanhSach3cotWidget extends StatelessWidget {
                                 flex: 2,
                                 child: Text(
                                   hangTonKho[index][nameArrTitle1],
-                                  style: const TextStyle(fontSize: 16),
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[0]),
                                   textAlign: TextAlign.left,
                                 ),
                               ),
@@ -92,7 +100,8 @@ class CardDanhSach3cotWidget extends StatelessWidget {
                                 flex: 1,
                                 child: Text(
                                   hangTonKho[index][nameArrTitle2].toString(),
-                                  style: const TextStyle(fontSize: 16),
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[0]),
                                   textAlign: TextAlign.left,
                                 ),
                               ),
@@ -100,7 +109,8 @@ class CardDanhSach3cotWidget extends StatelessWidget {
                                 flex: 1,
                                 child: Text(
                                   hangTonKho[index][nameArrTitle3].toString(),
-                                  style: const TextStyle(fontSize: 16),
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[0]),
                                   textAlign: TextAlign.left,
                                 ),
                               ),

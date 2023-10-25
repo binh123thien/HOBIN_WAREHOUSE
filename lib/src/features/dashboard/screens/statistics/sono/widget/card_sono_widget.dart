@@ -42,6 +42,9 @@ class _CardSoNoWidgetState extends State<CardSoNoWidget> {
         "value": tongtienno,
       },
     ];
-    return CardWidget(arrayList: cardsono);
+    return CardWidget(
+      arrayList: cardsono,
+      height: MediaQuery.of(context).size.height * 0.13,
+    );
   }
 }

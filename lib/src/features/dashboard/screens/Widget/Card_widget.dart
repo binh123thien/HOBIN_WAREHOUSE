@@ -8,8 +8,9 @@ class CardWidget extends StatelessWidget {
   const CardWidget({
     super.key,
     required this.arrayList,
+    required this.height,
   });
-
+  final double height;
   final List arrayList;
 
   @override
@@ -17,7 +18,7 @@ class CardWidget extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return Container(
         width: size.width,
-        height: size.height * 0.225,
+        height: height,
         decoration: BoxDecoration(
           border: Border.all(color: darkLiteColor),
           borderRadius: BorderRadius.circular(10),

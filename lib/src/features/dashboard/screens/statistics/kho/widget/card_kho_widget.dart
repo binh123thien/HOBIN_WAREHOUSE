@@ -40,6 +40,9 @@ class _CardKhoWidgetState extends State<CardKhoWidget> {
         "value": giatritonkho,
       },
     ];
-    return CardWidget(arrayList: cardkho);
+    return CardWidget(
+      arrayList: cardkho,
+      height: MediaQuery.of(context).size.height * 0.13,
+    );
   }
 }
