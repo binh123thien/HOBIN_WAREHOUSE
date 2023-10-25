@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
@@ -22,6 +24,7 @@ class Goods extends StatefulWidget {
 
 class _GoodsState extends State<Goods> with TickerProviderStateMixin {
   String searchHangHoa = "";
+  String scannedCode = '';
   //=======================show option sortby===============================
   final controllersortby = Get.put(ThemHangHoaController());
 
@@ -90,6 +93,44 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
         .toList();
     final size = MediaQuery.of(context).size;
 
+    void handleScanResult(String scannedCode) {
+      bool foundedItem = false;
+      int indexItem = -1;
+      List<dynamic> combinedItems = [...filteredItemsLe, ...filteredItemsSi];
+
+      for (var item in combinedItems) {
+        indexItem += 1;
+        if (item['macode'] == scannedCode) {
+          foundedItem = true;
+          break; // Thoát khỏi vòng lặp ngay khi tìm thấy sản phẩm
+        }
+      }
+
+      if (foundedItem) {
+        // Chuyển đến trang chi tiết sản phẩm và cập nhật trạng thái sau khi quay trở lại
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                ChiTietHangHoaScreen(hanghoa: combinedItems[indexItem]),
+          ),
+        ).then((_) {
+          if (mounted) {
+            setState(() {
+              allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
+            });
+          }
+        });
+      } else {
+        // Nếu không tìm thấy sản phẩm, hiển thị SnackBar
+        SnackBarWidget.showSnackBar(
+          context,
+          "Không tìm thấy sản phẩm",
+          cancel600Color,
+        );
+      }
+    }
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -119,7 +160,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                             searchHangHoa = value;
                           });
                         },
-                        width: 320,
+                        width: 260,
                       ),
                       IconButton(
                           onPressed: () {
@@ -129,6 +170,24 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                             image: AssetImage(sortbyIcon),
                             height: 28,
                           )),
+                      IconButton(
+                        onPressed: () async {
+                          scannedCode = await FlutterBarcodeScanner.scanBarcode(
+                            "#ff6666", // Màu hiển thị của app
+                            "Hủy bỏ", // Chữ hiển thị cho nút hủy bỏ
+                            true, // Cho phép Async? (có hay không)
+                            ScanMode.BARCODE, // Hình thức quét
+                          );
+                          if (!mounted) return;
+                          if (scannedCode == "-1") {
+                            print('if hùy nè');
+                          } else {
+                            handleScanResult(scannedCode);
+                          }
+                        },
+                        icon: const ImageIcon(AssetImage(qRIcon)),
+                        iconSize: 30,
+                      ),
                     ],
                   ),
                   const TabBar(

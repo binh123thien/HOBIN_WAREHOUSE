@@ -26,8 +26,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
   List<dynamic> allHangHoa = [];
   List<dynamic> filteredItems = [];
 
-  bool isSelected =
-      false; // Biến để theo dõi trạng thái Container đã được chọn hay chưa
+  bool isSelected = false; //  Container đã được chọn hay chưa
   dynamic selectedDoc; // Biến để lưu trữ giá trị doc được chọn
   List<bool> itemExpandedList = List.generate(200, (index) => false);
   String scannedCode = '';
@@ -78,13 +77,20 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                           if (scannedCode == "-1") {
                             print('if hùy nè');
                           } else {
+                            bool foundedItem = false;
+
                             for (var item in filteredItems) {
                               if (item['macode'] == scannedCode) {
+                                foundedItem = true;
                                 setState(() {});
-                              } else {
-                                SnackBarWidget.showSnackBar(context,
-                                    "Không tìm thấy sản phẩm", cancel600Color);
+                                break; // Thoát khỏi vòng lặp ngay khi tìm thấy sản phẩm
                               }
+                            }
+
+                            if (!foundedItem) {
+                              // Nếu không tìm thấy sản phẩm, hiển thị SnackBar
+                              SnackBarWidget.showSnackBar(context,
+                                  "Không tìm thấy sản phẩm", cancel600Color);
                             }
                           }
                         },
