@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/dashboard.dart';
+import 'package:hobin_warehouse/src/features/dashboard/screens/home/home_screen.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../utils/utils.dart';
@@ -80,7 +82,9 @@ class _CardHistoryState extends State<CardHistory> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const HistoryScreen(),
+                          builder: (context) => DashboardScreen(
+                            currentPage: 3,
+                          ),
                         ),
                       );
                     }

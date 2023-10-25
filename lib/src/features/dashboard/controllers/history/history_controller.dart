@@ -53,7 +53,7 @@ class HistoryController extends GetxController {
     });
   }
 
-  Future<void> handleHuyDon(String soHD, String billType, num doanhthu,
+  Future<String> handleHuyDon(String soHD, String billType, num doanhthu,
       String datetime, String trangthai) async {
     final snapshot = await controllerHistoryRepo.getHoaDonCollection(
         (billType == "HetHan" || billType == "XuatHang")
@@ -64,7 +64,7 @@ class HistoryController extends GetxController {
     final sanPhamTrongHoaDon = snapshot.docs.map((doc) => doc.data()).toList();
     if (sanPhamTrongHoaDon.isEmpty) {
       ToastWidget.showToast("Lỗi sản phẩm không có trong kho");
-      return;
+      return "Error";
     }
 
     if (billType == "HetHan") {
@@ -73,15 +73,20 @@ class HistoryController extends GetxController {
           .then((value) {
         ToastWidget.showToast("Hủy đơn thành công!");
       });
+      return "Success";
     } else if (billType == "NhapHang") {
-      await controllerNhapHangRepo.xuatkhoNhapHangHangHoaExpired(
-          sanPhamTrongHoaDon, soHD, billType);
+      String result = await controllerNhapHangRepo
+          .xuatkhoNhapHangHangHoaExpired(sanPhamTrongHoaDon, soHD, billType);
+      return result == "Success" ? "Success" : "Error";
     } else if (billType == "XuatHang") {
       handleHuyDonHangXuatHang(
               sanPhamTrongHoaDon, doanhthu, datetime, trangthai, soHD, billType)
           .then((value) {
         ToastWidget.showToast("Hủy đơn thành công!");
       });
+      return "Success";
+    } else {
+      return "Error";
     }
   }
 

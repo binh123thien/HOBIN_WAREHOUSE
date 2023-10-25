@@ -198,9 +198,10 @@ class NhapHangRepository extends GetxController {
 
   //======================Huy Don=========================
 //tra hang lai kho
-  Future<void> xuatkhoNhapHangHangHoaExpired(
+  Future<String> xuatkhoNhapHangHangHoaExpired(
       List<dynamic> allThongTinItemNhap, String soHD, String billType) async {
     final firebaseUser = FirebaseAuth.instance.currentUser;
+    bool checkError = false;
     final collection = _db
         .collection("Users")
         .doc(firebaseUser!.uid)
@@ -218,10 +219,12 @@ class NhapHangRepository extends GetxController {
           .get();
       if (checkLocation.docs.isEmpty) {
         ToastWidget.showToast("Lỗi! Sản phẩm không còn trong kho!");
+        checkError = true;
         break;
       } else //neu trong kho không đủ số
       if (checkLocation.docs.first.data()["soluong"] < doc["soluong"]) {
         ToastWidget.showToast("Lỗi! Sản phẩm trong kho không đủ để xuất!");
+        checkError = true;
         break;
       } else //neu trong kho bằng với đơn hàng cần hủy thì delete
       if (checkLocation.docs.first.data()["soluong"] == doc["soluong"]) {
@@ -266,6 +269,7 @@ class NhapHangRepository extends GetxController {
         });
       }
     }
+    return checkError ? "Error" : "Success";
   }
 
   Future<void> handleXuatKhoNhapHang(
