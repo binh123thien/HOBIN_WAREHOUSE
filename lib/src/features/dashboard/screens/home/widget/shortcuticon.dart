@@ -5,6 +5,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/short
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuts/kho.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/shortcuts/sono.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../constants/icon.dart';
 
 class ShortCutIcon extends StatelessWidget {
@@ -34,10 +35,14 @@ class ShortCutIcon extends StatelessWidget {
         "link": const HetHanShortcutScreen(),
       },
     ];
+    final size = MediaQuery.of(context).size;
     return Container(
-      height: 100,
+      width: size.width,
+      height: size.height * 0.12,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15), color: whiteColor),
+          border: Border.all(color: darkLiteColor),
+          borderRadius: BorderRadius.circular(10),
+          color: whiteColor),
       child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: GridView.count(
@@ -57,7 +62,7 @@ class ShortCutIcon extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       shortcut['title'],
-                      style: const TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: Font.sizes(context)[0]),
                     ),
                   ],
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import '../../../../common_widgets/dotline/dotline.dart';
+import '../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../utils/utils.dart';
 
 class CardWidget extends StatelessWidget {
@@ -13,9 +14,13 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Container(
+        width: size.width,
+        height: size.height * 0.225,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: darkLiteColor),
+          borderRadius: BorderRadius.circular(10),
           color: whiteColor,
         ),
         child: Padding(
@@ -42,8 +47,8 @@ class CardWidget extends StatelessWidget {
                             const SizedBox(width: 9),
                             Text(
                               arrayList[index]["title"],
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w100),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[0]),
                             ),
                           ],
                         ),
@@ -51,8 +56,7 @@ class CardWidget extends StatelessWidget {
                           index == 0
                               ? arrayList[index]["value"].toString()
                               : formatCurrency(arrayList[index]["value"]),
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400),
+                          style: TextStyle(fontSize: Font.sizes(context)[0]),
                         ),
                       ],
                     ),

@@ -16,6 +16,7 @@ class _ChartScreenState extends State<ChartScreen> {
   final DoanhThuController doanhThuControllerRepo = Get.find();
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return StreamBuilder<List<double>>(
       stream: doanhThuControllerRepo
           .getDoanhThu7DayFromFirebase(widget.selectedWeek),
@@ -37,7 +38,7 @@ class _ChartScreenState extends State<ChartScreen> {
             maxElement = 100;
           }
           return SizedBox(
-            height: 220,
+            height: size.height * 0.21,
             child: BarGraph(
               maxElement: maxElement,
               weeklySummary: document,

@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
           statusBarColor: Colors.transparent,
           statusBarIconBrightness: Brightness.dark,
         ),
+        elevation: 2,
         backgroundColor: mainColor,
         title: const AppBarDashBoard(),
       ),

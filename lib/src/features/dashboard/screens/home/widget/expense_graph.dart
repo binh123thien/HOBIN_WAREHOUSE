@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 
+import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../controllers/statistics/doanhthu_controller.dart';
 import 'chartScreen.dart';
 
@@ -30,7 +31,7 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
         selectedTongDoanhThu =
             doanhThuControllerRepo.docDoanhThuTuanChart[0]["doanhthu"];
       }
-
+      final size = MediaQuery.of(context).size;
       return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15), color: whiteColor),
@@ -40,9 +41,9 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 children: [
-                  const Text(
+                  Text(
                     "Doanh Thu Tuần",
-                    style: TextStyle(fontSize: 17),
+                    style: TextStyle(fontSize: Font.sizes(context)[1]),
                   ),
                   const SizedBox(height: 8),
                   Container(
@@ -51,7 +52,7 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
                             color: Colors
                                 .grey), // Màu viền và độ dày có thể được thay đổi
                         borderRadius:
-                            BorderRadius.circular(4), // Bo góc viền ngoại
+                            BorderRadius.circular(5), // Bo góc viền ngoại
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8),
@@ -90,11 +91,12 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
               ),
             ),
             Container(
-              width: double.infinity,
-              height: 310,
+              width: size.width,
+              height: size.height * 0.33,
               decoration: BoxDecoration(
                   color: whiteColor,
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: darkLiteColor),
                   boxShadow: [
                     BoxShadow(
                         color: Colors.grey.withOpacity(0.01),
@@ -109,16 +111,16 @@ class _ExpenseTrackState extends State<ExpenseTrack> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          "Doanh Thu",
-                          style: TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w400),
+                        Text(
+                          "Doanh thu tuần này",
+                          style: TextStyle(fontSize: Font.sizes(context)[0]),
                         ),
                         const SizedBox(height: 7),
                         Text(
                           formatCurrency(selectedTongDoanhThu),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w700),
+                          style: TextStyle(
+                              fontSize: Font.sizes(context)[1],
+                              fontWeight: FontWeight.w800),
                         ),
                       ],
                     ),

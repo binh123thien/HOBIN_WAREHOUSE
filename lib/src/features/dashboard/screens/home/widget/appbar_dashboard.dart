@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/notification/notification.dart';
 import 'package:page_transition/page_transition.dart';
+import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../controllers/account/profile_controller.dart';
 import '../../account/account_screen.dart';
 
@@ -72,10 +73,11 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                         children: [
                           Text(
                             "Hi, ${userAccount["Name"]}!",
-                            style: const TextStyle(fontSize: 13),
+                            style: TextStyle(fontSize: Font.sizes(context)[0]),
                           ),
-                          const Text("Welcome to HoBin",
-                              style: TextStyle(fontSize: 15)),
+                          Text("Welcome to HoBin",
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[0])),
                         ],
                       ),
                     ],

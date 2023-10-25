@@ -73,7 +73,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 },
               )),
           child: NavigationBar(
-            height: 65,
+            height: MediaQuery.of(context).size.height * 0.08,
             backgroundColor: backGroundColor,
             selectedIndex: widget.currentPage,
             onDestinationSelected: (int currentPage) {
