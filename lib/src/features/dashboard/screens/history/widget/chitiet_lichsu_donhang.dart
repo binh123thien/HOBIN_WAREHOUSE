@@ -189,11 +189,18 @@ class _ChiTietLichSuDonHangState extends State<ChiTietLichSuDonHang> {
                                       widget.doc["trangthai"])
                                   .then(
                                 (value) {
-                                  setState(() {
-                                    isLoading = false;
-                                    isHuy = true;
-                                    trangthai = "Hủy";
-                                  });
+                                  if (value == "Error") {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  }
+                                  if (value == "Success") {
+                                    setState(() {
+                                      isLoading = false;
+                                      isHuy = true;
+                                      trangthai = "Hủy";
+                                    });
+                                  }
                                 },
                               );
                             }
