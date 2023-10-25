@@ -81,6 +81,7 @@ dependencies:
   firebase_messaging: ^14.6.9
   fluttertoast: ^8.2.2
   connectivity_plus: ^5.0.1
+  url_launcher: ^6.0.15
 
 flutter_launcher_icons:
   android: true
