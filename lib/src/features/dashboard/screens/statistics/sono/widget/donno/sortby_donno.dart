@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../controllers/statistics/khachhang_controller.dart';
 
@@ -29,14 +30,17 @@ class _SortByDonNoState extends State<SortByDonNo> {
     final controllerKhachHang = Get.put(KhachHangController());
     final size = MediaQuery.of(context).size;
     return SizedBox(
-      height: size.height * 0.45,
+      height: size.height * 0.31,
       child: Column(children: [
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Phân loại"),
+              Text(
+                "Phân loại",
+                style: TextStyle(fontSize: Font.sizes(context)[2]),
+              ),
               IconButton(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.cancel_rounded))
@@ -65,7 +69,7 @@ class _SortByDonNoState extends State<SortByDonNo> {
               },
               child: Container(
                 width: size.width,
-                height: 45,
+                height: size.height * 0.055,
                 color: isSelected ? mainColor : Colors.transparent,
                 child: Align(
                   alignment: Alignment.centerLeft,
@@ -75,7 +79,7 @@ class _SortByDonNoState extends State<SortByDonNo> {
                       sortType,
                       style: TextStyle(
                           color: isSelected ? Colors.white : Colors.black,
-                          fontSize: 19),
+                          fontSize: Font.sizes(context)[2]),
                     ),
                   ),
                 ),

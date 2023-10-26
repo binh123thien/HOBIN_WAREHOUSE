@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/sono/widget/donno/sortby_donno.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../repository/statistics_repository/khachhang_repository.dart';
+import '../../../../../../../utils/utils.dart';
 import '../../../../../controllers/statistics/khachhang_controller.dart';
 import '../../../../Widget/appbar/search_widget.dart';
 import '../danhsachno/card_listdanhsachno.dart';
@@ -35,8 +37,8 @@ class _DonNoWidgetState extends State<DonNoWidget> {
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
         ),
       ),
       builder: (BuildContext context) {
@@ -58,8 +60,9 @@ class _DonNoWidgetState extends State<DonNoWidget> {
     List<dynamic> alldonhang = [];
     alldonhang.addAll(donbanhang);
     alldonhang.addAll(donnhaphang);
-    List<dynamic> donnoList =
-        alldonhang.where((doc) => doc["no"] != 0).toList();
+    List<dynamic> donnoList = alldonhang
+        .where((doc) => doc["no"] != 0 && doc["trangthai"] != "Hủy")
+        .toList();
     List<dynamic> dasortby = controllerRepo.sortbyKhachHang(
         donnoList, controllerKhachHang.sortbyDonNoController.text);
     List<dynamic> locdonnoList = dasortby
@@ -68,6 +71,13 @@ class _DonNoWidgetState extends State<DonNoWidget> {
             .toLowerCase()
             .contains(searchKhachHang.toLowerCase()))
         .toList();
+    double tongno = donnoList.fold(0.0, (sum, doc) {
+      if (doc["no"] != null) {
+        return sum + doc["no"];
+      } else {
+        return sum;
+      }
+    });
     return Column(
       children: [
         Padding(
@@ -94,10 +104,23 @@ class _DonNoWidgetState extends State<DonNoWidget> {
             ],
           ),
         ),
+        const SizedBox(height: 10),
+        Container(
+          width: size.width,
+          height: size.height * 0.038,
+          color: processColor,
+          child: Center(
+            child: Text(
+              "Tổng nợ: ${formatCurrency(tongno)}",
+              style: TextStyle(
+                  fontSize: Font.sizes(context)[1], color: whiteColor),
+            ),
+          ),
+        ),
         Container(
           color: whiteColor,
           width: size.width,
-          height: size.height * 0.6,
+          height: size.height * 0.55,
           child: CardListDanhSachNo(
             docs: locdonnoList,
           ),
