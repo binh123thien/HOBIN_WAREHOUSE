@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../utils/utils.dart';
 
 class CardLichSuTraNo extends StatefulWidget {
@@ -33,11 +34,13 @@ class _CardLichSuTraNoState extends State<CardLichSuTraNo> {
                           children: [
                             Text(
                               doc["khachhang"],
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Font.sizes(context)[1]),
                             ),
                             Text("Nợ cũ: ${formatCurrency(doc["nocu"])}",
-                                style: const TextStyle(fontSize: 15)),
+                                style: TextStyle(
+                                    fontSize: Font.sizes(context)[0])),
                           ],
                         ),
                         subtitle: Column(
@@ -50,12 +53,13 @@ class _CardLichSuTraNoState extends State<CardLichSuTraNo> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("${doc["ngaytrano"]}",
-                                        style: const TextStyle(
-                                            fontSize: 15,
+                                        style: TextStyle(
+                                            fontSize: Font.sizes(context)[0],
                                             color: Colors.black54)),
                                     Text(
                                         "Tiền trả: ${formatCurrency(doc["sotientra"])}",
-                                        style: const TextStyle(fontSize: 15))
+                                        style: TextStyle(
+                                            fontSize: Font.sizes(context)[0]))
                                   ],
                                 ),
                                 Row(
@@ -63,7 +67,8 @@ class _CardLichSuTraNoState extends State<CardLichSuTraNo> {
                                   children: [
                                     Text(
                                         "Còn nợ: ${formatCurrency(doc["conno"])}",
-                                        style: const TextStyle(fontSize: 15))
+                                        style: TextStyle(
+                                            fontSize: Font.sizes(context)[0]))
                                   ],
                                 )
                               ],

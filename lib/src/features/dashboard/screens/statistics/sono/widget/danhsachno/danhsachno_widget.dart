@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../repository/statistics_repository/khachhang_repository.dart';
@@ -37,8 +38,8 @@ class _DanhSachNoWidgetState extends State<DanhSachNoWidget> {
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
         ),
       ),
       builder: (BuildContext context) {
@@ -59,8 +60,9 @@ class _DanhSachNoWidgetState extends State<DanhSachNoWidget> {
     List<dynamic> alldonhang = [];
     alldonhang.addAll(donbanhang);
     alldonhang.addAll(donnhaphang);
-    List<dynamic> donnoList =
-        alldonhang.where((doc) => doc["no"] != 0).toList();
+    List<dynamic> donnoList = alldonhang
+        .where((doc) => doc["no"] != 0 && doc["trangthai"] != "Hủy")
+        .toList();
     //loc don khach hang bi trung lap
     Map<dynamic, dynamic> groupedData = {};
     for (var doc in donnoList) {
@@ -98,69 +100,76 @@ class _DanhSachNoWidgetState extends State<DanhSachNoWidget> {
                     searchKhachHang = value;
                   });
                 },
-                width: 320,
+                width: size.width * 0.75,
               ),
               IconButton(
                   onPressed: () {
                     _showSortbyKhachHang();
                   },
-                  icon: const Image(
-                    image: AssetImage(sortbyIcon),
-                    height: 30,
+                  icon: Image(
+                    image: const AssetImage(sortbyIcon),
+                    height: size.width * 0.08,
                   ))
             ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: SizedBox(
-            width: size.width,
-            height: size.height - kToolbarHeight - 225,
-            child: ListView.builder(
-                itemCount: filteredList.length,
-                itemBuilder: (context, index) {
-                  final khachno = filteredList[index];
+        SizedBox(
+          width: size.width,
+          height: size.height * 0.6,
+          child: donnoList.isEmpty
+              ? Center(
+                  child: Text(
+                    "Chưa có khách nợ!",
+                    style: TextStyle(fontSize: Font.sizes(context)[1]),
+                  ),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: filteredList.length,
+                  itemBuilder: (context, index) {
+                    final khachno = filteredList[index];
 
-                  return ListTile(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ListDanhSachNo(
-                                  tenkhachhang: khachno["khachhang"].toString(),
-                                  billType: khachno["billType"].toString(),
-                                )),
-                      ).then((_) {
-                        setState(() {
-                          donbanhang = controller.allDonBanHangFirebase;
-                          donnhaphang = controller.allDonNhapHangFirebase;
+                    return ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListDanhSachNo(
+                                    tenkhachhang:
+                                        khachno["khachhang"].toString(),
+                                    billType: khachno["billType"].toString(),
+                                  )),
+                        ).then((_) {
+                          setState(() {
+                            donbanhang = controller.allDonBanHangFirebase;
+                            donnhaphang = controller.allDonNhapHangFirebase;
+                          });
                         });
-                      });
-                    },
-                    leading: const Icon(Icons.account_circle,
-                        size: 40, color: darkColor),
-                    title: Text(
-                      khachno["khachhang"].toString(),
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          color: khachno["billType"] == "NhapHang"
-                              ? cancel600Color
-                              : darkColor),
-                    ),
-                    subtitle: khachno["billType"] == "NhapHang"
-                        ? const Text("Nhà cung cấp",
-                            style: TextStyle(fontSize: 15))
-                        : const Text("Khách hàng",
-                            style: TextStyle(fontSize: 15)),
-                    trailing: Text(
-                      formatCurrency(khachno["no"]),
-                      style: const TextStyle(
-                          fontSize: 17, fontWeight: FontWeight.w400),
-                    ),
-                  );
-                }),
-          ),
+                      },
+                      leading: Icon(Icons.account_circle,
+                          size: size.width * 0.08, color: darkColor),
+                      title: Text(
+                        khachno["khachhang"].toString(),
+                        style: TextStyle(
+                            fontSize: Font.sizes(context)[2],
+                            fontWeight: FontWeight.w900,
+                            color: khachno["billType"] == "NhapHang"
+                                ? cancel600Color
+                                : darkColor),
+                      ),
+                      subtitle: khachno["billType"] == "NhapHang"
+                          ? Text("Nhà cung cấp",
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[0]))
+                          : Text("Khách hàng",
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[0])),
+                      trailing: Text(
+                        formatCurrency(khachno["no"]),
+                        style: TextStyle(fontSize: Font.sizes(context)[1]),
+                      ),
+                    );
+                  }),
         ),
       ],
     );

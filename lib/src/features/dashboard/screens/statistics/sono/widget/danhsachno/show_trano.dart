@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/repository/history_repository/history_repository.dart';
 import '../../../../../../../common_widgets/dialog/dialog.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../common_widgets/network/network.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../repository/history_repository/lichsutrano_repository.dart';
@@ -40,12 +41,16 @@ class _ShowTraNoState extends State<ShowTraNo> {
   Future<void> _onSaveButtonPressed() async {
     try {
       trano = num.tryParse(_controller.value.text) ?? 0;
+      print(trano);
       // Lấy danh sách các documents trong collection NhapHang hoặc BanHang
       final alldonhang = await controllerHistory.loadAllDonXuatHangHoacNhapHang(
           widget.billType == "XuatHang" ? "XuatHang" : "NhapHang");
       final listNo = alldonhang.docs
           .where(
-            (doc) => doc['khachhang'] == widget.tenkhachhang && doc['no'] > 0,
+            (doc) =>
+                doc['khachhang'] == widget.tenkhachhang &&
+                doc['no'] > 0 &&
+                doc["trangthai"] != "Hủy",
           )
           .toList();
       final sortedListNo = List.from(listNo)
@@ -108,11 +113,12 @@ class _ShowTraNoState extends State<ShowTraNo> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.19,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: Form(
           key: _formKey,
           child: Padding(
@@ -124,84 +130,87 @@ class _ShowTraNoState extends State<ShowTraNo> {
                   "Nhập số tiền trả",
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: hasError ? 66 : 40,
-                      width: (MediaQuery.of(context).size.width - 30) * 7 / 10,
-                      child: TextFormField(
-                        focusNode: widget.focusNode,
-                        onChanged: (value) {
-                          setState(() {});
-                        },
-                        controller: _controller,
-                        validator: (value) {
-                          return nonZeroInput(value);
-                        },
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          MaxValueTextInputFormatter(widget.tongno)
-                        ],
-                        decoration: const InputDecoration(
-                          errorStyle: TextStyle(fontSize: 15),
-                          contentPadding: EdgeInsets.only(left: 10),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                            borderRadius: BorderRadius.zero,
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.09,
+                        width: size.width * 0.9,
+                        child: TextFormField(
+                          focusNode: widget.focusNode,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                          controller: _controller,
+                          validator: (value) {
+                            return nonZeroInput(value);
+                          },
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            MaxValueTextInputFormatter(widget.tongno)
+                          ],
+                          decoration: InputDecoration(
+                            errorStyle:
+                                TextStyle(fontSize: Font.sizes(context)[1]),
+                            contentPadding: const EdgeInsets.only(left: 10),
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.grey),
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: blueColor, width: 2),
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            hintText: 'Nhập giá trị',
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: blueColor, width: 2),
-                            borderRadius: BorderRadius.zero,
-                          ),
-                          hintText: 'Nhập giá trị',
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width:
-                          (MediaQuery.of(context).size.width - 30) * 2.9 / 10,
-                      height: 40,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          backgroundColor: blueColor,
-                          side: BorderSide(
-                              color: _controller.text.isNotEmpty
-                                  ? blueColor
-                                  : Colors.grey[500]!),
-                        ),
-                        onPressed: _controller.text.isNotEmpty
-                            ? () {
-                                NetWork.checkConnection().then((value) {
-                                  if (value == "Not Connected") {
-                                    MyDialog.showAlertDialogOneBtn(
-                                        context,
-                                        "Không có Internet",
-                                        "Vui lòng kết nối internet và thử lại sau");
-                                  } else {
-                                    if (_formKey.currentState!.validate()) {
-                                      _onSaveButtonPressed().then((value) {
-                                        Navigator.of(context)
-                                            .pop(_controller.text);
-                                      });
+                      SizedBox(
+                        width: size.width * 0.9,
+                        height: size.height * 0.055,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor: blueColor,
+                            side: BorderSide(
+                                color: _controller.text.isNotEmpty
+                                    ? blueColor
+                                    : Colors.grey[500]!),
+                          ),
+                          onPressed: _controller.text.isNotEmpty
+                              ? () {
+                                  NetWork.checkConnection().then((value) {
+                                    if (value == "Not Connected") {
+                                      MyDialog.showAlertDialogOneBtn(
+                                          context,
+                                          "Không có Internet",
+                                          "Vui lòng kết nối internet và thử lại sau");
                                     } else {
-                                      setState(() {
-                                        hasError = true; // Đặt trạng thái lỗi
-                                      });
+                                      if (_formKey.currentState!.validate()) {
+                                        _onSaveButtonPressed().then((value) {
+                                          Navigator.of(context)
+                                              .pop(_controller.text);
+                                        });
+                                      } else {
+                                        setState(() {
+                                          hasError = true; // Đặt trạng thái lỗi
+                                        });
+                                      }
                                     }
-                                  }
-                                });
-                              }
-                            : null,
-                        child: const Text(
-                          'Xác nhận',
-                          style: TextStyle(fontSize: 17),
+                                  });
+                                }
+                              : null,
+                          child: const Text(
+                            'Xác nhận',
+                            style: TextStyle(fontSize: 17),
+                          ),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),

@@ -43,14 +43,14 @@ class _LichSuTraNoWidgetState extends State<LichSuTraNoWidget> {
                 searchKhachHang = value;
               });
             },
-            width: MediaQuery.of(context).size.width - 40,
+            width: size.width * 0.9,
           ),
         ),
         const SizedBox(height: 10),
         Container(
           color: whiteColor,
           width: size.width,
-          height: size.height - kToolbarHeight - 233,
+          height: size.height * 0.6,
           child: CardLichSuTraNo(allLichSuTraNo: filteredList),
         ),
       ],

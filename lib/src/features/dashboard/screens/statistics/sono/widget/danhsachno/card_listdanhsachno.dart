@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/widget/chitiet_lichsu_donhang.dart';
-
-import '../../../../../../../constants/color.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../utils/utils.dart';
 
 class CardListDanhSachNo extends StatelessWidget {
@@ -16,39 +15,10 @@ class CardListDanhSachNo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double total = docs.fold(0.0, (sum, doc) {
-      if (doc["no"] != null) {
-        return sum + doc["no"];
-      } else {
-        return sum;
-      }
-    });
+    final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: processColor),
-                      color: whiteColor,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Tổng nợ: ${formatCurrency(total)}",
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
           ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -67,39 +37,52 @@ class CardListDanhSachNo extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        padding: const EdgeInsets.symmetric(vertical: 2),
                         child: ListTile(
-                          leading: const SizedBox(
-                            width: 30,
-                            height: 30,
-                            child: Image(image: AssetImage(dangchoIcon)),
+                          leading: SizedBox(
+                            width: size.width * 0.08,
+                            height: size.width * 0.08,
+                            child: const Image(image: AssetImage(dangchoIcon)),
                           ),
-                          title: Text(doc["khachhang"]),
-                          subtitle: Column(
+                          title: Row(
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    doc["ngaytao"],
-                                    style: const TextStyle(fontSize: 13),
-                                  ),
-                                  Text("Nợ: ${formatCurrency(doc["no"])}",
-                                      style: const TextStyle(fontSize: 15)),
-                                ],
+                              Expanded(
+                                flex: 1,
+                                child: Text(doc["khachhang"],
+                                    style: TextStyle(
+                                        fontSize: Font.sizes(context)[1])),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "SL: ${doc["tongsl"]}",
-                                    style: const TextStyle(fontSize: 13),
-                                  ),
-                                  Text(formatCurrency(doc["tongthanhtoan"]),
+                              Expanded(
+                                flex: 1,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                      "Tổng đơn: ${formatCurrency(doc["tongthanhtoan"])}",
                                       style: const TextStyle(fontSize: 15)),
-                                ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                flex: 5,
+                                child: Text(
+                                  doc["ngaytao"],
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[0]),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 5,
+                                child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(
+                                      "Nợ: ${formatCurrency(doc["no"])}",
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[0])),
+                                ),
                               ),
                             ],
                           ),

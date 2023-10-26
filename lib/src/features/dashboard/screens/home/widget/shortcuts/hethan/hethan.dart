@@ -8,6 +8,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../common_widgets/network/network.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../controllers/home/hethan_controller.dart';
@@ -66,6 +67,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
@@ -74,7 +76,7 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
           backgroundColor: mainColor,
           centerTitle: true,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(60),
+            preferredSize: Size.fromHeight(size.height * 0.07),
             child: Container(
               color: whiteColor,
               child: Padding(
@@ -87,8 +89,8 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                         InkWell(
                           onTap: _onTap,
                           child: Container(
-                            width: 230,
-                            height: 40,
+                            width: size.width * 0.65,
+                            height: size.height * 0.047,
                             decoration: BoxDecoration(
                                 border: Border.all(color: darkColor),
                                 borderRadius: BorderRadius.circular(7)),
@@ -97,16 +99,17 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                   const EdgeInsets.symmetric(horizontal: 8),
                               child: Row(
                                 children: [
-                                  const Image(
-                                    image: AssetImage(lichIcon),
-                                    height: 20,
+                                  Image(
+                                    image: const AssetImage(lichIcon),
+                                    height: size.height * 0.027,
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
                                     startDate != null && endDate != null
                                         ? '${startDate!.day}/${startDate!.month}/${startDate!.year} - ${endDate!.day}/${endDate!.month}/${endDate!.year}'
                                         : 'Chọn ngày...',
-                                    style: const TextStyle(fontSize: 15),
+                                    style: TextStyle(
+                                        fontSize: Font.sizes(context)[0]),
                                   ),
                                 ],
                               ),
@@ -115,8 +118,8 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                         ),
                         const SizedBox(width: 10),
                         SizedBox(
-                          width: 110,
-                          height: 40,
+                          width: size.width * 0.25,
+                          height: size.height * 0.047,
                           child: ElevatedButton(
                             onPressed: () {
                               setState(() {
@@ -146,9 +149,10 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                     7), // giá trị này xác định bán kính bo tròn
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'Tìm kiếm',
-                              style: TextStyle(fontSize: 16),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]),
                             ),
                           ),
                         ),
@@ -164,12 +168,18 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
             ? Padding(
                 padding: const EdgeInsets.only(top: 7),
                 child: checkdataEmpty == true
-                    ? const Center(child: Text("Không có dữ liệu"))
+                    ? Center(
+                        child: Text(
+                        "Không có dữ liệu",
+                        style: TextStyle(fontSize: Font.sizes(context)[2]),
+                      ))
                     : Column(
                         children: [
                           dataHetHan.isNotEmpty
                               ? CheckboxListTile(
-                                  title: const Text("Chọn tất cả"),
+                                  title: Text("Chọn tất cả",
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[2])),
                                   value: selectAll,
                                   activeColor: mainColor,
                                   onChanged: (newValue) {
@@ -203,6 +213,8 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                     CheckboxListTile(
                                       title: Text(
                                         "${docdata['tensanpham']} - ${formatCurrency(docdata['gia'])}",
+                                        style: TextStyle(
+                                            fontSize: Font.sizes(context)[1]),
                                       ),
                                       value:
                                           selectedItemsHetHan.contains(docdata),
@@ -229,14 +241,17 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                         children: [
                                           Text(
                                             "${docdata["exp"]} - SL: ${docdata["soluong"]} - ${docdata["location"]}",
-                                            style:
-                                                const TextStyle(fontSize: 14),
+                                            style: TextStyle(
+                                                fontSize:
+                                                    Font.sizes(context)[0] *
+                                                        0.95),
                                           ),
                                           const SizedBox(width: 5),
                                           Container(
-                                            width:
-                                                daysRemaining > 1000 ? 80 : 70,
-                                            height: 24,
+                                            width: daysRemaining > 1000
+                                                ? size.width * 0.21
+                                                : size.width * 0.18,
+                                            height: size.height * 0.03,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(5),
@@ -248,16 +263,18 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                             child: Center(
                                               child: currentDate
                                                       .isAfter(expirationDate)
-                                                  ? const Text(
+                                                  ? Text(
                                                       "Hết hạn",
                                                       style: TextStyle(
-                                                          fontSize: 14,
+                                                          fontSize: Font.sizes(
+                                                              context)[0],
                                                           color: mainColor),
                                                     )
                                                   : Text(
                                                       "$daysRemaining ngày",
                                                       style: TextStyle(
-                                                          fontSize: 14,
+                                                          fontSize: Font.sizes(
+                                                              context)[0],
                                                           color: daysRemaining <
                                                                   10
                                                               ? mainColor
@@ -281,13 +298,13 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
               ),
         bottomNavigationBar: dataHetHan.isNotEmpty
             ? BottomAppBar(
-                height: 70,
+                height: size.height * 0.08,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 30,
-                      height: 45,
+                      width: size.width - 30,
+                      height: size.height * 0.05,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -322,9 +339,9 @@ class _HetHanShortcutScreenState extends State<HetHanShortcutScreen> {
                                   }
                                 });
                               },
-                        child: const Text(
+                        child: Text(
                           'Xuất kho',
-                          style: TextStyle(fontSize: 19),
+                          style: TextStyle(fontSize: Font.sizes(context)[2]),
                         ),
                       ),
                     ),

@@ -27,6 +27,7 @@ class _TabbarSoNoWidgetState extends State<TabbarSoNoWidget>
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 3,
       child: Column(
@@ -54,9 +55,8 @@ class _TabbarSoNoWidgetState extends State<TabbarSoNoWidget>
               isScrollable: false,
             ),
           ),
-          Container(
-            color: whiteColor,
-            height: MediaQuery.of(context).size.height - kToolbarHeight - 145,
+          SizedBox(
+            height: size.height * 0.7,
             child: const TabBarView(
               children: [
                 DanhSachNoWidget(),

@@ -1,20 +1,15 @@
 import 'dart:convert';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:intl/intl.dart';
 
 Future<void> handleBackgroundMessage(RemoteMessage? message) async {
   if (message == null) {
     return;
   }
 
-  print(message.notification?.title);
-  print(message.notification?.body);
+  // print(message.notification?.title);
+  // print(message.notification?.body);
 }
 
 late AndroidNotificationChannel channel;
@@ -29,7 +24,7 @@ class FirebaseAPI {
       return;
     }
 
-    print(message.notification?.title);
+    // print(message.notification?.title);
   }
 
 // Future<void> scheduleDailyNotification() async {
@@ -85,7 +80,7 @@ class FirebaseAPI {
       initializationSettings,
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) {
-        print('notificationResspone ${notificationResponse.payload}');
+        // print('notificationResspone ${notificationResponse.payload}');
       },
     );
   }
@@ -156,8 +151,8 @@ class FirebaseAPI {
 
   initNotification() async {
     await _firebaseMessaging.requestPermission();
-    final fcmToken = await _firebaseMessaging.getToken();
-    print('Token: $fcmToken');
+    // final fcmToken = await _firebaseMessaging.getToken();
+    // print('Token: $fcmToken');
     await setupFlutterNotifications();
     initLocalNotification();
     initPushNotification();
@@ -176,8 +171,8 @@ class FirebaseAPI {
     // print('eeeeeeeeeeee $allHangHoaFireBase');
     // final controllerChonHangHoa = Get.put(ChonHangHoaController());
     // print('tttttttttt ${controllerChonHangHoa.allHangHoaFireBase}');
-    final firestore = FirebaseFirestore.instance;
-    final firebaseUser = FirebaseAuth.instance.currentUser;
+    // final firestore = FirebaseFirestore.instance;
+    // final firebaseUser = FirebaseAuth.instance.currentUser;
 
 // Thực hiện truy vấn để lấy dữ liệu sản phẩm từ Firestore
     // final productsQuery = await firestore
@@ -188,8 +183,8 @@ class FirebaseAPI {
     //     .collection("Expired")
     //     .get();
 
-    final now = DateTime.now();
-    final formatter = DateFormat('dd-MM-yyyy'); // Định dạng ngày thời hạn
+    // final now = DateTime.now();
+    // final formatter = DateFormat('dd-MM-yyyy'); // Định dạng ngày thời hạn
     // if (productsQuery.docs.isNotEmpty) {
     //   // Có ít nhất một sản phẩm trong kết quả truy vấn
     //   for (var productDoc in productsQuery.docs) {

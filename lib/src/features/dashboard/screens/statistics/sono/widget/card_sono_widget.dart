@@ -22,9 +22,11 @@ class _CardSoNoWidgetState extends State<CardSoNoWidget> {
     List<dynamic> allDon = [];
     allDon.addAll(controller.allDonBanHangFirebase);
     allDon.addAll(controller.allDonNhapHangFirebase);
-    int sodonno = allDon.where((doc) => doc["no"] != 0).length;
+    int sodonno = allDon
+        .where((doc) => doc["no"] != 0 && doc["trangthai"] != "Hủy")
+        .length;
     double tongtienno = allDon.fold(0.0, (sum, doc) {
-      if (doc["no"] != null) {
+      if (doc["no"] != null && doc["trangthai"] != "Hủy") {
         return sum + doc["no"];
       } else {
         return sum;
@@ -44,7 +46,7 @@ class _CardSoNoWidgetState extends State<CardSoNoWidget> {
     ];
     return CardWidget(
       arrayList: cardsono,
-      height: MediaQuery.of(context).size.height * 0.13,
+      height: MediaQuery.of(context).size.height * 0.12,
     );
   }
 }
