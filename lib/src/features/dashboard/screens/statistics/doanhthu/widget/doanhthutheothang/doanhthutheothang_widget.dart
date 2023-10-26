@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
+import '../../../../../../../constants/icon.dart';
 import '../card/card_doanhthucacngaytruoc.dart';
 import '../card/card_doanhthuhientai.dart';
 import '../chitiet_doanhthu_screen.dart';
@@ -16,7 +18,21 @@ class DoanhThuTheoThangWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     if (doanhthutheothang.isEmpty) {
-      return const Center(child: Text("Chưa có giao dịch"));
+      return Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image(
+            image: const AssetImage(nodataIcon),
+            height: size.width * 0.7,
+            width: size.width * 0.7,
+          ),
+          Text(
+            "Chưa có giao dịch",
+            style: TextStyle(fontSize: Font.sizes(context)[2]),
+          ),
+        ],
+      ));
     }
     return Column(
       children: [
@@ -36,7 +52,7 @@ class DoanhThuTheoThangWidget extends StatelessWidget {
           color: darkColor,
         ),
         SizedBox(
-          height: size.height - 335,
+          height: size.height * 0.61,
           width: size.width - 30,
           // color: Colors.amber,
           child: doanhthutheothang.length > 1

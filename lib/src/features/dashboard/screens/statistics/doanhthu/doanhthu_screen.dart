@@ -57,15 +57,9 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
                 // labelPadding: EdgeInsets.symmetric(horizontal: 15),
               ),
             ),
-            Container(
+            SizedBox(
               height: size.height * 0.75,
               width: size.width - 16,
-              decoration: const BoxDecoration(
-                color: processColor,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20)),
-              ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 child: TabBarView(

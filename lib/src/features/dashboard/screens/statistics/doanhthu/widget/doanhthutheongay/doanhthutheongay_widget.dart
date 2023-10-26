@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
+import '../../../../../../../constants/icon.dart';
 import '../card/card_doanhthucacngaytruoc.dart';
 import '../chitiet_doanhthu_screen.dart';
 import '../card/card_doanhthuhientai.dart';
@@ -18,9 +19,19 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     if (doanhthu.isEmpty) {
       return Center(
-          child: Text(
-        "Chưa có giao dịch",
-        style: TextStyle(fontSize: Font.sizes(context)[1]),
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image(
+            image: const AssetImage(nodataIcon),
+            height: size.width * 0.7,
+            width: size.width * 0.7,
+          ),
+          Text(
+            "Chưa có giao dịch",
+            style: TextStyle(fontSize: Font.sizes(context)[2]),
+          ),
+        ],
       ));
     }
     return Column(
