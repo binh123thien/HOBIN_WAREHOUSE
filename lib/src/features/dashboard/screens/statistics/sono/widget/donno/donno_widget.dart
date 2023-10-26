@@ -71,7 +71,7 @@ class _DonNoWidgetState extends State<DonNoWidget> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 15),
+          padding: const EdgeInsets.only(top: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -81,15 +81,15 @@ class _DonNoWidgetState extends State<DonNoWidget> {
                     searchKhachHang = value;
                   });
                 },
-                width: 320,
+                width: size.width * 0.75,
               ),
               IconButton(
                   onPressed: () {
                     _showSortbyKhachHang();
                   },
-                  icon: const Image(
-                    image: AssetImage(sortbyIcon),
-                    height: 30,
+                  icon: Image(
+                    image: const AssetImage(sortbyIcon),
+                    height: size.width * 0.08,
                   ))
             ],
           ),
@@ -97,7 +97,7 @@ class _DonNoWidgetState extends State<DonNoWidget> {
         Container(
           color: whiteColor,
           width: size.width,
-          height: size.height - kToolbarHeight - 233,
+          height: size.height * 0.6,
           child: CardListDanhSachNo(
             docs: locdonnoList,
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../statistics/sono/widget/card_sono_widget.dart';
 import '../../../statistics/sono/widget/tabbar_sono_widget.dart';
@@ -15,8 +16,11 @@ class _SoNoShortCutScreenState extends State<SoNoShortCutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sổ nợ",
-            style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700)),
+        title: Text("Sổ nợ",
+            style: TextStyle(
+                color: whiteColor,
+                fontWeight: FontWeight.w700,
+                fontSize: Font.sizes(context)[2])),
         backgroundColor: mainColor,
         centerTitle: true,
       ),
