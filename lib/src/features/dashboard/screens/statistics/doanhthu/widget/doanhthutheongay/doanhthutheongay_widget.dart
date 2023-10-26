@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
 import '../card/card_doanhthucacngaytruoc.dart';
 import '../chitiet_doanhthu_screen.dart';
@@ -16,7 +17,11 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     if (doanhthu.isEmpty) {
-      return const Center(child: Text("Chưa có giao dịch"));
+      return Center(
+          child: Text(
+        "Chưa có giao dịch",
+        style: TextStyle(fontSize: Font.sizes(context)[1]),
+      ));
     }
     return Column(
       children: [
@@ -36,7 +41,7 @@ class DoanhThuTheoNgayWidget extends StatelessWidget {
           color: darkColor,
         ),
         SizedBox(
-          height: size.height - 335,
+          height: size.height * 0.61,
           width: size.width - 30,
           // color: Colors.amber,
           child: doanhthu.length > 1

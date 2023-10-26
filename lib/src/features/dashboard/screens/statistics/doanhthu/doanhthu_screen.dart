@@ -58,9 +58,10 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
               ),
             ),
             Container(
-              height: size.height - kToolbarHeight - 171,
+              height: size.height * 0.75,
               width: size.width - 16,
               decoration: const BoxDecoration(
+                color: processColor,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20)),

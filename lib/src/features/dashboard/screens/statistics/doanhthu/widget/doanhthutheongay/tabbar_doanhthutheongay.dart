@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../controllers/statistics/khachhang_controller.dart';
 import '../../../../history/widget/card_history.dart';
@@ -62,13 +63,13 @@ class _TabbarChiTietDoanhThuState extends State<TabbarChiTietDoanhThu> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height - kToolbarHeight - 270,
+            height: size.height * 0.595,
+            width: size.width,
             child: TabBarView(
               children: [
                 SizedBox(
                   child: widget.allDonHangTrongNgay.isNotEmpty
                       ? SizedBox(
-                          height: size.height - kToolbarHeight - 270,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: ListView.builder(
@@ -91,16 +92,19 @@ class _TabbarChiTietDoanhThuState extends State<TabbarChiTietDoanhThu> {
                             ),
                           ),
                         )
-                      : const Center(
+                      : Center(
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image(
-                                image: AssetImage(nodataIcon),
-                                height: 300,
+                                image: const AssetImage(nodataIcon),
+                                height: size.width * 0.7,
+                                width: size.width * 0.7,
                               ),
                               Text(
                                 "Bạn chưa có đơn hàng nào...",
-                                style: TextStyle(fontSize: 17),
+                                style:
+                                    TextStyle(fontSize: Font.sizes(context)[2]),
                               ),
                             ],
                           ),
@@ -110,7 +114,6 @@ class _TabbarChiTietDoanhThuState extends State<TabbarChiTietDoanhThu> {
                     ? SizedBox(
                         child: widget.allDonHangTrongNgay.isNotEmpty
                             ? SizedBox(
-                                height: size.height - kToolbarHeight - 270,
                                 child: ListView.builder(
                                   physics: const BouncingScrollPhysics(),
                                   shrinkWrap: true,
@@ -131,16 +134,19 @@ class _TabbarChiTietDoanhThuState extends State<TabbarChiTietDoanhThu> {
                                   }),
                                 ),
                               )
-                            : const Center(
+                            : Center(
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Image(
-                                      image: AssetImage(nodataIcon),
-                                      height: 300,
+                                      image: const AssetImage(nodataIcon),
+                                      height: size.width * 0.7,
+                                      width: size.width * 0.7,
                                     ),
                                     Text(
                                       "Bạn chưa có mặt hàng nào...",
-                                      style: TextStyle(fontSize: 17),
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[2]),
                                     ),
                                   ],
                                 ),

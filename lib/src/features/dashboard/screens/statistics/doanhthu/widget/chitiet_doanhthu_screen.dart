@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/doanhthu/widget/stream_chitietdoanhthutuanthang.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../controllers/statistics/doanhthu_controller.dart';
 import '../../../../controllers/statistics/khachhang_controller.dart';
@@ -46,17 +47,21 @@ class _ChiTietDoanhThuScreenState extends State<ChiTietDoanhThuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back, size: 30, color: whiteColor),
+            icon: Icon(Icons.arrow_back,
+                size: size.width * 0.06, color: whiteColor),
             onPressed: () {
               Navigator.pop(context);
             }),
         title: Text(widget.ngay,
-            style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w900, color: whiteColor)),
+            style: TextStyle(
+                fontSize: Font.sizes(context)[2],
+                fontWeight: FontWeight.w900,
+                color: whiteColor)),
         backgroundColor: mainColor,
         centerTitle: true,
       ),
@@ -66,7 +71,7 @@ class _ChiTietDoanhThuScreenState extends State<ChiTietDoanhThuScreen> {
           child: Stack(
             children: [
               Container(
-                height: 100,
+                height: size.height * 0.13,
                 color: mainColor,
               ),
               Column(
@@ -82,11 +87,15 @@ class _ChiTietDoanhThuScreenState extends State<ChiTietDoanhThuScreen> {
                           allDonHangTrongNgay: allDonHangTrongNgay)
                       : Column(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.all(12.0),
+                            Padding(
+                              padding: const EdgeInsets.all(12.0),
                               child: Row(
                                 children: [
-                                  Text("Chi tiết hàng ngày"),
+                                  Text(
+                                    "Chi tiết hàng ngày",
+                                    style: TextStyle(
+                                        fontSize: Font.sizes(context)[2]),
+                                  ),
                                 ],
                               ),
                             ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../utils/utils.dart';
 
 class CardMatHang extends StatelessWidget {
@@ -11,20 +12,22 @@ class CardMatHang extends StatelessWidget {
       padding: const EdgeInsets.all(12.0),
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                   flex: 3,
-                  child: Text("Tên hàng hóa", style: TextStyle(fontSize: 15))),
+                  child: Text("Tên hàng hóa",
+                      style: TextStyle(fontSize: Font.sizes(context)[0]))),
               Expanded(
                   flex: 1,
-                  child: Text("Đã bán", style: TextStyle(fontSize: 15))),
+                  child: Text("Đã bán",
+                      style: TextStyle(fontSize: Font.sizes(context)[0]))),
               Expanded(
                   flex: 3,
                   child: Text(
                     "D.Thu ước tính",
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: Font.sizes(context)[0]),
                     textAlign: TextAlign.right,
                   )),
             ],
@@ -46,19 +49,22 @@ class CardMatHang extends StatelessWidget {
                             flex: 3,
                             child: Text(
                               doc.keys.first,
-                              style: const TextStyle(fontSize: 17),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]),
                             ),
                           ),
                           Expanded(
                             flex: 1,
                             child: Text(doc.values.first.toString(),
-                                style: const TextStyle(fontSize: 17)),
+                                style: TextStyle(
+                                    fontSize: Font.sizes(context)[1])),
                           ),
                           Expanded(
                             flex: 3,
                             child: Text(
                               formatCurrency(doc["gia"] * doc.values.first),
-                              style: const TextStyle(fontSize: 17),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]),
                               textAlign: TextAlign.right,
                             ),
                           ),

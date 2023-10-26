@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
@@ -28,21 +27,23 @@ class CardDoanThuHienTai extends StatelessWidget {
   final int huy;
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 5),
-        Text(title, style: const TextStyle(fontSize: 17)),
+        Text(title, style: TextStyle(fontSize: Font.sizes(context)[1])),
         const SizedBox(height: 5),
         Text(formatCurrency(tongdoanhthu),
-            style: const TextStyle(fontSize: 19)),
+            style: TextStyle(fontSize: Font.sizes(context)[3])),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               children: [
-                const Image(
-                    image: AssetImage(doanhthuThanhCongIcon), height: 15),
+                Image(
+                    image: const AssetImage(doanhthuThanhCongIcon),
+                    height: size.width * 0.045),
                 Text(
                   " $thanhcong đơn thành công",
                   style: TextStyle(fontSize: Font.sizes(context)[1]),
@@ -50,7 +51,7 @@ class CardDoanThuHienTai extends StatelessWidget {
               ],
             ),
             SizedBox(
-              width: 120,
+              width: size.width * 0.27,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(8),
@@ -58,7 +59,7 @@ class CardDoanThuHienTai extends StatelessWidget {
                     side: const BorderSide(color: mainColor),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          25), // giá trị này xác định bán kính bo tròn
+                          10), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
                   onPressed: () {
@@ -80,9 +81,11 @@ class CardDoanThuHienTai extends StatelessWidget {
                               )),
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     "Xem chi tiết",
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                    style: TextStyle(
+                        fontSize: Font.sizes(context)[1],
+                        fontWeight: FontWeight.w700),
                   )),
             )
           ],

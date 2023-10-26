@@ -27,10 +27,10 @@ class StreamChiTietDoanhThuTuanThang extends StatelessWidget {
         if (snapshot.hasData) {
           final documents = snapshot.data!;
           return SizedBox(
-            height: size.height - 335,
             width: size.width - 30,
             // color: Colors.amber,
             child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: documents.length,
               itemBuilder: (context, index) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
 
@@ -38,11 +39,12 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
         "value": huy,
       }
     ];
+
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Container(
         width: size.width - 24,
-        height: 195,
+        height: size.height * 0.23,
         decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.circular(10),
@@ -55,13 +57,13 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              const Text(
+              Text(
                 "Tổng doanh thu",
-                style: TextStyle(fontSize: 17),
+                style: TextStyle(fontSize: Font.sizes(context)[1]),
               ),
               const SizedBox(height: 5),
               Text(formatCurrency(tongdoanhthu),
-                  style: const TextStyle(fontSize: 17)),
+                  style: TextStyle(fontSize: Font.sizes(context)[2])),
               const SizedBox(height: 5),
               const Divider(),
               ListView.builder(
@@ -77,16 +79,19 @@ class CardChiTietDoanhThuWidget extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Image(image: AssetImage(doc["icon"]), width: 19),
+                            Image(
+                                image: AssetImage(doc["icon"]),
+                                width: Font.sizes(context)[2]),
                             Text(
                               doc["title"],
-                              style: const TextStyle(fontSize: 16),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]),
                             ),
                           ],
                         ),
                         Text(
                           doc["value"].toString(),
-                          style: const TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: Font.sizes(context)[1]),
                         ),
                       ],
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../constants/icon.dart';
 import '../../../../../../../utils/utils.dart';
@@ -23,10 +24,10 @@ class CardDoanhThuCacNgayTruoc extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: Container(
           width: size.width - 35,
-          height: 100,
+          height: size.height * 0.12,
           decoration: BoxDecoration(
             color: whiteColor,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(5),
             border: Border.all(
               color: backGround600Color.withOpacity(0.5),
               width: 1,
@@ -37,18 +38,19 @@ class CardDoanhThuCacNgayTruoc extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(ngay, style: const TextStyle(fontSize: 15)),
+                Text(ngay, style: TextStyle(fontSize: Font.sizes(context)[1])),
                 const SizedBox(height: 10),
                 Text(formatCurrency(tongdoanhthu),
-                    style: const TextStyle(fontSize: 19)),
+                    style: TextStyle(fontSize: Font.sizes(context)[2])),
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    const Image(
-                        image: AssetImage(doanhthuThanhCongIcon), height: 15),
+                    Image(
+                        image: const AssetImage(doanhthuThanhCongIcon),
+                        height: Font.sizes(context)[1]),
                     Text(
                       " $thanhcong đơn thành công",
-                      style: const TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: Font.sizes(context)[1]),
                     ),
                   ],
                 ),
