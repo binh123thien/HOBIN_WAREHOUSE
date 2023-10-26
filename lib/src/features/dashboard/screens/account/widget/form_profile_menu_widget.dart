@@ -50,7 +50,7 @@ class _FormUpdateProfileState extends State<FormUpdateProfile> {
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: widget.hintText,
             hintStyle:
-                const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
             errorStyle: const TextStyle(fontSize: 15),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(100))),

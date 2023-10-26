@@ -305,9 +305,11 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                   MaterialPageRoute(
                       builder: (context) => const ThemGoodsScreen()),
                 ).then((_) {
-                  setState(() {
-                    allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
-                  });
+                  if (mounted) {
+                    setState(() {
+                      allHangHoa = controllerAllHangHoa.allHangHoaFireBase;
+                    });
+                  }
                 });
               }
             });
