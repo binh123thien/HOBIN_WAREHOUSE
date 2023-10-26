@@ -1,19 +1,20 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/utils/image_picker/image_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../../common_widgets/bottom_sheet_options.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../repository/goods_repository/good_repository.dart';
-import '../../../../../../utils/image_picker/image_picker.dart';
 import '../../../../../../utils/utils.dart';
 import '../../../../../../utils/validate/validate.dart';
 import '../../../../controllers/goods/chondanhmuc_controller.dart';
 import '../../../../controllers/goods/chondonvi_controller.dart';
 import '../../../../controllers/goods/them_hanghoa_controller.dart';
-import '../../../../controllers/image_controller.dart';
 import '../themhanghoa/danhmuc.dart';
 import '../themhanghoa/donvi.dart';
 import '../themhanghoa/phanloai_hang_hoa.dart';
@@ -32,10 +33,13 @@ class _ChinhSuaChiTietHangHoaScreenState
   final controllerDanhMuc = Get.put(ChonDanhMucController());
   final controller = Get.put(ThemHangHoaController());
   final myController = Get.put(ChonDonViController());
-  final controllerImage = Get.put(ImageController());
   final goodsRepo = Get.put(GoodRepository());
 
   late Map<String, dynamic> hangHoatam;
+
+  Uint8List? currentImage;
+  Uint8List? preImage;
+  bool _isLoading = false;
   @override
   void initState() {
     //tạo map tạm để show hình ảnh chưa lưu
@@ -63,6 +67,20 @@ class _ChinhSuaChiTietHangHoaScreenState
     super.initState();
   }
 
+  selectImage(sourceImage) async {
+    Uint8List? img = await StoreData().pickImage(sourceImage);
+    if (img != null) {
+      preImage = img;
+      currentImage = img;
+    } else {
+      currentImage = preImage;
+    }
+    setState(() {
+      currentImage;
+    });
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -71,8 +89,6 @@ class _ChinhSuaChiTietHangHoaScreenState
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, size: 30, color: darkColor),
             onPressed: () {
-              //xóa những tấm hình khách chưa lưu trong list tạm
-              controllerImage.deleteAllImageList('hanghoa');
               Navigator.of(context).pop(true);
             }),
         title: const Text("Chỉnh sửa chi tiết hàng hóa",
@@ -109,29 +125,29 @@ class _ChinhSuaChiTietHangHoaScreenState
                           builder: (context) {
                             return BottomSheetOptions(
                               textOneofTwo: 'avatar',
-                              onTapCamera: () async {
-                                await uploadImageToFirebase(
-                                    ImageSource.camera, 'hanghoa');
-                                //setState updateUserData
-                                showHinhAnh();
-                              },
-                              onTapGallery: () async {
-                                await uploadImageToFirebase(
-                                    ImageSource.gallery, 'hanghoa');
-                                showHinhAnh();
-                              },
+                              onTapCamera: () =>
+                                  selectImage(ImageSource.camera),
+                              onTapGallery: () =>
+                                  selectImage(ImageSource.gallery),
                             );
                           },
                         );
                       },
-                      icon: hangHoatam["photoGood"] == ''
-                          ? Image.asset(cameraIcon)
-                          : CachedNetworkImage(
-                              imageUrl: hangHoatam["photoGood"].toString(),
-                              width: 300,
-                              height: 300,
-                              fit: BoxFit.fill,
-                            ),
+                      icon: currentImage != null
+                          ? Image.memory(
+                              currentImage!,
+                              width: 90,
+                              height: 90,
+                              fit: BoxFit.cover,
+                            )
+                          : hangHoatam["photoGood"] == ''
+                              ? Image.asset(cameraIcon)
+                              : CachedNetworkImage(
+                                  imageUrl: hangHoatam["photoGood"].toString(),
+                                  width: 300,
+                                  height: 300,
+                                  fit: BoxFit.fill,
+                                ),
                     ),
                   ),
                 ),
@@ -278,50 +294,40 @@ class _ChinhSuaChiTietHangHoaScreenState
                 ),
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    //giá trị được return từ updatehanghoa
+                    setState(() {
+                      _isLoading = true;
+                    });
                     await goodsRepo
                         .updateGood(
                             hangHoatam['macode'],
                             widget.updateChinhSuaHangHoa['photoGood'],
-                            controller.tenSanPhamController.text)
+                            controller.tenSanPhamController.text,
+                            currentImage)
                         .then((newvalue) {
+                      Get.snackbar("Cập nhật hàng hóa thành công",
+                          "Hàng hóa đã cập nhật theo yêu cầu của bạn",
+                          colorText: Colors.green);
                       Navigator.of(context).pop(newvalue);
                     });
                   }
                 },
-                child: const Text(
-                  'Lưu & thoát',
-                  style: TextStyle(fontSize: 16),
-                ),
+                child: _isLoading
+                    ? const SizedBox(
+                        width: 15,
+                        height: 15,
+                        child: CircularProgressIndicator(
+                          color: whiteColor,
+                        ),
+                      )
+                    : const Text(
+                        'Lưu & thoát',
+                        style: TextStyle(fontSize: 16),
+                      ),
               ),
             ),
           ],
         ),
       ),
     );
-  }
-
-//=================================== end update ==============================
-  showHinhAnh() {
-    setState(() {
-      //hiên thị hình ảnh user đã chọn tại trang đó
-      hangHoatam = {
-        'macode': hangHoatam["macode"],
-        'tensanpham': hangHoatam["tensanpham"],
-        'gianhap': hangHoatam["gianhap"],
-        'giaban': hangHoatam["giaban"],
-        'phanloai': hangHoatam["phanloai"],
-        'donvi': hangHoatam["donvi"],
-        'danhmuc': hangHoatam["danhmuc"],
-        'daban': 0,
-        'tonkho': 0,
-        'soluong': 0,
-        //nếu hình trong list tạm rỗng
-        'photoGood': controllerImage.ImagePickedURLController.isEmpty
-            ? hangHoatam['photoGood']
-            : controllerImage.ImagePickedURLController.last
-      };
-    });
-    Navigator.of(context).pop();
   }
 }

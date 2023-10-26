@@ -1,15 +1,15 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/features/dashboard/models/danhmuc_model.dart';
+import 'package:hobin_warehouse/src/utils/image_picker/image_picker.dart';
 
 import '../../features/dashboard/controllers/goods/chondanhmuc_controller.dart';
 import '../../features/dashboard/controllers/goods/them_hanghoa_controller.dart';
-import '../../features/dashboard/controllers/image_controller.dart';
 import '../../features/dashboard/models/add/add_location_model(canK).dart';
 import '../../features/dashboard/models/donvi_model.dart';
 import '../../features/dashboard/models/themhanghoa_model.dart';
@@ -61,24 +61,12 @@ class GoodRepository extends GetxController {
 
 //=============================== End thêm hàng hóa mới =======================================
 //================================ update hang hoa ==================
-  Future<dynamic> updateGood(
-      String docGoodID, photoGoodUpdate, String tensanpham) async {
+  Future<dynamic> updateGood(String docGoodID, String photoGoodUpdate,
+      String tensanpham, Uint8List? imageChanged) async {
     final controllerThemHangHoa = Get.put(ThemHangHoaController());
     final controllerDanhMuc = Get.put(ChonDanhMucController());
-    final controllerImage = Get.put(ImageController());
 
     final firebaseUser = FirebaseAuth.instance.currentUser;
-    //================= xóa hình ảnh trước đó của user ===============
-    if (photoGoodUpdate.isNotEmpty) {
-      //kiểm tra tring list tạm
-      if (controllerImage.ImagePickedURLController.isNotEmpty) {
-        // lấy dữ liệu thông qua URL của hình ảnh
-        final imageRef = FirebaseStorage.instance.refFromURL(photoGoodUpdate);
-        //xóa hình ảnh qua path imageRef
-        FirebaseStorage.instance.ref().child(imageRef.fullPath).delete();
-      }
-    }
-//================ end xóa hình ảnh trước đó của user =====================
     //lấy giá trị trả về của hàm checkHangHoa
     final snapshot = await checkHangHoa(tensanpham);
     bool duplicateName = false; // Biến flag để ktra hàng đã có hay chưa
@@ -114,15 +102,15 @@ class GoodRepository extends GetxController {
         'phanloai': controllerThemHangHoa.phanloaiController.text,
         'donvi': controllerThemHangHoa.donviController.text,
         'danhmuc': controllerDanhMuc.selectedDanhMuc,
-        'photoGood': controllerImage.ImagePickedURLController.isNotEmpty
-            ? controllerImage.ImagePickedURLController.last
-            : photoGoodUpdate
-      }).whenComplete(() => Get.snackbar("Cập nhật hàng hóa thành công",
-              "Hàng hóa đã cập nhật theo yêu cầu của bạn",
-              colorText: Colors.green));
-
-      // xóa chừa hình cuối cùng
-      controllerImage.deleteExceptLastImage('hanghoa');
+        'photoGood': photoGoodUpdate
+      }).then((_) async {
+        if (imageChanged != null) {
+          await StoreData().saveImageGood(
+              file: imageChanged,
+              user: firebaseUser.uid,
+              macodeGood: docGoodID);
+        }
+      });
     }
     //lấy doc mới cập nhật return về (get dữ liệu về trang trước)
     final updatedDoc = await _db

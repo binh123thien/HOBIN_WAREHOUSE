@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -8,14 +11,13 @@ import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/chondanhmuc_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/models/themhanghoa_model.dart';
+import 'package:hobin_warehouse/src/utils/image_picker/image_picker.dart';
 import 'package:hobin_warehouse/src/utils/validate/validate.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../repository/goods_repository/good_repository.dart';
-import '../../../../../utils/image_picker/image_picker.dart';
 import '../../../../../utils/utils.dart';
 import '../../../controllers/goods/chondonvi_controller.dart';
 import '../../../../../common_widgets/bottom_sheet_options.dart';
-import '../../../controllers/image_controller.dart';
 import 'themhanghoa/danhmuc.dart';
 import 'themhanghoa/donvi.dart';
 import 'themhanghoa/phanloai_hang_hoa.dart';
@@ -33,7 +35,9 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
   final controller = Get.put(ThemHangHoaController());
   final myController = Get.put(ChonDonViController());
   final controllerDanhMuc = Get.put(ChonDanhMucController());
-  final controllerImage = Get.put(ImageController());
+  final firebaseUser = FirebaseAuth.instance.currentUser;
+  Uint8List? currentImage;
+  Uint8List? preImage;
 
   @override
   void initState() {
@@ -45,16 +49,27 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
 
     //clear List được lưu trữ trong controller
     controllerDanhMuc.selectedDanhMuc.clear();
-    //xóa hình user chưa lưu khi back về bằng nút quay lại trên dth
-    controllerImage.deleteAllImageList('hanghoa');
     super.initState();
+  }
+
+  selectImage(sourceImage) async {
+    Uint8List? img = await StoreData().pickImage(sourceImage);
+    if (img != null) {
+      preImage = img;
+      currentImage = img;
+    } else {
+      currentImage = preImage;
+    }
+    setState(() {
+      currentImage;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
     genarateCode() {
-      String generatedCode =
-          generateRandomCode(13); // Tạo mã code với độ dài là 13
+      String generatedCode = generateRandomCode(13); // độ dài là 13
       controller.maCodeController.text =
           generatedCode; // Gán mã code mới vào _maCodeController
     }
@@ -70,8 +85,6 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
               color: whiteColor,
             ),
             onPressed: () {
-              //xóa những tấm khác chưa lưu
-              controllerImage.deleteAllImageList('hanghoa');
               Navigator.of(context).pop();
             }),
         title: const Text(
@@ -108,31 +121,20 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                             builder: (context) {
                               return BottomSheetOptions(
                                 textOneofTwo: 'avatar',
-                                onTapCamera: () async {
-                                  await uploadImageToFirebase(
-                                      ImageSource.camera, 'hanghoa');
-                                  //setState updateUserData
-                                  showHinhAnh();
-                                },
-                                onTapGallery: () async {
-                                  await uploadImageToFirebase(
-                                      ImageSource.gallery, 'hanghoa');
-                                  showHinhAnh();
-                                },
+                                onTapCamera: () =>
+                                    selectImage(ImageSource.camera),
+                                onTapGallery: () =>
+                                    selectImage(ImageSource.gallery),
                               );
                             },
                           );
                         },
-                        icon: controllerImage
-                                .ImagePickedURLController.isNotEmpty
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(
-                                  controllerImage.ImagePickedURLController.last,
-                                  width: 300,
-                                  height: 300,
-                                  fit: BoxFit.fill,
-                                ),
+                        icon: currentImage != null
+                            ? Image.memory(
+                                currentImage!,
+                                width: 90,
+                                height: 90,
+                                fit: BoxFit.cover,
                               )
                             : Image.asset(cameraIcon)),
                   ),
@@ -299,33 +301,37 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
         title2: 'Lưu & thoát',
         onPressed1: () {
           if (formKey.currentState!.validate()) {
-            createHangHoa();
-            controller.maCodeController.clear();
-            controller.tenSanPhamController.clear();
-            controller.gianhapController.clear();
-            controller.giabanController.clear();
-            controller.donviController.clear();
-            //================xóa hình ảnh=====================
-            controllerImage.deleteExceptLastImage('hanghoa');
-            setState(() {
-              controllerImage.ImagePickedURLController;
+            createHangHoa().then((_) async {
+              if (currentImage != null) {
+                await StoreData().saveImageGood(
+                    file: currentImage!,
+                    user: firebaseUser!.uid,
+                    macodeGood: controller.maCodeController.text.trim());
+              }
+            }).then((_) {
+              setState(() {
+                currentImage = null;
+                controller.maCodeController.clear();
+                controller.tenSanPhamController.clear();
+                controller.gianhapController.clear();
+                controller.giabanController.clear();
+                controller.donviController.clear();
+                // Clear List được lưu trữ trong controller
+                controllerDanhMuc.selectedDanhMuc.clear();
+              });
             });
-            //===================end xóa hình ============
-
-            //clear List được lưu trữ trong controller
-            controllerDanhMuc.selectedDanhMuc.clear();
           }
         },
         onPressed2: () {
           if (formKey.currentState!.validate()) {
-            createHangHoa();
-
-            //================xóa hình ảnh=====================
-            controllerImage.deleteExceptLastImage('hanghoa');
-            setState(() {
-              controllerImage.ImagePickedURLController;
+            createHangHoa().then((_) async {
+              if (currentImage != null) {
+                await StoreData().saveImageGood(
+                    file: currentImage!,
+                    user: firebaseUser!.uid,
+                    macodeGood: controller.maCodeController.text.trim());
+              }
             });
-            //===================end xóa hình ============
 
             //clear List được lưu trữ trong controller
             controllerDanhMuc.selectedDanhMuc.clear();
@@ -340,40 +346,31 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
   }
 
 //tạo hàng hóa theo ma code
-  createHangHoa() {
+  Future<void> createHangHoa() async {
     //đổi Rx thành List = .toList()
     List<String> listDanhMuc = controllerDanhMuc.selectedDanhMuc.toList();
     var hanghoa = HangHoaModel(
-        chuyendoi: 0,
-        daban: 0,
-        soluong: 0,
-        tonkho: 0,
-        macode: controller.maCodeController.text.trim(),
-        tensanpham: controller.tenSanPhamController.text.trim(),
-        gianhap: double.tryParse(
-                controller.gianhapController.text.replaceAll(",", "")) ??
-            0,
-        giaban: double.tryParse(
-                controller.giabanController.text.replaceAll(",", "")) ??
-            0,
-        phanloai: controller.phanloaiController.text,
-        donvi: controller.donviController.text,
-        danhmuc: listDanhMuc,
-        photoGood: controllerImage.ImagePickedURLController.isNotEmpty
-            ? controllerImage.ImagePickedURLController.last
-            : "");
+      chuyendoi: 0,
+      daban: 0,
+      soluong: 0,
+      tonkho: 0,
+      macode: controller.maCodeController.text.trim(),
+      tensanpham: controller.tenSanPhamController.text.trim(),
+      gianhap: double.tryParse(
+              controller.gianhapController.text.replaceAll(",", "")) ??
+          0,
+      giaban: double.tryParse(
+              controller.giabanController.text.replaceAll(",", "")) ??
+          0,
+      phanloai: controller.phanloaiController.text,
+      donvi: controller.donviController.text,
+      danhmuc: listDanhMuc,
+      photoGood: '',
+    );
     final goodsRepo = Get.put(GoodRepository());
     goodsRepo.createCollectionFirestore(
         hanghoa,
         controller.maCodeController.text.trim(),
         controller.tenSanPhamController.text.trim());
-  }
-
-  //Show hình ảnh đã chọn
-  showHinhAnh() {
-    setState(() {
-      controllerImage.ImagePickedURLController;
-    });
-    Navigator.of(context).pop();
   }
 }
