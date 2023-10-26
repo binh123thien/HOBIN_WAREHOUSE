@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
@@ -46,21 +47,24 @@ class _ItemDaChonNhapHangWidgetState extends State<ItemDaChonNhapHangWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(15, 10, 15, 7),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15, 10, 15, 7),
           child: Row(
             children: [
               SizedBox(
-                width: 18,
-                height: 18,
-                child: Image(image: AssetImage(tongsoluongxuatkhoIcon)),
+                width: size.width * 0.045,
+                height: size.width * 0.045,
+                child: const Image(image: AssetImage(tongsoluongxuatkhoIcon)),
               ),
-              SizedBox(width: 7),
+              const SizedBox(width: 7),
               Text(
                 "Danh sách đã chọn",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                    fontSize: Font.sizes(context)[1],
+                    fontWeight: FontWeight.w700),
               ),
             ],
           ),
@@ -86,32 +90,48 @@ class _ItemDaChonNhapHangWidgetState extends State<ItemDaChonNhapHangWidget> {
                         foregroundColor: mainColor,
                         child: Text(
                           (index + 1).toString(),
-                          style: const TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w700),
+                          style: TextStyle(
+                              fontSize: Font.sizes(context)[1],
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
                       title: Text("${docdata['tensanpham']} ",
-                          style: const TextStyle(fontSize: 17)),
+                          style: TextStyle(fontSize: Font.sizes(context)[1])),
                       subtitle: Column(
                         children: [
                           const SizedBox(height: 3),
                           Row(
                             children: [
-                              Text("${docdata["exp"]} - ${docdata["location"]}",
-                                  style: const TextStyle(fontSize: 14))
+                              Expanded(
+                                child: Text(
+                                    "${docdata["exp"]} - ${docdata["location"]}",
+                                    style: TextStyle(
+                                        fontSize: Font.sizes(context)[0])),
+                              )
                             ],
                           ),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  "${formatCurrency(docdata['gia'])} x ${docdata["soluong"]}",
-                                  style: const TextStyle(fontSize: 14),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                    "${formatCurrency(docdata['gia'])} x ${docdata["soluong"]}",
+                                    style: TextStyle(
+                                        fontSize: Font.sizes(context)[0]),
+                                  ),
                                 ),
-                                Text(
-                                  formatCurrency(
-                                      docdata['gia'] * docdata["soluong"]),
-                                  style: const TextStyle(fontSize: 14),
+                                Expanded(
+                                  flex: 1,
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      formatCurrency(
+                                          docdata['gia'] * docdata["soluong"]),
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[0]),
+                                    ),
+                                  ),
                                 )
                               ]),
                         ],

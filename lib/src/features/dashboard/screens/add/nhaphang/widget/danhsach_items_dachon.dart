@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
 import 'itemdachon_nhaphang.dart';
@@ -29,6 +30,7 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
     num totalQuantity = widget.selectedItems
         .map<num>((item) => item['soluong'])
         .reduce((value, element) => value + element);
+    final size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,17 +39,18 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Row(
+              Row(
                 children: [
                   SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: Image(image: AssetImage(tongtienxuatkhoIcon)),
+                    width: size.width * 0.045,
+                    height: size.width * 0.045,
+                    child: const Image(image: AssetImage(tongtienxuatkhoIcon)),
                   ),
-                  SizedBox(width: 7),
+                  const SizedBox(width: 7),
                   Text("Ước tính chi phí",
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                      style: TextStyle(
+                          fontSize: Font.sizes(context)[1],
+                          fontWeight: FontWeight.bold)),
                 ],
               ),
               const SizedBox(height: 12),
@@ -56,9 +59,21 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text("Tổng tiền:", style: TextStyle(fontSize: 17)),
-                    Text(formatCurrency(totalPrice),
-                        style: const TextStyle(fontSize: 17)),
+                    Expanded(
+                      flex: 4,
+                      child: Text("Tổng tiền:",
+                          style: TextStyle(fontSize: Font.sizes(context)[1])),
+                    ),
+                    Expanded(
+                      flex: 6,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          formatCurrency(totalPrice),
+                          style: TextStyle(fontSize: Font.sizes(context)[1]),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -68,13 +83,24 @@ class _DanhSachItemsDaChonScreenState extends State<DanhSachItemsDaChonScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
-                      children: [
-                        Text("Tổng số lượng:", style: TextStyle(fontSize: 17)),
-                      ],
+                    Expanded(
+                      flex: 4,
+                      child: Row(
+                        children: [
+                          Text("Tổng số lượng:",
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1])),
+                        ],
+                      ),
                     ),
-                    Text(totalQuantity.toString(),
-                        style: const TextStyle(fontSize: 17)),
+                    Expanded(
+                      flex: 6,
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(totalQuantity.toString(),
+                            style: TextStyle(fontSize: Font.sizes(context)[1])),
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../../../constants/color.dart';
 import '../../../../../../../repository/add_repository/hethan/hethan_repository.dart';
@@ -25,24 +26,29 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
   TextEditingController giaHetHanController = TextEditingController();
   bool _isLoading = false; // Sử dụng biến này để kiểm soát hiển thị loading
   bool _isDataSubmitted = false;
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final formKey1 = GlobalKey<FormState>();
     num totalPrice = widget.selectedItemsHetHan
         .map<num>((item) => item['soluong'] * item['gia'])
         .reduce((value, element) => value + element);
     num totalQuantity = widget.selectedItemsHetHan
         .map<num>((item) => item['soluong'])
         .reduce((value, element) => value + element);
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
-        title: const Text("Xuất kho hết hạn",
-            style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700)),
+        title: Text("Xuất kho hết hạn",
+            style: TextStyle(
+                color: whiteColor,
+                fontWeight: FontWeight.w700,
+                fontSize: Font.sizes(context)[2])),
         backgroundColor: mainColor,
         leading: IconButton(
             icon: Icon(Icons.arrow_back,
-                size: 30, color: _isLoading == false ? darkColor : greyColor),
+                size: size.width * 0.06,
+                color: _isLoading == false ? whiteColor : mainColor),
             onPressed: _isLoading == false
                 ? () {
                     Navigator.of(context).pop();
@@ -62,36 +68,37 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 20, 15, 0),
             child: Form(
-                key: formKey1,
+                key: formKey,
                 child: TextFormField(
                   controller: giaHetHanController,
                   validator: (value) {
                     return nonZeroInput(value!);
                   },
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                       suffixText: "VND",
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelText: "Tiền thực tế",
-                      errorStyle: TextStyle(fontSize: 15),
-                      border: OutlineInputBorder(),
-                      focusedBorder: OutlineInputBorder(
+                      errorStyle: TextStyle(fontSize: Font.sizes(context)[1]),
+                      border: const OutlineInputBorder(),
+                      focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: mainColor, width: 1)),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 10),
                       hintText: 'Nhập số tiền'),
                 )),
           )
         ],
       )),
       bottomNavigationBar: BottomAppBar(
-        height: 70,
+        height: size.height * 0.08,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             LayoutBuilder(builder: (context, constraints) {
               return SizedBox(
-                width: MediaQuery.of(context).size.width - 30,
-                height: 45,
+                width: size.width - 30,
+                height: size.height * 0.05,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -103,7 +110,7 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                     ),
                   ),
                   onPressed: () {
-                    if (formKey1.currentState!.validate()) {
+                    if (formKey.currentState!.validate()) {
                       setState(() {
                         _isLoading = true; // Kích hoạt hiệu ứng loading
                       });
@@ -161,9 +168,9 @@ class _XuatKhoHetHanScreenState extends State<XuatKhoHetHanScreen> {
                             color: whiteColor,
                           ),
                         ) // Hiển thị tiến trình loading
-                      : const Text(
+                      : Text(
                           'Xác nhận xuất kho',
-                          style: TextStyle(fontSize: 19),
+                          style: TextStyle(fontSize: Font.sizes(context)[2]),
                         ),
                 ),
               );
