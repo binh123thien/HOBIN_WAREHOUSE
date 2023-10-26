@@ -3,6 +3,7 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/banhang/banhang_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/thanhcong/thanhcong_screen.dart';
 
+import '../../../../common_widgets/fontSize/font_size.dart';
 import '../Widget/appbar/search_widget.dart';
 import 'dangcho/dangcho_screen.dart';
 import 'hethan/hethan_history_screen.dart';
@@ -35,20 +36,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return DefaultTabController(
       length: 6,
       child: Scaffold(
         backgroundColor: backGroundColor,
         appBar: AppBar(
-          title: const Text("Lịch sử giao dịch",
+          title: Text("Lịch sử giao dịch",
               style: TextStyle(
-                  fontSize: 18,
+                  fontSize: Font.sizes(context)[2],
                   fontWeight: FontWeight.w700,
                   color: whiteColor)),
           backgroundColor: mainColor,
           centerTitle: true,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(95),
+            preferredSize: Size.fromHeight(size.height * 0.1),
             child: Container(
               color: whiteColor,
               child: Column(
@@ -63,14 +65,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             searchHistory = value;
                           });
                         },
-                        width: 350,
+                        width: size.width * 0.9,
                       ),
-                      // IconButton(
-                      //     onPressed: () {},
-                      //     icon: const Image(
-                      //       image: AssetImage(sortbyIcon),
-                      //       height: 28,
-                      //     )),
                     ],
                   ),
                   TabBar(

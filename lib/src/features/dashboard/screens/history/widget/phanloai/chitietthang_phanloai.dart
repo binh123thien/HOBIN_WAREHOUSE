@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../utils/utils.dart';
 
@@ -27,24 +28,26 @@ class ChitietThangPhanLoai extends StatelessWidget {
               Chip(
                 backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 label: Text(
                   "Tổng thu: ${formatCurrency(tongBanHangMonthly)}",
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w100),
+                  style: TextStyle(
+                      fontSize: Font.sizes(context)[1],
+                      fontWeight: FontWeight.w100),
                 ),
               ),
               const SizedBox(width: 5),
               Chip(
                 backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 label: Text(
                   "Tổng chi: ${formatCurrency(tongNhapHangMonthly)}",
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w100),
+                  style: TextStyle(
+                      fontSize: Font.sizes(context)[1],
+                      fontWeight: FontWeight.w100),
                 ),
               ),
             ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/widget/card_history.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/history/widget/phanloai/chitietthang_phanloai.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../repository/history_repository/history_repository.dart';
 
@@ -42,7 +43,7 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
     }).toList();
     return Container(
       color: whiteColor,
-      height: size.height - kToolbarHeight - 180,
+      height: size.height * 0.75,
       child: StreamBuilder<QuerySnapshot>(
           stream: controller.getAllDonBanHangHoacNhapHang("NhapHang"),
           builder:
@@ -50,7 +51,11 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.data!.docs.isEmpty) {
-              return const Center(child: Text("Không có dữ liệu"));
+              return Center(
+                  child: Text(
+                "Không có dữ liệu",
+                style: TextStyle(fontSize: Font.sizes(context)[1]),
+              ));
             } else {
               return ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -85,8 +90,8 @@ class StreamListHistoryPhanLoai extends StatelessWidget {
                                   children: [
                                     Text(
                                       "Tháng $month" "/" "$year",
-                                      style: const TextStyle(
-                                          fontSize: 18,
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[2],
                                           fontWeight: FontWeight.w700),
                                     ),
                                   ],

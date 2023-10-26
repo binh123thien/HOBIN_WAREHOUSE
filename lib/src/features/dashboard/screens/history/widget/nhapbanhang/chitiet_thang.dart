@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../utils/utils.dart';
 
 class ChitietThang extends StatelessWidget {
@@ -30,40 +31,37 @@ class ChitietThang extends StatelessWidget {
               Chip(
                 backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 label: Text(
                   phanbietNhapHangBanHang == "XuatHang"
                       ? "Tổng thu: ${formatCurrency(doanhThuMonthlyTotal)}"
                       : "Tổng chi: ${formatCurrency(doanhThuMonthlyTotal)}",
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: Font.sizes(context)[1]),
                 ),
               ),
               const SizedBox(width: 5),
               Chip(
                 backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 label: Text(
                   phanbietNhapHangBanHang == "XuatHang"
                       ? "Đã bán: $soluongMonthlyTotal"
                       : "Đã nhập: $soluongMonthlyTotal",
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: Font.sizes(context)[1]),
                 ),
               ),
               const SizedBox(width: 5),
               Chip(
                 backgroundColor: greyColor,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 label: Text(
                   "Đơn hàng: $soLuongDonHangMonthlyTotal",
-                  style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w100),
+                  style: TextStyle(fontSize: Font.sizes(context)[1]),
                 ),
               )
             ],

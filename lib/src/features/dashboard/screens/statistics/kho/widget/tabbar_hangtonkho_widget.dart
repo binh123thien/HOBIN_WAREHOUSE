@@ -88,7 +88,7 @@ class _TabbarHangTonKhoWidgetState extends State<TabbarHangTonKhoWidget>
               isScrollable: false,
             ),
           ),
-          Container(
+          SizedBox(
             height: size.height * 0.69,
             child: TabBarView(
               children: [

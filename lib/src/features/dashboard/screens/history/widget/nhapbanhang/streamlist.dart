@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../repository/history_repository/history_repository.dart';
 import '../card_history.dart';
@@ -47,7 +48,7 @@ class _StreamListState extends State<StreamList> {
     final size = MediaQuery.of(context).size;
     return Container(
       color: whiteColor,
-      height: size.height - kToolbarHeight - 180,
+      height: size.height * 0.75,
       child: StreamBuilder<QuerySnapshot>(
           stream: widget.controller
               .getAllDonBanHangHoacNhapHang(widget.snapshotCollection),
@@ -56,7 +57,11 @@ class _StreamListState extends State<StreamList> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.data!.docs.isEmpty) {
-              return const Center(child: Text("Không có dữ liệu"));
+              return Center(
+                  child: Text(
+                "Không có dữ liệu",
+                style: TextStyle(fontSize: Font.sizes(context)[1]),
+              ));
             } else {
               return ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -94,8 +99,8 @@ class _StreamListState extends State<StreamList> {
                                     children: [
                                       Text(
                                         "Tháng $month" "/" "$year",
-                                        style: const TextStyle(
-                                            fontSize: 18,
+                                        style: TextStyle(
+                                            fontSize: Font.sizes(context)[2],
                                             fontWeight: FontWeight.w700),
                                       ),
                                     ],
