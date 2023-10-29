@@ -11,6 +11,7 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/history/history_s
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/home_screen.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/statistics/statistics_screen.dart';
 import '../controllers/add/nhaphang_controller.dart';
+import '../controllers/home/notification_controller.dart';
 import '../controllers/statistics/doanhthu_controller.dart';
 import '../controllers/statistics/khachhang_controller.dart';
 
@@ -27,6 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final controllerDoanhThu = Get.put(DoanhThuController());
   final controllerLocation = Get.put(NhapHangController());
   final controllerKhachHang = Get.put(KhachHangController());
+  final controllerNotification = Get.put(NotificationController());
   @override
   void initState() {
     super.initState();
@@ -38,6 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     controllerDoanhThu.loadDoanhThuTuan();
     controllerDoanhThu.loadDoanhThuThang();
     controllerLocation.loadAllLocationsName();
+    controllerNotification.loadAllNotification();
   }
 
   final screen = [

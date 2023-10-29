@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/constants/color.dart';
+import 'package:hobin_warehouse/src/features/dashboard/controllers/home/notification_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/home/widget/notification/notification.dart';
 import 'package:page_transition/page_transition.dart';
 import '../../../../../common_widgets/fontSize/font_size.dart';
@@ -17,8 +19,17 @@ class AppBarDashBoard extends StatefulWidget {
 
 class _AppBarDashBoardState extends State<AppBarDashBoard> {
   final controllerProfile = Get.put(ProfileController());
+  final controllerNotification = Get.put(NotificationController());
+  RxInt sothongbao = 0.obs;
+  @override
+  void initState() {
+    super.initState();
+    sothongbao = controllerNotification.sothongbao;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return StreamBuilder<QuerySnapshot>(
       stream: controllerProfile.getUserData(),
       builder: (context, snapshot) {
@@ -82,19 +93,44 @@ class _AppBarDashBoardState extends State<AppBarDashBoard> {
                       ),
                     ],
                   ),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: const NotificationScreen()),
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.notifications,
-                        size: 37,
-                      ))
+                  IconButton(onPressed: () {
+                    Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: const NotificationScreen()),
+                    );
+                  }, icon: Obx(() {
+                    return Stack(
+                      children: [
+                        const Icon(
+                          Icons.notifications,
+                          size: 37,
+                        ),
+                        sothongbao == 0.obs
+                            ? const SizedBox()
+                            : Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Container(
+                                  width: size.width * 0.045,
+                                  height: size.width * 0.045,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: whiteColor),
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.red),
+                                  child: Center(
+                                    child: Text(
+                                      sothongbao.toString(),
+                                      style: TextStyle(
+                                          fontSize:
+                                              Font.sizes(context)[0] * 0.8),
+                                    ),
+                                  ),
+                                ))
+                      ],
+                    );
+                  }))
                 ],
               ),
             ),
