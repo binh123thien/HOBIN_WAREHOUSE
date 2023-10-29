@@ -109,18 +109,27 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Danh mục",
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[2])),
-                          // if (danhmuc.length == 0)
-                          //   Text(danhmuc)
-                          // else
-                          for (int i = 0; i < hanghoa["danhmuc"].length; i++)
-                            Text(hanghoa["danhmuc"][i],
-                                style:
-                                    TextStyle(fontSize: Font.sizes(context)[1]))
+                          Text(
+                            "Danh mục: ",
+                            style: TextStyle(fontSize: Font.sizes(context)[2]),
+                          ),
+                          Expanded(
+                            child: Wrap(
+                              children: List.generate(hanghoa["danhmuc"].length,
+                                  (index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    hanghoa["danhmuc"][index],
+                                    style: TextStyle(
+                                        fontSize: Font.sizes(context)[1]),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ),
                         ],
                       )
                     ],
