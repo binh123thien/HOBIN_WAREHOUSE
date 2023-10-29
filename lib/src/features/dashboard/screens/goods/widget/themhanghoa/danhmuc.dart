@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/widget/themhanghoa/chon_danhmuc.dart';
 
@@ -61,7 +62,8 @@ class _DanhMucHangState extends State<DanhMucHang> {
           deleteIconColor: whiteColor,
           backgroundColor: mainColor,
           label: Text(unit,
-              style: const TextStyle(fontSize: 15, color: whiteColor)),
+              style: TextStyle(
+                  fontSize: Font.sizes(context)[1], color: whiteColor)),
           onDeleted: () {
             setState(() {
               danhmucSelected.remove(unit);
