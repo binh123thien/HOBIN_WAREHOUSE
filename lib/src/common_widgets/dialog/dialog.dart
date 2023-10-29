@@ -20,7 +20,7 @@ class MyDialog {
             fontWeight: FontWeight.w800,
           ),
         ),
-        content: Container(
+        content: SizedBox(
           width: MediaQuery.of(context).size.width, // set custom width
           child: Text(
             textContent,
