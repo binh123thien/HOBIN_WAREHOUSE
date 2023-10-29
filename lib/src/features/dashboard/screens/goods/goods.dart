@@ -162,15 +162,15 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                             searchHangHoa = value;
                           });
                         },
-                        width: 260,
+                        width: size.width * 0.662,
                       ),
                       IconButton(
                           onPressed: () {
                             _showSortbyHangHoa();
                           },
-                          icon: const Image(
-                            image: AssetImage(sortbyIcon),
-                            height: 28,
+                          icon: Image(
+                            image: const AssetImage(sortbyIcon),
+                            height: size.height * 0.0348,
                           )),
                       IconButton(
                         onPressed: () async {
@@ -192,8 +192,8 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  const TabBar(
-                    tabs: [
+                  TabBar(
+                    tabs: const [
                       Tab(
                         text: "Lẻ",
                       ),
@@ -201,7 +201,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                         text: "Sỉ",
                       ),
                     ],
-                    labelStyle: TextStyle(fontSize: 16),
+                    labelStyle: TextStyle(fontSize: Font.sizes(context)[1]),
                     indicatorColor: Colors.black,
                     labelColor: darkColor,
                     isScrollable: false,

@@ -52,9 +52,11 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Mã SP",
-                              style: Theme.of(context).textTheme.titleLarge),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           Text(hanghoa["macode"],
-                              style: Theme.of(context).textTheme.titleLarge)
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]))
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -62,9 +64,11 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Giá nhập",
-                              style: Theme.of(context).textTheme.titleLarge),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           Text(formatCurrency(hanghoa["gianhap"]),
-                              style: Theme.of(context).textTheme.titleLarge)
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]))
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -72,9 +76,11 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Giá bán",
-                              style: Theme.of(context).textTheme.titleLarge),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           Text(formatCurrency(hanghoa["giaban"]),
-                              style: Theme.of(context).textTheme.titleLarge)
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]))
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -82,9 +88,11 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Phân loại",
-                              style: Theme.of(context).textTheme.titleLarge),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           Text(hanghoa["phanloai"],
-                              style: Theme.of(context).textTheme.titleLarge)
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]))
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -92,9 +100,11 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Đơn vị",
-                              style: Theme.of(context).textTheme.titleLarge),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           Text(hanghoa["donvi"],
-                              style: Theme.of(context).textTheme.titleLarge)
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]))
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -102,13 +112,15 @@ class ThongTinHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Danh mục",
-                              style: Theme.of(context).textTheme.titleLarge),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           // if (danhmuc.length == 0)
                           //   Text(danhmuc)
                           // else
                           for (int i = 0; i < hanghoa["danhmuc"].length; i++)
                             Text(hanghoa["danhmuc"][i],
-                                style: Theme.of(context).textTheme.titleLarge)
+                                style:
+                                    TextStyle(fontSize: Font.sizes(context)[1]))
                         ],
                       )
                     ],

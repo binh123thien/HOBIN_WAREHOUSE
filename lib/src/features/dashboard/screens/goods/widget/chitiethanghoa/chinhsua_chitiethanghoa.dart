@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/utils/image_picker/image_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../../common_widgets/bottom_sheet_options.dart';
@@ -81,9 +82,10 @@ class _ChinhSuaChiTietHangHoaScreenState
     Navigator.of(context).pop();
   }
 
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -91,9 +93,11 @@ class _ChinhSuaChiTietHangHoaScreenState
             onPressed: () {
               Navigator.of(context).pop(true);
             }),
-        title: const Text("Chỉnh sửa chi tiết hàng hóa",
+        title: Text("Chỉnh sửa chi tiết hàng hóa",
             style: TextStyle(
-                fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
+                fontSize: Font.sizes(context)[2],
+                fontWeight: FontWeight.w900,
+                color: darkColor)),
         backgroundColor: backGroundColor,
         centerTitle: true,
       ),
@@ -106,8 +110,8 @@ class _ChinhSuaChiTietHangHoaScreenState
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 100,
-                  height: 100,
+                  width: size.width * 0.255,
+                  height: size.height * 0.117,
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)),
@@ -136,16 +140,16 @@ class _ChinhSuaChiTietHangHoaScreenState
                       icon: currentImage != null
                           ? Image.memory(
                               currentImage!,
-                              width: 90,
-                              height: 90,
+                              width: size.width * 0.255,
+                              height: size.height * 0.117,
                               fit: BoxFit.cover,
                             )
                           : hangHoatam["photoGood"] == ''
                               ? Image.asset(cameraIcon)
                               : CachedNetworkImage(
                                   imageUrl: hangHoatam["photoGood"].toString(),
-                                  width: 300,
-                                  height: 300,
+                                  width: size.width * 0.765,
+                                  height: size.height * 0.351,
                                   fit: BoxFit.fill,
                                 ),
                     ),
@@ -157,32 +161,36 @@ class _ChinhSuaChiTietHangHoaScreenState
                     SizedBox(
                       child: TextFormField(
                         controller: controller.maCodeController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           enabled: false,
-                          errorStyle: TextStyle(fontSize: 15),
-                          border: UnderlineInputBorder(),
-                          focusedBorder: UnderlineInputBorder(
+                          errorStyle:
+                              TextStyle(fontSize: Font.sizes(context)[1]),
+                          border: const UnderlineInputBorder(),
+                          focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: mainColor, width: 2)),
                           contentPadding: EdgeInsets.zero,
                           labelText: "Mã code",
-                          labelStyle: TextStyle(fontSize: 18),
+                          labelStyle:
+                              TextStyle(fontSize: Font.sizes(context)[2]),
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
                     //ten san pham
-                    const Text("Tên sản phẩm:", style: TextStyle(fontSize: 18)),
+                    Text("Tên sản phẩm:",
+                        style: TextStyle(fontSize: Font.sizes(context)[2])),
                     TextFormField(
                       validator: (value) {
                         return oneCharacter(value!);
                       },
                       controller: controller.tenSanPhamController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                           enabled: false,
-                          errorStyle: TextStyle(fontSize: 15),
-                          border: UnderlineInputBorder(),
-                          focusedBorder: UnderlineInputBorder(
+                          errorStyle:
+                              TextStyle(fontSize: Font.sizes(context)[1]),
+                          border: const UnderlineInputBorder(),
+                          focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: mainColor, width: 2)),
                           contentPadding: EdgeInsets.zero,
@@ -191,7 +199,8 @@ class _ChinhSuaChiTietHangHoaScreenState
                     const SizedBox(height: 10),
 
                     //giá nhập
-                    const Text("Giá nhập:", style: TextStyle(fontSize: 18)),
+                    Text("Giá nhập:",
+                        style: TextStyle(fontSize: Font.sizes(context)[2])),
                     TextFormField(
                       validator: (value) {
                         return oneCharacter(value!);
@@ -211,10 +220,11 @@ class _ChinhSuaChiTietHangHoaScreenState
                           );
                         }
                       },
-                      decoration: const InputDecoration(
-                          errorStyle: TextStyle(fontSize: 15),
-                          border: UnderlineInputBorder(),
-                          focusedBorder: UnderlineInputBorder(
+                      decoration: InputDecoration(
+                          errorStyle:
+                              TextStyle(fontSize: Font.sizes(context)[1]),
+                          border: const UnderlineInputBorder(),
+                          focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: mainColor, width: 2)),
                           contentPadding: EdgeInsets.zero,
@@ -223,7 +233,8 @@ class _ChinhSuaChiTietHangHoaScreenState
                     const SizedBox(height: 10),
 
                     //Giá bán
-                    const Text("Giá bán:", style: TextStyle(fontSize: 18)),
+                    Text("Giá bán:",
+                        style: TextStyle(fontSize: Font.sizes(context)[2])),
                     TextFormField(
                       validator: (value) {
                         return oneCharacter(value!);
@@ -243,10 +254,11 @@ class _ChinhSuaChiTietHangHoaScreenState
                           );
                         }
                       },
-                      decoration: const InputDecoration(
-                          errorStyle: TextStyle(fontSize: 15),
-                          border: UnderlineInputBorder(),
-                          focusedBorder: UnderlineInputBorder(
+                      decoration: InputDecoration(
+                          errorStyle:
+                              TextStyle(fontSize: Font.sizes(context)[1]),
+                          border: const UnderlineInputBorder(),
+                          focusedBorder: const UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: mainColor, width: 2)),
                           contentPadding: EdgeInsets.zero,
@@ -256,16 +268,19 @@ class _ChinhSuaChiTietHangHoaScreenState
                     Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text("Phân loại",
-                              style: TextStyle(fontSize: 18)),
+                          Text("Phân loại",
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           RadioButton(phanloaiFb: hangHoatam['phanloai']),
                         ]),
 
                     const SizedBox(height: 10),
-                    const Text("Đơn vị", style: TextStyle(fontSize: 18)),
+                    Text("Đơn vị",
+                        style: TextStyle(fontSize: Font.sizes(context)[2])),
                     const DonVi(),
                     const SizedBox(height: 10),
-                    const Text("Danh mục", style: TextStyle(fontSize: 18)),
+                    Text("Danh mục",
+                        style: TextStyle(fontSize: Font.sizes(context)[2])),
                     const DanhMucHang(),
                   ],
                 )
@@ -275,21 +290,20 @@ class _ChinhSuaChiTietHangHoaScreenState
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: size.height * 0.086,
         color: whiteColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
-              width: 350,
-              height: 55,
+              width: size.width * 0.87,
+              height: size.height * 0.0623,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: mainColor,
                   side: const BorderSide(color: mainColor),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                        5), // giá trị này xác định bán kính bo tròn
+                    borderRadius: BorderRadius.circular(5),
                   ),
                 ),
                 onPressed: () async {
@@ -319,9 +333,9 @@ class _ChinhSuaChiTietHangHoaScreenState
                           color: whiteColor,
                         ),
                       )
-                    : const Text(
+                    : Text(
                         'Lưu & thoát',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: Font.sizes(context)[1]),
                       ),
               ),
             ),

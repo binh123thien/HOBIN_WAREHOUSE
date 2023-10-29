@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/phanphoihanghoa/phanphoihanghoa.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/widget/chitiethanghoa/chinhsua_chitiethanghoa.dart';
@@ -173,9 +174,11 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               onPressed: () {
                 Navigator.of(context).pop();
               }),
-          title: const Text("Chi tiết hàng hóa",
+          title: Text("Chi tiết hàng hóa",
               style: TextStyle(
-                  fontSize: 18, fontWeight: FontWeight.w900, color: darkColor)),
+                  fontSize: Font.sizes(context)[2],
+                  fontWeight: FontWeight.w900,
+                  color: darkColor)),
           backgroundColor: whiteColor,
           centerTitle: true,
           actions: [
@@ -183,9 +186,9 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               onPressed: () {
                 _showOption();
               },
-              icon: const Image(
-                image: AssetImage(moreAppbarIcon),
-                width: 25,
+              icon: Image(
+                image: const AssetImage(moreAppbarIcon),
+                width: size.width * 0.064,
               ),
             )
           ]),
@@ -198,8 +201,8 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: SizedBox(
-                  width: 100,
-                  height: 100,
+                  width: size.width * 0.255,
+                  height: size.height * 0.117,
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
@@ -212,8 +215,8 @@ class _ChiTietHangHoaScreenState extends State<ChiTietHangHoaScreen> {
                               )
                             : CachedNetworkImage(
                                 imageUrl: hanghoa["photoGood"].toString(),
-                                width: 300,
-                                height: 300,
+                                width: size.width * 0.765,
+                                height: size.height * 0.351,
                                 fit: BoxFit.fill,
                               ))
                         : Container(),
