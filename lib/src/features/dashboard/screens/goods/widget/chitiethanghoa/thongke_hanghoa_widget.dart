@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
 class ThongKeHangHoaWidget extends StatelessWidget {
@@ -19,13 +20,14 @@ class ThongKeHangHoaWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: mainColor,
             ),
-            height: 105,
+            height: size.height * 0.14,
             width: size.width,
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 7, 12, 5),
               child: Text(
                 "Thống kê",
-                style: TextStyle(fontSize: 17, color: whiteColor),
+                style: TextStyle(
+                    fontSize: Font.sizes(context)[1], color: whiteColor),
               ),
             ),
           ),
@@ -35,7 +37,7 @@ class ThongKeHangHoaWidget extends StatelessWidget {
               right: 1,
               child: Container(
                 width: size.width - 10,
-                height: 70,
+                height: size.height * 0.095,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: whiteColor,

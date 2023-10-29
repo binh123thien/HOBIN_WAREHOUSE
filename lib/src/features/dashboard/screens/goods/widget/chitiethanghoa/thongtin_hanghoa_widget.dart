@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
 import '../../../../../../utils/utils.dart';
@@ -21,13 +22,14 @@ class ThongTinHangHoaWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: mainColor,
             ),
-            height: 200,
+            height: size.height * 0.28,
             width: size.width,
-            child: const Padding(
-              padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12, 7, 12, 5),
               child: Text(
                 "Thông tin hàng hóa",
-                style: TextStyle(fontSize: 17, color: whiteColor),
+                style: TextStyle(
+                    fontSize: Font.sizes(context)[2], color: whiteColor),
               ),
             ),
           ),
@@ -37,7 +39,7 @@ class ThongTinHangHoaWidget extends StatelessWidget {
               right: 1,
               child: Container(
                 width: size.width - 10,
-                height: 165,
+                height: size.height * 0.228,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: whiteColor,
