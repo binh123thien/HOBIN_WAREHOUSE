@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 import '../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
@@ -106,17 +107,20 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
         .map<num>((item) => item['soluong'])
         .reduce((value, element) => value + element);
     num tong = totalPrice - giamgia - no;
+
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
           elevation: 1,
           title: Text("Thanh Toán (${widget.allThongTinItemXuat.length})",
-              style: const TextStyle(fontSize: 18, color: Colors.black)),
+              style: TextStyle(
+                  fontSize: Font.sizes(context)[2], color: Colors.black)),
           backgroundColor: whiteColor,
           leading: IconButton(
               icon: Image(
                 image: const AssetImage(backIcon),
-                height: 15,
+                height: size.width * 0.04,
                 color: _isLoading == false ? Colors.black : greyColor,
               ),
               onPressed: _isLoading == false
@@ -164,7 +168,7 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          height: 90,
+          height: size.height * 0.1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -173,25 +177,25 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                   children: [
                     const SizedBox(height: 7),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 30,
+                      width: size.width - 30,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "Tổng (${widget.allThongTinItemXuat.length} mặt hàng)",
-                            style: const TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: Font.sizes(context)[1]),
                           ),
                           Text(
                             formatCurrency(tong),
-                            style: const TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: Font.sizes(context)[1]),
                           )
                         ],
                       ),
                     ),
                     const SizedBox(height: 7),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width - 30,
-                      height: 45,
+                      width: size.width - 30,
+                      height: size.height * 0.05,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
@@ -259,9 +263,10 @@ class _ThanhToanXuatHangScreenState extends State<ThanhToanXuatHangScreen> {
                                   color: whiteColor,
                                 ),
                               ) // Hiển thị tiến trình loading
-                            : const Text(
+                            : Text(
                                 'Thanh toán',
-                                style: TextStyle(fontSize: 19),
+                                style:
+                                    TextStyle(fontSize: Font.sizes(context)[2]),
                               ),
                       ),
                     ),

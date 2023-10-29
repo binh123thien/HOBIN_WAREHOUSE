@@ -5,6 +5,7 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/thanhtoan/thanhtoanxuathang/thanhtoan_xuathang_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../repository/add_repository/xuathang/xuathang_repository.dart';
 import '../../../../controllers/add/chonhanghoa_controller.dart';
 
@@ -35,16 +36,17 @@ class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
   bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return BottomAppBar(
-      height: 70,
+      height: size.height * 0.08,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           LayoutBuilder(
             builder: (context, constraints) {
               return SizedBox(
-                width: (MediaQuery.of(context).size.width - 30) * 6 / 10,
-                height: 45,
+                width: (size.width - 30) * 6 / 10,
+                height: size.height * 0.05,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -80,9 +82,9 @@ class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
                             color: whiteColor,
                           ),
                         )
-                      : const Text(
+                      : Text(
                           'Thêm',
-                          style: TextStyle(fontSize: 19),
+                          style: TextStyle(fontSize: Font.sizes(context)[2]),
                         ),
                 ),
               );
@@ -91,8 +93,8 @@ class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
           LayoutBuilder(
             builder: (context, constraints) {
               return SizedBox(
-                width: (MediaQuery.of(context).size.width - 30) * 4 / 10,
-                height: 45,
+                width: (size.width - 30) * 4 / 10,
+                height: size.height * 0.05,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -120,13 +122,13 @@ class _BottomBarXuatHangState extends State<BottomBarXuatHang> {
                         }
                       : null,
                   child: widget.allThongTinItemXuat.isEmpty
-                      ? const Text(
+                      ? Text(
                           'Thanh toán',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: Font.sizes(context)[2]),
                         )
                       : Text(
                           'Thanh toán (${widget.allThongTinItemXuat.length})',
-                          style: const TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: Font.sizes(context)[2]),
                         ),
                 ),
               );
