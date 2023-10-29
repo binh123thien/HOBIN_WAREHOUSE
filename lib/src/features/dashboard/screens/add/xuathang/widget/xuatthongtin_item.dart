@@ -38,6 +38,7 @@ class _XuatThongTinItemXuatHangScreenState
   ];
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return ListView.builder(
       shrinkWrap: true,
       itemCount: items.length,
@@ -89,8 +90,8 @@ class _XuatThongTinItemXuatHangScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 25,
-                      height: 25,
+                      width: size.width * 0.06,
+                      height: size.width * 0.06,
                       child: Image(image: AssetImage(docs["icon"]!)),
                     ),
                     const SizedBox(width: 7),
