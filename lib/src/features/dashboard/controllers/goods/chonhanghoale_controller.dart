@@ -264,6 +264,33 @@ class ChonHangHoaLeController extends GetxController {
     updateSlLocation(locationLe, goodLe, soluongMoiLocationLe);
     //&&&&&&&&&&&&&&&& end Lẻ &&&&&&&&&&&&&&&&&
 //============================== End Xử lý từng vị trí ========================================
+
+    //========================== Xử lý hết hạn ==============================
+    String formatExpDate = formatDate(locationLe);
+    // print('location lẻ $locationLe , $goodLe');
+    final collectionExpired = _db
+        .collection("Users")
+        .doc(firebaseUser.uid)
+        .collection("Goods")
+        .doc(firebaseUser.uid)
+        .collection("Expired")
+        .doc(formatExpDate)
+        .collection('masanpham')
+        .doc(goodLe['macode']);
+
+    collectionExpired.get().then((_) {
+      collectionExpired.set({'macode': goodLe['macode']});
+      collectionExpired.collection('location').doc(locationLe['location']).set({
+        'exp': locationLe['exp'],
+        'gia': goodLe['giaban'],
+        'location': locationLe['location'],
+        'macode': goodLe['macode'],
+        'soluong': soluongMoiLocationLe,
+        'tensanpham': goodLe['tensanpham']
+      });
+    });
+    //========================= End xử lý hết hạn ===========================
+
     //tạo lịch sử chuyển đổi trên firebase
     createLichSuCD(dateTao, goodSi['tensanpham'], goodLe['tensanpham'],
         tonKhoMoiSi, tonKhoMoiLe, chuyendoiSi, chuyendoiLe);
