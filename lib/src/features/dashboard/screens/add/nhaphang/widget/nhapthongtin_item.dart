@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/choose_goods.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
-
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../choose_location.dart';
@@ -35,6 +35,7 @@ class _NhapThongTinItemScreenState extends State<NhapThongTinItemScreen> {
   ];
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return ListView.builder(
       shrinkWrap: true,
       itemCount: items.length,
@@ -97,8 +98,8 @@ class _NhapThongTinItemScreenState extends State<NhapThongTinItemScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 25,
-                      height: 25,
+                      width: size.width * 0.06,
+                      height: size.width * 0.06,
                       child: Image(image: AssetImage(docs["icon"]!)),
                     ),
                     const SizedBox(width: 7),
@@ -107,27 +108,31 @@ class _NhapThongTinItemScreenState extends State<NhapThongTinItemScreen> {
                               widget.thongTinItemNhap["tensanpham"].isNotEmpty
                           ? Text(
                               widget.thongTinItemNhap["tensanpham"],
-                              style: const TextStyle(fontSize: 17),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]),
                             )
                           : index == 1 && widget.thongTinItemNhap["gia"] != 0
                               ? Text(
                                   formatCurrency(
                                       widget.thongTinItemNhap["gia"]),
-                                  style: const TextStyle(fontSize: 17),
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[1]),
                                 )
                               : index == 2 &&
                                       widget.thongTinItemNhap["location"]
                                           .isNotEmpty
                                   ? Text(
                                       widget.thongTinItemNhap["location"],
-                                      style: const TextStyle(fontSize: 17),
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[1]),
                                     )
                                   : index == 3 &&
                                           widget.thongTinItemNhap["exp"]
                                               .isNotEmpty
                                       ? Text(
                                           widget.thongTinItemNhap["exp"],
-                                          style: const TextStyle(fontSize: 17),
+                                          style: TextStyle(
+                                              fontSize: Font.sizes(context)[1]),
                                         )
                                       : index == 4 &&
                                               widget.thongTinItemNhap[
@@ -136,8 +141,9 @@ class _NhapThongTinItemScreenState extends State<NhapThongTinItemScreen> {
                                           ? Text(
                                               widget.thongTinItemNhap["soluong"]
                                                   .toString(),
-                                              style:
-                                                  const TextStyle(fontSize: 17),
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      Font.sizes(context)[1]),
                                             )
                                           : Text(
                                               docs["title"]!,

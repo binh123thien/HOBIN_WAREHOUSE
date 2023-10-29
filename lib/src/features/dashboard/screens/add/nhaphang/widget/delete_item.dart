@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../common_widgets/snackbar/snackbar.dart';
 import '../../../../../../constants/icon.dart';
 import '../../widget/card_add_widget.dart';
@@ -44,11 +45,13 @@ class _DeleteItemsScreenState extends State<DeleteItemsScreen> {
             height: 10,
             color: greyColor,
           ),
-          const Padding(
-            padding: EdgeInsets.fromLTRB(15, 10, 0, 10),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15, 10, 0, 10),
             child: Text(
               "Tùy chọn",
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                  fontSize: Font.sizes(context)[1],
+                  fontWeight: FontWeight.w700),
             ),
           ),
           CardAdd(
