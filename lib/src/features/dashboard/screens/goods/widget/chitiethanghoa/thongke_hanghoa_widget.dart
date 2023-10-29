@@ -27,7 +27,7 @@ class ThongKeHangHoaWidget extends StatelessWidget {
               child: Text(
                 "Thống kê",
                 style: TextStyle(
-                    fontSize: Font.sizes(context)[1], color: whiteColor),
+                    fontSize: Font.sizes(context)[2], color: whiteColor),
               ),
             ),
           ),
@@ -50,9 +50,11 @@ class ThongKeHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Tồn kho",
-                              style: Theme.of(context).textTheme.titleLarge),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           Text("${hanghoa["tonkho"]} ${hanghoa["donvi"]}",
-                              style: Theme.of(context).textTheme.titleLarge)
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]))
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -60,9 +62,11 @@ class ThongKeHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Đã bán",
-                              style: Theme.of(context).textTheme.titleLarge),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[2])),
                           Text("${hanghoa["daban"]} ${hanghoa["donvi"]}",
-                              style: Theme.of(context).textTheme.titleLarge)
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]))
                         ],
                       ),
                     ],
