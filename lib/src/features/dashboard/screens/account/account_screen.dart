@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/account/update_profile_screen.dart';
@@ -18,6 +19,7 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     void logout(BuildContext context) {
       AuthenticationRepository.instance.logout();
       Navigator.of(context).pop();
@@ -48,20 +50,20 @@ class _AccountScreenState extends State<AccountScreen> {
                 : ClipRRect(
                     borderRadius: BorderRadius.circular(50),
                     child: CachedNetworkImage(
-                      height: 40,
-                      width: 40,
+                      height: size.width * 0.12,
+                      width: size.width * 0.12, //40,
                       imageUrl: widget.userAccountUpdate['PhotoURL'],
                       fit: BoxFit.fill,
                     ),
                   ),
             title: Text(
               widget.userAccountUpdate['Name'],
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: Font.sizes(context)[2]),
               textAlign: TextAlign.start,
             ),
             subtitle: Text(
               widget.userAccountUpdate['Email'],
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: Font.sizes(context)[1]),
               textAlign: TextAlign.start,
             ),
           ),
@@ -94,19 +96,19 @@ class _AccountScreenState extends State<AccountScreen> {
             },
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: 50,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25),
+              height: size.height * 0.063, //50
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
                   children: [
                     Image(
-                      image: AssetImage(managerIcon),
-                      width: 25,
+                      image: const AssetImage(managerIcon),
+                      width: size.width * 0.063, //25
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Text(
                       "Quản lý tài khoản",
-                      style: TextStyle(fontSize: 17),
+                      style: TextStyle(fontSize: Font.sizes(context)[2]),
                     )
                   ],
                 ),
@@ -127,19 +129,19 @@ class _AccountScreenState extends State<AccountScreen> {
             },
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              height: 50,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25),
+              height: size.height * 0.063, //50
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
                   children: [
                     Image(
-                      image: AssetImage(logoutIcon),
-                      width: 25,
+                      image: const AssetImage(logoutIcon),
+                      width: size.width * 0.063, //25,
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Text(
                       "Đăng xuất",
-                      style: TextStyle(fontSize: 17),
+                      style: TextStyle(fontSize: Font.sizes(context)[2]),
                     )
                   ],
                 ),

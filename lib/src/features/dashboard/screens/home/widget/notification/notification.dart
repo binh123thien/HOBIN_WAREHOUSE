@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../repository/notification_repository/notification_repository.dart';
 import '../../../../controllers/home/notification_controller.dart';
@@ -33,8 +34,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
-          title: const Text("Thông báo",
-              style: TextStyle(color: whiteColor, fontWeight: FontWeight.w700)),
+          title: Text("Thông báo",
+              style: TextStyle(
+                  color: whiteColor,
+                  fontSize: Font.sizes(context)[2],
+                  fontWeight: FontWeight.w700)),
           backgroundColor: mainColor,
           centerTitle: true,
         ),
@@ -95,14 +99,24 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               style: const TextStyle(fontSize: 15),
                               softWrap: true, // Tự động xuống dòng
                             ),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "Xem chi tiết",
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                      controllerNotificationRepo
+                                          .convertDateFormat(doc["datetime"]),
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[0])),
+                                  Text(
+                                    "Xem chi tiết",
+                                    style: TextStyle(
+                                        fontSize: Font.sizes(context)[1]),
+                                  ),
+                                ],
+                              ),
                             )
                           ],
                         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 
 class GiamGiaWidget extends StatefulWidget {
@@ -30,8 +31,10 @@ class _GiamGiaWidgetState extends State<GiamGiaWidget> {
               children: [
                 const SizedBox(height: 10),
                 widget.keyWord == "giamgia"
-                    ? const Text("Giảm giá")
-                    : const Text("Nợ"),
+                    ? Text("Giảm giá",
+                        style: TextStyle(fontSize: Font.sizes(context)[2]))
+                    : Text("Nợ",
+                        style: TextStyle(fontSize: Font.sizes(context)[2])),
                 const SizedBox(height: 20),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -84,9 +87,9 @@ class _GiamGiaWidgetState extends State<GiamGiaWidget> {
                                 }
                               }
                             : null,
-                        child: const Text(
+                        child: Text(
                           'Xác nhận',
-                          style: TextStyle(fontSize: 17),
+                          style: TextStyle(fontSize: Font.sizes(context)[1]),
                         ),
                       ),
                     )

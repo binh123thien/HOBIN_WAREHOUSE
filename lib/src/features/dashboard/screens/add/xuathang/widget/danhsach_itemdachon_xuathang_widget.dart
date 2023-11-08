@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
@@ -52,19 +53,21 @@ class _DanhSachItemDaChonXuatHangWidgetState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(15, 10, 15, 7),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(15, 10, 15, 7),
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 18,
                 height: 18,
                 child: Image(image: AssetImage(tongsoluongxuatkhoIcon)),
               ),
-              SizedBox(width: 7),
+              const SizedBox(width: 7),
               Text(
                 "Danh sách đã chọn",
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                    fontSize: Font.sizes(context)[1],
+                    fontWeight: FontWeight.w700),
               ),
             ],
           ),
@@ -95,7 +98,7 @@ class _DanhSachItemDaChonXuatHangWidgetState
                         ),
                       ),
                       title: Text("${docdata['tensanpham']} ",
-                          style: const TextStyle(fontSize: 17)),
+                          style: TextStyle(fontSize: Font.sizes(context)[1])),
                       subtitle: Column(
                         children: [
                           const SizedBox(height: 3),
@@ -109,7 +112,9 @@ class _DanhSachItemDaChonXuatHangWidgetState
                                 children: [
                                   Text(
                                       "HSD: ${listLocation["exp"]} - ${listLocation["location"]} - SL: ${listLocation["soluong"]} ",
-                                      style: const TextStyle(fontSize: 14))
+                                      style: TextStyle(
+                                          fontSize:
+                                              Font.sizes(context)[0] * 0.9))
                                 ],
                               );
                             },
@@ -119,12 +124,14 @@ class _DanhSachItemDaChonXuatHangWidgetState
                               children: [
                                 Text(
                                   "${formatCurrency(docdata['gia'])} x ${docdata["soluong"]}",
-                                  style: const TextStyle(fontSize: 14),
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[0] * 0.9),
                                 ),
                                 Text(
                                   formatCurrency(
                                       docdata['gia'] * docdata["soluong"]),
-                                  style: const TextStyle(fontSize: 14),
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[0] * 0.9),
                                 )
                               ]),
                         ],

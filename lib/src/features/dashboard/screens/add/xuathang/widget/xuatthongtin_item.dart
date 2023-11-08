@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/nhaphang/choose_goods.dart';
 import 'package:hobin_warehouse/src/utils/utils.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 
@@ -37,6 +38,7 @@ class _XuatThongTinItemXuatHangScreenState
   ];
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return ListView.builder(
       shrinkWrap: true,
       itemCount: items.length,
@@ -88,8 +90,8 @@ class _XuatThongTinItemXuatHangScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 25,
-                      height: 25,
+                      width: size.width * 0.06,
+                      height: size.width * 0.06,
                       child: Image(image: AssetImage(docs["icon"]!)),
                     ),
                     const SizedBox(width: 7),
@@ -98,25 +100,25 @@ class _XuatThongTinItemXuatHangScreenState
                               widget.thongTinItemXuat["tensanpham"].isNotEmpty
                           ? Text(
                               widget.thongTinItemXuat["tensanpham"],
-                              style: const TextStyle(fontSize: 17),
+                              style:
+                                  TextStyle(fontSize: Font.sizes(context)[1]),
                             )
                           : index == 1 && widget.thongTinItemXuat["gia"] != 0
                               ? Text(
                                   formatCurrency(
                                       widget.thongTinItemXuat["gia"]),
-                                  style: const TextStyle(fontSize: 17),
-                                )
+                                  style: TextStyle(
+                                      fontSize: Font.sizes(context)[1]))
                               : index == 2 &&
                                       widget.thongTinItemXuat["soluong"] != 0
                                   ? Text(
                                       widget.thongTinItemXuat["soluong"]
                                           .toString(),
-                                      style: const TextStyle(fontSize: 17),
-                                    )
-                                  : Text(
-                                      docs["title"]!,
-                                      style: const TextStyle(fontSize: 17),
-                                    ),
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[1]))
+                                  : Text(docs["title"]!,
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[1])),
                     )
                   ],
                 ),

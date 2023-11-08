@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 import '../../../../../../utils/utils.dart';
@@ -35,17 +36,17 @@ class _GiamGiaVaNoWidgetState extends State<GiamGiaVaNoWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
+                Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 18,
                       height: 18,
                       child: Image(image: AssetImage(disCountIcon)),
                     ),
-                    SizedBox(width: 7),
+                    const SizedBox(width: 7),
                     Text(
                       "Giảm giá",
-                      style: TextStyle(fontSize: 17),
+                      style: TextStyle(fontSize: Font.sizes(context)[1]),
                     ),
                   ],
                 ),
@@ -54,8 +55,9 @@ class _GiamGiaVaNoWidgetState extends State<GiamGiaVaNoWidget> {
                     widget.giamgia != 0
                         ? Text(
                             "-${formatCurrency(widget.giamgia)}",
-                            style: const TextStyle(
-                                fontSize: 16, color: cancelColor),
+                            style: TextStyle(
+                                fontSize: Font.sizes(context)[1],
+                                color: cancelColor),
                           )
                         : const SizedBox(),
                     const Icon(
@@ -81,9 +83,9 @@ class _GiamGiaVaNoWidgetState extends State<GiamGiaVaNoWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Row(
+                Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 18,
                       height: 18,
                       child: Image(
@@ -91,10 +93,10 @@ class _GiamGiaVaNoWidgetState extends State<GiamGiaVaNoWidget> {
                         color: successColor,
                       ),
                     ),
-                    SizedBox(width: 7),
+                    const SizedBox(width: 7),
                     Text(
                       "Nợ",
-                      style: TextStyle(fontSize: 17),
+                      style: TextStyle(fontSize: Font.sizes(context)[1]),
                     ),
                   ],
                 ),
@@ -103,8 +105,9 @@ class _GiamGiaVaNoWidgetState extends State<GiamGiaVaNoWidget> {
                     widget.no != 0
                         ? Text(
                             formatCurrency(widget.no),
-                            style: const TextStyle(
-                                fontSize: 16, color: successColor),
+                            style: TextStyle(
+                                fontSize: Font.sizes(context)[1],
+                                color: successColor),
                           )
                         : const SizedBox(),
                     const Icon(

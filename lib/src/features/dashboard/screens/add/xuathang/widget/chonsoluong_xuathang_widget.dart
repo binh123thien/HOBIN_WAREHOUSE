@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../utils/validate/formsoluong.dart';
 
@@ -36,14 +37,13 @@ class _ChonSoLuongXuatHangWidgetState extends State<ChonSoLuongXuatHangWidget> {
             child: Column(
               children: [
                 const SizedBox(height: 10),
-                const Text(
-                  "Nhập số lượng",
-                ),
+                Text("Nhập số lượng",
+                    style: TextStyle(fontSize: Font.sizes(context)[2])),
                 const SizedBox(height: 10),
                 Row(
                   children: [
                     Text("Tồn kho: ${widget.tonkho}",
-                        style: const TextStyle(fontSize: 16)),
+                        style: TextStyle(fontSize: Font.sizes(context)[0])),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -108,9 +108,9 @@ class _ChonSoLuongXuatHangWidgetState extends State<ChonSoLuongXuatHangWidget> {
                                 }
                               }
                             : null,
-                        child: const Text(
+                        child: Text(
                           'Xác nhận',
-                          style: TextStyle(fontSize: 17),
+                          style: TextStyle(fontSize: Font.sizes(context)[1]),
                         ),
                       ),
                     )

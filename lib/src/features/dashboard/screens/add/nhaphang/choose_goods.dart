@@ -6,6 +6,7 @@ import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/goods/widget/sorbyhanghoa/danhsach_sortby.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
+import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../../../repository/goods_repository/good_repository.dart';
@@ -109,16 +110,17 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
     } else {
       filteredItems = filteredItemsSi;
     }
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: whiteColor,
         appBar: AppBar(
           elevation: 0,
-          title: const Text("Chọn hàng hóa", style: TextStyle(fontSize: 18)),
+          title: Text("Chọn hàng hóa",
+              style: TextStyle(fontSize: Font.sizes(context)[2])),
           backgroundColor: widget.phanBietNhapXuat == 1 ? blueColor : mainColor,
           centerTitle: true,
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(kToolbarHeight),
+            preferredSize: Size.fromHeight(size.height * 0.079),
             child: Container(
               color: whiteColor,
               child: Column(
@@ -133,15 +135,15 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             searchHangHoa = value;
                           });
                         },
-                        width: 260,
+                        width: size.width * 0.7, //270
                       ),
                       IconButton(
                           onPressed: () {
                             _showSortbyHangHoa();
                           },
-                          icon: const Image(
-                            image: AssetImage(sortbyIcon),
-                            height: 28,
+                          icon: Image(
+                            image: const AssetImage(sortbyIcon),
+                            height: size.width * 0.065, //27
                           )),
                       IconButton(
                         onPressed: () async {
@@ -153,7 +155,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                           );
                           if (!mounted) return;
                           if (scannedCode == "-1") {
-                            print('if hùy nè');
+                            // print('if hùy nè');
                           } else {
                             bool foundedItem = false;
 
@@ -173,7 +175,7 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                           }
                         },
                         icon: const ImageIcon(AssetImage(qRIcon)),
-                        iconSize: 30,
+                        iconSize: size.width * 0.065,
                       ),
                     ],
                   ),
@@ -192,7 +194,10 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Phân loại: '),
+                    Text(
+                      'Phân loại: ',
+                      style: TextStyle(fontSize: Font.sizes(context)[1]),
+                    ),
                     DropdownButton<String>(
                       value: selectedValue,
                       items: <String>['Lẻ', 'Sỉ']
@@ -254,15 +259,15 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             children: [
                               ListTile(
                                 leading: doc["photoGood"].isEmpty
-                                    ? const Image(
-                                        image: AssetImage(hanghoaIcon),
-                                        height: 30,
+                                    ? Image(
+                                        image: const AssetImage(hanghoaIcon),
+                                        height: size.width * 0.07, //30
                                       )
                                     : ClipRRect(
                                         borderRadius: BorderRadius.circular(25),
                                         child: CachedNetworkImage(
-                                          height: 30,
-                                          width: 30,
+                                          height: size.width * 0.07,
+                                          width: size.width * 0.07,
                                           imageUrl: doc["photoGood"].toString(),
                                           fit: BoxFit.fill,
                                         ),
@@ -270,34 +275,45 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(doc["tensanpham"]),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Kho: ${doc["tonkho"]} ${doc["donvi"]} - ",
-                                          style: const TextStyle(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w100),
-                                          textAlign: TextAlign.start,
-                                        ),
-                                        widget.phanBietNhapXuat == 1
-                                            ? Text(
-                                                formatCurrency(doc["gianhap"]),
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                        FontWeight.w100),
-                                                textAlign: TextAlign.start,
-                                              )
-                                            : Text(
-                                                formatCurrency(doc["giaban"]),
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight:
-                                                        FontWeight.w100),
-                                                textAlign: TextAlign.start,
-                                              ),
-                                      ],
+                                    Text(
+                                      doc["tensanpham"],
+                                      style: TextStyle(
+                                          fontSize: Font.sizes(context)[1]),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 3),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "Kho: ${doc["tonkho"]} ${doc["donvi"]} - ",
+                                            style: TextStyle(
+                                                fontSize:
+                                                    Font.sizes(context)[0],
+                                                fontWeight: FontWeight.w100),
+                                            textAlign: TextAlign.start,
+                                          ),
+                                          widget.phanBietNhapXuat == 1
+                                              ? Text(
+                                                  formatCurrency(
+                                                      doc["gianhap"]),
+                                                  style: TextStyle(
+                                                      fontSize: Font.sizes(
+                                                          context)[0],
+                                                      fontWeight:
+                                                          FontWeight.w100),
+                                                  textAlign: TextAlign.start,
+                                                )
+                                              : Text(
+                                                  formatCurrency(doc["giaban"]),
+                                                  style: TextStyle(
+                                                      fontSize: Font.sizes(
+                                                          context)[0],
+                                                      fontWeight:
+                                                          FontWeight.w100),
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -336,14 +352,14 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          height: 70,
+          height: size.height * 0.08,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               LayoutBuilder(builder: (context, constraints) {
                 return SizedBox(
-                  width: MediaQuery.of(context).size.width - 30,
-                  height: 45,
+                  width: size.width - 30,
+                  height: size.height * 0.05,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -363,9 +379,9 @@ class _ChooseGoodsScreenState extends State<ChooseGoodsScreen> {
                             Navigator.of(context).pop(selectedDoc);
                           }
                         : null,
-                    child: const Text(
+                    child: Text(
                       'Xác nhận',
-                      style: TextStyle(fontSize: 19),
+                      style: TextStyle(fontSize: Font.sizes(context)[2]),
                     ),
                   ),
                 );

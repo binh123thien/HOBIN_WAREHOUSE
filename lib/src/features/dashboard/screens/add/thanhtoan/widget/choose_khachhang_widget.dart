@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/icon.dart';
 import '../choose_khachhang_thanhtoan_screen.dart';
 
@@ -50,25 +51,25 @@ class _ChooseKhachHangWidgetState extends State<ChooseKhachHangWidget> {
                 const SizedBox(width: 7),
                 widget.khachhang.isEmpty
                     ? widget.phanbietnhapxuat == "nhaphang"
-                        ? const Text(
+                        ? Text(
                             "Nhà Cung Cấp",
-                            style: TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: Font.sizes(context)[1]),
                           )
-                        : const Text(
+                        : Text(
                             "Khách hàng",
-                            style: TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: Font.sizes(context)[1]),
                           )
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             widget.khachhang["tenkhachhang"],
-                            style: const TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: Font.sizes(context)[1]),
                           ),
                           const SizedBox(height: 2),
                           Text(
                             widget.khachhang["sdt"],
-                            style: const TextStyle(fontSize: 13),
+                            style: TextStyle(fontSize: Font.sizes(context)[1]),
                           ),
                         ],
                       ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/common_widgets/snackbar/snackbar.dart';
 import 'package:page_transition/page_transition.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../thanhtoan/thanhtoan_nhaphang_screen.dart';
 
@@ -26,16 +27,17 @@ class BottomBarNhapHang extends StatefulWidget {
 class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return BottomAppBar(
-      height: 70,
+      height: size.height * 0.08,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           LayoutBuilder(
             builder: (context, constraints) {
               return SizedBox(
-                width: (MediaQuery.of(context).size.width - 30) * 6 / 10,
-                height: 45,
+                width: (size.width - 30) * 6 / 10,
+                height: size.height * 0.05,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -61,9 +63,9 @@ class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
                           });
                         }
                       : null,
-                  child: const Text(
+                  child: Text(
                     'Thêm',
-                    style: TextStyle(fontSize: 19),
+                    style: TextStyle(fontSize: Font.sizes(context)[2]),
                   ),
                 ),
               );
@@ -72,8 +74,8 @@ class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
           LayoutBuilder(
             builder: (context, constraints) {
               return SizedBox(
-                width: (MediaQuery.of(context).size.width - 30) * 4 / 10,
-                height: 45,
+                width: (size.width - 30) * 4 / 10,
+                height: size.height * 0.05,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -101,13 +103,13 @@ class _BottomBarNhapHangState extends State<BottomBarNhapHang> {
                         }
                       : null,
                   child: widget.allThongTinItemNhap.isEmpty
-                      ? const Text(
+                      ? Text(
                           'Thanh toán',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: Font.sizes(context)[2]),
                         )
                       : Text(
                           'Thanh toán (${widget.allThongTinItemNhap.length})',
-                          style: const TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: Font.sizes(context)[2]),
                         ),
                 ),
               );

@@ -52,7 +52,7 @@ class DoanhThuTheoThangWidget extends StatelessWidget {
           color: darkColor,
         ),
         SizedBox(
-          height: size.height * 0.61,
+          height: size.height * 0.6,
           width: size.width - 30,
           // color: Colors.amber,
           child: doanhthutheothang.length > 1

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 
@@ -65,12 +66,12 @@ class _DonViState extends State<DonVi> with InputValidationMixin {
                   validator: (value) {
                     return oneCharacter(value!);
                   },
-                  decoration: const InputDecoration(
-                    errorStyle: TextStyle(fontSize: 15),
+                  decoration: InputDecoration(
+                    errorStyle: TextStyle(fontSize: Font.sizes(context)[1]),
                     hintText: 'Chọn một phần tử',
-                    suffixIcon: Icon(Icons.navigate_next_sharp, size: 35),
-                    border: UnderlineInputBorder(),
-                    focusedBorder: UnderlineInputBorder(
+                    suffixIcon: const Icon(Icons.navigate_next_sharp, size: 35),
+                    border: const UnderlineInputBorder(),
+                    focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: mainColor, width: 2),
                     ),
                   ),

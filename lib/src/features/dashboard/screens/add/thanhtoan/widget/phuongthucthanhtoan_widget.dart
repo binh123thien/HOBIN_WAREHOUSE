@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../constants/icon.dart';
 
@@ -19,13 +20,13 @@ class _PhuongThucThanhToanWidgetState extends State<PhuongThucThanhToanWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Row(
             children: [
               Text(
                 "Phương thức thanh toán",
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: Font.sizes(context)[1]),
               ),
             ],
           ),
@@ -58,7 +59,7 @@ class _PhuongThucThanhToanWidgetState extends State<PhuongThucThanhToanWidget> {
                 ),
                 Text(
                   value,
-                  style: const TextStyle(fontSize: 16.0),
+                  style: TextStyle(fontSize: Font.sizes(context)[1]),
                 ),
               ],
             ),

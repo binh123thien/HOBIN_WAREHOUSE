@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/text_strings.dart';
 
 import '../constants/sizes.dart';
@@ -26,14 +27,14 @@ class _BottomSheetOptionsState extends State<BottomSheetOptions> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
           tMakeSelection,
-          style: Theme.of(context).textTheme.bodyLarge,
+          style: TextStyle(fontSize: Font.sizes(context)[2]),
         ),
         const SizedBox(
           height: 10.0,
         ),
         Text(
           "Chọn 1 trong 2 phương thức để đặt lại hình ảnh ${widget.textOneofTwo} của bạn",
-          style: Theme.of(context).textTheme.titleMedium,
+          style: TextStyle(fontSize: Font.sizes(context)[1]),
         ),
         const SizedBox(height: 40.0),
         ForgetPasswordBtnWidget(
