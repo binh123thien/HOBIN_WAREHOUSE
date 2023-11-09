@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import '../../../../../../common_widgets/dialog/dialog.dart';
 import '../../../../../../repository/goods_repository/good_repository.dart';
@@ -70,14 +69,12 @@ class _DanhSachDonViState extends State<DanhSachDonVi> {
             const SizedBox(height: 10),
             Stack(
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.center,
                   child: Text(
                     'Danh sách đơn vị',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: Font.sizes(context)[2],
-                        fontWeight: FontWeight.w800),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                   ),
                 ),
                 Positioned(
@@ -124,10 +121,8 @@ class _DanhSachDonViState extends State<DanhSachDonVi> {
                 Expanded(
                     flex: 1,
                     child: TextButton(
-                        child: Text("Thêm",
-                            style: TextStyle(
-                                fontSize: Font.sizes(context)[2],
-                                color: mainColor)),
+                        child: const Text("Thêm",
+                            style: TextStyle(fontSize: 17, color: mainColor)),
                         onPressed: () async {
                           // kiểm tra giá trị nhập vào thành tìm kiếm
                           var searchText = controller.searchController.text;
@@ -229,8 +224,7 @@ class _DanhSachDonViState extends State<DanhSachDonVi> {
                           child: Center(
                             child: Text(
                               donvi,
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[1]),
+                              style: const TextStyle(fontSize: 18),
                             ),
                           ),
                         ),

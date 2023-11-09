@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 import '../../../../../../utils/utils.dart';
 
@@ -29,61 +28,55 @@ class _TomTatYeuCauWidgetState extends State<TomTatYeuCauWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Column(
         children: [
-          Row(
+          const Row(
             children: [
-              Text("Tóm tắt yêu cầu",
-                  style: TextStyle(fontSize: Font.sizes(context)[1])),
+              Text("Tóm tắt yêu cầu", style: TextStyle(fontSize: 18)),
             ],
           ),
           const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Số lượng",
-                  style: TextStyle(fontSize: Font.sizes(context)[1])),
+              const Text("Số lượng", style: TextStyle(fontSize: 16)),
               Text(widget.totalQuantity.toString(),
-                  style: TextStyle(fontSize: Font.sizes(context)[1])),
+                  style: const TextStyle(fontSize: 16)),
             ],
           ),
           const SizedBox(height: 3),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Tổng tiền",
-                  style: TextStyle(fontSize: Font.sizes(context)[1])),
+              const Text("Tổng tiền", style: TextStyle(fontSize: 16)),
               Text(formatCurrency(widget.totalPrice),
-                  style: TextStyle(fontSize: Font.sizes(context)[1])),
+                  style: const TextStyle(fontSize: 16)),
             ],
           ),
           const SizedBox(height: 3),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Giảm giá",
-                  style: TextStyle(fontSize: Font.sizes(context)[1])),
+              const Text("Giảm giá", style: TextStyle(fontSize: 16)),
               Text(formatCurrency(widget.giamgia),
-                  style: TextStyle(
-                      fontSize: Font.sizes(context)[1], color: cancelColor)),
+                  style: const TextStyle(fontSize: 16, color: cancelColor)),
             ],
           ),
           const SizedBox(height: 3),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Nợ", style: TextStyle(fontSize: Font.sizes(context)[1])),
+              const Text("Nợ", style: TextStyle(fontSize: 16)),
               Text(formatCurrency(widget.no),
-                  style: TextStyle(fontSize: Font.sizes(context)[1])),
+                  style: const TextStyle(fontSize: 16)),
             ],
           ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Tổng", style: TextStyle(fontSize: Font.sizes(context)[2])),
+              const Text("Tổng", style: TextStyle(fontSize: 18)),
               Text(formatCurrency(widget.tong),
-                  style: TextStyle(
-                      fontSize: Font.sizes(context)[2],
-                      fontWeight: FontWeight.w800)),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.w800)),
             ],
           ),
         ],

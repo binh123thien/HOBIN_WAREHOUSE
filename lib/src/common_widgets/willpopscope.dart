@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 
 import '../constants/color.dart';
 
@@ -31,13 +30,13 @@ class ExitConfirmationDialog extends StatelessWidget {
               'Xác nhận',
               style: TextStyle(
                 color: phanBietNhapXuat == 0 ? mainColor : blueColor,
-                fontSize: Font.sizes(context)[1],
+                fontSize: 20,
                 fontWeight: FontWeight.w800,
               ),
             ),
             content: Text(
               message,
-              style: TextStyle(fontSize: Font.sizes(context)[1]),
+              style: const TextStyle(fontSize: 18),
             ),
             actions: [
               TextButton(

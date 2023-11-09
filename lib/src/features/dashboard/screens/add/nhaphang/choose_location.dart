@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/common_widgets/dialog/dialog.dart';
 import 'package:hobin_warehouse/src/utils/validate/validate.dart';
 
-import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../constants/color.dart';
 import '../../../controllers/add/nhaphang_controller.dart';
 import '../../Widget/appbar/search_widget.dart';
@@ -54,7 +53,6 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: whiteColor,
       appBar: AppBar(
@@ -66,8 +64,8 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                   isScrollControlled: true,
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5),
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
                     ),
                   ),
                   builder: (BuildContext context) {
@@ -83,11 +81,7 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                             child: Column(
                               children: [
                                 const SizedBox(height: 10),
-                                Text(
-                                  "Nhập vị trí",
-                                  style: TextStyle(
-                                      fontSize: Font.sizes(context)[1]),
-                                ),
+                                const Text("Nhập vị trí"),
                                 const SizedBox(height: 10),
                                 TextFormField(
                                   validator: (value) {
@@ -107,8 +101,8 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                                 ),
                                 const SizedBox(height: 20),
                                 SizedBox(
-                                  width: size.width - 30,
-                                  height: size.height * 0.05,
+                                  width: MediaQuery.of(context).size.width - 30,
+                                  height: 45,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       padding: EdgeInsets.zero,
@@ -131,10 +125,9 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                                             .pop(_controllerLocation.text);
                                       }
                                     },
-                                    child: Text(
+                                    child: const Text(
                                       'Xác nhận',
-                                      style: TextStyle(
-                                          fontSize: Font.sizes(context)[2]),
+                                      style: TextStyle(fontSize: 19),
                                     ),
                                   ),
                                 )
@@ -149,9 +142,7 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
               },
               icon: const Icon(Icons.add))
         ],
-        title: Text("Chọn vị trí",
-            style: TextStyle(
-                fontSize: Font.sizes(context)[2], fontWeight: FontWeight.w800)),
+        title: const Text("Chọn vị trí", style: TextStyle(fontSize: 18)),
         backgroundColor: blueColor,
         centerTitle: true,
         bottom: PreferredSize(
@@ -170,7 +161,7 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                           runFilter(value);
                         });
                       },
-                      width: size.width * 0.9,
+                      width: 320,
                     ),
                     // IconButton(
                     //   onPressed: () {
@@ -220,7 +211,7 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(10),
                       border: Border.all(
                         width: isSelected && selectedDoc == doc ? 2 : 1,
                         color: isSelected && selectedDoc == doc
@@ -231,10 +222,7 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(9.0),
-                      child: Text(
-                        doc["id"],
-                        style: TextStyle(fontSize: Font.sizes(context)[1]),
-                      ),
+                      child: Text(doc["id"]),
                     ),
                   ),
                 ),
@@ -244,14 +232,14 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        height: size.height * 0.08,
+        height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             LayoutBuilder(builder: (context, constraints) {
               return SizedBox(
-                width: size.width - 30,
-                height: size.height * 0.05,
+                width: MediaQuery.of(context).size.width - 30,
+                height: 45,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.zero,
@@ -267,9 +255,9 @@ class _ChooseLocationScreenState extends State<ChooseLocationScreen>
                           Navigator.of(context).pop(selectedDoc);
                         }
                       : null,
-                  child: Text(
+                  child: const Text(
                     'Xác nhận',
-                    style: TextStyle(fontSize: Font.sizes(context)[2]),
+                    style: TextStyle(fontSize: 19),
                   ),
                 ),
               );

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/common_widgets/form/button_bar_widget.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
@@ -67,32 +66,30 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
     Navigator.of(context).pop();
   }
 
-  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     genarateCode() {
       String generatedCode = generateRandomCode(13); // độ dài là 13
       controller.maCodeController.text =
           generatedCode; // Gán mã code mới vào _maCodeController
     }
 
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
         leading: IconButton(
-            icon: Image(
-              image: const AssetImage(backIcon),
-              height: size.height * 0.02345,
+            icon: const Image(
+              image: AssetImage(backIcon),
+              height: 20,
               color: whiteColor,
             ),
             onPressed: () {
               Navigator.of(context).pop();
             }),
-        title: Text(
+        title: const Text(
           "Thêm hàng hóa",
-          style: TextStyle(
-              fontSize: Font.sizes(context)[2], fontWeight: FontWeight.w900),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
         ),
         centerTitle: true,
       ),
@@ -105,8 +102,8 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: size.width * 0.255, //100
-                  height: size.height * 0.117, // 100
+                  width: 100,
+                  height: 100,
                   child: Card(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)),
@@ -135,8 +132,8 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                         icon: currentImage != null
                             ? Image.memory(
                                 currentImage!,
-                                width: size.width * 0.255, //100
-                                height: size.height * 0.117, // 100
+                                width: 90,
+                                height: 90,
                                 fit: BoxFit.cover,
                               )
                             : Image.asset(cameraIcon)),
@@ -156,16 +153,14 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                           FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
                         ],
                         decoration: InputDecoration(
-                            errorStyle:
-                                TextStyle(fontSize: Font.sizes(context)[1]),
+                            errorStyle: const TextStyle(fontSize: 15),
                             border: const UnderlineInputBorder(),
                             focusedBorder: const UnderlineInputBorder(
                                 borderSide:
                                     BorderSide(color: mainColor, width: 2)),
                             contentPadding: EdgeInsets.zero,
                             labelText: "Mã code",
-                            labelStyle:
-                                TextStyle(fontSize: Font.sizes(context)[1]),
+                            labelStyle: const TextStyle(fontSize: 18),
                             suffixIcon: Wrap(
                               children: [
                                 IconButton(
@@ -175,7 +170,6 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                                   icon: const Icon(
                                     Icons.autorenew_outlined,
                                   ),
-                                  iconSize: Font.sizes(context)[4],
                                 ),
                                 IconButton(
                                   onPressed: () async {
@@ -194,7 +188,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                                     }
                                   },
                                   icon: const ImageIcon(AssetImage(qRIcon)),
-                                  iconSize: Font.sizes(context)[4],
+                                  iconSize: 30,
                                 ),
                               ],
                             )),
@@ -203,18 +197,16 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
 
                     const SizedBox(height: 10),
                     //ten san pham
-                    Text("Tên sản phẩm:",
-                        style: TextStyle(fontSize: Font.sizes(context)[2])),
+                    const Text("Tên sản phẩm:", style: TextStyle(fontSize: 18)),
                     TextFormField(
                       validator: (value) {
                         return oneCharacter(value!);
                       },
                       controller: controller.tenSanPhamController,
-                      decoration: InputDecoration(
-                          errorStyle:
-                              TextStyle(fontSize: Font.sizes(context)[1]),
-                          border: const UnderlineInputBorder(),
-                          focusedBorder: const UnderlineInputBorder(
+                      decoration: const InputDecoration(
+                          errorStyle: TextStyle(fontSize: 15),
+                          border: UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: mainColor, width: 2)),
                           contentPadding: EdgeInsets.zero,
@@ -223,8 +215,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                     const SizedBox(height: 10),
 
                     //giá nhập
-                    Text("Giá nhập:",
-                        style: TextStyle(fontSize: Font.sizes(context)[2])),
+                    const Text("Giá nhập:", style: TextStyle(fontSize: 18)),
                     TextFormField(
                       validator: (value) {
                         return oneCharacter(value!);
@@ -244,11 +235,10 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                           );
                         }
                       },
-                      decoration: InputDecoration(
-                          errorStyle:
-                              TextStyle(fontSize: Font.sizes(context)[1]),
-                          border: const UnderlineInputBorder(),
-                          focusedBorder: const UnderlineInputBorder(
+                      decoration: const InputDecoration(
+                          errorStyle: TextStyle(fontSize: 15),
+                          border: UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: mainColor, width: 2)),
                           contentPadding: EdgeInsets.zero,
@@ -257,8 +247,7 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                     const SizedBox(height: 10),
 
                     //Giá bán
-                    Text("Giá bán:",
-                        style: TextStyle(fontSize: Font.sizes(context)[2])),
+                    const Text("Giá bán:", style: TextStyle(fontSize: 18)),
                     TextFormField(
                       validator: (value) {
                         return oneCharacter(value!);
@@ -278,32 +267,27 @@ class _ThemGoodsScreenState extends State<ThemGoodsScreen>
                           );
                         }
                       },
-                      decoration: InputDecoration(
-                          errorStyle:
-                              TextStyle(fontSize: Font.sizes(context)[1]),
-                          border: const UnderlineInputBorder(),
-                          focusedBorder: const UnderlineInputBorder(
+                      decoration: const InputDecoration(
+                          errorStyle: TextStyle(fontSize: 15),
+                          border: UnderlineInputBorder(),
+                          focusedBorder: UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: mainColor, width: 2)),
                           contentPadding: EdgeInsets.zero,
                           hintText: 'Giá bán'),
                     ),
                     const SizedBox(height: 10),
-                    Row(
+                    const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text("Phân loại",
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[2])),
-                          const RadioButton(phanloaiFb: "bán lẻ"),
+                          Text("Phân loại", style: TextStyle(fontSize: 18)),
+                          RadioButton(phanloaiFb: "bán lẻ"),
                         ]),
                     const SizedBox(height: 10),
-                    Text("Đơn vị",
-                        style: TextStyle(fontSize: Font.sizes(context)[2])),
+                    const Text("Đơn vị", style: TextStyle(fontSize: 18)),
                     const DonVi(),
                     const SizedBox(height: 10),
-                    Text("Danh mục",
-                        style: TextStyle(fontSize: Font.sizes(context)[2])),
+                    const Text("Danh mục", style: TextStyle(fontSize: 18)),
                     const DanhMucHang(),
                   ],
                 )

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
 class ThongKeHangHoaWidget extends StatelessWidget {
@@ -20,14 +19,13 @@ class ThongKeHangHoaWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               color: mainColor,
             ),
-            height: size.height * 0.14,
+            height: 105,
             width: size.width,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(12, 7, 12, 5),
+            child: const Padding(
+              padding: EdgeInsets.fromLTRB(12, 7, 12, 5),
               child: Text(
                 "Thống kê",
-                style: TextStyle(
-                    fontSize: Font.sizes(context)[2], color: whiteColor),
+                style: TextStyle(fontSize: 17, color: whiteColor),
               ),
             ),
           ),
@@ -37,7 +35,7 @@ class ThongKeHangHoaWidget extends StatelessWidget {
               right: 1,
               child: Container(
                 width: size.width - 10,
-                height: size.height * 0.095,
+                height: 70,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: whiteColor,
@@ -50,11 +48,9 @@ class ThongKeHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Tồn kho",
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[2])),
+                              style: Theme.of(context).textTheme.titleLarge),
                           Text("${hanghoa["tonkho"]} ${hanghoa["donvi"]}",
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[1]))
+                              style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
                       const SizedBox(height: 2),
@@ -62,11 +58,9 @@ class ThongKeHangHoaWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text("Đã bán",
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[2])),
+                              style: Theme.of(context).textTheme.titleLarge),
                           Text("${hanghoa["daban"]} ${hanghoa["donvi"]}",
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[1]))
+                              style: Theme.of(context).textTheme.titleLarge)
                         ],
                       ),
                     ],

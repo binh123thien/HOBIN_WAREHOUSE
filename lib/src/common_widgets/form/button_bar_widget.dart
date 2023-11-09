@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 
 class Button2nutBar extends StatelessWidget {
@@ -16,16 +15,15 @@ class Button2nutBar extends StatelessWidget {
   final VoidCallback onPressed2;
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return BottomAppBar(
-      height: size.height * 0.086,
+      height: 70,
       color: whiteColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           SizedBox(
-            width: size.width * 0.435, // 170
-            height: size.height * 0.0623, // 50
+            width: 170,
+            height: 45,
             child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: mainColor),
@@ -37,25 +35,25 @@ class Button2nutBar extends StatelessWidget {
                 ),
                 onPressed: onPressed1,
                 child: Text(title1,
-                    style: TextStyle(
-                        fontSize: Font.sizes(context)[1],
-                        fontWeight: FontWeight.w600))),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w600))),
           ),
           SizedBox(
-              width: size.width * 0.435, // 170
-              height: size.height * 0.0623, // 50
+              width: 170,
+              height: 45,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: mainColor,
                     side: const BorderSide(color: mainColor),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(
+                          5), // giá trị này xác định bán kính bo tròn
                     ),
                   ),
                   onPressed: onPressed2,
                   child: Text(
                     title2,
-                    style: TextStyle(fontSize: Font.sizes(context)[1]),
+                    style: const TextStyle(fontSize: 16),
                   )))
         ],
       ),

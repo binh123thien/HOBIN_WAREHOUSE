@@ -117,20 +117,6 @@ class NotificationRepository extends GetxController {
     return diffText;
   }
 
-  String convertDateFormat(String inputDate) {
-    // Định dạng đầu vào
-    DateFormat inputFormat = DateFormat('yyyy-MM-dd HH:mm');
-
-    // Định dạng đầu ra
-    DateFormat outputFormat = DateFormat('dd/MM/yyyy');
-
-    // Chuyển đổi từ định dạng đầu vào sang định dạng đầu ra
-    DateTime date = inputFormat.parse(inputDate);
-    String formattedDate = outputFormat.format(date);
-
-    return formattedDate;
-  }
-
   updateReadNotification(String formattedcurrentDate) {
     final firebaseUser = FirebaseAuth.instance.currentUser;
 

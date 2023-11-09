@@ -51,7 +51,7 @@ class CardDoanThuHienTai extends StatelessWidget {
               ],
             ),
             SizedBox(
-              width: size.width * 0.3,
+              width: size.width * 0.27,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(8),

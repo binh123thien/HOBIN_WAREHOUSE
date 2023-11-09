@@ -27,7 +27,7 @@ class _LocationHangHoaWidgetState extends State<LocationHangHoaWidget> {
               borderRadius: BorderRadius.circular(5),
               color: mainColor,
             ),
-            height: size.height * 0.0435, //35
+            height: 35,
             width: size.width,
             child: const Padding(
               padding: EdgeInsets.fromLTRB(12, 7, 12, 5),

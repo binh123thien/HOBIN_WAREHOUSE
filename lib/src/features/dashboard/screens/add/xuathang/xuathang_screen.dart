@@ -5,7 +5,6 @@ import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/bottom_bar_xuathang.dart';
 import 'package:hobin_warehouse/src/features/dashboard/screens/add/xuathang/widget/xuatthongtin_item.dart';
 
-import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../controllers/add/chonhanghoa_controller.dart';
 import '../nhaphang/widget/formnhapso_nhaphang.dart';
 import 'widget/chonsoluong_xuathang_widget.dart';
@@ -144,8 +143,7 @@ class _XuatHangScreenState extends State<XuatHangScreen> {
       backgroundColor: whiteColor,
       appBar: AppBar(
         elevation: 0,
-        title: Text("Xuất hàng",
-            style: TextStyle(fontSize: Font.sizes(context)[2])),
+        title: const Text("Xuất hàng", style: TextStyle(fontSize: 18)),
         backgroundColor: mainColor,
         centerTitle: true,
       ),

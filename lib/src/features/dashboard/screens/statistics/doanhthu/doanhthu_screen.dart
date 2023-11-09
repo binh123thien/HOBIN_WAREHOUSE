@@ -58,7 +58,7 @@ class _DoanhThuScreenState extends State<DoanhThuScreen> {
               ),
             ),
             SizedBox(
-              height: size.height * 0.74,
+              height: size.height * 0.75,
               width: size.width - 16,
               child: Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),

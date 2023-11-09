@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../constants/color.dart';
 
 class FormUpdateProfile extends StatefulWidget {
@@ -45,15 +44,16 @@ class _FormUpdateProfileState extends State<FormUpdateProfile> {
         decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: mainColor),
-                borderRadius: BorderRadius.circular(5)),
+                borderRadius: BorderRadius.circular(100)),
             prefixIcon: widget.icon,
             labelText: widget.labelText,
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: widget.hintText,
-            hintStyle: TextStyle(
-                fontSize: Font.sizes(context)[1], fontWeight: FontWeight.w800),
-            errorStyle: TextStyle(fontSize: Font.sizes(context)[1]),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(5))),
+            hintStyle:
+                const TextStyle(fontSize: 14, fontWeight: FontWeight.w800),
+            errorStyle: const TextStyle(fontSize: 15),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(100))),
       ),
     );
   }

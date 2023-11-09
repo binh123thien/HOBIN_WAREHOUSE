@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/sizes.dart';
 
 class ForgetPasswordBtnWidget extends StatelessWidget {
@@ -38,11 +37,11 @@ class ForgetPasswordBtnWidget extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: Font.sizes(context)[1]),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 Text(
                   subTittle,
-                  style: TextStyle(fontSize: Font.sizes(context)[1]),
+                  style: Theme.of(context).textTheme.titleSmall,
                 )
               ],
             )

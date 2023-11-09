@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../constants/color.dart';
 
 class FormNhapSoNhapHangWidget extends StatefulWidget {
@@ -34,18 +33,15 @@ class _FormNhapSoNhapHangWidgetState extends State<FormNhapSoNhapHangWidget> {
               children: [
                 const SizedBox(height: 10),
                 widget.phanbietgianhapHoacSoluong == "soluong"
-                    ? Text(
+                    ? const Text(
                         "Nhập số lượng",
-                        style: TextStyle(fontSize: Font.sizes(context)[2]),
                       )
                     : widget.phanbietgianhapHoacSoluong == "gianhap"
-                        ? Text(
+                        ? const Text(
                             "Nhập giá nhập hàng",
-                            style: TextStyle(fontSize: Font.sizes(context)[2]),
                           )
-                        : Text(
+                        : const Text(
                             "Nhập giá xuất hàng",
-                            style: TextStyle(fontSize: Font.sizes(context)[2]),
                           ),
                 const SizedBox(height: 10),
                 const SizedBox(height: 10),
@@ -102,9 +98,9 @@ class _FormNhapSoNhapHangWidgetState extends State<FormNhapSoNhapHangWidget> {
                                 }
                               }
                             : null,
-                        child: Text(
+                        child: const Text(
                           'Xác nhận',
-                          style: TextStyle(fontSize: Font.sizes(context)[1]),
+                          style: TextStyle(fontSize: 17),
                         ),
                       ),
                     )

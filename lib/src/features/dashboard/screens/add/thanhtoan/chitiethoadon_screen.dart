@@ -3,7 +3,6 @@ import 'package:hobin_warehouse/src/common_widgets/bottom_sheet_pdf.dart';
 import 'package:hobin_warehouse/src/common_widgets/dotline/dotline.dart';
 import 'package:hobin_warehouse/src/common_widgets/printting.dart';
 
-import '../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../constants/color.dart';
 import '../../../../../constants/icon.dart';
 import '../../../models/themdonhang_model.dart';
@@ -47,11 +46,8 @@ class _ChiTietHoaDonScreenState extends State<ChiTietHoaDonScreen> {
         backgroundColor: whiteColor,
         appBar: AppBar(
           elevation: 1,
-          title: Text("Chi tiết hóa đơn",
-              style: TextStyle(
-                  fontSize: Font.sizes(context)[2],
-                  color: Colors.black,
-                  fontWeight: FontWeight.w800)),
+          title: const Text("Chi tiết hóa đơn",
+              style: TextStyle(fontSize: 18, color: Colors.black)),
           backgroundColor: whiteColor,
           leading: IconButton(
               icon: const Image(

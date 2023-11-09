@@ -20,7 +20,7 @@ class ChooseAddScreen {
         ),
       ),
       builder: (context) => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.409,
+        height: MediaQuery.of(context).size.height * 0.385,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),

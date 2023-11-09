@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:intl/intl.dart';
 import '../../../../../common_widgets/dotline/dotline.dart';
-import '../../../../../common_widgets/fontSize/font_size.dart';
 import 'widget/bottom_bar_nhaphang.dart';
 import 'widget/danhsach_items_dachon.dart';
 import 'widget/formnhapso_nhaphang.dart';
@@ -148,10 +147,7 @@ class _NhapHangScreenState extends State<NhapHangScreen> {
         backgroundColor: whiteColor,
         appBar: AppBar(
           elevation: 0,
-          title: Text("Nhập hàng",
-              style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: Font.sizes(context)[2])),
+          title: const Text("Nhập hàng", style: TextStyle(fontSize: 18)),
           backgroundColor: blueColor,
           centerTitle: true,
         ),

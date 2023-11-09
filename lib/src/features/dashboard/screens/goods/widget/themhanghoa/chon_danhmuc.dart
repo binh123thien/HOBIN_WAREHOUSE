@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/chondanhmuc_controller.dart';
 
@@ -85,14 +84,12 @@ class _DanhSachDanhMucState extends State<DanhSachDanhMuc> {
             const SizedBox(height: 10),
             Stack(
               children: [
-                Align(
+                const Align(
                   alignment: Alignment.center,
                   child: Text(
                     'Danh sách danh mục',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: Font.sizes(context)[2],
-                        fontWeight: FontWeight.w800),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
                   ),
                 ),
                 Positioned(
@@ -142,14 +139,13 @@ class _DanhSachDanhMucState extends State<DanhSachDanhMuc> {
                 Expanded(
                     flex: 1,
                     child: TextButton(
-                      child: Text("Thêm",
-                          style: TextStyle(
-                              fontSize: Font.sizes(context)[1],
-                              color: mainColor)),
+                      child: const Text("Thêm",
+                          style: TextStyle(fontSize: 17, color: mainColor)),
                       onPressed: () {
                         // kiểm tra giá trị nhập vào thành tìm kiếm
                         var searchText = controller.searchController.text;
-                        print('bấm thêm nè $searchText');
+                        print('bấm thêm nè');
+                        print(searchText);
                         if (searchText.isEmpty) {
                           searchText = 'bạn chưa nhập đơn vị';
                         }
@@ -258,8 +254,8 @@ class _DanhSachDanhMucState extends State<DanhSachDanhMuc> {
                           },
                           title: Text(
                             foundDanhMuc[index],
-                            style: TextStyle(
-                              fontSize: Font.sizes(context)[1],
+                            style: const TextStyle(
+                              fontSize: 18,
                               fontWeight: FontWeight.w900,
                             ),
                           ),

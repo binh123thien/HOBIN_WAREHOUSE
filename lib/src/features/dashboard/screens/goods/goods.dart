@@ -9,7 +9,6 @@ import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/appbar/sea
 import 'package:hobin_warehouse/src/features/dashboard/screens/Widget/card_hanghoa_widget.dart';
 import 'package:hobin_warehouse/src/repository/goods_repository/good_repository.dart';
 import '../../../../common_widgets/dialog/dialog.dart';
-import '../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../common_widgets/network/network.dart';
 import '../../controllers/add/chonhanghoa_controller.dart';
 import 'chitiethanghoa.dart';
@@ -33,7 +32,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
     final selectedValue = await showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       builder: (BuildContext context) {
         return DanhSachSortByHangHoa(
           phanBietNhapXuat: 0,
@@ -139,15 +138,15 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
         backgroundColor: whiteColor,
         appBar: AppBar(
           elevation: 2,
-          title: Text("Hàng Hóa",
+          title: const Text("Hàng Hóa",
               style: TextStyle(
-                  fontSize: Font.sizes(context)[2],
+                  fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: whiteColor)),
           backgroundColor: mainColor,
           centerTitle: true,
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(size.height * 0.1),
+            preferredSize: const Size.fromHeight(95),
             child: Container(
               color: whiteColor,
               child: Column(
@@ -162,15 +161,15 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                             searchHangHoa = value;
                           });
                         },
-                        width: size.width * 0.662,
+                        width: 260,
                       ),
                       IconButton(
                           onPressed: () {
                             _showSortbyHangHoa();
                           },
-                          icon: Image(
-                            image: const AssetImage(sortbyIcon),
-                            height: size.height * 0.0348,
+                          icon: const Image(
+                            image: AssetImage(sortbyIcon),
+                            height: 28,
                           )),
                       IconButton(
                         onPressed: () async {
@@ -192,8 +191,8 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                       ),
                     ],
                   ),
-                  TabBar(
-                    tabs: const [
+                  const TabBar(
+                    tabs: [
                       Tab(
                         text: "Lẻ",
                       ),
@@ -201,7 +200,7 @@ class _GoodsState extends State<Goods> with TickerProviderStateMixin {
                         text: "Sỉ",
                       ),
                     ],
-                    labelStyle: TextStyle(fontSize: Font.sizes(context)[1]),
+                    labelStyle: TextStyle(fontSize: 16),
                     indicatorColor: Colors.black,
                     labelColor: darkColor,
                     isScrollable: false,

@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
+
 import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,14 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/constants/icon.dart';
+import 'package:hobin_warehouse/src/constants/sizes.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/account/profile_controller.dart';
 import 'package:hobin_warehouse/src/common_widgets/bottom_sheet_options.dart';
 import 'package:hobin_warehouse/src/utils/image_picker/image_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+
 import '../../../../common_widgets/dialog/dialog.dart';
-import '../../../../common_widgets/fontSize/font_size.dart';
-import '../../../../common_widgets/network/network.dart';
 import '../../../../common_widgets/willpopscope.dart';
 import '../../../../constants/image_strings.dart';
 import 'widget/form_profile_menu_widget.dart';
@@ -66,8 +68,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return ExitConfirmationDialog(
       phanBietNhapXuat: 0, //maincolor
       message: 'Bạn muốn quay lại trang trước?',
@@ -96,33 +96,31 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             ),
           ),
           backgroundColor: mainColor,
-          title: Text(
+          title: const Text(
             "Quản lý tài khoản",
             style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-                fontSize: Font.sizes(context)[2]),
+                color: Colors.white, fontWeight: FontWeight.w900, fontSize: 18),
           ),
           centerTitle: true,
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(15),
+            padding: const EdgeInsets.all(tDefaultSize),
             child: Column(
               children: [
                 //avatar
                 Stack(
                   children: [
                     SizedBox(
-                        width: size.width * 0.22, //90
-                        height: size.width * 0.22,
+                        width: 90,
+                        height: 90,
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
+                          borderRadius: BorderRadius.circular(100),
                           child: currentImage != null
                               ? Image.memory(
                                   currentImage!,
-                                  width: size.width * 0.22,
-                                  height: size.width * 0.22,
+                                  width: 90,
+                                  height: 90,
                                   fit: BoxFit.cover,
                                 )
                               : (updateUserData['PhotoURL'].isNotEmpty)
@@ -147,8 +145,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               context: context,
                               shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5),
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
                                 ),
                               ),
                               builder: (context) {
@@ -163,8 +161,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                             );
                           },
                           child: Container(
-                            width: size.width * 0.22 / 3,
-                            height: size.width * 0.22 / 3,
+                            width: 30,
+                            height: 30,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 color: backGroundSearch),
@@ -177,16 +175,17 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   ],
                 ),
                 //======================= end avatar ===========================================
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 Text(
                   updateUserData['Name'],
-                  style: TextStyle(fontSize: Font.sizes(context)[3]),
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Text(
                   updateUserData['Email'],
-                  style: TextStyle(fontSize: Font.sizes(context)[2]),
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                SizedBox(height: size.height * 0.07),
+                const SizedBox(height: 20),
+                const Divider(),
                 Column(
                   children: [
                     FormUpdateProfile(
@@ -215,38 +214,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         Icons.phone_iphone_outlined,
                       ),
                     ),
-                  ],
-                ) // căn giữa theo co
-              ],
-            ),
-          ),
-        ),
-        bottomNavigationBar: BottomAppBar(
-          height: size.height * 0.08,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              SizedBox(
-                width: size.width - 30,
-                height: size.height * 0.05,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    backgroundColor: mainColor,
-                    side: const BorderSide(color: mainColor),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          5), // giá trị này xác định bán kính bo tròn
-                    ),
-                  ),
-                  onPressed: () {
-                    NetWork.checkConnection().then((value) {
-                      if (value == "Not Connected") {
-                        MyDialog.showAlertDialogOneBtn(
-                            context,
-                            "Không có Internet",
-                            "Vui lòng kết nối internet và thử lại sau");
-                      } else {
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () async {
                         setState(() {
                           _isLoading = true;
                         });
@@ -262,24 +232,29 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               "Thành công", "Cập nhập thông tin hoàn tất!",
                               colorText: Colors.green);
                         });
-                      }
-                    });
-                  },
-                  child: _isLoading
-                      ? const SizedBox(
-                          width: 15,
-                          height: 15,
-                          child: CircularProgressIndicator(
-                            color: whiteColor,
-                          ),
-                        )
-                      : Text(
-                          'Lưu',
-                          style: TextStyle(fontSize: Font.sizes(context)[2]),
-                        ),
-                ),
-              ),
-            ],
+                      },
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(250, 0),
+                          backgroundColor: mainColor,
+                          side: BorderSide.none,
+                          shape: const StadiumBorder()),
+                      child: _isLoading
+                          ? const SizedBox(
+                              width: 15,
+                              height: 15,
+                              child: CircularProgressIndicator(
+                                color: whiteColor,
+                              ),
+                            )
+                          : const Text(
+                              'Lưu',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                    ),
+                  ],
+                ) // căn giữa theo co
+              ],
+            ),
           ),
         ),
       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hobin_warehouse/src/common_widgets/fontSize/font_size.dart';
 import 'package:hobin_warehouse/src/constants/color.dart';
 import 'package:hobin_warehouse/src/features/dashboard/controllers/goods/them_hanghoa_controller.dart';
 
@@ -46,9 +45,9 @@ class _RadioButtonState extends State<RadioButton> {
             });
           },
         ),
-        Text(
+        const Text(
           'Bán lẻ',
-          style: TextStyle(fontSize: Font.sizes(context)[1]),
+          style: TextStyle(fontSize: 18),
         ),
         Radio(
           value: 1,
@@ -56,14 +55,15 @@ class _RadioButtonState extends State<RadioButton> {
           activeColor: mainColor,
           onChanged: (value) {
             setState(() {
+              print(selectedPhanLoai);
               selectedPhanLoai = value!;
               controller.phanloaiController.text = "bán sỉ";
             });
           },
         ),
-        Text(
+        const Text(
           'Bán sỉ',
-          style: TextStyle(fontSize: Font.sizes(context)[1]),
+          style: TextStyle(fontSize: 18),
         ),
       ],
     );

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../../common_widgets/fontSize/font_size.dart';
 import '../../../../../../repository/goods_repository/good_repository.dart';
 
 class LocationWidget extends StatefulWidget {
@@ -80,27 +79,24 @@ class _LocationWidgetState extends State<LocationWidget> {
                 2: FlexColumnWidth(0.7), // Cột SL
               },
               children: <TableRow>[
-                TableRow(
+                const TableRow(
                   children: <Widget>[
                     TableCell(
                       child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text('Vị trí',
-                            style: TextStyle(fontSize: Font.sizes(context)[1])),
+                        padding: EdgeInsets.all(5.0),
+                        child: Text('Vị trí', style: TextStyle(fontSize: 17)),
                       ),
                     ),
                     TableCell(
                       child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text('Hết hạn',
-                            style: TextStyle(fontSize: Font.sizes(context)[1])),
+                        padding: EdgeInsets.all(5.0),
+                        child: Text('Hết hạn', style: TextStyle(fontSize: 17)),
                       ),
                     ),
                     TableCell(
                       child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Text('SL',
-                            style: TextStyle(fontSize: Font.sizes(context)[1])),
+                        padding: EdgeInsets.all(5.0),
+                        child: Text('SL', style: TextStyle(fontSize: 17)),
                       ),
                     ),
                   ],
@@ -113,24 +109,21 @@ class _LocationWidgetState extends State<LocationWidget> {
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text(doc['location'],
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[1])),
+                              style: const TextStyle(fontSize: 17)),
                         ),
                       ),
                       TableCell(
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text(doc['exp'],
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[1])),
+                              style: const TextStyle(fontSize: 17)),
                         ),
                       ),
                       TableCell(
                         child: Padding(
                           padding: const EdgeInsets.all(5.0),
                           child: Text(doc['soluong'].toString(),
-                              style:
-                                  TextStyle(fontSize: Font.sizes(context)[1])),
+                              style: const TextStyle(fontSize: 17)),
                         ),
                       ),
                     ],
